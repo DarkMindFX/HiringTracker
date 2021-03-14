@@ -46,3 +46,25 @@ describe('Skill.InsertSkill', function() {
         
     })
 });
+
+describe('Skill.DeleteSkill', function() {
+    it('deletes exisiting skill record', async () => {
+
+        let testName = '010.DeleteSkill.Success';
+        await execSetup(__dirname, testName);
+
+        let delSkillName = '[Test QAZXCVFR] Delete Skill';      
+
+        let initParams = prepInitParams();
+        let dal = new SkillDal();
+        dal.init(initParams);
+
+        let skills = await dal.GetAll();
+        let newSkills = skills.filter( s => s.Name != delSkillName);
+
+        dal.Upsert(newSkills);
+
+        await execTeardown(__dirname, testName);
+        
+    })
+});

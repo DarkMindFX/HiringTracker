@@ -1,0 +1,14 @@
+{
+  "name": "hrt.dto",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "author": "",
+  "license": "ISC"
+}
