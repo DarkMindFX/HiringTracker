@@ -23,7 +23,21 @@ class SkillDal extends SQLDal {
         let inParams = [];
         inParams['Skills']  = { type: mssql.TVP, value: tvp }; 
         
-        super.execStorProcValue(mssql, 'p_Skill_Upsert', inParams);
+        return super.execStorProcValue(mssql, 'p_Skill_Upsert', inParams);
+    }
+
+    async Delete(skillId) {
+        await mssql.connect(this._config);
+
+        let inParams = {};
+        inParams['SkillID'] = { type: mssql.BigInt, value: skillId };
+
+        let outParams = {};
+        outParams['Removed'] = { type: mssql.Bit, value: null }
+
+        let removed = super.execStorProcValue(mssql, 'p_Skill_Delete', inParams, outParams);
+
+        return removed;
     }
 
     async GetAll() {

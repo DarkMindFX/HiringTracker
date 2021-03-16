@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "hrt.api"
+		},
+		{
+			"path": "hrt.dal"
+		},
+		{
+			"path": "hrt.dto"
+		}
+	],
+	"settings": {}
+}

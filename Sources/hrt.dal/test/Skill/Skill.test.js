@@ -27,7 +27,7 @@ describe('Skill.InsertSkill', function() {
         await execSetup(__dirname, testName);
 
         let newSkillId = 300001;
-        let newSkillName = '[Test]Inserted Skill';
+        let newSkillName = '[Test RTYHGFVBN] Inserted Skill';
         let newSkill = new SkillEntity()
         newSkill.SkillID = newSkillId;
         newSkill.Name = newSkillName;
@@ -40,7 +40,7 @@ describe('Skill.InsertSkill', function() {
         let skills = await dal.GetAll();
         skills.push(newSkill);
 
-        dal.Upsert(skills);
+        await dal.Upsert(skills);
 
         await execTeardown(__dirname, testName);
         
@@ -60,9 +60,11 @@ describe('Skill.DeleteSkill', function() {
         dal.init(initParams);
 
         let skills = await dal.GetAll();
-        let newSkills = skills.filter( s => s.Name != delSkillName);
+        let skill = skills.filter( s => s.Name == delSkillName);
 
-        dal.Upsert(newSkills);
+        let result = await dal.Delete(skill[0].SkillID);
+
+        expect(result['Removed']).toEqual(true);
 
         await execTeardown(__dirname, testName);
         

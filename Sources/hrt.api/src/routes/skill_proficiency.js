@@ -1,6 +1,7 @@
 
 const { Error, SkillProficiencyDto } = require('hrt.dto');
 const { SkillPoficiencyDal, SkillPoficiencyEntity } = require('hrt.dal')
+const { skillProficiencyEntity2Dto } = require('./coverters')
 
 const constants = require('../constants');
 
@@ -19,7 +20,7 @@ async function getSkillProficiencies(req, res) {
         let dtos = [];
 
         for(let i in profs) {
-            dtos.push(skillproficiencyEntity2Dto( profs[i] ))
+            dtos.push(skillProficiencyEntity2Dto( profs[i] ))
         }
 
         res.status(constants.HTTP_OK);
@@ -35,13 +36,7 @@ async function getSkillProficiencies(req, res) {
     }    
 }
 
-function skillproficiencyEntity2Dto(entity) {
-    let dto = new SkillProficiencyDto();
-    dto.ProficiencyID = entity.ProficiencyID;
-    dto.Name = entity.Name;
 
-    return dto;
-}
 
 function prepInitParams() {
     let initParams = {}

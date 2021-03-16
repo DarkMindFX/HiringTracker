@@ -1,4 +1,4 @@
-DECLARE @skillName AS NVARCHAR(50) = '[Test]Inserted Skill'
+DECLARE @skillName AS NVARCHAR(50) = '[Test RTYHGFVBN] Inserted Skill'
 
 IF( NOT EXISTS(SELECT 1 FROM dbo.Skill s WHERE s.Name = @skillName) ) 
 BEGIN
