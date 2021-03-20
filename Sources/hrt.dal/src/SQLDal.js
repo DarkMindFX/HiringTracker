@@ -12,15 +12,22 @@ class SQLDal {
         }
     }
 
-    async execStorProcRecordset(sql, name, inParams) {
+    async execStorProcRecordset(sql, name, inParams, outParams) {
 
         let request = new sql.Request();
 
-        if(inParams != null && inParams != undefined) {
+        if(inParams) {
             for(var inp in inParams) {
                 request.input(inp, inParams[inp].type, inParams[inp].value);
             }
         }
+
+        if(outParams) {
+            for(var outp in outParams) {
+                request.output(outp, outParams[outp].type);
+            }
+        }
+
 
         let response = await request.execute(name);
 
