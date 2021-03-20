@@ -60,9 +60,9 @@ describe('Skill.DeleteSkill', function() {
         dal.init(initParams);
 
         let skills = await dal.GetAll();
-        let skill = skills.filter( s => s.Name == delSkillName);
+        let skill = skills.find( s => s.Name == delSkillName);
 
-        let result = await dal.Delete(skill[0].SkillID);
+        let result = await dal.Delete(skill.SkillID);
 
         expect(result['Removed']).toEqual(true);
 

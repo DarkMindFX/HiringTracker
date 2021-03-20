@@ -127,3 +127,17 @@ describe('Position.GetSkills', function() {
         expect(skills.length).toBeGreaterThan(0);
     })
 });
+
+describe('Position.GetSkills - Invalid Position', function() {
+    it('returns skills for the given position', async () => {
+        
+        let initParams = prepInitParams();
+        let dal = new PositionDal();
+        dal.init(initParams);
+
+        let posId = 23000000;
+        let skills = await dal.GetSkills(posId);
+
+        expect(skills).toEqual(null);
+    })
+});

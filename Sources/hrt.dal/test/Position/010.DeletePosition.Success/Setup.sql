@@ -22,6 +22,6 @@ BEGIN
 		@NewPositionID OUT
 
 	IF(@NewPositionID IS NULL) BEGIN
-		THROW 51001, 'Test user for DELETE was not prepared', 1
+		THROW 51001, 'Test position for DELETE was not prepared', 1
 	END
 END
