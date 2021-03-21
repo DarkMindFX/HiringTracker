@@ -1,7 +1,8 @@
 
 const { Error, SkillProficiencyDto } = require('hrt.dto');
 const { SkillPoficiencyDal, SkillPoficiencyEntity } = require('hrt.dal')
-const { skillProficiencyEntity2Dto } = require('./coverters')
+const { skillProficiencyEntity2Dto } = require('../coverters')
+const { prepInitParams } = require('../dalHelper')
 
 const constants = require('../constants');
 
@@ -24,13 +25,13 @@ async function getSkillProficiencies(req, res) {
         }
 
         res.status(constants.HTTP_OK);
-        res.send(dtos);
+        res.send(JSON.stringify(dtos, null, 4));
     }
     catch(error) {
-        console.error('Error processing health request', error.message);
+        console.error('Error processing GET skillproficiencies request', error.message);
         res.status(constants.HTTP_IntServerError);
         let errBody = new Error();
-        errBody.message = `Error processing health request: ${error.message}`;
+        errBody.message = `Error processing GET skillproficiencies request: ${error.message}`;
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }    
@@ -38,15 +39,6 @@ async function getSkillProficiencies(req, res) {
 
 
 
-function prepInitParams() {
-    let initParams = {}
-    initParams['server'] = constants.SQL_SERVER;
-    initParams['database'] = constants.SQL_DB;
-    initParams['username'] = constants.SQL_USER;
-    initParams['password'] = constants.SQL_PWD;
-    initParams['encrypt'] = constants.SQL_ENCRYPT;
 
-    return initParams;    
-}
 
 module.exports = routeSkillProficiency;

@@ -42,7 +42,7 @@ class InterviewRoleDal extends SQLDal {
         if(records) {
             intRoles = [];
             for(let r in records) {
-                let intRole = this.recordToEntity(records[r]);               
+                let intRole = this._recordToEntity(records[r]);               
 
                 intRoles.push(intRole);
             }
@@ -63,7 +63,7 @@ class InterviewRoleDal extends SQLDal {
         if(records) {
             intRoles = [];
             for(let r in records) {
-                let intRole = this.recordToEntity(records[r]);               
+                let intRole = this._recordToEntity(records[r]);               
 
                 intRoles.push(intRole);
             }
@@ -95,7 +95,7 @@ class InterviewRoleDal extends SQLDal {
         return super.execStorProcRecordset(mssql, 'p_InterviewRole_RemoveUserRole', inParams);
     }
 
-    recordToEntity(record)
+    _recordToEntity(record)
     {
         let intRole = new InterviewRoleEntity();
 

@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "hrt.dto"
+		},
+		{
+			"path": "hrt.tracker-ui"
 		}
 	],
 	"settings": {}

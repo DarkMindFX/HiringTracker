@@ -1,6 +1,6 @@
 {
   "name": "hrt.dal",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "mssql": "^6.3.1"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "timeout": "60000"
   }
 }

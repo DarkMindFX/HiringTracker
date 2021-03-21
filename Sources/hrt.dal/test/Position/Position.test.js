@@ -20,6 +20,20 @@ describe('Position.GetAll', function() {
     })
 });
 
+describe('Position.GetDetails', function() {
+    it('returns Position details', async () => {
+        let initParams = prepInitParams();
+        let dal = new PositionDal();
+        dal.init(initParams);
+
+        let positionId = 100001;
+        let position = await dal.GetDetails(positionId);
+
+        expect(position).not.toEqual(null);
+        expect(position.PositionID).toEqual(positionId);
+    })
+});
+
 
 describe('Position.InsertPosition', function() {
     it('inserts new Position record', async () => {

@@ -1,5 +1,7 @@
 
-class UserEntity {
+const HateosDto = require('./HateosDto')
+
+class UserDto extends HateosDto {
 
     get UserID() { return this._userId; }
     set UserID(val) { this._userId = val; }
@@ -19,12 +21,8 @@ class UserEntity {
     get Description() { return this._desc; }
     set Description(val) { this._desc = val; }
 
-    get PwdHash() { return this._pwdHash; }
-    set PwdHash(val) { this._pwdHash = val; }
-
-    get Salt() { return this._salt; }
-    set Salt(val) { this._salt = val; }
-
+    get Pwd() { return this._pwd; }
+    set Pwd(val) { this._pwd = val; }
 }
 
-module.exports = UserEntity;
+module.exports = UserDto;

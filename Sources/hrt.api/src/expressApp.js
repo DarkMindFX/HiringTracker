@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors')
 const initRoutes = require('./routes');
 const constants = require('./constants');
 const version = require('../package.json').version;
@@ -7,6 +8,8 @@ const version = require('../package.json').version;
 function initExpressApp() {
     let app = express();
     let port = constants.PORT;
+
+    app.use(cors());
 
     var router = express.Router()
 
@@ -16,7 +19,7 @@ function initExpressApp() {
         res.status(constants.HTTP_OK);
         res.send(version);
     });
-
+    
     app.use(router);
 
     app.listen(port, () => {
