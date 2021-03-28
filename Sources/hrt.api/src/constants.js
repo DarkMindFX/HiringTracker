@@ -12,6 +12,7 @@ const constants = {
 
     HTTP_OK: 200,
     HTTP_NoContent: 204,
+    HTTP_BadRequest: 400,
     HTTP_Unauthorized: 401,
     HTTP_Forbidden: 403,
     HTTP_NotFound: 404,

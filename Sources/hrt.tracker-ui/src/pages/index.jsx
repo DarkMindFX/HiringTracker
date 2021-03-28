@@ -9,7 +9,12 @@ class MainPage extends React.Component {
       <div>
 
         <h3>Welcome To Hiring Tracker</h3>
-        <Link to="/positions">Positions</Link>
+        <div>
+          <Link to="/positions">Positions</Link>
+        </div>
+        <div>
+          <Link to="/position/new">Add Position</Link>
+        </div>
       </div>
     );
   }

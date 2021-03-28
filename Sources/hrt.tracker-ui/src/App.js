@@ -13,6 +13,7 @@ import React from 'react';
 
 import MainPage from './pages';
 import PositionsPage from './pages/positions';
+import PositionPage from './pages/position';
 
 class App extends React.Component {
 
@@ -22,6 +23,7 @@ class App extends React.Component {
        {/*All our Routes goes here!*/}
        <Route exact path="/" component={MainPage} />
        <Route exact path="/positions" component={PositionsPage} />
+       <Route exact path="/position/:operation/:id?" component={PositionPage} />
       </Router>
     );
   }

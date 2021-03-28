@@ -1,5 +1,5 @@
 
-const { Error, SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto } = require('hrt.dto');
+const { Error, SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto } = require('hrt.dto');
 const { SkillPoficiencyDal, SkillPoficiencyEntity, PositionEntity, UserEntity } = require('hrt.dal')
 
 
@@ -45,9 +45,28 @@ function positionStatusEntity2Dto(entity) {
     return dto;
 }
 
+function skillEntity2Dto(entity) {
+    let dto = new SkillDto();
+    dto.SkillID = entity.SkillID;
+    dto.Name = entity.Name;   
+
+    return dto;
+}
+
+function positionSkillEntity2Dto(entity, dictSkills, dictProficiencies) {
+    let dto = new PositionSkillDto();
+    dto.Skill = dictSkills[entity.SkillID];
+    dto.Proficiency = dictProficiencies[entity.SkillName]; 
+    dto.IsMandatory = entity.IsMandatory;  
+
+    return dto;
+}
+
 module.exports = {
     skillProficiencyEntity2Dto,
     positionEntity2Dto,
     userEntity2Dto,
-    positionStatusEntity2Dto
+    positionStatusEntity2Dto,
+    positionSkillEntity2Dto,
+    skillEntity2Dto
 }

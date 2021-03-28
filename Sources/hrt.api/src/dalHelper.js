@@ -1,6 +1,6 @@
 
-const { PositionStatusDal, UserDal, PositionDal } = require('hrt.dal');
-const { userEntity2Dto, positionStatusEntity2Dto, positionEntity2Dto } = require('./coverters');
+const { PositionStatusDal, UserDal, PositionDal, SkillDal, SkillPoficiencyDal } = require('hrt.dal');
+const { userEntity2Dto, positionStatusEntity2Dto, positionEntity2Dto, skillEntity2Dto, skillProficiencyEntity2Dto } = require('./coverters');
 const constants = require('./constants');
 
 function prepInitParams() {
@@ -71,9 +71,43 @@ async function getPositionsDto()
     return dtos;
 }
 
+async function getSkillsDto() {
+    let initParams = prepInitParams();
+    let dal = new SkillDal();
+    await dal.init(initParams);
+
+    let skills = await dal.GetAll();
+
+    let dtos = {};
+
+    skills.forEach(skill => {
+        dtos[skill.SkillID] = skillEntity2Dto(skill);
+    });
+
+    return dtos;
+}
+
+async function getSkillProficiencyDto() {
+    let initParams = prepInitParams();
+    let dal = new SkillPoficiencyDal();
+    await dal.init(initParams);
+
+    let profs = await dal.GetAll();
+
+    let dtos = {};
+
+    profs.forEach(skill => {
+        dtos[skill.SkillID] = skillProficiencyEntity2Dto(skill);
+    });
+
+    return dtos;
+}
+
 module.exports = {
     prepInitParams,
     getUsersDto,
     getPositionStatusesDto,
-    getPositionsDto
+    getPositionsDto,
+    getSkillsDto,
+    getSkillProficiencyDto
 }
