@@ -35,6 +35,23 @@ class PositionPage extends React.Component {
             let dalPos = new PositionsDal();
             let obj = this;
 
+            dalPos.getPosition(this.state.id).then( (pos) => {
+                let updatedState = this.state;
+
+                updatedState.position = pos;
+
+                this.setState(updatedState); 
+
+                dalPos.getPositionSkills(this.state.id).then( (skills) => {
+
+                    let updatedState = this.state;
+                    skills.forEach( s => s.id = uuidv4() );
+                    updatedState.position._skills = skills;
+                    this.setState(updatedState); 
+
+                })
+            })
+
         }
     }
 
@@ -56,17 +73,17 @@ class PositionPage extends React.Component {
                 <table>
                     <tbody>
                         <tr>                            
-                            <td><TextField id="title" type="text" variant="filled" label="Position Title" value={this.state.position.title}/></td>
+                            <td><TextField id="title" type="text" variant="filled" label="Position Title" value={this.state.position._title}/></td>
                         </tr>                    
                         <tr>
-                            <td><TextField id="shortDesc" type="text" variant="filled" label="Short Description" value={this.state.position.shortDesc}/></td>
+                            <td><TextField id="shortDesc" type="text" variant="filled" label="Short Description" value={this.state.position._shortDesc}/></td>
                         </tr>
                         <tr>
                             <td>
                                 <TextField  id="status" 
                                                 select 
                                                 label="Status" 
-                                                value="Draft"
+                                                value={ this.state.position._status ? this.state.position._status._name : "Draft" }
                                                 onChange={ (event) => this.onStatusChanged(event) }>
                                         {
                                             constants.POSITION_STATUSES.map( (status) => (
@@ -88,15 +105,15 @@ class PositionPage extends React.Component {
                                             variant="filled" 
                                             multiline 
                                             fullWidth
-                                            value={this.state.position.desc}
+                                            value={this.state.position._desc}
                                             rows="10"/>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <SkillsList id="positionSkills"
-                                    skills={ this._getPositionSkills()}
-                                    canEdit={this.state.canEdit}
+                                    skills={ this._getPositionSkills() }
+                                    canEdit={ this.state.canEdit }
                                  />
                             </td>
                         </tr>
@@ -109,44 +126,35 @@ class PositionPage extends React.Component {
 
     _createEmptyPositionObj() {
         let pos = {
-            title: "",
-            shortDesc: "",
-            desc: "",
-            statusId: constants.POSITION_STATUSES[0].statusID, // Draft
-            skills: []
+            _title: "",
+            _shortDesc: "",
+            _desc: "",
+            _status: null,
+            _skills: []
         }
 
         return pos;
     }
 
     _getPositionSkills() {
-        let skills = {};
+        let skills = [];
 
-        let skill = {
-            id: uuidv4(),
-            SkillID: 1, ProficiencyID: 1, IsMandatory: true
-        };
-        skills[skill.id] = skill
-
-        skill = {
-            id: uuidv4(),
-            SkillID: 3, ProficiencyID: 3, IsMandatory: true
-        };
-        skills[skill.id] = skill
-
-        skill = {
-            id: uuidv4(),
-            SkillID: 4, ProficiencyID: 2, IsMandatory: false
-        };
-        skills[skill.id] = skill
-
-        skill = {
-            id: uuidv4(),
-            SkillID: 8, ProficiencyID: 4, IsMandatory: false
-        };
-        skills[skill.id] = skill
+        if( this.state.position._skills ) {
+            
+            this.state.position._skills.forEach( s => {
+                let skill = {
+                    id: s.id,
+                    SkillID: s._skill._skillId, 
+                    ProficiencyID: s._proficiency._id, 
+                    IsMandatory: s._isMandatory
+                };
+                skills.push(skill);
+            })
+        }     
         
-        return Object.values(skills);
+        console.log(skills);
+        
+        return skills;
     }
 }
 

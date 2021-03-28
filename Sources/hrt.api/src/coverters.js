@@ -56,7 +56,7 @@ function skillEntity2Dto(entity) {
 function positionSkillEntity2Dto(entity, dictSkills, dictProficiencies) {
     let dto = new PositionSkillDto();
     dto.Skill = dictSkills[entity.SkillID];
-    dto.Proficiency = dictProficiencies[entity.SkillName]; 
+    dto.Proficiency = dictProficiencies[entity.ProficiencyID]; 
     dto.IsMandatory = entity.IsMandatory;  
 
     return dto;

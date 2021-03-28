@@ -96,8 +96,8 @@ async function getSkillProficiencyDto() {
 
     let dtos = {};
 
-    profs.forEach(skill => {
-        dtos[skill.SkillID] = skillProficiencyEntity2Dto(skill);
+    profs.forEach(p => {
+        dtos[p.ProficiencyID] = skillProficiencyEntity2Dto(p);
     });
 
     return dtos;

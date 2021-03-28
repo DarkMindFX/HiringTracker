@@ -93,7 +93,7 @@ async function getPositionSkills(req, res) {
                 let dictProfs = await getSkillProficiencyDto();
 
                 let dtos = [];   
-                (skills).forEach(s => dtos.push(positionSkillEntity2Dto(s, dictSkills, dictProfs)));     
+                skills.forEach(s => dtos.push(positionSkillEntity2Dto(s, dictSkills, dictProfs)));     
 
                 res.status(constants.HTTP_OK);
                 res.send(JSON.stringify(dtos, null, 4));

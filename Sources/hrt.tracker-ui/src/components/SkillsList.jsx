@@ -19,10 +19,7 @@ class SkillsList extends React.Component {
     }
 
     onAddSkillClicked() {
-        let updatedState = {
-            canEdit: this.state.canEdit,
-            skills: this.state.skills
-        }
+        let updatedState = this.state;
 
         let newSkill = {
             id: uuidv4(),
