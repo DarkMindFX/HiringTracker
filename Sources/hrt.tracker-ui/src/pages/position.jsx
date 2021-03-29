@@ -45,8 +45,9 @@ class PositionPage extends React.Component {
                 dalPos.getPositionSkills(this.state.id).then( (skills) => {
 
                     let updatedState = this.state;
-                    skills.forEach( s => s.id = uuidv4() );
-                    updatedState.position._skills = skills;
+                    
+                    updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
+
                     this.setState(updatedState); 
 
                 })
@@ -55,7 +56,37 @@ class PositionPage extends React.Component {
         }
     }
 
+    onSkillChanged(id, skillID, profID, isMandatory) {
+
+        let updatedState = this.state;
+        let skill = updatedState._skills.find( s => s._skill.id == id );
+        if(skill != null) {
+            skill.SkillID = skillID;
+            skill.ProficiencyID = profID;
+            skill.IsMandatory = isMandatory;
+
+            console.log(skill);
+
+            console.log('onSkillChanged',updatedState.skills);
+
+            this.setState(updatedState);
+        }        
+    }   
+
+    onSkillAdded(id, skillID, profID, isMandatory) {
+
+    }
+
+    onSkillRemoved(id) {
+
+    }
+
     render() {
+
+        let skills = this._getPositionSkills();
+
+        console.log("Position.render: ", skills);
+
         return (
             <div>
                  <table>
@@ -112,7 +143,7 @@ class PositionPage extends React.Component {
                         <tr>
                             <td>
                                 <SkillsList id="positionSkills"
-                                    skills={ this._getPositionSkills() }
+                                    skills={ skills }
                                     canEdit={ this.state.canEdit }
                                  />
                             </td>
@@ -150,10 +181,8 @@ class PositionPage extends React.Component {
                 };
                 skills.push(skill);
             })
-        }     
-        
-        console.log(skills);
-        
+        }  
+      
         return skills;
     }
 }

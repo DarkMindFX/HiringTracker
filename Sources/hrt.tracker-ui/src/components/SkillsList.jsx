@@ -14,10 +14,35 @@ class SkillsList extends React.Component {
 
         this.state = {
             canEdit: props.canEdit ? props.canEdit : false,
-            skills: props.skills ? props.skills : []
+            skills: props.skills
         }
+
+        this.onSkillChanged = this.onSkillChanged.bind(this);
+
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if(props.canEdit !== state.canEdit ||
+            props.skills !== state.skills ||
+            props)
+        {
+            let updatedState = {
+                canEdit: props.canEdit,
+                skills: props.skills            
+            }
+
+            console.log('After removal:', updatedState.skills);
+
+            return updatedState;
+        }
+        else 
+        {
+            return null;
+        }
+
+    }
+
+   
     onAddSkillClicked() {
         let updatedState = this.state;
 
@@ -35,11 +60,42 @@ class SkillsList extends React.Component {
 
     onDeleteSkill(id) {
         console.log('Deleting: ' + id);
+        
+        let skillIdx = this.state.skills.findIndex( s => s.id == id );
+        if(skillIdx >= 0) {
+            let updatedState = {}
+
+            let newSkills = this.state.skills.map(s => s);
+            newSkills.splice(skillIdx, 1);
+
+            updatedState.skills = newSkills;
+            updatedState.canEdit = this.state.canEdit;             
+            
+            this.setState(updatedState);
+            this.forceUpdate();
+        }
     }
+
+    onSkillChanged(id, skillID, profID, isMandatory) {
+
+        let updatedState = this.state;
+        let skill = updatedState.skills.find( s => s.id == id );
+        if(skill != null) {
+            skill.SkillID = skillID;
+            skill.ProficiencyID = profID;
+            skill.IsMandatory = isMandatory;
+
+            console.log(skill);
+
+            console.log('onSkillChanged',updatedState.skills);
+
+            this.setState(updatedState);
+        }        
+    }   
 
     render() 
     {
-        console.log(this.state.skills);
+        console.log('Render: ', this.state.skills);
         return (
             <div>
                 {
@@ -48,11 +104,13 @@ class SkillsList extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <SkillItem  key={skill.id} 
+                                        <SkillItem  id={skill.id} 
                                                 skillID={skill.SkillID}
                                                 proficiencyID={skill.ProficiencyID}
                                                 mustHave={skill.IsMandatory}
-                                                canEdit={this.state.canEdit} />
+                                                canEdit={this.state.canEdit}
+                                                onSkillChanged={this.onSkillChanged}
+                                         />
                                     </td>
                                     <td>                                        
                                         <Button id={"btnDelSkill" + skill.id} variant="contained" size="small" onClick={ () => this.onDeleteSkill(skill.id) }>X</Button>
