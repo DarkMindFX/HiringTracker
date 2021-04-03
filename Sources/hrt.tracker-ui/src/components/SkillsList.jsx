@@ -14,7 +14,10 @@ class SkillsList extends React.Component {
 
         this.state = {
             canEdit: props.canEdit ? props.canEdit : false,
-            skills: props.skills
+            skills: props.skills, 
+            onSkillChanged: props.onSkillChanged,
+            onSkillDeleted: props.onSkillDeleted,
+            onSkillAdded: props.onSkillAdded
         }
 
         this.onSkillChanged = this.onSkillChanged.bind(this);
@@ -24,14 +27,17 @@ class SkillsList extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if(props.canEdit !== state.canEdit ||
             props.skills !== state.skills ||
-            props)
+            props.onSkillChanged != state.onSkillChanged || 
+            props.onSkillDeleted != state.onSkillDeleted ||
+            props.onSkillAdded != state.onSkillAdded)
         {
             let updatedState = {
                 canEdit: props.canEdit,
-                skills: props.skills            
+                skills: props.skills,
+                onSkillChanged: props.onSkillChanged,
+                onSkillDeleted: props.onSkillDeleted,
+                onSkillAdded: props.onSkillAdded
             }
-
-            console.log('After removal:', updatedState.skills);
 
             return updatedState;
         }
@@ -53,9 +59,7 @@ class SkillsList extends React.Component {
             IsMandatory: false
         }
 
-        updatedState.skills.push(newSkill);
-
-        this.setState(updatedState);
+        this.state.onSkillAdded(newSkill);
     }
 
     onDeleteSkill(id) {
@@ -63,48 +67,36 @@ class SkillsList extends React.Component {
         
         let skillIdx = this.state.skills.findIndex( s => s.id == id );
         if(skillIdx >= 0) {
-            let updatedState = {}
-
-            let newSkills = this.state.skills.map(s => s);
-            newSkills.splice(skillIdx, 1);
-
-            updatedState.skills = newSkills;
-            updatedState.canEdit = this.state.canEdit;             
-            
-            this.setState(updatedState);
-            this.forceUpdate();
+            this.state.onSkillDeleted(id);
         }
     }
 
     onSkillChanged(id, skillID, profID, isMandatory) {
 
         let updatedState = this.state;
-        let skill = updatedState.skills.find( s => s.id == id );
-        if(skill != null) {
-            skill.SkillID = skillID;
-            skill.ProficiencyID = profID;
-            skill.IsMandatory = isMandatory;
+        let updatedSkill = updatedState.skills.find( s => s.id == id );
+        if(updatedSkill != null) {
+            updatedSkill.SkillID = skillID;
+            updatedSkill.ProficiencyID = profID;
+            updatedSkill.IsMandatory = isMandatory;
 
-            console.log(skill);
-
-            console.log('onSkillChanged',updatedState.skills);
-
-            this.setState(updatedState);
+            this.state.onSkillChanged(updatedSkill);
         }        
     }   
 
     render() 
     {
-        console.log('Render: ', this.state.skills);
+        //console.log('Render: ', this.state.skills);
         return (
             <div>
                 {
                     this.state.skills.map( (skill) => (
-                        <table>
+                        <table key={"tblSkillItem" + skill.id}>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <SkillItem  id={skill.id} 
+                                        <SkillItem  key={skill.id}
+                                                id={skill.id} 
                                                 skillID={skill.SkillID}
                                                 proficiencyID={skill.ProficiencyID}
                                                 mustHave={skill.IsMandatory}
@@ -113,7 +105,7 @@ class SkillsList extends React.Component {
                                          />
                                     </td>
                                     <td>                                        
-                                        <Button id={"btnDelSkill" + skill.id} variant="contained" size="small" onClick={ () => this.onDeleteSkill(skill.id) }>X</Button>
+                                        <Button key={"btnDelSkill" + skill.id} variant="contained" size="small" onClick={ () => this.onDeleteSkill(skill.id) }>X</Button>
                                     </td>
                                 </tr>
                             </tbody>

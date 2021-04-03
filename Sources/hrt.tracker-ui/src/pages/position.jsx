@@ -23,7 +23,9 @@ class PositionPage extends React.Component {
             position: this._createEmptyPositionObj()
         };
 
-        console.log(this.state);
+        this.onSkillAdded = this.onSkillAdded.bind(this);
+        this.onSkillChanged = this.onSkillChanged.bind(this);
+        this.onSkillDeleted = this.onSkillDeleted.bind(this);
     }
 
     onStatusChanged(event) {
@@ -31,6 +33,7 @@ class PositionPage extends React.Component {
     }
 
     componentDidMount() {
+ 
         if(this.state.id) {
             let dalPos = new PositionsDal();
             let obj = this;
@@ -56,36 +59,58 @@ class PositionPage extends React.Component {
         }
     }
 
-    onSkillChanged(id, skillID, profID, isMandatory) {
+    onSkillChanged(updatedSkill) {
 
         let updatedState = this.state;
-        let skill = updatedState._skills.find( s => s._skill.id == id );
+
+        console.log(updatedSkill);
+
+        let skill = updatedState.position._skills.find( s => { return s.id == updatedSkill.id; } );
+
         if(skill != null) {
-            skill.SkillID = skillID;
-            skill.ProficiencyID = profID;
-            skill.IsMandatory = isMandatory;
+            skill._skill._skillId = updatedSkill.SkillID;
+            skill._skill._name = "";
+            skill._proficiency._id = updatedSkill.ProficiencyID;
+            skill._proficiency._name = "";
+            skill._isMandatory = updatedSkill.IsMandatory;
 
-            console.log(skill);
-
-            console.log('onSkillChanged',updatedState.skills);
+            console.log('onSkillChanged after',updatedState);
 
             this.setState(updatedState);
         }        
     }   
 
-    onSkillAdded(id, skillID, profID, isMandatory) {
+    onSkillAdded(newSkill) {
+        let updatedState = this.state;
+        let newSkillRec = {
+            _skill: {
+                _skillId: newSkill.SkillID
+            },
+            _proficiency: {
+                _id: newSkill.ProficiencyID
+            },
+            _isMandatory: newSkill.IsMandatory
+        }
+        updatedState.position._skills.push(newSkillRec)
+
+        this.setState(updatedState);
 
     }
 
-    onSkillRemoved(id) {
-
+    onSkillDeleted(id) {
+        let updatedState = this.state;
+        let idx = updatedState.position._skills.findIndex( s => { return s.id == id; } );
+        if(idx >= 0) {
+            updatedState.position._skills.splice(idx, 1);
+            this.setState(updatedState);
+        }
     }
 
     render() {
 
         let skills = this._getPositionSkills();
 
-        console.log("Position.render: ", skills);
+        //console.log("Position.render: ", skills);
 
         return (
             <div>
@@ -145,6 +170,9 @@ class PositionPage extends React.Component {
                                 <SkillsList id="positionSkills"
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
+                                    onSkillAdded = { this.onSkillAdded }
+                                    onSkillChanged = { this.onSkillChanged }
+                                    onSkillDeleted = { this.onSkillDeleted }
                                  />
                             </td>
                         </tr>

@@ -3,6 +3,8 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const SkillsDal = require('../dal/SkillsDal');
 
@@ -120,45 +122,44 @@ class SkillItem extends React.Component {
         
         let key = 1;
 
+        let itemsSkills = this.state.skills.map( (skill) => (
+            <MenuItem key={skill.SkillID} value={skill.Name}>{skill.Name}</MenuItem>
+        ));
+
+        let itemsProficiences = this.state.profs.map( (prof) => (
+            <MenuItem key={prof.ProfID} value={prof.Name}>{prof.Name}</MenuItem>            
+        ) )
+
         return (
             <div>
-                <div style={styleEdit}>
-                    <TextField 
-                        id="skill" 
-                        select                         
+                <div key={"divEdit" + this.state.SkillID} style={styleEdit}>
+                    <Select
+                        key="cbSkill"                     
                         value={this.state.skill ? this.state.skill.Name : ""}
                         onChange={ (event) => this.onSkillChanged(event) }>
                         {
-                            this.state.skills.map( (skill) => (
-                                <option key={key++} value={skill.Name}>
-                                    {skill.Name}
-                                </option>
-                            ) )
+                            itemsSkills                            
                         }
-                    </TextField>
+                    </Select>
 
-                    <TextField 
-                        id="proficiency" 
-                        select                          
+                    <Select 
+                        key="cbProficiency"                       
                         value={this.state.proficiency ? this.state.proficiency.Name : ""}
                         onChange={ (event) => this.onProficiencyChanged(event) }
                         >
                         {
-                            this.state.profs.map( (prof) => (
-                                <option key={prof.ProficiencyID} value={prof.Name}>
-                                    {prof.Name}
-                                </option>
-                            ) )
+                            itemsProficiences                            
                         }
-                    </TextField>
+                    </Select>
 
                     <FormControlLabel
+                        key="lblMustHave"
                         control={<Checkbox checked={this.state.mustHave} onChange={(event) => this.onMustHaveChanged(event)} name="mustHave" />}
                         label="Must-Have"
                     />
                 </div>  
                  
-                <div style={styleView}>
+                <div key={"divView" + this.state.SkillID} style={styleView}>
                     <table>
                         <tbody>
                             <tr>
