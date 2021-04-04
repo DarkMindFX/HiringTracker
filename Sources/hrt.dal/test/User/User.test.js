@@ -34,6 +34,35 @@ describe('User.GetDetails', function() {
     })
 });
 
+describe('User.GetDetailsByLogin', function() {
+    it('returns User details', async () => {
+        let initParams = prepInitParams();
+        let dal = new UserDal();
+        dal.init(initParams);
+
+        let login = 'HRT\\JoeB';
+        let userId = 100001;
+        let user = await dal.GetDetailsByLogin(login);
+
+        expect(user).not.toEqual(null);
+        expect(user.UserID).toEqual(userId);
+        expect(user.Login).toEqual(login);
+    })
+});
+
+describe('User.GetDetailsByLogin', function() {
+    it('invalid login', async () => {
+        let initParams = prepInitParams();
+        let dal = new UserDal();
+        dal.init(initParams);
+
+        let login = '#some invalid login#';
+        let user = await dal.GetDetailsByLogin(login);
+
+        expect(user).toEqual(null);
+    })
+});
+
 
 describe('User.InsertUser', function() {
     it('inserts new User record', async () => {

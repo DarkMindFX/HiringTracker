@@ -11,6 +11,8 @@ const constants = {
     SQL_ENCRYPT: process.env.SQL_ENCRYPT || false,
 
     PWD_SALT_LENGTH: 7,
+    SESSION_SECRET: 'QDFGBDFH456DFSD',
+    SESSION_TIMEOUT: 3600,
 
     HTTP_OK: 200,
     HTTP_NoContent: 204,

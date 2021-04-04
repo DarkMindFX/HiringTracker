@@ -1,5 +1,6 @@
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors')
 const initRoutes = require('./routes');
 const constants = require('./constants');
@@ -10,6 +11,9 @@ function initExpressApp() {
     let port = constants.PORT;
 
     app.use(cors());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.raw());
 
     var router = express.Router()
 

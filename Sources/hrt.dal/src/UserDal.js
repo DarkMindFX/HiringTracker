@@ -84,6 +84,27 @@ class UserDal extends SQLDal {
         return user;
     }
 
+    async GetDetailsByLogin(login) {
+
+        let user = null;        
+
+        await mssql.connect(this._config);
+
+        let inParams = {};
+        inParams['Login'] = { type: mssql.NVarChar(50), value: login };
+
+        let outParams = {};
+        outParams['Found'] = { type: mssql.Bit, value: null };
+
+        let records = await super.execStorProcRecordset(mssql, 'p_User_GetDetailsByLogin', inParams, outParams);
+
+        if(records) {            
+            user = this._recordToEntity(records[0]); 
+        }
+
+        return user;
+    }
+
     _recordToEntity(record) {
         let entity = new UserEntity();
 

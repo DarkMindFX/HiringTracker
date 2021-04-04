@@ -29,6 +29,7 @@ class Converter {
 
     static userEntity2Dto(entity) {
         let dto = new UserDto();
+        dto.Login = entity.Login;
         dto.UserID = entity.UserID;
         dto.FirstName = entity.FirstName;
         dto.LastName = entity.LastName;
@@ -40,7 +41,8 @@ class Converter {
 
     static userDto2Entity(dto) {
         let entity = new UserEntity();
-        entity.UserID = dto._userId;
+        entity.Login = dto._login;
+        entity.UserID = dto._userId ? parseInt(dto._userId) : null;
         entity.FirstName = dto._fname;
         entity.LastName = dto._lname;
         entity.Description = dto._desc;
