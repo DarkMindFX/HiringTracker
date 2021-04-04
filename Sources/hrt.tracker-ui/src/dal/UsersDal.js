@@ -15,16 +15,12 @@ class UsersDal extends DalBase {
     async registerUser(newUser) {
         const url = this.ApiUrl;
 
-        console.log('PUT /users', newUser);
-       
         let inst = axios.create({
             baseURL: url
         })
 
         try {
             let res = await inst.put(`/users`, newUser);
-
-            console.log('PUT /users', res);
 
             return res;
         }

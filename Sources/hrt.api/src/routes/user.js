@@ -162,7 +162,7 @@ async function loginUser(req, res)
             let errBody = new Error();
             errBody.message = `User [login: ${req.body._login}] not found`;
             errBody.code = constants.HTTP_NotFound;
-            res.send(erroBody);
+            res.send(errBody);
         }
 
     }
@@ -201,7 +201,7 @@ async function getUserById(req, res)
             let errBody = new Error();
             errBody.message = `User [id: ${req.params.id}] not found`;
             errBody.code = constants.HTTP_NotFound;
-            res.send(erroBody);
+            res.send(errBody);
         }
     }
     catch(error) {

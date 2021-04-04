@@ -80,6 +80,7 @@ class UserDetails extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        console.log(props, state);
         if(props.user != state.user ||
            props.user.Login != state.user.Login ||
            props.user.Email != state.user.Email ||

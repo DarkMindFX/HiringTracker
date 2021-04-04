@@ -44,10 +44,8 @@ class RegisterPage extends React.Component {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
                 updatedState.error = null;
-                updatedState.user = this._createEmptyUserObj();
             }
-            else {
-                
+            else {                
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
                 updatedState.error = res.data._message;                
@@ -73,7 +71,7 @@ class RegisterPage extends React.Component {
                     <tbody>
                         <tr>
                             <td>
-                                <Alert severity="error" style={styleError}>Error occured: {this.state.error}</Alert>
+                                <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                                 <Alert severity="success" style={styleSuccess}>
                                     New user with login {this.state.user.Login} successfully created.
                                     You can now login - <Button variant="contained" component={Link} color="primary" size="small" to="/login" >Login</Button> 
@@ -104,6 +102,12 @@ class RegisterPage extends React.Component {
     _createEmptyUserObj() {
 
         let user = new UserDto();
+        user.Login = null;
+        user.Email = null;
+        user.Pwd = null;
+        user.FirstName = null;
+        user.LastName = null;
+        user.Description = null;
 
         return user;
 
