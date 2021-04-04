@@ -14,6 +14,7 @@ import React from 'react';
 import MainPage from './pages';
 import PositionsPage from './pages/positions';
 import PositionPage from './pages/position';
+import RegisterPage from './pages/register';
 
 class App extends React.Component {
 
@@ -24,6 +25,7 @@ class App extends React.Component {
        <Route exact path="/" component={MainPage} />
        <Route exact path="/positions" component={PositionsPage} />
        <Route exact path="/position/:operation/:id?" component={PositionPage} />
+       <Route exact path="/register" component={RegisterPage} />
       </Router>
     );
   }

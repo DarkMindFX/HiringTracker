@@ -26,8 +26,14 @@ function userValidation() {
                         next();
                     } );
                 }
+                else {
+                    next();
+                }
                             
             });
+        }
+        else {
+            next();            
         }
         
     }

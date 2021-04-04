@@ -1,11 +1,9 @@
 import React from 'react';
-import { FormControl } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import SkillsList from '../components/SkillsList';
 
 const PositionsDal = require('../dal/PositionsDal');
-const SkillsDal = require('../dal/SkillsDal');
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');

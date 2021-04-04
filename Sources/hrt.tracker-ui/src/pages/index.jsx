@@ -15,6 +15,9 @@ class MainPage extends React.Component {
         <div>
           <Link to="/position/new">Add Position</Link>
         </div>
+        <div>
+          <Link to="/register">Register User</Link>
+        </div>
       </div>
     );
   }
