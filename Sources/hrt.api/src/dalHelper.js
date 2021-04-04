@@ -1,6 +1,6 @@
 
 const { PositionStatusDal, UserDal, PositionDal, SkillDal, SkillPoficiencyDal } = require('hrt.dal');
-const { userEntity2Dto, positionStatusEntity2Dto, positionEntity2Dto, skillEntity2Dto, skillProficiencyEntity2Dto } = require('./coverters');
+const { Converter } = require('./coverters');
 const constants = require('./constants');
 
 function prepInitParams() {
@@ -24,7 +24,7 @@ async function getUsersDto()
     for(let i in users) {
 
         let user = users[i];
-        let dto = userEntity2Dto(user); 
+        let dto = Converter.userEntity2Dto(user); 
         
         dtos[dto.UserID] = dto;
     }
@@ -42,7 +42,7 @@ async function getPositionStatusesDto()
     for(let i in statuses) {
 
         let status = statuses[i];
-        let dto = positionStatusEntity2Dto(status); 
+        let dto = Converter.positionStatusEntity2Dto(status); 
         
         dtos[dto.StatusID] = dto;
     }
@@ -63,7 +63,7 @@ async function getPositionsDto()
     for(let i in positions) {
 
         let pos = positions[i];
-        let dto = positionEntity2Dto(pos, dictUsers, dicStatuses); 
+        let dto = Converter.positionEntity2Dto(pos, dictUsers, dicStatuses); 
         
         dtos[dto.PositionID] = dto;
     }
@@ -81,7 +81,7 @@ async function getSkillsDto() {
     let dtos = {};
 
     skills.forEach(skill => {
-        dtos[skill.SkillID] = skillEntity2Dto(skill);
+        dtos[skill.SkillID] = Converter.skillEntity2Dto(skill);
     });
 
     return dtos;
@@ -97,7 +97,7 @@ async function getSkillProficiencyDto() {
     let dtos = {};
 
     profs.forEach(p => {
-        dtos[p.ProficiencyID] = skillProficiencyEntity2Dto(p);
+        dtos[p.ProficiencyID] = Converter.skillProficiencyEntity2Dto(p);
     });
 
     return dtos;

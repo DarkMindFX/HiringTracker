@@ -26,9 +26,25 @@ class PositionPage extends React.Component {
         this.onSkillAdded = this.onSkillAdded.bind(this);
         this.onSkillChanged = this.onSkillChanged.bind(this);
         this.onSkillDeleted = this.onSkillDeleted.bind(this);
+        this.onStatusChanged = this.onStatusChanged.bind(this);
+        this.onTitleChanged = this.onTitleChanged.bind(this);
+        this.onShortDescChanged = this.onShortDescChanged.bind(this);
+        this.onDescChanged = this.onDescChanged.bind(this);
     }
 
     onStatusChanged(event) {
+
+        let updatedState = this.state;        
+
+        let newStatusId = parseInt(event.target.value);
+       
+        updatedState.position._status._statusId = newStatusId;
+        updatedState.position._status._name = constants.POSITION_STATUSES.find( s => { return s.statusID == newStatusId } ).name;
+
+        console.log(updatedState);
+
+        this.setState(updatedState);
+
 
     }
 
@@ -63,7 +79,6 @@ class PositionPage extends React.Component {
 
         let updatedState = this.state;
 
-        console.log(updatedSkill);
 
         let skill = updatedState.position._skills.find( s => { return s.id == updatedSkill.id; } );
 
@@ -74,8 +89,6 @@ class PositionPage extends React.Component {
             skill._proficiency._name = "";
             skill._isMandatory = updatedSkill.IsMandatory;
 
-            console.log('onSkillChanged after',updatedState);
-
             this.setState(updatedState);
         }        
     }   
@@ -83,6 +96,7 @@ class PositionPage extends React.Component {
     onSkillAdded(newSkill) {
         let updatedState = this.state;
         let newSkillRec = {
+            id: newSkill.id,
             _skill: {
                 _skillId: newSkill.SkillID
             },
@@ -106,44 +120,82 @@ class PositionPage extends React.Component {
         }
     }
 
+    onTitleChanged(event) {
+        const newTitle = event.target.value;
+
+        let updatedState = this.state;
+        updatedState.position._title = newTitle;
+        this.setState(updatedState);
+    }
+
+    onShortDescChanged(event) {
+        const newShortDesc = event.target.value;
+
+        let updatedState = this.state;
+        updatedState.position._shortDesc = newShortDesc;
+        this.setState(updatedState);
+    }
+
+    onDescChanged(event) {
+        const newDesc = event.target.value;
+
+        let updatedState = this.state;
+        updatedState.position._desc = newDesc;
+        this.setState(updatedState);
+    }
+
     render() {
 
         let skills = this._getPositionSkills();
-
-        //console.log("Position.render: ", skills);
 
         return (
             <div>
                  <table>
                     <tbody>
                         <tr>
-                            <td><Button variant="contained" color="primary">Save</Button>
+                            <td style={{width: 450}}></td>
+                            <td>
+                                <Button variant="contained" color="primary">Save</Button>
+                                <Button variant="contained" color="secondary">Delete</Button>
+                                <Button variant="contained" >Cancel</Button>
                             </td>
-                            <td><Button variant="contained" color="secondary">Delete</Button>
-                            </td>
-                            <td><Button variant="contained" >Cancel</Button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <tbody>
+                        </tr>                    
                         <tr>                            
-                            <td><TextField id="title" type="text" variant="filled" label="Position Title" value={this.state.position._title}/></td>
+                            <td colSpan={2}>
+                                
+                                <TextField  id="title" 
+                                            fullWidth
+                                            type="text" 
+                                            variant="filled" 
+                                            label="Position Title" 
+                                            value={this.state.position._title}
+                                            onChange={ (event) => { this.onTitleChanged(event) } }
+                                            />
+                                
+                            </td>
                         </tr>                    
                         <tr>
-                            <td><TextField id="shortDesc" type="text" variant="filled" label="Short Description" value={this.state.position._shortDesc}/></td>
+                            <td colSpan={2}>
+                                <TextField  id="shortDesc" 
+                                            fullWidth
+                                            type="text" 
+                                            variant="filled" 
+                                            label="Short Description" 
+                                            value={this.state.position._shortDesc}
+                                            onChange={ (event) => { this.onShortDescChanged(event) } }
+                                            /></td>
                         </tr>
                         <tr>
-                            <td>
-                                <TextField  id="status" 
+                            <td colSpan={1}>
+                                <TextField      key="cbStatus" 
+                                                fillWidth
                                                 select 
                                                 label="Status" 
-                                                value={ this.state.position._status ? this.state.position._status._name : "Draft" }
+                                                value={ this.state.position._status ? this.state.position._status._statusId : Object.keys(constants.POSITION_STATUSES)[0] }
                                                 onChange={ (event) => this.onStatusChanged(event) }>
                                         {
                                             constants.POSITION_STATUSES.map( (status) => (
-                                                <option key={status.statusID} value={status.name}>
+                                                <option key={status.statusID} value={status.statusID}>
                                                     {status.name}
                                                 </option>
                                             ) )
@@ -152,21 +204,22 @@ class PositionPage extends React.Component {
                             </td>
                         </tr>
                         <tr>
-                            <td>Position Details</td>
+                            <td colSpan={4}>Position Details</td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colSpan={4}>
                                 <TextField  id="desc" 
                                             type="text" 
                                             variant="filled" 
                                             multiline 
                                             fullWidth
-                                            value={this.state.position._desc}
+                                            defaultValue={this.state.position._desc}
+                                            onChange={ (event) => { this.onDescChanged(event) } }
                                             rows="10"/>
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colSpan={4}>
                                 <SkillsList id="positionSkills"
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
@@ -188,7 +241,7 @@ class PositionPage extends React.Component {
             _title: "",
             _shortDesc: "",
             _desc: "",
-            _status: null,
+            _status: { _statusId: 1,  _name: "Draft"},
             _skills: []
         }
 

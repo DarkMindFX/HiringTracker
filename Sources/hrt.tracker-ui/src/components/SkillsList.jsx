@@ -2,7 +2,6 @@
 import React from 'react';
 import SkillItem from '../components/SkillItem'
 import { Button } from '@material-ui/core';
-import constants from '../constants';
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -113,7 +112,7 @@ class SkillsList extends React.Component {
                         
                     ))                    
                 }
-                <Button variant="contained" color="primary" size="small" onClick={ () => this.onAddSkillClicked() }>+ Add</Button>
+                <Button variant="contained" color="primary" size="small" onClick={ () => this.onAddSkillClicked() }>+ Skill</Button>
             </div>
         )
     }   

@@ -20,6 +20,11 @@ async function execSetup(root, testName) {
     if(fs.existsSync(fullPath)) {
         execFileScript(fullPath);
     }
+    else {
+        throw  {
+            message: "execSetup: File was not found - " + fullPath
+        }
+    }
 }
 
 async function execTeardown(root, testName) {
@@ -28,7 +33,12 @@ async function execTeardown(root, testName) {
 
     if(fs.existsSync(fullPath)) {
         execFileScript(fullPath);
-    }   
+    }  
+    else {
+        throw  {
+            message: "execSetup: File was not found - " + fullPath
+        }
+    } 
 }
 
 async function execFileScript(path) {

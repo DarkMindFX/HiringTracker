@@ -1,7 +1,7 @@
 
 const { Error, SkillDto } = require('hrt.dto');
 const { SkillDal, SkillEntity } = require('hrt.dal')
-const { skillEntity2Dto } = require('../coverters')
+const { Converter } = require('../coverters')
 const { prepInitParams } = require('../dalHelper')
 
 const constants = require('../constants');
@@ -21,7 +21,7 @@ async function getSkills(req, res) {
         let dtos = [];
 
         for(let i in profs) {
-            dtos.push(skillEntity2Dto( profs[i] ))
+            dtos.push(Converter.skillEntity2Dto( profs[i] ))
         }
 
         res.status(constants.HTTP_OK);

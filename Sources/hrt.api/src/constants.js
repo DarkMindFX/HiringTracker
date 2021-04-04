@@ -10,6 +10,8 @@ const constants = {
     SQL_DB: process.env.SQL_DB || 'HiringTracker',
     SQL_ENCRYPT: process.env.SQL_ENCRYPT || false,
 
+    PWD_SALT_LENGTH: 7,
+
     HTTP_OK: 200,
     HTTP_NoContent: 204,
     HTTP_BadRequest: 400,

@@ -2,6 +2,7 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -119,6 +120,9 @@ class SkillItem extends React.Component {
         let styleMustHave = {
             display: this.state.mustHave ? "block": "none"
         };  
+        let styleSkill = {
+            width: "100%"
+        }
         
         let key = 1;
 
@@ -133,7 +137,9 @@ class SkillItem extends React.Component {
         return (
             <div>
                 <div key={"divEdit" + this.state.SkillID} style={styleEdit}>
+                    <FormControl style={{minWidth: 250}}>
                     <Select
+                        minWidth={300}                   
                         key="cbSkill"                     
                         value={this.state.skill ? this.state.skill.Name : ""}
                         onChange={ (event) => this.onSkillChanged(event) }>
@@ -141,7 +147,8 @@ class SkillItem extends React.Component {
                             itemsSkills                            
                         }
                     </Select>
-
+                    </FormControl>
+                    <FormControl style={{minWidth: 250}}>
                     <Select 
                         key="cbProficiency"                       
                         value={this.state.proficiency ? this.state.proficiency.Name : ""}
@@ -151,12 +158,13 @@ class SkillItem extends React.Component {
                             itemsProficiences                            
                         }
                     </Select>
-
+                    </FormControl>
                     <FormControlLabel
                         key="lblMustHave"
                         control={<Checkbox checked={this.state.mustHave} onChange={(event) => this.onMustHaveChanged(event)} name="mustHave" />}
                         label="Must-Have"
                     />
+
                 </div>  
                  
                 <div key={"divView" + this.state.SkillID} style={styleView}>
