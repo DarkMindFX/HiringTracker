@@ -1,8 +1,10 @@
 
 import React from "react";
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { DataGrid, GridRowsProp, GridColDef } from '@material-ui/data-grid';
+import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
+import constants from "../constants";
 
 const PositionsDal = require('../dal/PositionsDal')
 
@@ -13,15 +15,16 @@ class PositionsPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { positions: [] };
+        this.state = { 
+            positions: [],
+            showError: false,
+            error: null
+        };
         this._initColumns();
 
-        this.onAddPositionClicked = this.onAddPositionClicked.bind(this);
+        this.onRowClick = this.onRowClick.bind(this);
     }
 
-    onAddPositionClicked() {
-
-    }
 
     componentDidMount() {
 
@@ -29,20 +32,43 @@ class PositionsPage extends React.Component {
         let obj = this;
 
         dalPos.getPositions().then( function(ps) {
-            let newState = { positions: ps };
-            obj.setState(newState)
+            let updatedState = obj.state;
+            
+            if(ps.status == constants.HTTP_OK) {
+                updatedState.positions = ps.data;
+                updatedState.showError = false;
+                updatedState.error = null;
+            }
+            else {
+                updatedState.showError = true;
+                updatedState.error = ps.data._message;
+            }
+            obj.setState(updatedState)
         } );
-    }    
+    }  
+    
+    onRowClick(event) {
+        const row = event.row;
+        if(row) {
+            this.props.history.push(`/position/edit/${row.id}`);
+        }
+
+    }
 
     render() {
         let records = this._getRecords();
-        console.log(records);
+
+        const styleError = {
+            display: this.state.showError ? "block" : "none"
+        }
+
         return (
-        <div style={{ height: 500, width: '100%' }}>
-            <h3>Positions</h3>
-            <DataGrid columns={this._columns} rows={records}/>
-            <Button variant="contained" component={Link} color="primary" size="small" to="/position/new" >+ Position</Button>        
-        </div>
+            <div style={{ height: 500, width: '100%' }}>
+                <h3>Positions</h3>                
+                <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
+                <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
+                <Button variant="contained" component={Link} color="primary" size="small" to="/position/new" >+ Position</Button>        
+            </div>
         );
     }
 
@@ -79,4 +105,4 @@ class PositionsPage extends React.Component {
     }
 };
 
-export default PositionsPage;
+export default withRouter(PositionsPage);

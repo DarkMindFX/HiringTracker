@@ -14,12 +14,7 @@ class SkillsDal extends DalBase {
     }
 
     async loadSkills() {
-
-        const url = this.ApiUrl;
- 
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
         let res = await inst.get(`/skills`);
 
@@ -33,12 +28,7 @@ class SkillsDal extends DalBase {
     }
 
     async loadProficiences() {
-
-        const url = `${constants.HRT_API_HOST}/api/${constants.HRT_API_VERSION}`;
-        
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
         let res = await inst.get(`/skillproficiencies`);
 

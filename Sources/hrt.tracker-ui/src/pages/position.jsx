@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link, withRouter  } from 'react-router-dom'
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import SkillsList from '../components/SkillsList';
 
 const PositionsDal = require('../dal/PositionsDal');
@@ -18,7 +20,10 @@ class PositionPage extends React.Component {
             id: parseInt(this.props.match.params.id),
             canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
                                                           this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
-            position: this._createEmptyPositionObj()
+            position: this._createEmptyPositionObj(),
+
+            showError: false,
+            error: null
         };
 
         this.onSkillAdded = this.onSkillAdded.bind(this);
@@ -47,27 +52,59 @@ class PositionPage extends React.Component {
     }
 
     componentDidMount() {
+
+        const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+        console.log('Token: ', token);
+        if(!token) {
+            this.props.history.push("/login");
+        }
  
         if(this.state.id) {
             let dalPos = new PositionsDal();
             let obj = this;
 
-            dalPos.getPosition(this.state.id).then( (pos) => {
-                let updatedState = this.state;
+            dalPos.getPosition(this.state.id).then( (resPos) => {
+                let updatedState = obj.state;
 
-                updatedState.position = pos;
+                if(resPos.status == constants.HTTP_OK) {
 
-                this.setState(updatedState); 
+                    updatedState.position = resPos.data;
+                    updatedState.showError = false;
+                    updatedState.error = null;
 
-                dalPos.getPositionSkills(this.state.id).then( (skills) => {
+                    obj.setState(updatedState); 
 
-                    let updatedState = this.state;
-                    
-                    updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                    dalPos.getPositionSkills(obj.state.id).then( (resSkills) => {
 
-                    this.setState(updatedState); 
+                        let updatedState = obj.state;
 
-                })
+                        if(resSkills.status == constants.HTTP_OK) {   
+                            const skills = resSkills.data;                     
+                            updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                            updatedState.showError = false;
+                            updatedState.error = null;
+                             
+                        } 
+                        else {
+                            updatedState.showError = true;
+                            updatedState.error = resPos.data._message;
+                        }
+
+                        obj.setState(updatedState);
+
+                    }).catch( (err) => {
+                        console.log('Error when getting position skills:', err);
+                    })
+                }
+                else {
+                    updatedState.showError = true;
+                    updatedState.error = resPos.data._message;                    
+                }
+
+                obj.setState(updatedState);
+
+            }).catch( (err) => {
+                console.log('Error when getting position:', err);
             })
 
         }
@@ -76,7 +113,6 @@ class PositionPage extends React.Component {
     onSkillChanged(updatedSkill) {
 
         let updatedState = this.state;
-
 
         let skill = updatedState.position._skills.find( s => { return s.id == updatedSkill.id; } );
 
@@ -146,6 +182,10 @@ class PositionPage extends React.Component {
 
         let skills = this._getPositionSkills();
 
+        const styleError = {
+            display: this.state.showError ? "block" : "none"
+        }
+
         return (
             <div>
                  <table>
@@ -155,7 +195,13 @@ class PositionPage extends React.Component {
                             <td>
                                 <Button variant="contained" color="primary">Save</Button>
                                 <Button variant="contained" color="secondary">Delete</Button>
-                                <Button variant="contained" >Cancel</Button>
+                                <Button variant="contained" component={Link} to="/positions">Cancel</Button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
+                                
                             </td>
                         </tr>                    
                         <tr>                            
@@ -186,7 +232,7 @@ class PositionPage extends React.Component {
                         <tr>
                             <td colSpan={1}>
                                 <TextField      key="cbStatus" 
-                                                fillWidth
+                                                fullWidth
                                                 select 
                                                 label="Status" 
                                                 value={ this.state.position._status ? this.state.position._status._statusId : Object.keys(constants.POSITION_STATUSES)[0] }
@@ -266,4 +312,4 @@ class PositionPage extends React.Component {
     }
 }
 
-export default PositionPage;
+export default withRouter(PositionPage);

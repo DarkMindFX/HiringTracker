@@ -1,12 +1,12 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { Link, withRouter  } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import constants from '../constants';
 const UsersDal = require('../dal/UsersDal')
 
-class RegisterPage extends React.Component {
+class LoginPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -53,6 +53,12 @@ class RegisterPage extends React.Component {
                 console.log('Login SUCCESS', res.data._token)
                 updatedState.showError = false;
                 updatedState.error = null;
+
+                localStorage.clear();
+                localStorage.setItem(constants.SESSION_TOKEN_KEY, res.data._token);
+
+                this.props.history.push("/positions");
+
             }
             else {
                 updatedState.showError = true;
@@ -122,4 +128,4 @@ class RegisterPage extends React.Component {
     }
 }
 
-export default RegisterPage; 
+export default withRouter(LoginPage); 

@@ -7,57 +7,50 @@ const DalBase = require('./DalBase');
 class PositionsDal extends DalBase {
 
     constructor() {
-        super();
-        this._positions = null;        
-    }
-
-    async loadPositions() {
-
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
-
-        let res = await inst.get(`/positions`);
-
-        this._positions = res.data;
+        super();        
     }
 
     async getPositions() {
 
-        // TODO: add cache
-        await this.loadPositions();        
+        try {
+            let inst = this.Instance;
+        
+            let res = await inst.get(`/positions`);
 
-        return this._positions;
+            return res;
+        }
+        catch(error) {
+            console.log(error.response);
+            throw error;
+        }
     }
 
     async getPosition(id) {
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
-        let res = await inst.get(`/positions/${id}`);
+        try {
+            let res = await inst.get(`/positions/${id}`);
 
-        let position = res.data;
-
-        return position;
+            return res;
+        }
+        catch(error) {
+            console.log(error);
+            throw error;
+        }
     }
 
     async getPositionSkills(id) {
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
-        let res = await inst.get(`/positions/${id}/skills`);
+        try {
+            let res = await inst.get(`/positions/${id}/skills`);
 
-        let position = res.data;
-
-        return position;
+            return res;
+        }
+        catch(error) {
+            console.log(error.response);
+            throw error;
+        }
     }
 }
 

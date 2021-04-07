@@ -13,11 +13,7 @@ class UsersDal extends DalBase {
     }
 
     async registerUser(newUser) {
-        const url = this.ApiUrl;
-
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
         try {
             let res = await inst.put(`/users`, newUser);
@@ -31,11 +27,7 @@ class UsersDal extends DalBase {
     }
 
     async updateUser(updatedUser) {
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
         
         try {
             let res = await inst.post(`/users`, updatedUser);
@@ -48,11 +40,7 @@ class UsersDal extends DalBase {
     }
 
     async deleteUser(id) {
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
         try {
             let res = await inst.delete(`/users/${id}`);
@@ -65,11 +53,7 @@ class UsersDal extends DalBase {
     }
 
     async getUser(id) {
-        const url = this.ApiUrl;
-       
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
 
         try {
             let res = await inst.get(`/users/${id}`);
@@ -86,11 +70,7 @@ class UsersDal extends DalBase {
         loginDto.Login = login;
         loginDto.Password = password;
 
-        const url = this.ApiUrl;
-
-        let inst = axios.create({
-            baseURL: url
-        })
+        let inst = this.Instance;
        
         try {
             let res = await inst.post(`/login`, loginDto);
@@ -98,7 +78,6 @@ class UsersDal extends DalBase {
             return res;
         }
         catch(error) {
-            console.log(error.response);
             return error.response;
         }
     }
