@@ -6,6 +6,7 @@ const PositionDal = require('../../src/PositionDal');
 const { prepInitParams, execSetup,
     execTeardown } = require('../DALTestHelper');
 const PositionEntity = require('../../src/entities/Position');
+const PositionSkillEntity = require('../../src/entities/PositionSkill');
 
 describe('Position.GetAll', function() {
     it('returns all Positions', async () => {
@@ -153,5 +154,66 @@ describe('Position.GetSkills - Invalid Position', function() {
         let skills = await dal.GetSkills(posId);
 
         expect(skills).toEqual(null);
+    })
+});
+
+describe('Position.SetSkills', function() {
+    it('sets skills for the given position', async () => {
+
+        const snooze = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        let testName = '030.SetSkills.Success';
+        await execSetup(__dirname, testName);
+        
+        let initParams = prepInitParams();
+        let dal = new PositionDal();
+        dal.init(initParams);
+
+        await snooze(1000); // waiting to guarantee that record was created by setup
+
+        const title = '[Test] Position TGSVJ654'
+
+        let positions = await dal.GetAll();
+        let position = positions.find( p => p.Title == title);
+        let posId = position.PositionID;
+
+        let skills = [];
+        let skill1 = new PositionSkillEntity();
+        skill1.SkillID = 3;
+        skill1.ProficiencyID = 1;
+        skill1.IsMandatory = true;
+
+        let skill2 = new PositionSkillEntity();
+        skill2.SkillID = 5;
+        skill2.ProficiencyID = 2;
+        skill2.IsMandatory = false;
+
+        let skill3 = new PositionSkillEntity();
+        skill3.SkillID = 7;
+        skill3.ProficiencyID = 3;
+        skill3.IsMandatory = true;
+
+        skills.push(skill1);
+        skills.push(skill2);
+        skills.push(skill3);
+
+        let posSkills = null;
+
+        try {
+
+            await dal.SetSkills(posId, skills);
+
+            posSkills = await dal.GetSkills(posId);
+
+        }
+        finally {
+
+            await execTeardown(__dirname, testName);
+
+            expect(posSkills).not.toEqual(null);
+            expect(posSkills.length).toEqual(3);
+        }
+
+        
     })
 });

@@ -7,8 +7,10 @@ const HealthResponse = require('./src/Health')
 const { LoginRequest, LoginResponse } = require('./src/Login')
 const UserDto = require('./src/UserDto')
 const PositionDto = require('./src/PositionDto')
+const PositionUpsertDto = require('./src/PositionUpsertDto')
 const PositionStatusDto = require('./src/PositionStatusDto')
 const PositionSkillDto = require('./src/PositionSkillDto')
+
 
 module.exports = {
     Error,
@@ -21,5 +23,6 @@ module.exports = {
     UserDto,
     PositionDto,
     PositionStatusDto,
-    PositionSkillDto
+    PositionSkillDto,
+    PositionUpsertDto
 }

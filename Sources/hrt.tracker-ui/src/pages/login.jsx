@@ -4,6 +4,7 @@ import { Link, withRouter  } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import constants from '../constants';
+import queryString from 'query-string'
 const UsersDal = require('../dal/UsersDal')
 
 class LoginPage extends React.Component {
@@ -11,12 +12,15 @@ class LoginPage extends React.Component {
     constructor(props) {
         super(props);
 
+        const query = queryString.parse(this.props.location.search);
+        const retUri = query.ret;
+
         this.state = {
             login: null,
             password: null,
             showError: false,
             error: null,
-            ret: this.props.match.params.ret ? this.props.match.params.ret : "/positions"
+            ret: retUri ? retUri : "/positions"
         }
 
         this.onLoginChanged = this.onLoginChanged.bind(this);

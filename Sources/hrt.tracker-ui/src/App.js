@@ -15,7 +15,8 @@ import MainPage from './pages';
 import PositionsPage from './pages/positions';
 import PositionPage from './pages/position';
 import RegisterPage from './pages/register';
-import LoginPage from './pages/login';
+import LogingPage from './pages/login';
+import LogoutPage from './pages/logout';
 
 class App extends React.Component {
 
@@ -27,7 +28,8 @@ class App extends React.Component {
        <Route exact path="/positions" component={PositionsPage} />
        <Route exact path="/position/:operation/:id?" component={PositionPage} />
        <Route exact path="/register" component={RegisterPage} />
-       <Route exact path="/login" component={LoginPage} />
+       <Route exact path="/login" component={LogingPage} />
+       <Route exact path="/logout" component={LogoutPage} />
       </Router>
     );
   }

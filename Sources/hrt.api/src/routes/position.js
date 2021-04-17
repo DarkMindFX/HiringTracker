@@ -18,7 +18,34 @@ function routePositions(route) {
 }
 
 async function addPosition(req, res) {
+    try {
+        const dal = _getPositionDal();
 
+        const newPosition = Converter.positionDto2Entity(req.body._position);
+        const newPosSkills = [];
+        if(req.body._skills) {
+            req.body._skills.forEach(s => {
+                let skillProfEntity = Converter.positionSkillDto2Entity(null, s);
+                newPosSkills.push(skillProfEntity)
+            });
+        }
+
+        newPosition.PositionID = null;
+        const result = await dal.Upsert(newPosition, req.middleware.user.UserID);
+        const positionId = result["NewPositionID"];
+        newPosSkills.forEach( s => s.PositionID = positionId);
+        
+    }
+    catch(error) {
+        const msg = `Error processing ADD positions request: ${error.message}`
+        console.error(msg);
+
+        res.status(constants.HTTP_IntServerError);
+        let errBody = new Error();
+        errBody.message = msg;
+        errBody.code = constants.HTTP_IntServerError;
+        res.send(errBody);
+    }
 }
 
 async function updatePosition(req, res) {
@@ -28,9 +55,7 @@ async function updatePosition(req, res) {
 async function deletePositionById(req, res) {
     try {
 
-        let initParams = prepInitParams();
-        let dal = new PositionDal();
-        dal.init(initParams);
+        const dal = _getPositionDal();
 
         if(req.params.id) {
             let pos = await dal.GetDetails(parseInt(req.params.id));
@@ -90,9 +115,7 @@ async function getPositions(req, res) {
 async function getPositionById(req, res) {
     try {
 
-        let initParams = prepInitParams();
-        let dal = new PositionDal();
-        dal.init(initParams);
+        const dal = _getPositionDal();
 
         if(req.params.id) {
             let pos = await dal.GetDetails(parseInt(req.params.id));
@@ -135,9 +158,7 @@ async function getPositionById(req, res) {
 async function getPositionSkills(req, res) {
     try {
 
-        let initParams = prepInitParams();
-        let dal = new PositionDal();
-        dal.init(initParams);
+        const dal = _getPositionDal();
 
         if(req.params.id) {
             let pos = await dal.GetDetails(parseInt(req.params.id));
@@ -159,7 +180,7 @@ async function getPositionSkills(req, res) {
                 let errBody = new Error();
                 errBody.message = `Position [id: ${req.params.id}] not found`;
                 errBody.code = constants.HTTP_NotFound;
-                res.send(erroBody);
+                res.send(errBody);
             }
         }
         else {
@@ -167,7 +188,7 @@ async function getPositionSkills(req, res) {
             let errBody = new Error();
             errBody.message = `Position ID was not provided`;
             errBody.code = constants.HTTP_BadRequest;
-            res.send(erroBody);            
+            res.send(errBody);            
         }
     }
     catch(error) {
@@ -178,6 +199,14 @@ async function getPositionSkills(req, res) {
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }
+}
+
+function _getPositionDal() {
+    let initParams = prepInitParams();
+    let dal = new PositionDal();
+    dal.init(initParams);
+
+    return dal;
 }
 
 module.exports = routePositions;

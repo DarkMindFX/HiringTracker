@@ -125,7 +125,25 @@ class PositionDal extends SQLDal {
         }
 
         return posSkills;
+    }
 
+    async SetSkills(positionId, skills) {
+
+        const tvpSkills = new mssql.Table();
+        tvpSkills.columns.add('SkillID', mssql.BigInt);
+        tvpSkills.columns.add('ProficiencyID', mssql.BigInt);
+        tvpSkills.columns.add('IsMandatory', mssql.Bit);
+        skills.forEach(s => {            
+            tvpSkills.rows.add(s.SkillID, s.ProficiencyID, s.IsMandatory);
+        });
+
+        await mssql.connect(this._config);
+
+        let inParams = {};
+        inParams['PositionID'] = { value: positionId, type: mssql.BigInt };
+        inParams['Skills'] = { value: tvpSkills, type: mssql.TVP };
+
+        super.execStorProcValue(mssql, 'p_PositionSkills_Upsert', inParams);
     }
 
     _recordToEntity(record) {

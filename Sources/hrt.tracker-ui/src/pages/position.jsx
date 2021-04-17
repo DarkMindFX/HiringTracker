@@ -53,11 +53,7 @@ class PositionPage extends React.Component {
 
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
         console.log('Token: ', token);
-        if(!token) {
-            this.props.history.push("/login");
-        }
- 
-        if(this.state.id) {
+        if(token != null && this.state.id) {
             let dalPos = new PositionsDal();
             let obj = this;
 
@@ -108,6 +104,10 @@ class PositionPage extends React.Component {
                 console.log('Error when getting position:', err);
             })
 
+        }
+        else {
+            console.log('No token - need to login')
+            this.props.history.push(`/login?ret=/position/${this.state.operation}/${this.state.id}`)
         }
     }
 

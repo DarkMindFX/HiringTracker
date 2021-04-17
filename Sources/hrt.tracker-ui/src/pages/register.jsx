@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import UserDetails from '../components/UserDetails'
@@ -114,4 +114,4 @@ class RegisterPage extends React.Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

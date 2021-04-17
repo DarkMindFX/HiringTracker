@@ -1,6 +1,6 @@
 
 const { Error, SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto } = require('hrt.dto');
-const { SkillPoficiencyDal, SkillPoficiencyEntity, PositionEntity, UserEntity } = require('hrt.dal')
+const { SkillPoficiencyDal, SkillPoficiencyEntity, PositionEntity, UserEntity, PositionSkillEntity } = require('hrt.dal')
 
 class Converter {
 
@@ -25,6 +25,21 @@ class Converter {
         dto.ModifiedDate = entity.ModifiedDate;
 
         return dto;
+    }
+
+    static positionDto2Entity(dto) {
+        let entity = new PositionEntity();
+        entity.PositionID = dto._positionId;
+        entity.Title = dto._title;
+        entity.ShortDesc = dto._shortDesc;
+        entity.Desc = dto._desc;
+        entity.StatusID = dto._status._statusId;
+        entity.CreatedByID = dto._createdBy ? dto._createdBy._userId : null;
+        entity.CreatedDate = dto._createdDate ? dto._createdDate : null;
+        entity.ModifiedByID = dto._modifiedBy ? dto._modifiedBy._userId : null;
+        entity.ModifiedDate = dto._modifiedDate ? dto._modifiedDate : null;
+
+        return entity;
     }
 
     static userEntity2Dto(entity) {
@@ -74,6 +89,16 @@ class Converter {
         dto.IsMandatory = entity.IsMandatory;  
 
         return dto;
+    }
+
+    static positionSkillDto2Entity(positionId, dto) {
+        let entity = new PositionSkillEntity();
+        entity.SkillID = dto._skill._skillId;
+        entity.PositionID = positionId;
+        entity.ProficiencyID = dto._proficiency._id;
+        entity.IsMandatory = dto._isMandatory;
+
+        return entity;
     }
 
 }
