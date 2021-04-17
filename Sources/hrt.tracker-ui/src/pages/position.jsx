@@ -47,8 +47,6 @@ class PositionPage extends React.Component {
         console.log(updatedState);
 
         this.setState(updatedState);
-
-
     }
 
     componentDidMount() {
@@ -95,6 +93,9 @@ class PositionPage extends React.Component {
                     }).catch( (err) => {
                         console.log('Error when getting position skills:', err);
                     })
+                }
+                else if(resPos.status == constants.HTTP_Unauthorized) {
+                    obj.props.history.push("/login?ret=/positions");
                 }
                 else {
                     updatedState.showError = true;

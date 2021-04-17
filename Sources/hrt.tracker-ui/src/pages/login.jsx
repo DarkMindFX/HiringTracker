@@ -15,7 +15,8 @@ class LoginPage extends React.Component {
             login: null,
             password: null,
             showError: false,
-            error: null
+            error: null,
+            ret: this.props.match.params.ret ? this.props.match.params.ret : "/positions"
         }
 
         this.onLoginChanged = this.onLoginChanged.bind(this);
@@ -43,6 +44,8 @@ class LoginPage extends React.Component {
 
     onLoginClicked() {
 
+        let obj = this;
+
         console.log(`Loggiing in as ${this.state.login} / ${this.state.password}`)
 
         const dal = new UsersDal();
@@ -57,7 +60,7 @@ class LoginPage extends React.Component {
                 localStorage.clear();
                 localStorage.setItem(constants.SESSION_TOKEN_KEY, res.data._token);
 
-                this.props.history.push("/positions");
+                obj.props.history.push(this.state.ret);
 
             }
             else {

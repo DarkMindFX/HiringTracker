@@ -2,9 +2,10 @@
 const jwt = require('jsonwebtoken');
 const { prepInitParams } = require('../src/dalHelper')
 const { UserDal, UserEntity } = require('hrt.dal')
+const { Error } = require('hrt.dto')
 const constants = require('./constants')
 
-function userValidation() {
+function validateAuthToken() {
     let middleware = function (req, res, next) {
         let token = req.headers['authorization'];
         if(token) {
@@ -41,6 +42,26 @@ function userValidation() {
     return middleware;
 }
 
+function authUserOnly() {
+    let middleware = function (req, res, next) {
+        if(!req.middleware || !req.middleware.user) {
+            
+            let error = new Error()
+            error.code = constants.HTTP_Unauthorized;
+            error.message = "Operation unauthorized. No session token provided."
+
+            res.status(constants.HTTP_Unauthorized)
+            res.send(error);
+        }
+        else {
+            next();
+        }
+    }
+
+    return middleware;
+}
+
 module.exports = {
-    userValidation
+    validateAuthToken,
+    authUserOnly
 }

@@ -20,8 +20,7 @@ class PositionsDal extends DalBase {
             return res;
         }
         catch(error) {
-            console.log(error.response);
-            throw error;
+            return error.response;
         }
     }
 
@@ -34,8 +33,7 @@ class PositionsDal extends DalBase {
             return res;
         }
         catch(error) {
-            console.log(error);
-            throw error;
+            return error.response;
         }
     }
 
@@ -48,8 +46,7 @@ class PositionsDal extends DalBase {
             return res;
         }
         catch(error) {
-            console.log(error.response);
-            throw error;
+            return error.response;
         }
     }
 }

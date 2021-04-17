@@ -39,12 +39,15 @@ class PositionsPage extends React.Component {
                 updatedState.showError = false;
                 updatedState.error = null;
             }
+            else if(ps.status == constants.HTTP_Unauthorized) {
+                obj.props.history.push("/login?ret=/positions");
+            }
             else {
                 updatedState.showError = true;
                 updatedState.error = ps.data._message;
             }
             obj.setState(updatedState)
-        } );
+        });
     }  
     
     onRowClick(event) {

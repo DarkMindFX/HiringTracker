@@ -4,16 +4,17 @@ const { PositionDal, PositionEntity, UserDal, UserEntity } = require('hrt.dal')
 const { prepInitParams, getPositionsDto, getUsersDto, getPositionStatusesDto, getSkillsDto,
     getSkillProficiencyDto } = require('../dalHelper')
 const { Converter } = require('../coverters');
+const { authUserOnly } = require('../middleware');
 
 const constants = require('../constants');
 
 function routePositions(route) {
-    route.get('/api/v1/positions', (req, res) => { getPositions(req, res); })
-    route.get('/api/v1/positions/:id', (req, res) => { getPositionById(req, res); })
-    route.get('/api/v1/positions/:id/skills', (req, res) => { getPositionSkills(req, res); })
-    route.put('/api/v1/positions', (req, res) => { addPosition(req, res); })
-    route.post('/api/v1/positions', (req, res) => { updatePosition(req, res); })
-    route.delete('/api/v1/positions/:id', (req, res) => { deletePositionById(req, res); })
+    route.get('/api/v1/positions', authUserOnly(), (req, res) => { getPositions(req, res); })
+    route.get('/api/v1/positions/:id', authUserOnly(), (req, res) => { getPositionById(req, res); })
+    route.get('/api/v1/positions/:id/skills', authUserOnly(), (req, res) => { getPositionSkills(req, res); })
+    route.put('/api/v1/positions', authUserOnly(), (req, res) => { addPosition(req, res); })
+    route.post('/api/v1/positions', authUserOnly(), (req, res) => { updatePosition(req, res); })
+    route.delete('/api/v1/positions/:id', authUserOnly(), (req, res) => { deletePositionById(req, res); })
 }
 
 async function addPosition(req, res) {
