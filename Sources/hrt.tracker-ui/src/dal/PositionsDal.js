@@ -12,8 +12,10 @@ class PositionsDal extends DalBase {
 
     async getPositions() {
 
+        let inst = this.Instance;
+
         try {
-            let inst = this.Instance;
+            
         
             let res = await inst.get(`/positions`);
 

@@ -28,26 +28,36 @@ class PositionsPage extends React.Component {
 
     componentDidMount() {
 
-        let dalPos = new PositionsDal();
-        let obj = this;
+        const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+        console.log('Token: ', token);
+        if(token != null) {
 
-        dalPos.getPositions().then( function(ps) {
-            let updatedState = obj.state;
-            
-            if(ps.status == constants.HTTP_OK) {
-                updatedState.positions = ps.data;
-                updatedState.showError = false;
-                updatedState.error = null;
-            }
-            else if(ps.status == constants.HTTP_Unauthorized) {
-                obj.props.history.push("/login?ret=/positions");
-            }
-            else {
-                updatedState.showError = true;
-                updatedState.error = ps.data._message;
-            }
-            obj.setState(updatedState)
-        });
+            let dalPos = new PositionsDal();
+            let obj = this;
+
+            dalPos.getPositions().then( function(ps) {
+                let updatedState = obj.state;
+                
+                if(ps.status == constants.HTTP_OK) {
+                    updatedState.positions = ps.data;
+                    updatedState.showError = false;
+                    updatedState.error = null;
+                }
+                else if(ps.status == constants.HTTP_Unauthorized) {
+                    console.log('Unauth - need to login')
+                    obj.props.history.push("/login?ret=/positions");
+                }
+                else {
+                    updatedState.showError = true;
+                    updatedState.error = ps.data._message;
+                }
+                obj.setState(updatedState)
+            });
+        }
+        else {
+            console.log('No token - need to login')
+            this.props.history.push(`/login?ret=/positions`)
+        }
     }  
     
     onRowClick(event) {

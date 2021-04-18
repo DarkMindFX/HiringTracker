@@ -19,6 +19,7 @@ class DalBase {
 
         inst.interceptors.request.use( function(config) {
             const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+            console.log(`Using token: ${token}`)
             if(token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
