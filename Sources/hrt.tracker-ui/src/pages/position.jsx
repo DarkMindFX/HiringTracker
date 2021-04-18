@@ -6,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import SkillsList from '../components/SkillsList';
 
 const PositionsDal = require('../dal/PositionsDal');
+const { PositionDto, PositionUpsertDto, PositionStatusDto, PositionSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');
@@ -17,13 +18,15 @@ class PositionPage extends React.Component {
 
         this.state = { 
             operation: this.props.match.params.operation,
-            id: parseInt(this.props.match.params.id),
+            id: this.props.match.params.id ? parseInt(this.props.match.params.id) : null,
             canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
                                                           this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
             position: this._createEmptyPositionObj(),
 
             showError: false,
-            error: null
+            showSuccess: false,
+            error: null,
+            success: null
         };
 
         this.onSkillAdded = this.onSkillAdded.bind(this);
@@ -33,6 +36,8 @@ class PositionPage extends React.Component {
         this.onTitleChanged = this.onTitleChanged.bind(this);
         this.onShortDescChanged = this.onShortDescChanged.bind(this);
         this.onDescChanged = this.onDescChanged.bind(this);
+        this.onSaveClicked = this.onSaveClicked.bind(this);
+        this.onDeleteClicked = this.onDeleteClicked.bind(this);
     }
 
     onStatusChanged(event) {
@@ -47,67 +52,69 @@ class PositionPage extends React.Component {
         console.log(updatedState);
 
         this.setState(updatedState);
-    }
+    }    
 
     componentDidMount() {
 
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
         console.log('Token: ', token);
-        if(token != null && this.state.id) {
-            let dalPos = new PositionsDal();
-            let obj = this;
+        if(token != null) {
 
-            dalPos.getPosition(this.state.id).then( (resPos) => {
-                let updatedState = obj.state;
+            if(this.state.id) {
+                let dalPos = new PositionsDal();
+                let obj = this;
 
-                if(resPos.status == constants.HTTP_OK) {
+                dalPos.getPosition(this.state.id).then( (resPos) => {
+                    let updatedState = obj.state;
 
-                    updatedState.position = resPos.data;
-                    updatedState.showError = false;
-                    updatedState.error = null;
+                    if(resPos.status == constants.HTTP_OK) {
 
-                    obj.setState(updatedState); 
+                        updatedState.position = resPos.data;
+                        updatedState.showError = false;
+                        updatedState.error = null;
 
-                    dalPos.getPositionSkills(obj.state.id).then( (resSkills) => {
+                        obj.setState(updatedState); 
 
-                        let updatedState = obj.state;
+                        dalPos.getPositionSkills(obj.state.id).then( (resSkills) => {
 
-                        if(resSkills.status == constants.HTTP_OK) {   
-                            const skills = resSkills.data;                     
-                            updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
-                            updatedState.showError = false;
-                            updatedState.error = null;
-                             
-                        } 
-                        else {
-                            updatedState.showError = true;
-                            updatedState.error = resPos.data._message;
-                        }
+                            let updatedState = obj.state;
 
-                        obj.setState(updatedState);
+                            if(resSkills.status == constants.HTTP_OK) {   
+                                const skills = resSkills.data;                     
+                                updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                                updatedState.showError = false;
+                                updatedState.error = null;
+                                
+                            } 
+                            else {
+                                updatedState.showError = true;
+                                updatedState.error = resPos.data._message;
+                            }
 
-                    }).catch( (err) => {
-                        console.log('Error when getting position skills:', err);
-                    })
-                }
-                else if(resPos.status == constants.HTTP_Unauthorized) {
-                    obj.props.history.push("/login?ret=/positions");
-                }
-                else {
-                    updatedState.showError = true;
-                    updatedState.error = resPos.data._message;                    
-                }
+                            obj.setState(updatedState);
 
-                obj.setState(updatedState);
+                        }).catch( (err) => {
+                            console.log('Error when getting position skills:', err);
+                        })
+                    }
+                    else if(resPos.status == constants.HTTP_Unauthorized) {
+                        obj.props.history.push("/login?ret=/positions");
+                    }
+                    else {
+                        updatedState.showError = true;
+                        updatedState.error = resPos.data._message;                    
+                    }
 
-            }).catch( (err) => {
-                console.log('Error when getting position:', err);
-            })
+                    obj.setState(updatedState);
 
+                }).catch( (err) => {
+                    console.log('Error when getting position:', err);
+                })
+            }
         }
         else {
             console.log('No token - need to login')
-            this.props.history.push(`/login?ret=/position/${this.state.operation}/${this.state.id}`)
+            this.props.history.push(`/login?ret=/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
         }
     }
 
@@ -179,12 +186,97 @@ class PositionPage extends React.Component {
         this.setState(updatedState);
     }
 
+    onSaveClicked() {
+
+        const req = new PositionUpsertDto();
+        req.Position = new PositionDto();
+        req.Position.PositionID = this.state.id;
+        req.Position.Title = this.state.position._title;
+        req.Position.ShortDesc = this.state.position._shortDesc;
+        req.Position.Desc = this.state.position._desc;
+        req.Position.Status = new PositionStatusDto();
+        req.Position.Status.StatusID = this.state.position._status._statusId;
+
+        req.Skills = [];
+
+        this.state.position._skills.forEach( s => {
+
+            const sp = new PositionSkillDto();
+            sp.Skill = new SkillDto();
+            sp.Skill.SkillID = s._skill._skillId;
+            sp.Proficiency = new SkillProficiencyDto();
+            sp.Proficiency.ProficiencyID = s._proficiency._id
+            sp.IsMandatory = s._isMandatory;
+
+            req.Skills.push(sp);
+
+        } );
+
+        let dalPos = new PositionsDal();
+        let result = null;
+
+        let obj = this;
+        
+
+        function upsertThen(result) {
+            const updatedState = obj.state;
+
+            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+                if(result.status == constants.HTTP_Created) {
+                    updatedState.id = parseInt(result._positionId);
+                    updatedState.success = `Position was created. Position ID: ${updatedState.id}`;
+                }
+                else {
+                    updatedState.success = `Position was updated`;                
+                }
+            }
+            else {
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = result.data._message;          
+            }
+
+            obj.setState(updatedState);
+        }
+
+        function upsertCatch(err) {
+            const updatedState = obj.state;
+            const errMsg = `Error: ${err}`
+            updatedState.showSuccess = false;
+            updatedState.showError = true;
+            updatedState.error = errMsg; 
+            obj.setState(updatedState);
+        }
+
+        console.log("Upserting: ", req);
+
+        if(this.state.id != null) {
+            dalPos.updatePosition(req)
+                                    .then( (res) => { upsertThen(res); } )
+                                    .catch( (err) => { upsertCatch(err); });
+        }
+        else {
+            dalPos.addPosition(req)
+                                    .then( (res) => { upsertThen(res); } )
+                                    .catch( (err) => { upsertCatch(err); });        
+        }
+    }
+
+    onDeleteClicked() {
+    }
+
     render() {
 
         let skills = this._getPositionSkills();
 
         const styleError = {
             display: this.state.showError ? "block" : "none"
+        }
+
+        const styleSuccess = {
+            display: this.state.showSuccess ? "block" : "none"
         }
 
         return (
@@ -194,14 +286,18 @@ class PositionPage extends React.Component {
                         <tr>
                             <td style={{width: 450}}></td>
                             <td>
-                                <Button variant="contained" color="primary">Save</Button>
-                                <Button variant="contained" color="secondary">Delete</Button>
+                                <Button variant="contained" color="primary"
+                                        onClick={ () => this.onSaveClicked() }>Save</Button>
+
+                                <Button variant="contained" color="secondary"
+                                        onClick={ () => this.onDeleteClicked() }>Delete</Button>
                                 <Button variant="contained" component={Link} to="/positions">Cancel</Button>
                             </td>
                         </tr>
                         <tr>
                             <td colSpan={2}>
                                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
+                                <Alert severity="success" style={styleSuccess}>Success! {this.state.error}</Alert>
                                 
                             </td>
                         </tr>                    
