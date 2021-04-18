@@ -3,6 +3,11 @@ import { Link, withRouter  } from 'react-router-dom'
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
 
 const PositionsDal = require('../dal/PositionsDal');
@@ -23,6 +28,7 @@ class PositionPage extends React.Component {
                                                           this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
             position: this._createEmptyPositionObj(),
 
+            showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
@@ -38,6 +44,8 @@ class PositionPage extends React.Component {
         this.onDescChanged = this.onDescChanged.bind(this);
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
+        this.onDeleteCancel = this.onDeleteCancel.bind(this);
+        this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
     }
 
     onStatusChanged(event) {
@@ -265,6 +273,35 @@ class PositionPage extends React.Component {
     }
 
     onDeleteClicked() {
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = true;
+        this.setState(updatedState);
+    }
+
+    onDeleteCancel() {
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = false;
+        this.setState(updatedState);
+    }
+
+    onDeleteConfirm() {  
+        
+        let dalPos = new PositionsDal();
+        let obj = this;
+
+        dalPos.deletePosition(this.state.id).then( (res) => {
+            if(res.status == constants.HTTP_OK) {
+                obj.props.history.push("/login?ret=/positions");                
+            }
+            else {
+                const updatedState = obj.state;
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = res.data._message; 
+                updatedState.showDeleteConfirm = false;
+                obj.setState(updatedState);               
+            }
+        })
     }
 
     render() {
@@ -277,6 +314,10 @@ class PositionPage extends React.Component {
 
         const styleSuccess = {
             display: this.state.showSuccess ? "block" : "none"
+        }   
+        
+        const styleDeleteBtn = {
+            display: this.state.id ? "block" : "none"
         }
 
         return (
@@ -290,14 +331,16 @@ class PositionPage extends React.Component {
                                         onClick={ () => this.onSaveClicked() }>Save</Button>
 
                                 <Button variant="contained" color="secondary"
+                                        style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
+
                                 <Button variant="contained" component={Link} to="/positions">Cancel</Button>
                             </td>
                         </tr>
                         <tr>
                             <td colSpan={2}>
                                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
-                                <Alert severity="success" style={styleSuccess}>Success! {this.state.error}</Alert>
+                                <Alert severity="success" style={styleSuccess}>Success! {this.state.success}</Alert>
                                 
                             </td>
                         </tr>                    
@@ -372,6 +415,23 @@ class PositionPage extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+
+                <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Delete Position</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete this position?
+                    </DialogContentText>                    
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={() => { this.onDeleteCancel() }} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => { this.onDeleteConfirm() }} color="primary">
+                        Delete
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
 
         );

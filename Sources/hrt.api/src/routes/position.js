@@ -100,10 +100,10 @@ async function deletePositionById(req, res) {
 
             if(pos) {
                 
-                dal.Delete(entity.PositionID);     
+                dal.Delete(req.params.id);     
 
                 res.status(constants.HTTP_OK);
-                
+                res.send();
             }
             else {
                 res.status(constants.HTTP_NotFound);
