@@ -9,4 +9,11 @@ class PositionUpsertDto {
 
 }
 
-module.exports = PositionUpsertDto;
+class PositionUpsertResponseDto {
+
+    get PositionID() { return this._positionId; }
+    set PositionID(val) { this._positionId = val; } 
+}
+
+
+module.exports = { PositionUpsertDto, PositionUpsertResponseDto };

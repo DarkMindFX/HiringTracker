@@ -1,5 +1,5 @@
 
-const { Error, PositionDto } = require('hrt.dto');
+const { Error, PositionDto, PositionUpsertResponseDto } = require('hrt.dto');
 const { PositionDal, PositionEntity, UserDal, UserEntity } = require('hrt.dal')
 const { prepInitParams, getPositionsDto, getUsersDto, getPositionStatusesDto, getSkillsDto,
     getSkillProficiencyDto } = require('../dalHelper')
@@ -30,10 +30,18 @@ async function addPosition(req, res) {
             });
         }
 
-        newPosition.PositionID = null;
+        newPosition.PositionID = null; // setting to null - to notify that we are creating new position
         const result = await dal.Upsert(newPosition, req.middleware.user.UserID);
         const positionId = result["NewPositionID"];
         newPosSkills.forEach( s => s.PositionID = positionId);
+
+        await dal.SetSkills(positionId, newPosSkills)
+
+        let respDto = new PositionUpsertResponseDto();
+        respDto.PositionID = positionId
+
+        res.status(constants.HTTP_Created);
+        res.send(respDto);
         
     }
     catch(error) {
@@ -49,7 +57,37 @@ async function addPosition(req, res) {
 }
 
 async function updatePosition(req, res) {
+    try {
+        const dal = _getPositionDal();
 
+        const pos = Converter.positionDto2Entity(req.body._position);
+        const newPosSkills = [];
+        if(req.body._skills) {
+            req.body._skills.forEach(s => {
+                let skillProfEntity = Converter.positionSkillDto2Entity(null, s);
+                newPosSkills.push(skillProfEntity)
+            });
+        }
+
+        const result = await dal.Upsert(pos, req.middleware.user.UserID);
+        const positionId = pos.PositionID;
+        newPosSkills.forEach( s => s.PositionID = positionId);
+
+        await dal.SetSkills(positionId, newPosSkills);
+
+        res.status(constants.HTTP_OK);
+        res.send();        
+    }
+    catch(error) {
+        const msg = `Error processing ADD positions request: ${error.message}`
+        console.error(msg);
+
+        res.status(constants.HTTP_IntServerError);
+        let errBody = new Error();
+        errBody.message = msg;
+        errBody.code = constants.HTTP_IntServerError;
+        res.send(errBody);
+    }
 }
 
 async function deletePositionById(req, res) {

@@ -131,10 +131,11 @@ class PositionDal extends SQLDal {
 
         const tvpSkills = new mssql.Table();
         tvpSkills.columns.add('SkillID', mssql.BigInt);
-        tvpSkills.columns.add('ProficiencyID', mssql.BigInt);
         tvpSkills.columns.add('IsMandatory', mssql.Bit);
+        tvpSkills.columns.add('ProficiencyID', mssql.BigInt);
+        
         skills.forEach(s => {            
-            tvpSkills.rows.add(s.SkillID, s.ProficiencyID, s.IsMandatory);
+            tvpSkills.rows.add(s.SkillID, s.IsMandatory, s.ProficiencyID);
         });
 
         await mssql.connect(this._config);
