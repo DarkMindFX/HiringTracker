@@ -122,10 +122,11 @@ async function deletePositionById(req, res) {
         }
     }
     catch(error) {
-        console.error('Error processing DELETE positions request', error.message);
+        let msg = `Error processing DELETE positions request: ${error.message}`;
+        console.error(msg);
         res.status(constants.HTTP_IntServerError);
         let errBody = new Error();
-        errBody.message = `Error processing DELETE positions request: ${error.message}`;
+        errBody.message = msg;
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }
@@ -141,10 +142,11 @@ async function getPositions(req, res) {
         res.send(JSON.stringify(dtos, null, 4));
     }
     catch(error) {
-        console.error('Error processing GET positions request', error.message);
+        let msg = `Error processing GET positions request: ${error.message}`;
+        console.error(msg);
         res.status(constants.HTTP_IntServerError);
         let errBody = new Error();
-        errBody.message = `Error processing GET positions request: ${error.message}`;
+        errBody.message = msg;
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }
@@ -184,10 +186,11 @@ async function getPositionById(req, res) {
         }
     }
     catch(error) {
-        console.error('Error processing GET positions request', error.message);
+        let msg = `Error processing GET positions request: ${error.message}`;
+        console.error(msg);
         res.status(constants.HTTP_IntServerError);
         let errBody = new Error();
-        errBody.message = `Error processing GET positions request: ${error.message}`;
+        errBody.message = msg;
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }
@@ -230,10 +233,11 @@ async function getPositionSkills(req, res) {
         }
     }
     catch(error) {
-        console.error('Error processing GET position skills request', error.message);
+        let msg = `Error processing GET position skills request: ${error.message}`;
+        console.error(msg);
         res.status(constants.HTTP_IntServerError);
         let errBody = new Error();
-        errBody.message = `Error processing GET position skills request: ${error.message}`;
+        errBody.message = msg;
         errBody.code = constants.HTTP_IntServerError;
         res.send(errBody);
     }

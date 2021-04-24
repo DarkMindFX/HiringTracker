@@ -1,4 +1,6 @@
 
+const CandidateSkillEntity = require('./src/entities/CandidateSkill');
+const CandidateEntity = require('./src/entities/Candidate')
 const InterviewRoleEntity = require('./src/entities/InterviewRole')
 const InterviewStatusEntity = require('./src/entities/InterviewStatus')
 const InterviewTypeEntity = require('./src/entities/InterviewType')
@@ -25,6 +27,8 @@ const UserDal = require('./src/UserDal')
 
 
 module.exports = {
+    CandidateEntity,
+    CandidateSkillEntity,
     InterviewRoleEntity,
     InterviewStatusEntity,
     InterviewTypeEntity,

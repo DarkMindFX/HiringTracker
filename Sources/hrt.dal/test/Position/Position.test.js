@@ -213,7 +213,5 @@ describe('Position.SetSkills', function() {
             expect(posSkills).not.toEqual(null);
             expect(posSkills.length).toEqual(3);
         }
-
-        
     })
 });
