@@ -1,7 +1,7 @@
 
 const HateosDto = require('./HateosDto')
 
-class PositionSkillDto extends HateosDto {
+class CandidateSkillDto extends HateosDto {
 
     get Skill() { return this._skill; }
     set Skill(val) { this._skill = val; }
@@ -13,4 +13,4 @@ class PositionSkillDto extends HateosDto {
     set IsMandatory(val) { this._isMandatory = val; }
 }
 
-module.exports = PositionSkillDto;
+module.exports = CandidateSkillDto;
