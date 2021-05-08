@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { Error, UserDto, LoginResponse } = require('hrt.dto');
 const { UserDal, UserEntity } = require('hrt.dal')
 
-const { prepInitParams, getUsersDto } = require('../dalHelper')
+const { DalHelper } = require('../dalHelper')
 const { UsersHelper } = require('../usersHelper')
 
 const constants = require('../constants');
@@ -27,7 +27,7 @@ async function createUser(req, res)
         entity.Salt = helper.generateSalt(constants.PWD_SALT_LENGTH);
         entity.PwdHash = helper.getPasswordHash(req.body._pwd, entity.Salt);
 
-        let initParams = prepInitParams();
+        let initParams = DalHelper.prepInitParams();
         let dal = new UserDal();
         dal.init(initParams);
 
@@ -81,7 +81,7 @@ async function deleteUser(req, res)
 async function updateUser(req, res)
 {
     try {
-        let initParams = prepInitParams();
+        let initParams = DalHelper.prepInitParams();
         let dal = new UserDal();
         dal.init(initParams);
 
@@ -123,7 +123,7 @@ async function loginUser(req, res)
         const login = req.body._login;
         const pwd = req.body._pwd;
 
-        let initParams = prepInitParams();
+        let initParams = DalHelper.prepInitParams();
         let dal = new UserDal();
         dal.init(initParams);
 
@@ -182,7 +182,7 @@ async function getUserById(req, res)
 {
     try {
 
-        let initParams = prepInitParams();
+        let initParams = DalHelper.prepInitParams();
         let dal = new UserDal();
         dal.init(initParams);
 
@@ -219,7 +219,7 @@ async function getUserById(req, res)
 async function getUsers(req, res) {
     try {
 
-        let dtos = Object.values(await getUsersDto());
+        let dtos = Object.values(await DalHelper.getUsersDto());
 
         res.status(constants.HTTP_OK);
         res.send(JSON.stringify(dtos, null, 4));

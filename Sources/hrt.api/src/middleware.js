@@ -1,6 +1,6 @@
 
 const jwt = require('jsonwebtoken');
-const { prepInitParams } = require('../src/dalHelper')
+const { DalHelper } = require('../src/dalHelper')
 const { UserDal, UserEntity } = require('hrt.dal')
 const { Error } = require('hrt.dto')
 const constants = require('./constants')
@@ -15,7 +15,7 @@ function validateAuthToken() {
                 {
                     const userId = decoded.id;
 
-                    let initParams = prepInitParams();
+                    let initParams = DalHelper.prepInitParams();
                     let dal = new UserDal();
                     dal.init(initParams);
 

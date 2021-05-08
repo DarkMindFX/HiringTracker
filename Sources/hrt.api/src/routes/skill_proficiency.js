@@ -2,7 +2,7 @@
 const { Error, SkillProficiencyDto } = require('hrt.dto');
 const { SkillPoficiencyDal, SkillPoficiencyEntity } = require('hrt.dal')
 const { Converter } = require('../coverters')
-const { prepInitParams } = require('../dalHelper')
+const { DalHelper } = require('../dalHelper')
 
 const constants = require('../constants');
 
@@ -13,7 +13,7 @@ function routeSkillProficiency(route) {
 async function getSkillProficiencies(req, res) {
     try {
         
-        let initParams = prepInitParams();
+        let initParams = DalHelper.prepInitParams();
         let dal = new SkillPoficiencyDal();
         dal.init(initParams);
         let profs = await dal.GetAll();
