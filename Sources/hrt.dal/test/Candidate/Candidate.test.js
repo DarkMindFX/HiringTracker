@@ -123,3 +123,36 @@ describe('Candidate.DeleteCandidate', function() {
         
     })
 });
+
+describe('Candidate.UpdateCandidate', function() {
+    it('updates exisiting Candidate record', async () => {
+
+        let testName = '020.UpdateCandidate.Success';
+        await execSetup(__dirname, testName);
+
+        let email = 'Last_MNY67DF4@gmail.com';
+        let newFirst = '[Test] First MNY67DF4 UPDARTED';
+        let newLast = '[Test] Last MNY67DF4 UPDATED';
+        let userId = constants.USER_ID_DONALDT;
+
+        let initParams = prepInitParams();
+        let dal = new CandidateDal();
+        dal.init(initParams);
+
+        let candidates = await dal.GetAll();
+
+        let candidate = candidates.find( p => p.Email == email);
+
+        if(!candidate) {
+            expect(candidate).not.toEqual(null)
+        }
+
+        candidate.FirstName = newFirst;
+        candidate.LastName = newLast;
+
+        let result = await dal.Upsert(candidate, userId);        
+
+        await execTeardown(__dirname, testName);
+        
+    })
+});

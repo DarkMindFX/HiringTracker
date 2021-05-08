@@ -11,9 +11,9 @@ BEGIN
     SET @Fail = 1
 END
 
-DELETE FROM dbo.Candidate c WHERE c.FirstName = @CandidateFirstName AND LastName = @CandidateLastName
+DELETE FROM dbo.Candidate WHERE FirstName = @CandidateFirstName AND LastName = @CandidateLastName
 
-IF(@Fail) 
+IF(@Fail = 1) 
 BEGIN
     THROW 51001, '[Test Fail] Canidate was not deleted', 1
 END
