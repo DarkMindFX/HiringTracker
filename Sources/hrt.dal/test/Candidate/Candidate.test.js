@@ -156,3 +156,60 @@ describe('Candidate.UpdateCandidate', function() {
         
     })
 });
+
+describe('Candidate.SetSkills', function() {
+    it('sets skills for exisiting Candidate record', async () => {
+
+        let testName = '030.SetSkills.Success';
+        await execSetup(__dirname, testName);
+
+        let email = 'Last_89757WEG67@gmail.com';
+        let userId = constants.USER_ID_DONALDT;
+
+        let initParams = prepInitParams();
+        let dal = new CandidateDal();
+        dal.init(initParams);
+
+        let candidates = await dal.GetAll();
+
+        let candidate = candidates.find( p => p.Email == email);
+
+        if(!candidate) {
+            expect(candidate).not.toEqual(null)
+        }
+
+        let candidateId = candidate.CandidateID;
+
+        let skills = [];
+        let skill1 = new CandidateSkillEntity();
+        skill1.SkillID = 3;
+        skill1.ProficiencyID = 1;
+        skill1.IsMandatory = true;
+
+        let skill2 = new CandidateSkillEntity();
+        skill2.SkillID = 5;
+        skill2.ProficiencyID = 2;
+        skill2.IsMandatory = false;
+
+        let skill3 = new CandidateSkillEntity();
+        skill3.SkillID = 7;
+        skill3.ProficiencyID = 3;
+        skill3.IsMandatory = true;
+
+        skills.push(skill1);
+        skills.push(skill2);
+        skills.push(skill3);
+
+        dal.SetSkills(candidateId, skills).then( async () => {
+            try {
+                dal.GetSkills(candidateId).then( (candSkills) => {
+                    expect(candSkills).not.toEqual(null);
+                    expect(candSkills.length).toEqual(3);
+                });            
+            }
+            finally {        
+                execTeardown(__dirname, testName);
+            }
+        }); 
+    })
+});

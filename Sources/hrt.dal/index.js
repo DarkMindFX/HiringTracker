@@ -14,6 +14,7 @@ const SkillEntity = require('./src/entities/Skill')
 const SkillPoficiencyEntity = require('./src/entities/SkillProficiency')
 const UserEntity = require('./src/entities/User')
 
+const CandidateDal = require('./src/CandidateDal')
 const InterviewRoleDal = require('./src/InterviewRoleDal')
 const InterviewStatusDal = require('./src/InterviewStatusDal')
 const InterviewTypeDal = require('./src/InterviewTypeDal')
@@ -42,6 +43,7 @@ module.exports = {
     SkillPoficiencyEntity,
     UserEntity,
 
+    CandidateDal,
     InterviewRoleDal,
     InterviewStatusDal,
     InterviewTypeDal,

@@ -1,6 +1,6 @@
 
-const { Error, SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto } = require('hrt.dto');
-const { SkillPoficiencyDal, SkillPoficiencyEntity, PositionEntity, UserEntity, PositionSkillEntity } = require('hrt.dal')
+const { SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto, CandidateDto, CandidateSkillDto } = require('hrt.dto');
+const { PositionEntity, UserEntity, PositionSkillEntity, CandidateEntity, CandidateSkillEntity } = require('hrt.dal')
 
 class Converter {
 
@@ -99,6 +99,56 @@ class Converter {
         entity.IsMandatory = dto._isMandatory;
 
         return entity;
+    }
+
+    static candidateEntity2Dto(entity, dictUsers) {
+        let dto = new CandidateDto();
+        dto.CandidateID = entity.CandidateID;
+        dto.FirstName = entity.FirstName;
+        dto.LastName = entity.LastName;
+        dto.MiddleName = entity.MiddleName;
+        dto.Phone = entity.Phone;
+        dto.CVLink = entity.CVLink;
+        dto.CreatedBy = dictUsers[entity.CreatedByID]
+        dto.CreatedDate = entity.CreatedDate;
+        dto.ModifiedBy = entity.ModifiedByID ? dictUsers[entity.ModifiedByID] : null
+        dto.ModifiedDate = entity.ModifiedDate;
+
+        return dto;
+    }
+
+    static candidateDto2Entity(dto) {
+        let entity = new CandidateEntity();
+        entity.CandidateID = dto._candidateId;
+        entity.FirstName = dto._fname;
+        entity.LastName = dto._lname;
+        entity.MiddleName = dto._mname;
+        entity.CVLink = dto._cvlink;
+        entity.CreatedByID = dto._createdBy ? dto._createdBy._userId : null;
+        entity.CreatedDate = dto._createdDate ? dto._createdDate : null;
+        entity.ModifiedByID = dto._modifiedBy ? dto._modifiedBy._userId : null;
+        entity.ModifiedDate = dto._modifiedDate ? dto._modifiedDate : null;
+
+        return entity;
+    }
+
+    static candidateSkillDto2Entity(candidateId, dto) {
+        let entity = new CandidateSkillEntity();
+        entity.SkillID = dto._skill._skillId;
+        entity.CadidateID = candidateId;
+        entity.ProficiencyID = dto._proficiency._id;
+        entity.IsMandatory = dto._isMandatory;
+
+        return entity;
+    }
+
+    static candidateSkillEntity2Dto(entity, dictSkills, dictProficiencies) {
+        let dto = new CandidateSkillDto();
+        dto.Skill = dictSkills[entity.SkillID];
+        dto.Proficiency = dictProficiencies[entity.ProficiencyID]; 
+        dto.IsMandatory = entity.IsMandatory;  
+
+        return dto;
     }
 
 }

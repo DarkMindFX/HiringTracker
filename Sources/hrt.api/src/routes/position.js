@@ -1,8 +1,7 @@
 
-const { Error, PositionDto, PositionUpsertResponseDto } = require('hrt.dto');
-const { PositionDal, PositionEntity, UserDal, UserEntity } = require('hrt.dal')
-const { prepInitParams, getPositionsDto, getUsersDto, getPositionStatusesDto, getSkillsDto,
-    getSkillProficiencyDto } = require('../dalHelper')
+const { Error, PositionUpsertResponseDto } = require('hrt.dto');
+const { PositionDal } = require('hrt.dal')
+const { DalHelper } = require('../dalHelper')
 const { Converter } = require('../coverters');
 const { authUserOnly } = require('../middleware');
 
@@ -110,7 +109,7 @@ async function deletePositionById(req, res) {
                 let errBody = new Error();
                 errBody.message = `Position [id: ${req.query.id}] not found`;
                 errBody.code = constants.HTTP_NotFound;
-                res.send(erroBody);
+                res.send(errBody);
             }
         }
         else {
@@ -118,7 +117,7 @@ async function deletePositionById(req, res) {
             let errBody = new Error();
             errBody.message = `Position ID was not provided`;
             errBody.code = constants.HTTP_BadRequest;
-            res.send(erroBody);            
+            res.send(errBody);            
         }
     }
     catch(error) {
@@ -136,7 +135,7 @@ async function deletePositionById(req, res) {
 async function getPositions(req, res) {
     try {
 
-        let dtos = Object.values( await getPositionsDto() );        
+        let dtos = Object.values( await DalHelper.getPositionsDto() );        
 
         res.status(constants.HTTP_OK);
         res.send(JSON.stringify(dtos, null, 4));
@@ -161,8 +160,8 @@ async function getPositionById(req, res) {
             let pos = await dal.GetDetails(parseInt(req.params.id));
 
             if(pos) {
-                let dictUsers = await getUsersDto();
-                let dicStatuses = await getPositionStatusesDto();
+                let dictUsers = await DalHelper.getUsersDto();
+                let dicStatuses = await DalHelper.getPositionStatusesDto();
 
                 let dto = Converter.positionEntity2Dto(pos, dictUsers, dicStatuses);        
 
@@ -174,7 +173,7 @@ async function getPositionById(req, res) {
                 let errBody = new Error();
                 errBody.message = `Position [id: ${req.params.id}] not found`;
                 errBody.code = constants.HTTP_NotFound;
-                res.send(erroBody);
+                res.send(errBody);
             }
         }
         else {
@@ -182,7 +181,7 @@ async function getPositionById(req, res) {
             let errBody = new Error();
             errBody.message = `Position ID was not provided`;
             errBody.code = constants.HTTP_BadRequest;
-            res.send(erroBody);            
+            res.send(errBody);            
         }
     }
     catch(error) {
@@ -207,8 +206,8 @@ async function getPositionSkills(req, res) {
             if(pos) {
                 let skills = await dal.GetSkills(req.params.id);
 
-                let dictSkills = await getSkillsDto();
-                let dictProfs = await getSkillProficiencyDto();
+                let dictSkills = await DalHelper.getSkillsDto();
+                let dictProfs = await DalHelper.getSkillProficiencyDto();
 
                 let dtos = [];   
                 skills.forEach(s => dtos.push(Converter.positionSkillEntity2Dto(s, dictSkills, dictProfs)));     
@@ -244,7 +243,7 @@ async function getPositionSkills(req, res) {
 }
 
 function _getPositionDal() {
-    let initParams = prepInitParams();
+    let initParams = DalHelper.prepInitParams();
     let dal = new PositionDal();
     dal.init(initParams);
 
