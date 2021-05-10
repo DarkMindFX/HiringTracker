@@ -5,6 +5,15 @@ const { UserDal, UserEntity } = require('hrt.dal')
 const { Error } = require('hrt.dto')
 const constants = require('./constants')
 
+function jsonResponseContentType() {
+    let middleware = function(req, res, next) {
+        res.setHeader('Content-Type', 'application/json');
+        next();
+    }
+
+    return middleware;
+}
+
 function validateAuthToken() {
     let middleware = function (req, res, next) {
         let token = req.headers['authorization'];
@@ -63,5 +72,6 @@ function authUserOnly() {
 
 module.exports = {
     validateAuthToken,
-    authUserOnly
+    authUserOnly,
+    jsonResponseContentType
 }

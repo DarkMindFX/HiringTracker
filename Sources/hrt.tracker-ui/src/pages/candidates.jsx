@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Link, withRouter } from 'react-router-dom'
-import { DataGrid, GridRowsProp, GridColDef } from '@material-ui/data-grid';
+import { DataGrid } from '@material-ui/data-grid';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import constants from "../constants";

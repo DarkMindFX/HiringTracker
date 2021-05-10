@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const initRoutes = require('./routes');
-const { validateAuthToken } = require('./middleware');
+const { validateAuthToken, jsonResponseContentType } = require('./middleware');
 const constants = require('./constants');
 const version = require('../package.json').version;
 
@@ -17,6 +17,7 @@ function initExpressApp() {
     app.use(bodyParser.raw());
 
     app.use(validateAuthToken());
+    app.use(jsonResponseContentType())
 
     var router = express.Router()
 

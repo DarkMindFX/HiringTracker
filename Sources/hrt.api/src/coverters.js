@@ -140,7 +140,6 @@ class Converter {
         entity.SkillID = dto._skill._skillId;
         entity.CadidateID = candidateId;
         entity.ProficiencyID = dto._proficiency._id;
-        entity.IsMandatory = dto._isMandatory;
 
         return entity;
     }
@@ -149,8 +148,7 @@ class Converter {
         let dto = new CandidateSkillDto();
         dto.Skill = dictSkills[entity.SkillID];
         dto.Proficiency = dictProficiencies[entity.ProficiencyID]; 
-        dto.IsMandatory = entity.IsMandatory;  
-
+  
         return dto;
     }
 

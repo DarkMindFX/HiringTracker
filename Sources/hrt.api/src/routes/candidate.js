@@ -14,12 +14,12 @@ function routeCandidates(router) {
 }
 
 async function getCandidates(req, res) {
+    
     try {
-
         let objs = await DalHelper.getCandidatesDto();
 
-        let dtos = Object.values( objs );        
-
+        let dtos = Object.values( objs );
+        
         res.status(constants.HTTP_OK);
         res.send(JSON.stringify(dtos, null, '\t'));
     }
@@ -35,6 +35,7 @@ async function getCandidates(req, res) {
 }
 
 async function getCandidateByID(req, res) {
+
     try {
 
         let dal = _getCandidateDal();
@@ -79,6 +80,7 @@ async function getCandidateByID(req, res) {
 }
 
 async function getCandidateSkills(req, res) {
+
     try {
 
         const dal = _getCandidateDal();
