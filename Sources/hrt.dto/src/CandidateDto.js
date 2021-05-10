@@ -19,7 +19,7 @@ class CandidateDto extends HateosDto {
     set Email(val) { this._email = val; }
 
     get Phone() { return this._phone; }
-    set Phone(val) { this.phone = val; }
+    set Phone(val) { this._phone = val; }
 
     get CVLink() { return this._cvlink; }
     set CVLink(val) { this._cvlink = val; }

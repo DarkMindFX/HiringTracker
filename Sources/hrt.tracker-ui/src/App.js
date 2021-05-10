@@ -12,6 +12,7 @@ import {
 import React from 'react';
 
 import MainPage from './pages';
+import CandidatesPage from './pages/candidates';
 import PositionsPage from './pages/positions';
 import PositionPage from './pages/position';
 import RegisterPage from './pages/register';
@@ -30,6 +31,7 @@ class App extends React.Component {
        <Route exact path="/register" component={RegisterPage} />
        <Route exact path="/login" component={LogingPage} />
        <Route exact path="/logout" component={LogoutPage} />
+       <Route exact path="/candidates" component={CandidatesPage} />
       </Router>
     );
   }

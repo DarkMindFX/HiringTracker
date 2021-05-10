@@ -107,6 +107,7 @@ class Converter {
         dto.FirstName = entity.FirstName;
         dto.LastName = entity.LastName;
         dto.MiddleName = entity.MiddleName;
+        dto.Email = entity.Email;
         dto.Phone = entity.Phone;
         dto.CVLink = entity.CVLink;
         dto.CreatedBy = dictUsers[entity.CreatedByID]
@@ -124,6 +125,8 @@ class Converter {
         entity.LastName = dto._lname;
         entity.MiddleName = dto._mname;
         entity.CVLink = dto._cvlink;
+        entity.Phone = dto._phone;
+        entity.Email = dto._email;
         entity.CreatedByID = dto._createdBy ? dto._createdBy._userId : null;
         entity.CreatedDate = dto._createdDate ? dto._createdDate : null;
         entity.ModifiedByID = dto._modifiedBy ? dto._modifiedBy._userId : null;

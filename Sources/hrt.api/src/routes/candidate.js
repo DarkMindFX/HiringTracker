@@ -21,7 +21,7 @@ async function getCandidates(req, res) {
         let dtos = Object.values( objs );        
 
         res.status(constants.HTTP_OK);
-        res.send(JSON.stringify(dtos, null, 4));
+        res.send(JSON.stringify(dtos, null, '\t'));
     }
     catch(error) {
         let msg = `Error processing GET candidates request: ${error.message}`;
