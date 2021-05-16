@@ -8,6 +8,7 @@ const { LoginRequest, LoginResponse } = require('./src/Login')
 const UserDto = require('./src/UserDto')
 const PositionDto = require('./src/PositionDto')
 const { PositionUpsertDto, PositionUpsertResponseDto } = require('./src/PositionUpsertDto')
+const { CandidateUpsertDto, CandidateUpsertResponseDto } = require('./src/CandidateUpsertDto')
 const PositionStatusDto = require('./src/PositionStatusDto')
 const PositionSkillDto = require('./src/PositionSkillDto')
 const CandidateDto = require('./src/CandidateDto')
@@ -29,5 +30,7 @@ module.exports = {
     PositionUpsertDto,
     PositionUpsertResponseDto,
     CandidateDto,
-    CandidateSkillDto
+    CandidateSkillDto,
+    CandidateUpsertDto,
+    CandidateUpsertResponseDto
 }

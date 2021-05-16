@@ -40,8 +40,7 @@ async function addPosition(req, res) {
         respDto.PositionID = positionId
 
         res.status(constants.HTTP_Created);
-        res.send(respDto);
-        
+        res.send(respDto);        
     }
     catch(error) {
         const msg = `Error processing ADD positions request: ${error.message}`

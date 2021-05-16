@@ -10,8 +10,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
+import constants from "../constants";
+const { v4: uuidv4 } = require('uuid');
 
-const CandidatesDal = require("../dal/CadidatesDal")
+const CandidatesDal = require("../dal/CandidatesDal")
+const { CandidateDto, CandidateUpsertDto, CandidateSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
 
 class CandidatePage extends React.Component {
 
@@ -44,35 +47,113 @@ class CandidatePage extends React.Component {
         this.onCVLinkChanged = this.onCVLinkChanged.bind(this);
     }
 
-    onFirstNameChanged(event) {
+    componentDidMount(event) {
+        const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+        console.log('Token: ', token);
+        if(token != null) {
 
+            if(this.state.id) {
+                let dalCand = new CandidatesDal();
+                let obj = this;
+
+                dalCand.getCandidate(this.state.id).then( (resCand) => {
+                    let updatedState = obj.state;
+
+                    if(resCand.status == constants.HTTP_OK) {
+                        updatedState.candidate = resCand.data;
+
+                        updatedState.showError = false;
+                        updatedState.error = null;
+
+                        obj.setState(updatedState); 
+
+                        dalCand.getCandidateSkills(obj.state.id).then( (resSkills) => {
+                            let updatedState = obj.state;
+
+                            if(resSkills.status == constants.HTTP_OK) {   
+                                const skills = resSkills.data;                     
+                                updatedState.candidate._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                                updatedState.showError = false;
+                                updatedState.error = null;
+                                
+                            } 
+                            else {
+                                updatedState.showError = true;
+                                updatedState.error = resCand.data._message;
+                            }
+
+                            obj.setState(updatedState);
+                        });
+                    }
+                    else if(resCand.status == constants.HTTP_Unauthorized) {
+                        obj.props.history.push("/login?ret=/positions");
+                    }
+                    else {
+                        updatedState.showError = true;
+                        updatedState.error = resCand.data._message;                    
+                    }
+                });
+            }
+        }
+        else {
+            console.log('No token - need to login')
+            this.props.history.push(`/login?ret=/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
+        }
+    }
+
+    onFirstNameChanged(event) {
+        const newFName = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._fname = newFName;
+
+        this.setState(updatedState);
     }
 
     onMiddleNameChanged(event) {
+        const newMName = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._mname = newMName;
 
+        this.setState(updatedState);
     }
 
     onLastNameChanged(event) {
+        const newLName = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._lname = newLName;
 
+        this.setState(updatedState);
     }
 
     onPhoneChanged(event) {
+        const newPhone = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._phone = newPhone;
 
+        this.setState(updatedState);
     }
 
     onEmailChanged(event) {
+        const newEmail = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._email = newEmail;
 
+        this.setState(updatedState);
     }
 
     onCVLinkChanged(event) {
+        const newCVLink = event.target.value;
+        let updatedState = this.state;
+        updatedState.candidate._cvlink = newCVLink;
 
+        this.setState(updatedState);
     }
 
     onSkillChanged(updatedSkill) {
 
         let updatedState = this.state;
 
-        let skill = updatedState.position._skills.find( s => { return s.id == updatedSkill.id; } );
+        let skill = updatedState.candidate._skills.find( s => { return s.id == updatedSkill.id; } );
 
         if(skill != null) {
             skill._skill._skillId = updatedSkill.SkillID;
@@ -103,7 +184,7 @@ class CandidatePage extends React.Component {
 
     onSkillDeleted(id) {
         let updatedState = this.state;
-        let idx = updatedState.position._skills.findIndex( s => { return s.id == id; } );
+        let idx = updatedState.candidate._skills.findIndex( s => { return s.id == id; } );
         if(idx >= 0) {
             updatedState.candidate._skills.splice(idx, 1);
             this.setState(updatedState);
@@ -111,19 +192,111 @@ class CandidatePage extends React.Component {
     }
 
     onSaveClicked() {
+        const req = new CandidateUpsertDto();
+        req.Candidate = new CandidateDto();
+        req.Candidate.CandidateID = this.state.id;
+        req.Candidate.FirstName = this.state.candidate._fname;
+        req.Candidate.MiddleName = this.state.candidate._mname;
+        req.Candidate.LastName = this.state.candidate._lname;
+        req.Candidate.Email = this.state.candidate._email;
+        req.Candidate.Phone = this.state.candidate._phone;
+        req.Candidate.CVLink = this.state.candidate._cvlink;
+
+        req.Skills = [];
+
+        this.state.candidate._skills.forEach( s => {
+
+            const sp = new CandidateSkillDto();
+            sp.Skill = new SkillDto();
+            sp.Skill.SkillID = s._skill._skillId;
+            sp.Proficiency = new SkillProficiencyDto();
+            sp.Proficiency.ProficiencyID = s._proficiency._id
+            sp.IsMandatory = s._isMandatory;
+
+            req.Skills.push(sp);
+
+        });
+
+        let dalCand = new CandidatesDal();
+
+        let obj = this;
+
+        function upsertThen(result) {
+            const updatedState = obj.state;
+
+            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+                if(result.status == constants.HTTP_Created) {
+                    updatedState.id = parseInt(result._candidateId);
+                    updatedState.success = `Candidate was created. Candidate ID: ${updatedState.id}`;
+                }
+                else {
+                    updatedState.success = `Candidate was updated`;                
+                }
+            }
+            else {
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = result.data._message;          
+            }
+
+            obj.setState(updatedState);
+        }
+
+        function upsertCatch(err) {
+            const updatedState = obj.state;
+            const errMsg = `Error: ${err}`
+            updatedState.showSuccess = false;
+            updatedState.showError = true;
+            updatedState.error = errMsg; 
+            obj.setState(updatedState);
+        }
+
+        console.log("Upserting: ", req);
+
+        if(this.state.id != null) {
+            dalCand.updateCandidate(req)
+                                    .then( (res) => { upsertThen(res); } )
+                                    .catch( (err) => { upsertCatch(err); });
+        }
+        else {
+            dalCand.addCandidate(req)
+                                    .then( (res) => { upsertThen(res); } )
+                                    .catch( (err) => { upsertCatch(err); });        
+        }
 
     }
 
     onDeleteClicked() {
-
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = true;
+        this.setState(updatedState);
     }
 
     onDeleteCancel() {
-
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = false;
+        this.setState(updatedState);
     }
 
     onDeleteConfirm() {
+        let dalCand = new CandidatesDal();
+        let obj = this;
 
+        dalCand.deleteCandidate(this.state.id).then( (res) => {
+            if(res.status == constants.HTTP_OK) {
+                obj.props.history.push("/login?ret=/candidates");                
+            }
+            else {
+                const updatedState = obj.state;
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = res.data._message; 
+                updatedState.showDeleteConfirm = false;
+                obj.setState(updatedState);               
+            }
+        });
     }
 
     
@@ -175,7 +348,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="First Name" 
-                                            value={this.state.position._fname}
+                                            value={this.state.candidate._fname}
                                             onChange={ (event) => { this.onFirstNameChanged(event) } }
                                             />
                                 
@@ -188,7 +361,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Middle Name" 
-                                            value={this.state.position._mname}
+                                            value={this.state.candidate._mname}
                                             onChange={ (event) => { this.onMiddleNameChanged(event) } }
                                             />
                             </td>
@@ -200,7 +373,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Last Name" 
-                                            value={this.state.position._lname}
+                                            value={this.state.candidate._lname}
                                             onChange={ (event) => { this.onLastNameChanged(event) } }
                                             />
                             </td>
@@ -212,7 +385,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Email" 
-                                            value={this.state.position._email}
+                                            value={this.state.candidate._email}
                                             onChange={ (event) => { this.onEmailChanged(event) } }
                                             />
                             </td>
@@ -224,7 +397,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Phone" 
-                                            value={this.state.position._phone}
+                                            value={this.state.candidate._phone}
                                             onChange={ (event) => { this.onPhoneChanged(event) } }
                                             />
                             </td>
@@ -236,7 +409,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Link to CV" 
-                                            value={this.state.position._cvlink}
+                                            value={this.state.candidate._cvlink}
                                             onChange={ (event) => { this.onCVLinkChanged(event) } }
                                             />
                             </td>
@@ -290,7 +463,7 @@ class CandidatePage extends React.Component {
         return cand;
     }
 
-    _getPositionSkills() {
+    _getCandidateSkills() {
         let skills = [];
 
         if( this.state.candidate._skills ) {
