@@ -407,6 +407,7 @@ class PositionPage extends React.Component {
                                 <SkillsList id="positionSkills"
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
+                                    showMustHave = { true }
                                     onSkillAdded = { this.onSkillAdded }
                                     onSkillChanged = { this.onSkillChanged }
                                     onSkillDeleted = { this.onSkillDeleted }

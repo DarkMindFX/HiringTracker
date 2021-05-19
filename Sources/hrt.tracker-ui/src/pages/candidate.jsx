@@ -420,6 +420,7 @@ class CandidatePage extends React.Component {
                                 <SkillsList id="candidateSkills"
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
+                                    showMustHave = { false }
                                     onSkillAdded = { this.onSkillAdded }
                                     onSkillChanged = { this.onSkillChanged }
                                     onSkillDeleted = { this.onSkillDeleted }

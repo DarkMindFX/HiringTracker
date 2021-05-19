@@ -70,7 +70,7 @@ async function updateCandidate(req, res) {
         const candidateId = cand.CandidateID;
         newCandSkills.forEach( s => s.CandidateID = candidateId);
 
-        await dal.SetSkills(candidateID, newCandSkills);
+        await dal.SetSkills(candidateId, newCandSkills);
 
         res.status(constants.HTTP_OK);
         res.send();   

@@ -13,6 +13,7 @@ class SkillsList extends React.Component {
 
         this.state = {
             canEdit: props.canEdit ? props.canEdit : false,
+            showMustHave: props.showMustHave ? props.showMustHave : false,
             skills: props.skills, 
             onSkillChanged: props.onSkillChanged,
             onSkillDeleted: props.onSkillDeleted,
@@ -99,6 +100,7 @@ class SkillsList extends React.Component {
                                                 skillID={skill.SkillID}
                                                 proficiencyID={skill.ProficiencyID}
                                                 mustHave={skill.IsMandatory}
+                                                showMustHave={this.state.showMustHave}
                                                 canEdit={this.state.canEdit}
                                                 onSkillChanged={this.onSkillChanged}
                                          />

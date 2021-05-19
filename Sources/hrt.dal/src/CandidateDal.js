@@ -134,7 +134,7 @@ class CandidateDal extends SQLDal {
         tvpSkills.columns.add('ProficiencyID', mssql.BigInt);
         
         skills.forEach(s => {            
-            tvpSkills.rows.add(s.SkillID, s.IsMandatory, s.ProficiencyID);
+            tvpSkills.rows.add(s.SkillID, 0, s.ProficiencyID);
         });
 
         await mssql.connect(this._config);

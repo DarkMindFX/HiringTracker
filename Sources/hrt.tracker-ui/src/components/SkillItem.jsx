@@ -20,6 +20,7 @@ class SkillItem extends React.Component {
             proficiencyID: props.proficiencyID,
             canEdit: props.canEdit ?  props.canEdit : false,
             mustHave: props.mustHave ? props.mustHave : false,
+            showMustHave: props.showMustHave ? props.showMustHave : false,
             skill: null,
             proficiency: null,
             
@@ -120,6 +121,9 @@ class SkillItem extends React.Component {
         let styleMustHave = {
             display: this.state.mustHave ? "block": "none"
         };  
+        let styleShowMustHave = {
+            display: this.state.showMustHave ? "block": "none"
+        }; 
         let styleSkill = {
             width: "100%"
         }
@@ -160,9 +164,10 @@ class SkillItem extends React.Component {
                     </Select>
                     </FormControl>
                     <FormControlLabel
-                        key="lblMustHave"
+                        key="lblMustHave"                        
                         control={<Checkbox checked={this.state.mustHave} onChange={(event) => this.onMustHaveChanged(event)} name="mustHave" />}
                         label="Must-Have"
+                        style={styleShowMustHave}
                     />
 
                 </div>  
