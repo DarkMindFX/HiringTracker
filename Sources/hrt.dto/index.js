@@ -13,6 +13,8 @@ const PositionStatusDto = require('./src/PositionStatusDto')
 const PositionSkillDto = require('./src/PositionSkillDto')
 const CandidateDto = require('./src/CandidateDto')
 const CandidateSkillDto = require('./src/CandidateSkillDto')
+const PositionCandidateStatusDto = require('./src/PositionCandidateStatusDto')
+const PositionCandidateStepDto = require('./src/PositionCandidateStepDto')
 
 
 module.exports = {
@@ -32,5 +34,7 @@ module.exports = {
     CandidateDto,
     CandidateSkillDto,
     CandidateUpsertDto,
-    CandidateUpsertResponseDto
+    CandidateUpsertResponseDto,
+    PositionCandidateStatusDto,
+    PositionCandidateStepDto
 }

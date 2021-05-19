@@ -1,7 +1,7 @@
 
 const { Error, PositionUpsertResponseDto } = require('hrt.dto');
-const { PositionDal } = require('hrt.dal')
-const { DalHelper } = require('../dalHelper')
+const { PositionDal } = require('hrt.dal');
+const { DalHelper } = require('../dalHelper');
 const { Converter } = require('../coverters');
 const { authUserOnly } = require('../middleware');
 

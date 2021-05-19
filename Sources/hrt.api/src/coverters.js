@@ -1,6 +1,8 @@
 
-const { SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto, CandidateDto, CandidateSkillDto } = require('hrt.dto');
-const { PositionEntity, UserEntity, PositionSkillEntity, CandidateEntity, CandidateSkillEntity } = require('hrt.dal')
+const { SkillProficiencyDto, PositionDto, UserDto, PositionStatusDto, SkillDto, PositionSkillDto, CandidateDto, CandidateSkillDto,
+PositionCandidateStatusDto, PositionCandidateStepDto } = require('hrt.dto');
+const { PositionEntity, UserEntity, PositionSkillEntity, CandidateEntity, CandidateSkillEntity,
+    PositionCandidateStatusEntity, PositionCandidateStepEntity } = require('hrt.dal')
 
 class Converter {
 
@@ -151,6 +153,26 @@ class Converter {
   
         return dto;
     }
+
+    static positionCandidateStatusEntity2Dto(entity) {
+        let dto = new PositionCandidateStatusDto();
+        dto.StatusID = entity.StatusID;
+        dto.Name = entity.Name;
+
+        return dto;
+    }
+
+    static positionCandidateStepEntity2Dto(entity) {
+        let dto = new PositionCandidateStepDto();
+        dto.StepID = entity._stepId;
+        dto.Name = entity._name;
+        dto.ReqDueDate = entity._reqDueDate;
+        dto.RequiresRespInDays = entity._requiresRespInDays;
+
+        return dto;
+    }
+
+  
 
 }
 
