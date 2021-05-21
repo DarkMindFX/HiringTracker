@@ -2,13 +2,14 @@
 using HRT.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-
+using System;
+using System.Data;
 
 namespace Test.HRT.DAL.MSSQL
 {
     public class TestBase
     {
-        public class TestDALInitParams
+        public class TestDalInitParams
         {
             [JsonProperty(PropertyName = "ConnectionString")]
             public string ConnectionString
@@ -21,11 +22,11 @@ namespace Test.HRT.DAL.MSSQL
         protected ISkillDal PrepareSkillDal(string configName)
         {
             IConfiguration config = GetConfiguration();
-            var userDALInitParams = config.GetSection(configName).Get<TestDALInitParams>();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
 
             ISkillDal dal = new SkillDal();
             var dalInitParams = dal.CreateInitParams();
-            dalInitParams.Parameters["ConnectionString"] = userDALInitParams.ConnectionString;
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
             dal.Init(dalInitParams);
 
             return dal;
@@ -34,11 +35,24 @@ namespace Test.HRT.DAL.MSSQL
         protected ISkillProficiencyDal PrepareSkillProficiencyDal(string configName)
         {
             IConfiguration config = GetConfiguration();
-            var userDALInitParams = config.GetSection(configName).Get<TestDALInitParams>();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
 
             ISkillProficiencyDal dal = new SkillProficiencyDal();
             var dalInitParams = dal.CreateInitParams();
-            dalInitParams.Parameters["ConnectionString"] = userDALInitParams.ConnectionString;
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
+        protected IPositionStatusDal PreparePositionStatusDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IPositionStatusDal dal = new PositionStatusDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
             dal.Init(dalInitParams);
 
             return dal;
@@ -52,5 +66,7 @@ namespace Test.HRT.DAL.MSSQL
 
             return config;
         }
+
+        
     }
 }

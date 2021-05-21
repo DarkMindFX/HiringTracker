@@ -15,7 +15,7 @@ namespace Test.HRT.DAL.MSSQL
         public void DalInit_Success()
         {
             IConfiguration config = GetConfiguration();
-            var skillDalInitParams = config.GetSection("DALInitParams").Get<TestDALInitParams>();
+            var skillDalInitParams = config.GetSection("DALInitParams").Get<TestDalInitParams>();
 
             ISkillProficiencyDal dal = new SkillProficiencyDal();
             var dalInitParams = dal.CreateInitParams();

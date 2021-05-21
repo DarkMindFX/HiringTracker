@@ -10,16 +10,16 @@ using System.Text;
 
 namespace HRT.DAL.MSSQL
 {
-    class SkillProficiencyDalInitParams : InitParamsImpl
+    class PositionStatusDalInitParams : InitParamsImpl
     {
     }
 
-    [Export("MSSQL", typeof(ISkillProficiencyDal))]
-    public class SkillProficiencyDal : SQLDal, ISkillProficiencyDal
+    [Export("MSSQL", typeof(IPositionStatusDal))]
+    public class PositionStatusDal : SQLDal, IPositionStatusDal
     {
         public IInitParams CreateInitParams()
         {
-            return new SkillProficiencyDalInitParams();
+            return new PositionStatusDalInitParams();
         }
 
         public bool Delete(long id)
@@ -27,15 +27,15 @@ namespace HRT.DAL.MSSQL
             throw new NotImplementedException();
         }
 
-        public SkillProficiency Get(long id)
+        public PositionStatus Get(long id)
         {
             throw new NotImplementedException();
         }
 
-        public IList<SkillProficiency> GetAll()
+        public IList<PositionStatus> GetAll()
         {
-            IList<SkillProficiency> result = base.GetAll<SkillProficiency>("p_SkillProficiency_GetAll", SkillProfFromRow);
-            
+            IList<PositionStatus> result = base.GetAll<PositionStatus>("p_PositionStatus_GetAll", StatusFromRow);
+
             return result;
         }
 
@@ -44,18 +44,18 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public long? Upsert(SkillProficiency entity)
+        public long? Upsert(PositionStatus entity)
         {
             throw new NotImplementedException();
         }
 
         #region Support methods
-        private SkillProficiency SkillProfFromRow(DataRow row)
+        private PositionStatus StatusFromRow(DataRow row)
         {
-            var entity = new SkillProficiency();
+            var entity = new PositionStatus();
 
             entity.Name = (string)row["Name"];
-            entity.ProficiencyID = (long)row["ProficiencyID"];
+            entity.StatusID = (long)row["StatusID"];
 
             return entity;
         }

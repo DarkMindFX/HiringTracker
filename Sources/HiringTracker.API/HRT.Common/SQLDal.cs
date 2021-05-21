@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -47,6 +48,33 @@ namespace HRT.Common
             da.Fill(ds);
 
             return ds;
+
+        }
+
+        protected IList<TEntity> GetAll<TEntity>(string procName, Func<DataRow, TEntity> fnFromRow)
+        {
+            IList<TEntity> result = null;
+
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count >= 1)
+                {
+                    result = new List<TEntity>();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        var c = fnFromRow(row);
+
+                        result.Add(c);
+                    }
+                }
+            }
+
+            return result;
 
         }
     }

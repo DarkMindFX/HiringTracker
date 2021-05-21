@@ -28,26 +28,7 @@ namespace HRT.DAL.MSSQL
 
         public IList<Skill> GetAll()
         {
-            IList<Skill> result = null;
-
-            using (SqlConnection conn = OpenConnection())
-            {
-                SqlCommand cmd = new SqlCommand("p_Skill_GetAll", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                var ds = FillDataSet(cmd);
-
-                if (ds.Tables.Count >= 1)
-                {
-                    result = new List<Skill>();
-                    foreach (DataRow row in ds.Tables[0].Rows)
-                    {
-                        var c = SkillFromRow(row);
-
-                        result.Add(c);
-                    }
-                }
-            }
+            IList<Skill> result = base.GetAll<Skill>("p_Skill_GetAll", SkillFromRow);            
 
             return result;
         }
