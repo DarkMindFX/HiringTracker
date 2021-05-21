@@ -7,9 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HRT.Common\HRT.Common.csproj" />
+    <ProjectReference Include="..\..\HRT.DAL.MSSQL\HRT.DAL.MSSQL.csproj" />
+    <ProjectReference Include="..\..\HRT.Interfaces\HRT.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="appconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestBase.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

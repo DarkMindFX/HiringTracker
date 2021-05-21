@@ -1,0 +1,14 @@
+{
+  "DALInitParams": {
+    "ConnectionString": "Data Source=DESKTOP-U0MUS24\\SQLEXPRESS; Initial Catalog=HiringTracker; User ID=hrt_test_account; Password=HRTTestAccount2021;"
+  },
+
+  "DALInitParams_InvalidHost": {
+    "ConnectionString": "Data Source=nosuchhost; Initial Catalog=HiringTracker; User ID=hrt_test_account; Password=HRTTestAccount2021;"
+  },
+
+  "DALInitParams_InvalidDb": {
+    "ConnectionString": "Data Source=DESKTOP-U0MUS24\\SQLEXPRESS; Initial Catalog=nosuchdb; User ID=hrt_test_account; Password=HRTTestAccount2021;"
+  }
+
+}

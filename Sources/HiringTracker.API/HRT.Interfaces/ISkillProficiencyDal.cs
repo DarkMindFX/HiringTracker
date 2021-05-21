@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HRT.Interfaces
 {
-    public interface ISkillProficiency : IDalBase<SkillProficiency>
+    public interface ISkillProficiencyDal : IDalBase<SkillProficiency>
     {
     }
 }

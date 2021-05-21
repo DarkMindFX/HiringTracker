@@ -1,8 +1,6 @@
 ﻿using HRT.Interfaces;
-using SM.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace HRT.DAL.MSSQL
 {

@@ -1,13 +1,15 @@
-using HRT.DAL.MSSQL;
+﻿using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Test.HRT.DAL.MSSQL
 {
-    public class TestSkillDal : TestBase
+    class TestSkillProficiencyDal : TestBase
     {
         [Test]
         public void DalInit_Success()
@@ -15,21 +17,21 @@ namespace Test.HRT.DAL.MSSQL
             IConfiguration config = GetConfiguration();
             var skillDalInitParams = config.GetSection("DALInitParams").Get<TestDALInitParams>();
 
-            ISkillDal dal = new SkillDal();
+            ISkillProficiencyDal dal = new SkillProficiencyDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = skillDalInitParams.ConnectionString;
             dal.Init(dalInitParams);
         }
 
         [Test]
-        public void GetSkills_Success()
+        public void GetSkillProfs_Success()
         {
-            var dal = PrepareSkillDal("DALInitParams");
+            var dal = PrepareSkillProficiencyDal("DALInitParams");
 
-            IList<Skill> skills = dal.GetAll();
+            IList<SkillProficiency> profs = dal.GetAll();
 
-            Assert.IsNotNull(skills);
-            Assert.IsNotEmpty(skills);
+            Assert.IsNotNull(profs);
+            Assert.IsNotEmpty(profs);
         }
     }
 }
