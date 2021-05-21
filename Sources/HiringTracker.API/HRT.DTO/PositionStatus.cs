@@ -12,7 +12,7 @@ namespace HRT.DTO
         }
 
         [JsonPropertyName("_name")]
-        public long Name
+        public string Name
         {
             get; set;
         }

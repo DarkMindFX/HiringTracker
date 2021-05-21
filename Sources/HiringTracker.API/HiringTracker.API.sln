@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRT.HiringTracker.API", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRT.Interfaces", "HRT.Interfaces\HRT.Interfaces.csproj", "{723A9E84-5540-422C-ABA4-A1C6BEFEA280}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRT.DAL.MSSQL", "HRT.DAL.MSSQL\HRT.DAL.MSSQL.csproj", "{59D431FF-9600-41DC-A26A-675E13B6FC7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{723A9E84-5540-422C-ABA4-A1C6BEFEA280}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{723A9E84-5540-422C-ABA4-A1C6BEFEA280}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{723A9E84-5540-422C-ABA4-A1C6BEFEA280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D431FF-9600-41DC-A26A-675E13B6FC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D431FF-9600-41DC-A26A-675E13B6FC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D431FF-9600-41DC-A26A-675E13B6FC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D431FF-9600-41DC-A26A-675E13B6FC7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
