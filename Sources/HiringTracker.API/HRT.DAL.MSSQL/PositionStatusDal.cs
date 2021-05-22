@@ -44,7 +44,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public long? Upsert(PositionStatus entity)
+        public long? Upsert(PositionStatus entity, long? editorID)
         {
             throw new NotImplementedException();
         }

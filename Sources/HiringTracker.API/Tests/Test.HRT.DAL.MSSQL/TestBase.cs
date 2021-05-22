@@ -2,8 +2,11 @@
 using HRT.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using NUnit.Framework;
 using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -56,6 +59,77 @@ namespace Test.HRT.DAL.MSSQL
             dal.Init(dalInitParams);
 
             return dal;
+        }
+
+        protected IPositionDal PreparePositionDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IPositionDal dal = new PositionDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
+        protected void SetupCase(SqlConnection conn, string caseRoot)
+        {
+            string fileName = "Setup.sql";
+            string path = Path.Combine(TestBaseFolder, caseRoot, fileName);
+            if (File.Exists(path))
+            {
+                RunScript(conn, path);
+            }
+        }
+
+        protected SqlConnection OpenConnection(string settingsName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(settingsName).Get<TestDalInitParams>();
+            SqlConnection conn = new SqlConnection(initParams.ConnectionString);
+            conn.Open();
+
+            return conn;
+        }
+
+        protected void CloseConnection(SqlConnection conn)
+        {
+            if(conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+        }
+
+        protected void TeardownCase(SqlConnection conn, string caseRoot)
+        {
+            string fileName = "Teardown.sql";
+            string path = Path.Combine(TestBaseFolder, caseRoot, fileName);
+            if (File.Exists(path))
+            {
+                RunScript(conn, path);
+            }
+        }
+
+        protected void RunScript(SqlConnection conn, string filePath)
+        {
+            string sql = File.ReadAllText(filePath);
+            if (!string.IsNullOrEmpty(sql))
+            {
+                SqlCommand cmd = new SqlCommand(sql);
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        protected string TestBaseFolder
+        {
+            get
+            {
+                return Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\..");
+            }
         }
 
         protected IConfiguration GetConfiguration()

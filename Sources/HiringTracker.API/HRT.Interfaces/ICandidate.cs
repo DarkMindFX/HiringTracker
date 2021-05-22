@@ -7,8 +7,8 @@ namespace HRT.Interfaces
 {
     public interface ICandidateDal : IDalBase<Candidate>
     {
-        IList<Skill> GetSkills(long id);
+        IList<CandidateSkill> GetSkills(long id);
 
-        void SetSkills(long id, IList<Skill> skills);
+        void SetSkills(long id, IList<CandidateSkill> skills);
     }
 }

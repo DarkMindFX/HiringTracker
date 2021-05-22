@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace HRT.Common
 {
@@ -19,7 +20,7 @@ namespace HRT.Common
             conn.Open();
 
             return conn;
-        }
+        }       
 
         protected void CloseConnection(SqlConnection conn)
         {
@@ -49,6 +50,51 @@ namespace HRT.Common
 
             return ds;
 
+        }
+
+        protected TEntity Get<TEntity>(string procName, long id, string paramName, Func<DataRow, TEntity> fnFromRow) where TEntity : new()
+        {
+            TEntity result = default(TEntity);
+
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                AddParameter(cmd, paramName, SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, id);
+
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if ((bool)pFound.Value && ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = fnFromRow(ds.Tables[0].Rows[0]);
+                }
+            }
+
+            return result;
+        }
+
+        protected bool Delete<TEntity>(string procName, long id, string paramName) where TEntity : new()
+        {
+            bool result = false;
+
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                AddParameter(cmd, paramName, SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, id);
+
+                var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
         protected IList<TEntity> GetAll<TEntity>(string procName, Func<DataRow, TEntity> fnFromRow)

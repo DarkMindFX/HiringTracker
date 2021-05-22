@@ -44,7 +44,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public long? Upsert(SkillProficiency entity)
+        public long? Upsert(SkillProficiency entity, long? editorID)
         {
             throw new NotImplementedException();
         }

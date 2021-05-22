@@ -30,6 +30,11 @@ namespace HRT.Interfaces.Entities
         public long StatusID
         {
             get; set;
-        }        
+        }
+
+        public long? DepartmentID
+        {
+            get; set;
+        }
     }
 }
