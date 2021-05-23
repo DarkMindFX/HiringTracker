@@ -6,6 +6,11 @@ namespace HRT.Interfaces.Entities
 {
     public class PositionSkill
     {
+        public long PositionID
+        {
+            get; set;
+        }
+
         public long SkillID
         {
             get; set;

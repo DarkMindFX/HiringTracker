@@ -82,7 +82,7 @@ namespace Test.HRT.DAL.MSSQL
 
             if (entity != null)
             {
-                bool removed = dal.Delete(entity.PositionID);
+                bool removed = dal.Delete((long)entity.PositionID);
 
                 Assert.IsTrue(removed);
             }
@@ -167,8 +167,83 @@ namespace Test.HRT.DAL.MSSQL
                     Assert.Fail($"Unexpected exception thrown: {ex}");
                 }
             }
+        }
 
+        [TestCase("Position\\020.Insert.Success")]
+        public void AddPosition_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            SetupCase(conn, caseName);
 
+            long userId = 100001;
+
+            string newTitle = "[Test {BFFBD7DA0279431FB799E7EBB0E82926}] New";
+            string newShortDesc = "[Test {BFFBD7DA0279431FB799E7EBB0E82926}] ShortDesc";
+            string newDesc = "[Test {BFFBD7DA0279431FB799E7EBB0E82926}] Desc";
+
+            Position entity = new Position()
+            {
+                PositionID = null,
+                StatusID = 1,
+                Title = newTitle,
+                ShortDesc = newShortDesc,
+                Description = newDesc
+            };
+
+            var dal = PreparePositionDal("DALInitParams");
+
+            long? id = dal.Upsert(entity, userId);
+
+            Assert.IsNotNull(id);
+            Assert.Greater(id, 0);
+
+            TeardownCase(conn, caseName);
+        }
+
+        [Test]
+        public void GetPositionSkills_Success()
+        {
+            long positionId = 100003;
+            var dal = PreparePositionDal("DALInitParams");
+
+            IList<PositionSkill> skills = dal.GetSkills(positionId);
+
+            Assert.NotNull(skills);
+            Assert.IsNotEmpty(skills);
+        }
+
+        [Test]
+        public void GetPositionSkills_InvalidPositionId()
+        {
+            long positionId = Int64.MaxValue - 1;
+            var dal = PreparePositionDal("DALInitParams");
+
+            IList<PositionSkill> skills = dal.GetSkills(positionId);
+
+            Assert.IsNull(skills);
+        }
+
+        [TestCase("Position\\030.SetSkills.Success")]
+        public void SetPositionSkills_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            SetupCase(conn, caseName);
+
+            string title = "[Test {E82969A94FA5417986C4F70040CBF6F5}] Skills";
+
+            var dal = PreparePositionDal("DALInitParams");
+
+            IList<Position> positions = dal.GetAll();
+            var position = positions.FirstOrDefault( x => x.Title.Equals(title));
+
+            IList<PositionSkill> skills = new List<PositionSkill>();
+            skills.Add(new PositionSkill() { SkillID = 1, IsMandatory = false, ProficiencyID = 2 });
+            skills.Add(new PositionSkill() { SkillID = 2, IsMandatory = false, ProficiencyID = 3 });
+            skills.Add(new PositionSkill() { SkillID = 3, IsMandatory = false, ProficiencyID = 4 });
+
+            dal.SetSkills((long)position.PositionID, skills);
+
+            TeardownCase(conn, caseName);
         }
     }
 }

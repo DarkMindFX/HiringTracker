@@ -43,7 +43,32 @@ namespace HRT.DAL.MSSQL
 
         public IList<PositionSkill> GetSkills(long id)
         {
-            throw new NotImplementedException();
+            IList<PositionSkill> result = null;
+
+            using (var conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_PositionSkills_GetByPosition", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                AddParameter(cmd, "@PositionID", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, id);
+
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, true, 0, 0, "", DataRowVersion.Current, null);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count >= 1)
+                {
+                    result = new List<PositionSkill>();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        var p = PositionSkillFromRow(row);
+
+                        result.Add(p);
+                    }
+                }
+            }
+
+            return result;
         }
 
         public void Init(IInitParams initParams)
@@ -53,10 +78,22 @@ namespace HRT.DAL.MSSQL
 
         public void SetSkills(long id, IList<PositionSkill> skills)
         {
-            throw new NotImplementedException();
+            using (var conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_PositionSkills_Upsert", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                var tblSkills = PositionSkillsToTable(skills);
+
+                AddParameter(cmd, "@PositionID", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, id);
+
+                AddParameter(cmd, "@Skills", SqlDbType.Structured, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, tblSkills);
+
+                cmd.ExecuteNonQuery();
+            }
         }
 
-        public long? Upsert(Position entity, long? editorId)
+        public long? Upsert(Position entity, long? editorID)
         {
             long? result = null;
             using (SqlConnection conn = OpenConnection())
@@ -64,7 +101,7 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_Position_Upsert", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                AddParameter(cmd, "@PositionID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.PositionID);
+                AddParameter(cmd, "@PositionID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.PositionID));
 
                 AddParameter(cmd, "@DepartmentID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.DepartmentID));
 
@@ -76,7 +113,7 @@ namespace HRT.DAL.MSSQL
 
                 AddParameter(cmd, "@Description", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.Description);
 
-                AddParameter(cmd, "@ChangedByUserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, editorId);
+                AddParameter(cmd, "@ChangedByUserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, editorID);
 
                 var pNewPosId = AddParameter(cmd, "@NewPositionID", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 
@@ -106,6 +143,40 @@ namespace HRT.DAL.MSSQL
 
             return entity;
         }
+
+        private PositionSkill PositionSkillFromRow(DataRow row)
+        {
+            var entity = new PositionSkill();
+            entity.IsMandatory = (bool)row["IsMandatory"];
+            entity.ProficiencyID = (long)row["SkillProficiencyID"];
+            entity.ProficiencyName = (string)row["SkillProficiency"];
+            entity.SkillName = (string)row["SkillName"];
+            entity.SkillID = (long)row["SkillID"];
+            entity.PositionID = (long)row["PositionID"];
+
+            return entity;
+        }
+
+        private DataTable PositionSkillsToTable(IList<PositionSkill> skills)
+        {
+            var table = new DataTable();
+            table.Columns.Add(new DataColumn("SkillID", typeof(long)));
+            table.Columns.Add(new DataColumn("IsMandatory", typeof(bool)));
+            table.Columns.Add(new DataColumn("ProficiencyID", typeof(long)));
+
+            foreach(var s in skills)
+            {
+                var row = table.NewRow();
+                row[0] = s.SkillID;
+                row[1] = s.IsMandatory;
+                row[2] = s.ProficiencyID;
+
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
+
         #endregion
     }
 }

@@ -6,7 +6,7 @@ namespace HRT.Interfaces.Entities
 {
     public class Position : TrackedEntity
     {
-        public long PositionID
+        public long? PositionID
         {
             get; set;
         }
