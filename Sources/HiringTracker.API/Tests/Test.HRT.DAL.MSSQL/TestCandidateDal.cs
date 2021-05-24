@@ -236,5 +236,28 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNull(skills);
         }
+
+        [TestCase("Candidate\\030.SetSkills.Success")]
+        public void SetCandidateSkills_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            SetupCase(conn, caseName);
+
+            string email = "test_C6E0BFF2A9584726ACA898DBF51A3AD9@email.com";
+
+            var dal = PrepareCandidateDal("DALInitParams");
+
+            IList<Candidate> positions = dal.GetAll();
+            var position = positions.FirstOrDefault(x => x.Email.Equals(email)); 
+
+            IList<CandidateSkill> skills = new List<CandidateSkill>();
+            skills.Add(new CandidateSkill() { SkillID = 1, ProficiencyID = 2 });
+            skills.Add(new CandidateSkill() { SkillID = 2, ProficiencyID = 3 });
+            skills.Add(new CandidateSkill() { SkillID = 3, ProficiencyID = 4 });
+
+            dal.SetSkills((long)position.CandidateID, skills);
+
+            TeardownCase(conn, caseName);
+        }
     }
 }
