@@ -162,7 +162,7 @@ namespace Test.HRT.DAL.MSSQL
             }
             catch (Exception ex)
             {
-                if (ex.Message.IndexOf("Position with given id not found") < 0)
+                if (ex.Message.ToLower().IndexOf("position with given id not found") < 0)
                 {
                     Assert.Fail($"Unexpected exception thrown: {ex}");
                 }

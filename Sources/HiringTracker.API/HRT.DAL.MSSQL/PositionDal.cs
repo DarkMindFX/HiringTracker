@@ -3,6 +3,7 @@ using HRT.Interfaces;
 using HRT.Interfaces.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
@@ -13,6 +14,7 @@ namespace HRT.DAL.MSSQL
     {
     }
 
+    [Export("MSSQL", typeof(IPositionDal))]
     public class PositionDal : SQLDal, IPositionDal
     {
         public IInitParams CreateInitParams()

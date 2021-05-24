@@ -6,7 +6,7 @@ namespace HRT.Interfaces.Entities
 {
     public class User
     {        
-        public long UserID
+        public long? UserID
         {
             get; set;
         }

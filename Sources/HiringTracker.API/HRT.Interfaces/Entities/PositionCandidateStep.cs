@@ -21,7 +21,7 @@ namespace HRT.Interfaces.Entities
             get; set;
         }
 
-        public int RequiresDespInDays
+        public int RequiresRespInDays
         {
             get; set;
         }
