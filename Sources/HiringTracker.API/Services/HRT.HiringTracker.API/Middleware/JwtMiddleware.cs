@@ -24,19 +24,19 @@ namespace HRT.HiringTracker.API.MiddleWare
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IUserDal dalUser)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
             {
-                // TODO: setUserContext(context, token, dalUser);
+                setUserContext(context, token, dalUser);
             }
 
             await _next(context);
         }
 
-        private void setUserContext(HttpContext context, string token)
+        private void setUserContext(HttpContext context, string token, IUserDal dalUser)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace HRT.HiringTracker.API.MiddleWare
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                // TODO: context.Items["User"] = dalUser.GetUser(userId, null);
+                context.Items["User"] = dalUser.Get(userId);
             }
             catch
             {

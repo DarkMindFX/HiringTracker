@@ -10,9 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace HRT.HiringTracker.API.Controllers.V1
 {
-    [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
+    [Route("api/v1/[controller]")]
+    
     public class HealthController : ControllerBase
     {
         private readonly ILogger<HealthController> _logger;
