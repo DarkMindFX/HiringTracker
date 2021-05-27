@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HRT.Common\HRT.Common.csproj" />
+    <ProjectReference Include="..\..\HRT.DAL.MSSQL\HRT.DAL.MSSQL.csproj" />
     <ProjectReference Include="..\..\HRT.DTO\HRT.DTO.csproj" />
     <ProjectReference Include="..\..\HRT.Interfaces\HRT.Interfaces.csproj" />
   </ItemGroup>

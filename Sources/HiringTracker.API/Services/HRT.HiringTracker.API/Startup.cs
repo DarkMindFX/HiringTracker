@@ -131,14 +131,29 @@ namespace HRT.HiringTracker.API
 
         private void AddInjections(IServiceCollection services, ServiceConfig serviceCfg)
         {
-            // TODO: Add injections here
-            /*              
+            var dalUser = InitDal<IUserDal>(services, serviceCfg);
+            services.AddSingleton<IUserDal>(dalUser);
 
-            var dalUser = InitDal<IUserDataAccessLayer>(services, serviceCfg);
-            services.AddSingleton<IUserDataAccessLayer>(dalUser);
-            */
+            var dalSkill = InitDal<ISkillDal>(services, serviceCfg);
+            services.AddSingleton<ISkillDal>(dalSkill);
 
+            var dalSkillProf = InitDal<ISkillProficiencyDal>(services, serviceCfg);
+            services.AddSingleton<ISkillProficiencyDal>(dalSkillProf);
 
+            var dalPosition = InitDal<IPositionDal>(services, serviceCfg);
+            services.AddSingleton<IPositionDal>(dalPosition);
+
+            var dalPositionStatus = InitDal<IPositionStatusDal>(services, serviceCfg);
+            services.AddSingleton<IPositionStatusDal>(dalPositionStatus);
+
+            var dalPositionCandidateStatus = InitDal<IPositionCandidateStatusDal>(services, serviceCfg);
+            services.AddSingleton<IPositionCandidateStatusDal>(dalPositionCandidateStatus);
+
+            var dalPositionCandidateStep = InitDal<IPositionCandidateStepDal>(services, serviceCfg);
+            services.AddSingleton<IPositionCandidateStepDal>(dalPositionCandidateStep);
+
+            var dalCandidate = InitDal<ICandidateDal>(services, serviceCfg);
+            services.AddSingleton<ICandidateDal>(dalCandidate);
         }
 
         private TDal InitDal<TDal>(IServiceCollection services, ServiceConfig serviceCfg) where TDal : IInitializable

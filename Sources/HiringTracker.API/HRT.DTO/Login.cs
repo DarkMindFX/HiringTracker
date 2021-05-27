@@ -7,8 +7,8 @@ namespace HRT.DTO
 {
     public class LoginRequest
     {
-        [JsonPropertyName("_email")]
-        public string Email
+        [JsonPropertyName("_login")]
+        public string Login
         {
             get;
             set;

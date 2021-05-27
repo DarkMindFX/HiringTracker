@@ -23,7 +23,9 @@ namespace HRT.DAL.MSSQL
 
         public bool Delete(long id)
         {
-            throw new NotImplementedException();
+            bool removed = base.Delete<Position>("p_Skill_Delete", id, "@SkillID");
+
+            return removed;
         }
 
         public IList<Skill> GetAll()

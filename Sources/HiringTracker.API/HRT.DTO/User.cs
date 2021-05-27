@@ -8,7 +8,7 @@ namespace HRT.DTO
     public class User : HateosDto
     {
         [JsonPropertyName("_userId")]
-        public long UserID
+        public long? UserID
         {
             get; set;
         }
@@ -25,11 +25,6 @@ namespace HRT.DTO
             get; set;
         }
 
-        [JsonPropertyName("_mname")]
-        public string MiddleName
-        {
-            get; set;
-        }
 
         [JsonPropertyName("_lname")]
         public string LastName

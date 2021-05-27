@@ -120,7 +120,7 @@ namespace HRT.DAL.MSSQL
             entity.FirstName = (string)row["FirstName"];
             entity.LastName = (string)row["LastName"];
             entity.Email = (string)row["Email"];
-            entity.Description = (string)row["Description"];
+            entity.Description = !DBNull.Value.Equals(row["Description"]) ? (string)row["Description"] : null;
             entity.PasswordHash = (string)row["PwdHash"];
 
             return entity;
