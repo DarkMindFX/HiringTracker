@@ -140,20 +140,33 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult AddUser(DTO.User dto)
+        {
+            IActionResult response = UpsertUser(dto);
+
+            return response;
+        }
+
+
         [Authorize]
         [HttpPut, ActionName("UpdateUser")]
-        [HttpPost]
         public IActionResult UpsertUser(DTO.User dto)
         {
             IActionResult response = null;
 
             var entity = EntityToDtoConvertor.Convert(dto);
-            if(entity.UserID == null || !string.IsNullOrEmpty(dto.Password))
+            if(dto.UserID == null || !string.IsNullOrEmpty(dto.Password))
             {
                 // new user generating salt
                 if (entity.UserID == null)
                 {
                     entity.Salt = PasswordHelper.GenerateSalt(10);
+                }
+                else
+                {
+                    entity = _dalUser.Get((long)dto.UserID);
                 }
 
                 if (!string.IsNullOrEmpty(dto.Password))
@@ -164,7 +177,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             User editor = HttpContext.Items["User"] as User;
 
-            long? id = _dalUser.Upsert(entity, editor.UserID);
+            long? id = _dalUser.Upsert(entity, editor != null ? editor.UserID : null);
 
             response = GetUser(dto.UserID ?? (long)id);
 

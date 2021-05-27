@@ -87,7 +87,7 @@ namespace HRT.DAL.MSSQL
 
                 AddParameter(cmd, "@Email", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Email));
 
-                AddParameter(cmd, "@Description", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.Description);
+                AddParameter(cmd, "@Description", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Description));
 
                 AddParameter(cmd, "@FirstName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.FirstName));
 
@@ -97,7 +97,7 @@ namespace HRT.DAL.MSSQL
 
                 AddParameter(cmd, "@Salt", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Salt));
 
-                AddParameter(cmd, "@ChangedByUserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, editorID);
+                AddParameter(cmd, "@ChangedByUserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(editorID));
 
                 var pNewUserId = AddParameter(cmd, "@NewUserID", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 
