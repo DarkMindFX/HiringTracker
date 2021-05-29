@@ -18,11 +18,11 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     public class SkillsController : ControllerBase
     {
-        private readonly ISkillDal _dalSkill;
+        private readonly Dal.ISkillDal _dalSkill;
         private readonly ILogger<SkillsController> _logger;
 
         public SkillsController(ILogger<SkillsController> logger,
-                                ISkillDal dalSkill)
+                                Dal.ISkillDal dalSkill)
         {
             _logger = logger;
             _dalSkill = dalSkill;

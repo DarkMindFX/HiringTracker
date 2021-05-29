@@ -73,7 +73,7 @@ class UsersDal extends DalBase {
         let inst = this.Instance;
        
         try {
-            let res = await inst.post(`/login`, loginDto);
+            let res = await inst.post(`/users/login`, loginDto);
 
             return res;
         }

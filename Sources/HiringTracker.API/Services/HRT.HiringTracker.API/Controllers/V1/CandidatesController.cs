@@ -17,25 +17,22 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class PositionsController : ControllerBase
+    public class CandidatesController : ControllerBase
     {
-        private readonly Dal.IPositionDal _dalPosition;
-        private readonly Dal.IPositionStatusDal _dalPositionStatus;
+        private readonly Dal.ICandidateDal _dalCandidate;
         private readonly Dal.IUserDal _dalUser;
         private readonly Dal.ISkillDal _dalSkill;
         private readonly Dal.ISkillProficiencyDal _dalSkillProfs;
-        private readonly ILogger<PositionsController> _logger;
+        private readonly ILogger<CandidatesController> _logger;
 
 
-        public PositionsController(Dal.IPositionDal dalPosition,
-                                    Dal.IPositionStatusDal dalPositionStatus,
+        public CandidatesController(Dal.ICandidateDal dalCandidate,
                                     Dal.IUserDal dalUser,
                                     Dal.ISkillDal dalSkill,
                                     Dal.ISkillProficiencyDal dalSkillProfs,
-                                    ILogger<PositionsController> logger)
+                                    ILogger<CandidatesController> logger)
         {
-            _dalPosition = dalPosition;
-            _dalPositionStatus = dalPositionStatus;
+            _dalCandidate = dalCandidate;
             _dalUser = dalUser;
             _dalSkill = dalSkill;
             _dalSkillProfs = dalSkillProfs;
@@ -44,20 +41,18 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetPositions()
+        public IActionResult GetCandidates()
         {
             IActionResult response = null;
 
-            var positions = _dalPosition.GetAll();
-            var statuses = _dalPositionStatus.GetAllAsDictionary();
+            var candidates = _dalCandidate.GetAll();
             var users = _dalUser.GetAllAsDictionary();
 
+            IList<DTO.Candidate> dtos = new List<DTO.Candidate>();
 
-            IList<DTO.Position> dtos = new List<DTO.Position>();
-
-            foreach (var p in positions)
+            foreach (var p in candidates)
             {
-                var dto = EntityToDtoConvertor.Convert(p, statuses, users, this.Url);
+                var dto = EntityToDtoConvertor.Convert(p, users, this.Url);
 
                 dtos.Add(dto);
             }
@@ -68,35 +63,34 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpGet("{id}"), ActionName("GetPosition")]
-        public IActionResult GetPosition(long id)
+        [HttpGet("{id}"), ActionName("GetCandidate")]
+        public IActionResult GetCandidate(long id)
         {
             IActionResult response = null;
-            var statuses = _dalPositionStatus.GetAllAsDictionary();
             var users = _dalUser.GetAllAsDictionary();
 
-            var entity = _dalPosition.Get(id);
+            var entity = _dalCandidate.Get(id);
             if (entity != null)
             {
-                var dto = EntityToDtoConvertor.Convert(entity, statuses, users, this.Url);
+                var dto = EntityToDtoConvertor.Convert(entity, users, this.Url);
                 response = Ok(dto);
             }
             else
             {
-                response = StatusCode((int)HttpStatusCode.NotFound, $"Position was not found [id:{id}]");
+                response = StatusCode((int)HttpStatusCode.NotFound, $"Candidate was not found [id:{id}]");
             }
 
             return response;
         }
 
         [Authorize]
-        [HttpDelete("{id}"), ActionName("DeletePosition")]
-        public IActionResult DeletePosition(long id)
+        [HttpDelete("{id}"), ActionName("DeleteCandidate")]
+        public IActionResult DeleteCandidate(long id)
         {
             IActionResult response = null;
 
-            bool removed = _dalPosition.Delete(id);
-            if(removed)
+            bool removed = _dalCandidate.Delete(id);
+            if (removed)
             {
                 response = Ok();
             }
@@ -110,58 +104,58 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult AddPosition(DTO.PositionUpsert dto)
+        public IActionResult AddCandidate(DTO.CandidateUpsert dto)
         {
-            IActionResult response = UpsertPosition(dto);
+            IActionResult response = UpsertCandidate(dto);
 
             return response;
         }
 
 
         [Authorize]
-        [HttpPut, ActionName("UpdatePosition")]
-        public IActionResult UpsertPosition(DTO.PositionUpsert dto)
+        [HttpPut, ActionName("UpdateCandidate")]
+        public IActionResult UpsertCandidate(DTO.CandidateUpsert dto)
         {
             IActionResult response = null;
 
-            var entity = EntityToDtoConvertor.Convert(dto.Position);
+            var entity = EntityToDtoConvertor.Convert(dto.Candidate);
 
             User editor = HttpContext.Items["User"] as User;
 
-            long? id = _dalPosition.Upsert(entity, editor != null ? editor.UserID : null);
+            long? id = _dalCandidate.Upsert(entity, editor != null ? editor.UserID : null);
 
-            if (dto.Position.PositionID != null || id != null)
+            if (dto.Candidate.CandidateID != null || id != null)
             {
-                var posSkills = new List<PositionSkill>();
+                var posSkills = new List<CandidateSkill>();
                 foreach (var s in dto.Skills)
                 {
                     posSkills.Add(EntityToDtoConvertor.Convert(s));
                 }
 
-                _dalPosition.SetSkills(dto.Position.PositionID ?? (long)id, posSkills);
+                _dalCandidate.SetSkills(dto.Candidate.CandidateID ?? (long)id, posSkills);
             }
 
-            response = Ok( new DTO.PositionUpsertResponse() {  PositionID = dto.Position.PositionID ?? (long)id } );
+            response = Ok(new DTO.CandidateUpsertResponse() { CandidateID = dto.Candidate.CandidateID ?? (long)id });
 
             return response;
         }
 
         [Authorize]
-        [HttpGet("{id}/skills"), ActionName("GetPositionSkills")]
-        public IActionResult GetPositionSkills(long id)
+        [HttpGet("{id}/skills"), ActionName("GetCandidateSkills")]
+        public IActionResult GetCandidateSkills(long id)
         {
             IActionResult response = null;
 
-            var entity = _dalPosition.Get(id);
+            var entity = _dalCandidate.Get(id);
             if (entity != null)
             {
-                var entities = _dalPosition.GetSkills(id);
-                var dtos = new List<DTO.PositionSkill>();
+                var entities = _dalCandidate.GetSkills(id);
+                var dtos = new List<DTO.CandidateSkill>();
 
                 var skills = _dalSkill.GetAllAsDictionary();
                 var profs = _dalSkillProfs.GetAllAsDictionary();
 
-                foreach(var e in entities)
+                foreach (var e in entities)
                 {
                     var dto = EntityToDtoConvertor.Convert(e, skills, profs, this.Url);
                     dtos.Add(dto);
@@ -171,7 +165,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             }
             else
             {
-                response = StatusCode((int)HttpStatusCode.NotFound, $"Position was not found [id:{id}]");
+                response = StatusCode((int)HttpStatusCode.NotFound, $"Candidate was not found [id:{id}]");
             }
 
             return response;

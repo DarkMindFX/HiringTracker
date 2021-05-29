@@ -24,12 +24,12 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [UnhandledExceptionFilter]
     public class UsersController : ControllerBase
     {
-        private readonly IUserDal _dalUser;
+        private readonly Dal.IUserDal _dalUser;
         private readonly ILogger<UsersController> _logger;
         private readonly IOptions<AppSettings> _appSettings;
 
         public UsersController( IOptions<AppSettings> appSettings,
-                                IUserDal dalUser,
+                                Dal.IUserDal dalUser,
                                 ILogger<UsersController> logger)
         {
             _dalUser = dalUser;            
@@ -179,7 +179,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             long? id = _dalUser.Upsert(entity, editor != null ? editor.UserID : null);
 
-            response = GetUser(dto.UserID ?? (long)id);
+            response = GetUser(dto.UserID ?? (long)id); 
 
             return response;
         }

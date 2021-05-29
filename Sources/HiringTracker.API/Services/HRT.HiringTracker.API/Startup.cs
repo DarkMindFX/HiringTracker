@@ -131,32 +131,41 @@ namespace HRT.HiringTracker.API
 
         private void AddInjections(IServiceCollection services, ServiceConfig serviceCfg)
         {
-            var dalUser = InitDal<IUserDal>(services, serviceCfg);
+            var dalUser = InitDal<IUserDal>(serviceCfg);
             services.AddSingleton<IUserDal>(dalUser);
 
-            var dalSkill = InitDal<ISkillDal>(services, serviceCfg);
+            var dalSkill = InitDal<ISkillDal>(serviceCfg);
             services.AddSingleton<ISkillDal>(dalSkill);
 
-            var dalSkillProf = InitDal<ISkillProficiencyDal>(services, serviceCfg);
+            var dalSkillProf = InitDal<ISkillProficiencyDal>(serviceCfg);
             services.AddSingleton<ISkillProficiencyDal>(dalSkillProf);
 
-            var dalPosition = InitDal<IPositionDal>(services, serviceCfg);
+            var dalPosition = InitDal<IPositionDal>(serviceCfg);
             services.AddSingleton<IPositionDal>(dalPosition);
 
-            var dalPositionStatus = InitDal<IPositionStatusDal>(services, serviceCfg);
+            var dalPositionStatus = InitDal<IPositionStatusDal>(serviceCfg);
             services.AddSingleton<IPositionStatusDal>(dalPositionStatus);
 
-            var dalPositionCandidateStatus = InitDal<IPositionCandidateStatusDal>(services, serviceCfg);
+            var dalPositionCandidateStatus = InitDal<IPositionCandidateStatusDal>(serviceCfg);
             services.AddSingleton<IPositionCandidateStatusDal>(dalPositionCandidateStatus);
 
-            var dalPositionCandidateStep = InitDal<IPositionCandidateStepDal>(services, serviceCfg);
+            var dalPositionCandidateStep = InitDal<IPositionCandidateStepDal>(serviceCfg);
             services.AddSingleton<IPositionCandidateStepDal>(dalPositionCandidateStep);
 
-            var dalCandidate = InitDal<ICandidateDal>(services, serviceCfg);
+            var dalCandidate = InitDal<ICandidateDal>(serviceCfg);
             services.AddSingleton<ICandidateDal>(dalCandidate);
+
+            services.AddSingleton<Dal.ICandidateDal, Dal.CandidateDal>();
+            services.AddSingleton<Dal.IPositionCandidateStatusDal, Dal.PositionCandidateStatusDal>();
+            services.AddSingleton<Dal.IPositionCandidateStepDal, Dal.PositionCandidateStepDal>();
+            services.AddSingleton<Dal.IPositionStatusDal, Dal.PositionStatusDal>();
+            services.AddSingleton<Dal.IPositionDal, Dal.PositionDal>();
+            services.AddSingleton<Dal.ISkillDal, Dal.SkillDal>();
+            services.AddSingleton<Dal.ISkillProficiencyDal, Dal.SkillProficiencyDal>();
+            services.AddSingleton<Dal.IUserDal, Dal.UserDal>();
         }
 
-        private TDal InitDal<TDal>(IServiceCollection services, ServiceConfig serviceCfg) where TDal : IInitializable
+        private TDal InitDal<TDal>(ServiceConfig serviceCfg) where TDal : IInitializable
         {
             var dal = Container.GetExportedValue<TDal>(serviceCfg.DALType);
             var dalInitParams = dal.CreateInitParams();

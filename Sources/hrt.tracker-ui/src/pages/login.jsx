@@ -50,7 +50,7 @@ class LoginPage extends React.Component {
 
         let obj = this;
 
-        console.log(`Loggiing in as ${this.state.login} / ${this.state.password}`)
+        console.log(`Logging in as ${this.state.login} / ${this.state.password}`)
 
         const dal = new UsersDal();
         dal.login(this.state.login, this.state.password).then( (res) => {

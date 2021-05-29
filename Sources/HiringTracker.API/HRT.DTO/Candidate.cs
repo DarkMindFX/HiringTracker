@@ -5,40 +5,46 @@ using System.Text.Json.Serialization;
 
 namespace HRT.DTO
 {
-    public class Position : HateosDto
+    public class Candidate : HateosDto
     {
-        [JsonPropertyName("_positionId")]
-        public long? PositionID
+        [JsonPropertyName("_candidateId")]
+        public long? CandidateID
         {
             get; set;
         }
 
-        [JsonPropertyName("_departmentId")]
-        public long? DepartmentID
+        [JsonPropertyName("_fname")]
+        public string FirstName
         {
             get; set;
         }
 
-        [JsonPropertyName("_title")]
-        public string Title
+        [JsonPropertyName("_mname")]
+        public string MiddleName
         {
             get; set;
         }
 
-        [JsonPropertyName("_shortDesc")]
-        public string ShortDesc
+        [JsonPropertyName("_lname")]
+        public string LastName
         {
             get; set;
         }
 
-        [JsonPropertyName("_desc")]
-        public string Description
+        [JsonPropertyName("_email")]
+        public string Email
         {
             get; set;
         }
 
-        [JsonPropertyName("_status")]
-        public PositionStatus Status
+        [JsonPropertyName("_phone")]
+        public string Phone
+        {
+            get; set;
+        }
+
+        [JsonPropertyName("_cvlink")]
+        public string CVLink
         {
             get; set;
         }

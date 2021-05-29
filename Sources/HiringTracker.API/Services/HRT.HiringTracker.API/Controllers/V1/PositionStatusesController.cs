@@ -20,10 +20,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
     public class PositionStatusesController : ControllerBase
     {
         private readonly ILogger<PositionStatusesController> _logger;
-        private readonly IPositionStatusDal _dalPosStatus;
+        private readonly Dal.IPositionStatusDal _dalPosStatus;
         
         public PositionStatusesController(  ILogger<PositionStatusesController> logger,
-                                            IPositionStatusDal dalPosStatus)
+                                            Dal.IPositionStatusDal dalPosStatus)
         {
             _logger = logger;
             _dalPosStatus = dalPosStatus;            

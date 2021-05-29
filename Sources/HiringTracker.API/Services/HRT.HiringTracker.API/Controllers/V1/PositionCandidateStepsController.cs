@@ -19,10 +19,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
     {
 
         private readonly ILogger<PositionCandidateStepsController> _logger;
-        private readonly IPositionCandidateStepDal _dalPosCandidateSteps;
+        private readonly Dal.IPositionCandidateStepDal _dalPosCandidateSteps;
 
         public PositionCandidateStepsController(ILogger<PositionCandidateStepsController> logger,
-                                IPositionCandidateStepDal dalPosCandidateSteps)
+                                Dal.IPositionCandidateStepDal dalPosCandidateSteps)
         {
             _logger = logger;
             _dalPosCandidateSteps = dalPosCandidateSteps;

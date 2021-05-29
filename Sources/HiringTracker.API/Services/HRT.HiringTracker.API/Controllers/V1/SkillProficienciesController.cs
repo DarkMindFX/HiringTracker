@@ -17,11 +17,11 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [UnhandledExceptionFilter]
     public class SkillProficienciesController : ControllerBase
     {
-        private readonly ISkillProficiencyDal _dalSkillProficiency;
+        private readonly Dal.ISkillProficiencyDal _dalSkillProficiency;
         private readonly ILogger<PositionStatusesController> _logger;
 
         public SkillProficienciesController(ILogger<PositionStatusesController> logger,
-                                            ISkillProficiencyDal dalSkillProficiency)
+                                            Dal.ISkillProficiencyDal dalSkillProficiency)
         {
             _logger = logger;
             _dalSkillProficiency = dalSkillProficiency;
