@@ -61,6 +61,19 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
+        protected IPositionCandidateDal PreparePositionCandidateDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IPositionCandidateDal dal = new PositionCandidateDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
         protected IPositionCandidateStepDal PreparePositionCandidateStepDal(string configName)
         {
             IConfiguration config = GetConfiguration();

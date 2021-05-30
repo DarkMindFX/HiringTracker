@@ -24,19 +24,23 @@ namespace HRT.DAL.MSSQL
 
         public bool Delete(long id)
         {
-            bool removed = base.Delete<Candidate>("p_Candidate_Delete", id, "@ProposalID");
+            bool removed = base.Delete<Candidate>("p_PositionCandidates_Delete", id, "@ProposalID");
 
             return removed;
         }
 
         public PositionCandidate Get(long id)
         {
-            throw new NotImplementedException();
+            PositionCandidate entity = base.Get<PositionCandidate>("p_PositionCandidates_GetDetails", id, "@ProposalID", PositionCandidateFromRow);
+
+            return entity;
         }
 
         public IList<PositionCandidate> GetAll()
         {
-            throw new NotImplementedException();
+            IList<PositionCandidate> result = base.GetAll<PositionCandidate>("p_PositionCandidates_GetAll", PositionCandidateFromRow);
+
+            return result;
         }
 
         public IList<PositionCandidate> GetByCandidate(long id)
