@@ -10,6 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
+import Proposal from "../components/Proposal";
 import constants from "../constants";
 const { v4: uuidv4 } = require('uuid');
 
@@ -30,6 +31,7 @@ class CandidatePage extends React.Component {
             candidate: this._createEmptyCandidateObj(),
 
             showDeleteConfirm: false,
+            showProposalDialog: false,
             showError: false,
             showSuccess: false,
             error: null,
@@ -45,6 +47,8 @@ class CandidatePage extends React.Component {
         this.onEmailChanged = this.onEmailChanged.bind(this);
         this.onPhoneChanged = this.onPhoneChanged.bind(this);
         this.onCVLinkChanged = this.onCVLinkChanged.bind(this);
+        this.onProposeClicked = this.onProposeClicked.bind(this);
+        this.onProposeCompleted = this.onProposeCompleted.bind(this);
     }
 
     componentDidMount(event) {
@@ -99,6 +103,20 @@ class CandidatePage extends React.Component {
             console.log('No token - need to login')
             this.props.history.push(`/login?ret=/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
         }
+    }
+
+    onProposeClicked()
+    {
+        let updatedState = this.state;
+        updatedState.showProposalDialog = true;
+        this.setState(updatedState);
+    }
+
+    onProposeCompleted()
+    {
+        let updatedState = this.state;
+        updatedState.showProposalDialog = false;
+        this.setState(updatedState);        
     }
 
     onFirstNameChanged(event) {
@@ -299,6 +317,13 @@ class CandidatePage extends React.Component {
         });
     }
 
+    onProposeCancel()
+    {
+        const updatedState = this.state;
+        updatedState.showProposalDialog = false;
+        this.setState(updatedState);        
+    }
+
     
 
     render() {
@@ -329,6 +354,9 @@ class CandidatePage extends React.Component {
                                 <Button variant="contained" color="secondary"
                                         style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
+
+                                <Button variant="contained" 
+                                        onClick={ () => this.onProposeClicked() }>Propose</Button>
 
                                 <Button variant="contained" component={Link} to="/candidates">Cancel</Button>
                             </td>
@@ -430,7 +458,21 @@ class CandidatePage extends React.Component {
                     </tbody>
                 </table>
 
-                <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
+                <Dialog open={this.state.showProposalDialog} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Position / Candidate Assignment</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Choose position to which candidate should be assigned
+                        </DialogContentText>  
+                        <Proposal 
+                            CandidateID={ this.state.id }
+                            canEdit={ this.state.canEdit } 
+                            onCompleted = { this.onProposeCompleted }
+                            />                  
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onProposeCancel() }} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Delete Candidate</DialogTitle>
                     <DialogContent>
                     <DialogContentText>

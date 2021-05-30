@@ -127,20 +127,20 @@ class SkillItem extends React.Component {
         let styleSkill = {
             width: "100%"
         }
-        
+         
         let key = 1;
 
         let itemsSkills = this.state.skills.map( (skill) => (
-            <MenuItem key={skill.SkillID} value={skill.Name}>{skill.Name}</MenuItem>
+            <MenuItem id={skill.SkillID} key={skill.SkillID} value={skill.Name}>{skill.Name}</MenuItem>
         ));
 
         let itemsProficiences = this.state.profs.map( (prof) => (
-            <MenuItem key={prof.ProfID} value={prof.Name}>{prof.Name}</MenuItem>            
+            <MenuItem id={prof.ProfID} key={prof.ProfID} value={prof.Name}>{prof.Name}</MenuItem>            
         ) )
 
         return (
             <div>
-                <div key={"divEdit" + this.state.SkillID} style={styleEdit}>
+                <div key={"divEdit" + this.state.skillID} style={styleEdit}>
                     <FormControl style={{minWidth: 250}}>
                     <Select
                         minWidth={300}                   
@@ -172,7 +172,7 @@ class SkillItem extends React.Component {
 
                 </div>  
                  
-                <div key={"divView" + this.state.SkillID} style={styleView}>
+                <div key={"divView" + this.state.skillID} style={styleView}>
                     <table>
                         <tbody>
                             <tr>
