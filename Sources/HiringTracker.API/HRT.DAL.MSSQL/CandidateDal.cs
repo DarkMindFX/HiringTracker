@@ -107,13 +107,13 @@ namespace HRT.DAL.MSSQL
 
                 AddParameter(cmd, "@FirstName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.FirstName);
 
-                AddParameter(cmd, "@MiddleName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.MiddleName);
+                AddParameter(cmd, "@MiddleName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.MiddleName));
 
                 AddParameter(cmd, "@LastName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.LastName);
 
                 AddParameter(cmd, "@Email", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.Email);
 
-                AddParameter(cmd, "@Phone", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.Phone);
+                AddParameter(cmd, "@Phone", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Phone));
 
                 AddParameter(cmd, "@CVLink", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, entity.CVLink);
 

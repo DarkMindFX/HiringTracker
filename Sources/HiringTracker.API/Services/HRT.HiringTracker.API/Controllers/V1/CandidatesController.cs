@@ -102,7 +102,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         public IActionResult AddCandidate(DTO.CandidateUpsert dto)
         {
