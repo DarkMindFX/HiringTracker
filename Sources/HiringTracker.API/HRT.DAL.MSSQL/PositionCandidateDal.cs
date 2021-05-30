@@ -45,7 +45,7 @@ namespace HRT.DAL.MSSQL
 
             using (SqlConnection conn = OpenConnection())
             {
-                SqlCommand cmd = new SqlCommand("p_PositionCandidate_Upsert", conn);
+                SqlCommand cmd = new SqlCommand("p_PositionCandidate_GetByCandidate", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 AddParameter(cmd, "@CandidateID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, id);
@@ -70,6 +70,27 @@ namespace HRT.DAL.MSSQL
         public IList<PositionCandidate> GetByPosition(long id)
         {
             IList<PositionCandidate> result = new List<PositionCandidate>();
+
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_PositionCandidate_GetByPosition", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                AddParameter(cmd, "@PositionID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, id);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count >= 1)
+                {
+                    result = new List<PositionCandidate>();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        var c = PositionCandidateFromRow(row);
+
+                        result.Add(c);
+                    }
+                }
+            }
 
             return result;
         }
