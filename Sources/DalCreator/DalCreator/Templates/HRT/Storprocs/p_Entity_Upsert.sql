@@ -1,0 +1,50 @@
+﻿
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF OBJECT_ID('p_{Entity}_Upsert', 'P') IS NOT NULL
+DROP PROC [dbo].[p_{Entity}_Upsert]
+GO
+
+CREATE PROCEDURE [dbo].[p_{Entity}_Upsert]
+	{PARAMS_UPSERT_LIST}
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    IF(@ID IS NULL)
+	BEGIN
+		INSERT INTO [dbo].[{Entity}]
+		SELECT {UPSERT_INSERT_VALUES_LIST}
+
+	END
+	ELSE
+	BEGIN
+		
+		IF(EXISTS(SELECT 1 FROM dbo.Candidate WHERE {WHERE_PK_LIST}))
+		BEGIN
+			UPDATE [dbo].[{Entity}]
+			SET
+				{UPSERT_UPDATE_VALUES_LIST}
+			WHERE	
+				{WHERE_PK_LIST}
+
+ 		END
+		ELSE
+		BEGIN
+			THROW 51001, '{Entity} was not found', 1;
+		END		
+	END
+
+	SELECT
+		e.*
+	FROM
+		[dbo].[{Entity}]
+	WHERE
+		{WHERE_UPSERT_LIST}
+END
+GO
