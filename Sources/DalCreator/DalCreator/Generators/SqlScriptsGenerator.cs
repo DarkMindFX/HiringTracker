@@ -18,7 +18,7 @@ namespace DalCreator.Generators
         public DateTime Timestamp { get; set; }
     }
 
-    public class SqlScriptsGenerator
+    public class SqlScriptsGenerator : GeneratorBase
     {
         private readonly SqlScriptsGeneratorParams _genParams;
 
@@ -68,26 +68,7 @@ namespace DalCreator.Generators
             return resultFiles;
         }
 
-        private string ComposeFile(string outRoot, string templatesRoot, string templateFile, IDictionary<string, string> replacements)
-        {
-            string resultFile = null;
-            string templatePath = Path.Combine(templatesRoot, templateFile);
-            if (File.Exists(templatePath))
-            {
-                string fileName = templateFile.Replace("Entity", replacements["Entity"]);
-                resultFile = Path.Combine(outRoot, fileName);
-                string content = File.ReadAllText(templatePath);
-
-                foreach(var k in replacements.Keys)
-                {
-                    content = content.Replace("{"+k+"}", replacements[k]);
-                }
-
-                File.WriteAllText(resultFile, content);
-            }
-
-            return resultFile;
-        }
+        
 
 
         private string GenerateUpserInsertValuesList(DataTable table)

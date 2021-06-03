@@ -109,6 +109,11 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
+        public User Upsert(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support methods
         public User UserFromRow(DataRow row)
         {

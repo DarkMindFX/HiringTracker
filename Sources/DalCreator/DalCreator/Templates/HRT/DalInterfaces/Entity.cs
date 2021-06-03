@@ -8,6 +8,6 @@ namespace {DalNamespace}.Entities
 {
     public class {Entity}
     {
-        {ENTITY_PROPERTIES_LIST}
+{ENTITY_PROPERTIES_LIST}
     }
 }

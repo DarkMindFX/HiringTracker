@@ -49,6 +49,11 @@ namespace HRT.DAL.MSSQL
             throw new NotImplementedException();
         }
 
+        public SkillProficiency Upsert(SkillProficiency entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support methods
         private SkillProficiency SkillProfFromRow(DataRow row)
         {

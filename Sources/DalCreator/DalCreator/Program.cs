@@ -41,6 +41,17 @@ namespace DalCreator
             var dalEntGenerator = new DalEntitiesGenerator(dalEntGenParams);
             var dalEntFiles = dalEntGenerator.GenerateScripts(tables);
 
+            // Generating Dal Implementations
+            DalImplsGeneratorParams dalImplsGenParams = new DalImplsGeneratorParams();
+            dalImplsGenParams.OutputRoot = settings.OutputRoot;
+            dalImplsGenParams.TemplatesRoot = settings.TemplatesRoot;
+            dalImplsGenParams.TemplateName = settings.TemplateName;
+            dalImplsGenParams.Timestamp = timestamp;
+            dalImplsGenParams.DalImplNamespace = settings.DalNamespace;
+
+            var dalImplsGenerator = new DalImplsGenerator(dalImplsGenParams);
+            var dalImplsFiles = dalImplsGenerator.GenerateScripts(tables);
+
         }
 
         private static IConfigurationRoot PrepareConfig()

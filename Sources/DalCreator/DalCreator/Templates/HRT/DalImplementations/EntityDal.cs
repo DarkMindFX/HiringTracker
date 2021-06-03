@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
 using HRT.Common;
+using HRT.DAL.MSSQL;
 using {DalImplNamespace};
 using {DalImplNamespace}.Entities;
 
@@ -21,36 +22,53 @@ namespace {DalImplNamespace}
             return new {Entity}DalInitParams();
         }
 
+        public void Init(IInitParams initParams)
+        {
+            InitDbConnection(initParams.Parameters["ConnectionString"]);
+        }
+
         public bool Delete(long id)
         {
-            bool removed = base.Delete<{Entity}>("p_{Entity}_Delete", id, "{PK_PARAM}");
+            bool removed = base.Delete<{Entity}>("p_{Entity}_Delete", id, "@ID");
 
             return removed;
         }
 
         public {Entity} Get(long id)
         {
-            {Entity} entity = base.Get<{Entity}>("p_{Entity}_GetDetails", id, "{PK_PARAM}", {Entity}FromRow);
+            {Entity} entityOut = base.Get<{Entity}>("p_{Entity}_GetDetails", id, "@ID", {Entity}FromRow);
 
-            return entity;
+            return entityOut;
         }
 
-        public IList<Candidate> GetAll()
+        public IList<{Entity}> GetAll()
         {
             IList<{Entity}> result = base.GetAll<{Entity}>("p_{Entity}_GetAll", {Entity}FromRow);
 
             return result;
         }
 
-        public {Entity} Upsert({Entity} entity, long? editorID) 
-        { 
+        public {Entity} Upsert({Entity} entity) 
+        {
+            {Entity} entityOut = base.Upsert<{Entity}>("p_{Entity}_Upsert", entity, AddUpsertParameters, {Entity}FromRow);
+
+            return entityOut;
         }
 
-        protected {Entity}FromRow(DataRow row)
+        protected SqlCommand AddUpsertParameters(SqlCommand cmd, {Entity} entity)
+        {
+            {UPSERT_PARAMS_LIST}
+
+            return cmd;
+        }
+
+        protected {Entity} {Entity}FromRow(DataRow row)
         {
             var entity = new {Entity}();
 
-    return entity;
+            {ROW_TO_ENTITY_LIST}
+
+            return entity;
         }
     }
 }

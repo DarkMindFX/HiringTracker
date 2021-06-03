@@ -16,22 +16,29 @@ BEGIN
 
 	SET NOCOUNT ON;
 
+	DECLARE @ItemID AS BIGINT
+
     IF(@ID IS NULL)
 	BEGIN
 		INSERT INTO [dbo].[{Entity}]
 		SELECT {UPSERT_INSERT_VALUES_LIST}
 
+		SET @ID = @@IDENTITY
+
 	END
 	ELSE
 	BEGIN
 		
-		IF(EXISTS(SELECT 1 FROM dbo.Candidate WHERE {WHERE_PK_LIST}))
+		IF(EXISTS(SELECT 1 FROM dbo.{Entity} WHERE {WHERE_PK_LIST}))
 		BEGIN
 			UPDATE [dbo].[{Entity}]
 			SET
 				{UPSERT_UPDATE_VALUES_LIST}
 			WHERE	
 				{WHERE_PK_LIST}
+
+
+			SELECT @ItemID = @ID FROM dbo.{Entity} WHERE {WHERE_PK_LIST}
 
  		END
 		ELSE
@@ -43,8 +50,8 @@ BEGIN
 	SELECT
 		e.*
 	FROM
-		[dbo].[{Entity}]
+		[dbo].[{Entity}] e
 	WHERE
-		{WHERE_UPSERT_LIST}
+		{WHERE_PK_LIST}
 END
 GO

@@ -60,6 +60,11 @@ namespace HRT.DAL.MSSQL
 
             return entity;
         }
+
+        public Skill Upsert(Skill entity)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

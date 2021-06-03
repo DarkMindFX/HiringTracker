@@ -17,7 +17,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	IF(EXISTS(SELECT 1 FROM dbo.Candidate c WHERE {WHERE_PK_LIST})) 
+	IF(EXISTS(SELECT 1 FROM [dbo].[{Entity}] c WHERE {WHERE_PK_LIST})) 
 	BEGIN
 		SET @Found = 1; -- notifying that record was found
 		

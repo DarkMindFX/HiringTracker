@@ -19,7 +19,6 @@ namespace DalCreator
     public class ModelExtractor
     {
         private ModelExtractorParams _initParams;
-        private IDictionary<string, Type> _typeMapping;
 
         public void Init(ModelExtractorParams initParams)
         {

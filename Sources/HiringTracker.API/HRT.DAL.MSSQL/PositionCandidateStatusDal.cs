@@ -48,6 +48,11 @@ namespace HRT.DAL.MSSQL
             throw new NotImplementedException();
         }
 
+        public PositionCandidateStatus Upsert(PositionCandidateStatus entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support method
         private PositionCandidateStatus PositionCandidateStatusFromRow(DataRow row)
         {

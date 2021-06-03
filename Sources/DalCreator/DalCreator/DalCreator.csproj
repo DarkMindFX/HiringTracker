@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Templates\HRT\DalImplementations\EntityDal.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\Entity.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\IEntityDal.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Templates\HRT\DalImplementations\EntityDal.cs" />
     <None Include="Templates\HRT\DalInterfaces\Entity.cs" />
     <None Include="Templates\HRT\DalInterfaces\IEntityDal.cs" />
   </ItemGroup>
@@ -28,10 +30,6 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Templates\HRT\DalImplementations\" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

@@ -138,6 +138,11 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
+        public PositionCandidate Upsert(PositionCandidate entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support methods
         private PositionCandidate PositionCandidateFromRow(DataRow row)
         {

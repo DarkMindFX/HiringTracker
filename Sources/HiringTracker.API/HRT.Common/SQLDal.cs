@@ -76,6 +76,28 @@ namespace HRT.Common
             return result;
         }
 
+        protected TEntity Upsert<TEntity>(string procName, TEntity entity, Func<SqlCommand, TEntity, SqlCommand> fnAddParams , Func<DataRow, TEntity> fnFromRow)
+        {
+            TEntity result = default(TEntity);
+
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd = fnAddParams(cmd, entity);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = fnFromRow(ds.Tables[0].Rows[0]);
+                }
+            }
+
+            return result;
+        }
+
         protected bool Delete<TEntity>(string procName, long id, string paramName) where TEntity : new()
         {
             bool result = false;

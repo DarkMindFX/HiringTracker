@@ -48,6 +48,11 @@ namespace HRT.DAL.MSSQL
             throw new NotImplementedException();
         }
 
+        public PositionCandidateStep Upsert(PositionCandidateStep entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support method
         private PositionCandidateStep PositionCandidateStepFromRow(DataRow row)
         {

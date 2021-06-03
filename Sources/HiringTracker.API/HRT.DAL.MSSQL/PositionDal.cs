@@ -127,6 +127,11 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
+        public Position Upsert(Position entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Support methods
         private Position PositionFromRow(DataRow row)
         {

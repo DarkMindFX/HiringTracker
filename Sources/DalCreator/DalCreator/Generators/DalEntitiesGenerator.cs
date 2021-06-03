@@ -20,7 +20,7 @@ namespace DalCreator.Generators
         public string DalNamespace { get; set; }
     }
 
-    public class DalEntitiesGenerator
+    public class DalEntitiesGenerator : GeneratorBase
     {
         private readonly DalEntitiesGeneratorParams _genParams;
 
@@ -34,58 +34,48 @@ namespace DalCreator.Generators
             IList<string> resultFiles = new List<string>();
 
             string templatesRoot = GetTemplatesFolder();
-            string outRoot = GetOutputFolder();
-            string contentEntity = File.ReadAllText(Path.Combine(templatesRoot, "Entity.cs"));
-            string contentIEntityDal = File.ReadAllText(Path.Combine(templatesRoot, "IEntityDal.cs"));
+            string outRootEntities = GetOutputFolder("Entities");
+            string outRootInterfaces = GetOutputFolder("Interfaces");
+            string fileEntity = "Entity.cs";
+            string fileIEntityDal = "IEntityDal.cs";
 
             foreach (var table in tables)
             {
-                var fileEntity = GenerateEntity(outRoot, contentEntity, table);
-                if (fileEntity != null)
+                IDictionary<string, string> replacements = new Dictionary<string, string>();
+                replacements.Add("Entity", table.Name);
+                replacements.Add("DalNamespace", _genParams.DalNamespace); ;
+                replacements.Add("ENTITY_PROPERTIES_LIST", GenerateEntityProperties(table));
+
+                var outEntity = ComposeFile(outRootEntities, templatesRoot, fileEntity, replacements);
+                var outIEntityDal = ComposeFile(outRootInterfaces, templatesRoot, fileIEntityDal, replacements);
+
+                if(outEntity != null)
                 {
-                    resultFiles.Add(fileEntity);
+                    resultFiles.Add(outEntity);
                 }
-                var fileIEntityDal = GenerateIEntityDal(outRoot, contentIEntityDal, table);
-                if (fileIEntityDal != null)
+                if (outIEntityDal != null)
                 {
-                    resultFiles.Add(fileIEntityDal);
+                    resultFiles.Add(outIEntityDal);
                 }
             }
 
             return resultFiles;
         }
 
-        private string GenerateEntity(string outRoot, string contentEntity, DataTable table)
+        private string GenerateEntityProperties(DataTable table)
         {
-            string outPath = Path.Combine(outRoot, table.Name + ".cs");
             StringBuilder properties = new StringBuilder();
 
             foreach(var c in table.Columns)
             {
                 string prop = GenerateClassProperty(c) + "\r\n";
-                properties.Append( prop);
+                properties.Append(prop);
             }
 
-            contentEntity = contentEntity.Replace("{ENTITY_PROPERTIES_LIST}", properties.ToString());
-            contentEntity = contentEntity.Replace("{Entity}", table.Name);
-            contentEntity = contentEntity.Replace("{DaNamespace}", _genParams.DalNamespace);
-
-            File.WriteAllText(outPath, contentEntity);
-
-            return outPath;
+            return properties.ToString();
         }
 
-        private string GenerateIEntityDal(string outRoot, string contentIEntityDal, DataTable table)
-        {
-            string outPath = Path.Combine(outRoot, "I" + table.Name + "Dal.cs");
-
-            contentIEntityDal = contentIEntityDal.Replace("{Entity}", table.Name);
-            contentIEntityDal = contentIEntityDal.Replace("{DaNamespace}", _genParams.DalNamespace);
-
-            File.WriteAllText(outPath, contentIEntityDal);
-
-            return outPath;
-        }
+        
 
         private string GenerateClassProperty(DataColumn c)
         {
@@ -99,63 +89,16 @@ namespace DalCreator.Generators
         }
         
 
-        private string DbTypeToType(DataColumn c)
-        {
-            string result = null;
-            Type type = null;
-
-            switch(c.SqlType.ToLower())
-            {
-                case "int":
-                    type = typeof(Int32);
-                    break;
-                case "date":
-                case "datetime":
-                case "datetime2":
-                    type = typeof(DateTime);
-                    break;
-                case "bit":
-                    type = typeof(bool);
-                    break;
-                case "bigint":
-                    type = typeof(long);
-                    break;
-                case "float":
-                    type = typeof(float);
-                    break;
-                case "numeric":
-                case "decimal":
-                    type = typeof(decimal);
-                    break;
-                case "char":
-                case "nchar":
-                case "varchar":
-                case "nvarchar":
-                case "text":
-                case "ntext":
-                case "xml":
-                    type = typeof(string);
-                    break;
-            }
-
-            result = type.ToString();
-
-            if (c.IsIdentity || (c.IsNullable && Nullable.GetUnderlyingType(type) == null))
-            {
-                result += "?";
-            }
-
-            return result;
-        }
+        
 
         protected string GetTemplatesFolder()
         {
             return Path.Combine(_genParams.TemplatesRoot, _genParams.TemplateName, "DalInterfaces");
         }
 
-        protected string GetOutputFolder()
+        protected string GetOutputFolder(string folder)
         {
-            string outFolder = Path.Combine(_genParams.OutputRoot, _genParams.TemplateName, _genParams.Timestamp.ToString("yyyy-MM-dd HH-mm-ss"), "DalInterfaces");
+            string outFolder = Path.Combine(_genParams.OutputRoot, _genParams.TemplateName, _genParams.Timestamp.ToString("yyyy-MM-dd HH-mm-ss"), "DalInterfaces", folder);
             if (!Directory.Exists(outFolder))
             {
                 Directory.CreateDirectory(outFolder);
