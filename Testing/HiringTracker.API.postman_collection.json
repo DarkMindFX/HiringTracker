@@ -1,0 +1,790 @@
+{
+	"info": {
+		"_postman_id": "bcf2f583-695b-4448-a16f-58903dd4fdb7",
+		"name": "HiringTracker.API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_login\": \"TestUser02\",\r\n    \"_fname\": \"Test 2 API First\",\r\n    \"_lname\": \"Test 2 API Last\",\r\n    \"_email\": \"testapiuser2@email.com\",\r\n    \"_pwd\": \"SomePassword2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"_userId\": 33010025,\r\n        \"_login\": \"[Test OPRFGHUB] Inserted User_U\",\r\n        \"_fname\": \"[Test OPRFGHUB] Test First_U\",\r\n        \"_lname\": \"[Test OPRFGHUB] Test Last_U\",\r\n        \"_email\": \"user2testdupinsert@email.com_U\",\r\n        \"_desc\": \"Desc_U\",\r\n        \"_pwd\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "33010025"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "33010025"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Position",
+			"item": [
+				{
+					"name": "Get All Positions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzA0MjkzLCJleHAiOjE2MjIzMDc4OTMsImlhdCI6MTYyMjMwNDI5M30.mE7-8n2ihR5-BruVRrPMTlPJH1dnUz-qqZFt8t7u51k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Position By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzA1OTE3LCJleHAiOjE2MjIzMDk1MTcsImlhdCI6MTYyMjMwNTkxN30.T9ae9aGHfiTdLbE79lyhWMX2w6qgfChjaGiAQX9P--A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "100001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Position Skills",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwNzg1LCJleHAiOjE2MjIzMTQzODUsImlhdCI6MTYyMjMxMDc4NX0.iRpVM04O1Hf-YXPKF87J00_y8NRYOBtGjWfVxKc_Fu0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions/:id/skills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions",
+								":id",
+								"skills"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "110117"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Position",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwNzg1LCJleHAiOjE2MjIzMTQzODUsImlhdCI6MTYyMjMxMDc4NX0.iRpVM04O1Hf-YXPKF87J00_y8NRYOBtGjWfVxKc_Fu0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_position\": {\r\n        \"_positionId\": null,\r\n        \"_title\": \"Very New Senior .NET Engineer\",\r\n        \"_shortDesc\": \"Very Looking for Senior .Net Engineer\",\r\n        \"_desc\": \"Very Senior .NET Engineer - Lorm ipsum Log desc\",\r\n        \"_status\": {\r\n            \"_statusId\": 1,\r\n            \"_name\": \"Draft\"\r\n        },\r\n        \"_createdBy\": {\r\n            \"_links\": [],\r\n            \"_login\": \"HRT\\\\JoeB\",\r\n            \"_userId\": 100001,\r\n            \"_fname\": \"Joe\",\r\n            \"_lname\": \"Biden\",\r\n            \"_desc\": null,\r\n            \"_email\": null\r\n        },\r\n        \"_createdDate\": \"2021-03-20T10:07:14.000Z\",\r\n        \"_modifiedBy\": null,\r\n        \"_modifiedDate\": null\r\n    },\r\n\r\n    \"_skills\": [\r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n            \"_links\": [],\r\n            \"_skillId\": 2,\r\n            \"_name\": \"C#\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 2,\r\n                \"_name\": \"Intermediate\"\r\n            },\r\n            \"_isMandatory\": true\r\n        },\r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 7,\r\n                \"_name\": \".NET CORE\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 3,\r\n                \"_name\": \"Advanced\"\r\n            },\r\n            \"_isMandatory\": true\r\n        },\r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 8,\r\n                \"_name\": \"VB.NET\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 2,\r\n                \"_name\": \"Intermediate\"\r\n            },\r\n            \"_isMandatory\": true\r\n        },\r\n        {\r\n        \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 14,\r\n                \"_name\": \"T-SQL\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 3,\r\n                \"_name\": \"Advanced\"\r\n            },\r\n            \"_isMandatory\": true\r\n        }\r\n        \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Position",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwNzg1LCJleHAiOjE2MjIzMTQzODUsImlhdCI6MTYyMjMxMDc4NX0.iRpVM04O1Hf-YXPKF87J00_y8NRYOBtGjWfVxKc_Fu0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_position\": {\r\n        \"_positionId\": 110117,\r\n        \"_title\": \"UPDATED Very New Senior .NET Engineer\",\r\n        \"_shortDesc\": \"UPDATED Very Looking for Senior .Net Engineer\",\r\n        \"_desc\": \"UPDATED Very Very Senior .NET Engineer - Lorm ipsum Log desc\",\r\n        \"_status\": {\r\n            \"_statusId\": 2\r\n        },\r\n        \"_createdBy\": {\r\n            \"_links\": [],\r\n            \"_login\": \"HRT\\\\JoeB\",\r\n            \"_userId\": 100001,\r\n            \"_fname\": \"Joe\",\r\n            \"_lname\": \"Biden\",\r\n            \"_desc\": null,\r\n            \"_email\": null\r\n        },\r\n        \"_createdDate\": \"2021-03-20T10:07:14.000Z\",\r\n        \"_modifiedBy\": null,\r\n        \"_modifiedDate\": null\r\n    },\r\n\r\n    \"_skills\": [        \r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 7,\r\n                \"_name\": \".NET CORE\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 2\r\n            },\r\n            \"_isMandatory\": false\r\n        },\r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 15\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 3\r\n            },\r\n            \"_isMandatory\": true\r\n        }\r\n        \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Position",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExNDc0LCJleHAiOjE2MjIzMTUwNzQsImlhdCI6MTYyMjMxMTQ3NH0.Ip78EuRThsJf-WmfGKLOeyRfsxCObmY7-e3UYTYHXyY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positions/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "110117"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Candidate",
+			"item": [
+				{
+					"name": "Get Candidates",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExMzc1LCJleHAiOjE2MjIzMTQ5NzUsImlhdCI6MTYyMjMxMTM3NX0.7rrVXFbTr4m0FwyupCDn9N-DHV54PqbTCkotdVzEmhM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/candidates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"candidates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Candidate By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExMzc1LCJleHAiOjE2MjIzMTQ5NzUsImlhdCI6MTYyMjMxMTM3NX0.7rrVXFbTr4m0FwyupCDn9N-DHV54PqbTCkotdVzEmhM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/candidates/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"candidates",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "100001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Candidate Skills",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExMzc1LCJleHAiOjE2MjIzMTQ5NzUsImlhdCI6MTYyMjMxMTM3NX0.7rrVXFbTr4m0FwyupCDn9N-DHV54PqbTCkotdVzEmhM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/candidates/:id/skills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"candidates",
+								":id",
+								"skills"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "100009"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Add Candidate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExNDc0LCJleHAiOjE2MjIzMTUwNzQsImlhdCI6MTYyMjMxMTQ3NH0.Ip78EuRThsJf-WmfGKLOeyRfsxCObmY7-e3UYTYHXyY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_candidate\": {\r\n        \"_fname\": \"Test George\",\r\n        \"_mname\": null,\r\n        \"_lname\": \"Test Washington\",\r\n        \"_email\": \"test_gw@georgy.com\",\r\n        \"_phone\": \"+9912355567566\",\r\n        \"_cvlink\": \"http://dropbox.com/cv/testgeorgewashington.pdf\"\r\n    },\r\n\r\n    \"_skills\": [        \r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 7,\r\n                \"_name\": \".NET CORE\"\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 2\r\n            },\r\n            \"_isMandatory\": false\r\n        },\r\n        {\r\n            \"_links\": [],\r\n            \"_skill\": {\r\n                \"_links\": [],\r\n                \"_skillId\": 15\r\n            },\r\n            \"_proficiency\": {\r\n                \"_links\": [],\r\n                \"_id\": 3\r\n            },\r\n            \"_isMandatory\": true\r\n        }\r\n        \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/candidates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"candidates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzExNDc0LCJleHAiOjE2MjIzMTUwNzQsImlhdCI6MTYyMjMxMTQ3NH0.Ip78EuRThsJf-WmfGKLOeyRfsxCObmY7-e3UYTYHXyY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/candidates/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"candidates",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "110083"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Utils",
+			"item": [
+				{
+					"name": "Get SkillProficiencies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/skillproficiencies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"skillproficiencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Skills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/skills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PositionCandidateSteps",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwMDAwNjcsImlhdCI6MTYyMTQ1NDY4NywiZXhwIjoxNjIxNDU1Mjg3fQ.pDRhFBJJrj86gT2kH_0W9Tl2pnBq4fkIUyUefFJANK4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positioncandidatesteps",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positioncandidatesteps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PositionCandidateStatuses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwMDAwNjcsImlhdCI6MTYyMTQ1NDY4NywiZXhwIjoxNjIxNDU1Mjg3fQ.pDRhFBJJrj86gT2kH_0W9Tl2pnBq4fkIUyUefFJANK4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/positioncandidatestatuses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"positioncandidatestatuses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMwMDAwNTksImlhdCI6MTYxNzUwMTg4MSwiZXhwIjoxNjE3NTA1NDgxfQ.f03XqtAcW48VFII2T_BL4tEMaTDTdEN9iKriwwsh4sw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_login\": \"TestUser01\",\r\n    \"_pwd\": \"SomePassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
