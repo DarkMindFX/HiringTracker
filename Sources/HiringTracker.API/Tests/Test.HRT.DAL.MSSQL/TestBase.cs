@@ -100,6 +100,19 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
+        protected IDepartmentDal PrepareDepartmentDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IDepartmentDal dal = new DepartmentDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
         protected IPositionDal PreparePositionDal(string configName)
         {
             IConfiguration config = GetConfiguration();
@@ -126,14 +139,17 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
-        protected void SetupCase(SqlConnection conn, string caseRoot)
+        protected object SetupCase(SqlConnection conn, string caseRoot)
         {
+            object result = null;
             string fileName = "Setup.sql";
             string path = Path.Combine(TestBaseFolder, caseRoot, fileName);
             if (File.Exists(path))
             {
-                RunScript(conn, path);
+                result = RunScript(conn, path);
             }
+
+            return result;
         }
 
         protected SqlConnection OpenConnection(string settingsName)
@@ -164,16 +180,19 @@ namespace Test.HRT.DAL.MSSQL
             }
         }
 
-        protected void RunScript(SqlConnection conn, string filePath)
+        protected object RunScript(SqlConnection conn, string filePath)
         {
+            object result = null;
             string sql = File.ReadAllText(filePath);
             if (!string.IsNullOrEmpty(sql))
             {
                 SqlCommand cmd = new SqlCommand(sql);
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
+                result = cmd.ExecuteScalar();
             }
+
+            return result;
         }
 
         protected string TestBaseFolder

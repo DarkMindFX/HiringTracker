@@ -9,12 +9,18 @@
     <Compile Remove="Templates\HRT\DalImplementations\EntityDal.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\Entity.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\IEntityDal.cs" />
+    <Compile Remove="Templates\HRT\DalTests\TestEntityDal.cs" />
+    <Compile Remove="Templates\HRT\DTOs\Entity.cs" />
+    <Compile Remove="Templates\HRT\DTOs\IEntityDal.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Templates\HRT\DalImplementations\EntityDal.cs" />
     <None Include="Templates\HRT\DalInterfaces\Entity.cs" />
     <None Include="Templates\HRT\DalInterfaces\IEntityDal.cs" />
+    <None Include="Templates\HRT\DalTests\TestEntityDal.cs" />
+    <None Include="Templates\HRT\DTOs\Entity.cs" />
+    <None Include="Templates\HRT\DTOs\IEntityDal.cs" />
   </ItemGroup>
 
   <ItemGroup>

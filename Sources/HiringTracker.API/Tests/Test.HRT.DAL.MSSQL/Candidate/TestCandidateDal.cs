@@ -36,13 +36,18 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotEmpty(entities);
         }
 
-        [Test]
-        public void GetCandidate_Success()
+        [TestCase("Candidate\\040.GetDetails.Success")]
+        public void GetCandidate_Success(string caseName)
         {
-            long candidateId = 100001;
+            SqlConnection conn = OpenConnection("DALInitParams");
+            object objId = SetupCase(conn, caseName);
+
+            long id = (long)objId;
             var dal = PrepareCandidateDal("DALInitParams");
 
-            Candidate entity = dal.Get(candidateId);
+            Candidate entity = dal.Get(id);
+
+            TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
             Assert.AreNotEqual(0, entity.CandidateID);

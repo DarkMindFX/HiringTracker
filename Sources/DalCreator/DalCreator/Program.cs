@@ -52,6 +52,18 @@ namespace DalCreator
             var dalImplsGenerator = new DalImplsGenerator(dalImplsGenParams);
             var dalImplsFiles = dalImplsGenerator.GenerateScripts(tables);
 
+            // Generating DTOs & API Dals
+            DtosGeneratorParams dtosGenParams = new DtosGeneratorParams();
+            dtosGenParams.OutputRoot = settings.OutputRoot;
+            dtosGenParams.TemplatesRoot = settings.TemplatesRoot;
+            dtosGenParams.TemplateName = settings.TemplateName;
+            dtosGenParams.Timestamp = timestamp;
+            dtosGenParams.DtoNamespace = settings.DtoNamespace;
+            dtosGenParams.ApiDalNamespace = settings.ApiDalNamespace;
+
+            var dtosGenerator = new DtosGenerator(dtosGenParams);
+            var dtosFiles = dtosGenerator.GenerateScripts(tables);
+
         }
 
         private static IConfigurationRoot PrepareConfig()

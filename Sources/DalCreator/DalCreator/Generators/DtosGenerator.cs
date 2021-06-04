@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DalCreator.Generators
 {
-    public class DalEntitiesGeneratorParams
+    public class DtosGeneratorParams
     {
         public string TemplatesRoot { get; set; }
 
@@ -17,14 +17,16 @@ namespace DalCreator.Generators
 
         public DateTime Timestamp { get; set; }
 
-        public string DalNamespace { get; set; }
+        public string DtoNamespace { get; set; }
+
+        public string ApiDalNamespace { get; set; }
     }
 
-    public class DalEntitiesGenerator : GeneratorBase
+    public class DtosGenerator : GeneratorBase
     {
-        private readonly DalEntitiesGeneratorParams _genParams;
+        private readonly DtosGeneratorParams _genParams;
 
-        public DalEntitiesGenerator(DalEntitiesGeneratorParams genParams)
+        public DtosGenerator(DtosGeneratorParams genParams)
         {
             _genParams = genParams;
         }
@@ -43,13 +45,14 @@ namespace DalCreator.Generators
             {
                 IDictionary<string, string> replacements = new Dictionary<string, string>();
                 replacements.Add("Entity", table.Name);
-                replacements.Add("DalNamespace", _genParams.DalNamespace); ;
+                replacements.Add("DtoNamespace", _genParams.DtoNamespace);
+                replacements.Add("ApiDalNamespace", _genParams.ApiDalNamespace);
                 replacements.Add("ENTITY_PROPERTIES_LIST", GenerateEntityProperties(table));
 
                 var outEntity = ComposeFile(outRootEntities, templatesRoot, fileEntity, replacements);
                 var outIEntityDal = ComposeFile(outRootInterfaces, templatesRoot, fileIEntityDal, replacements);
 
-                if(outEntity != null)
+                if (outEntity != null)
                 {
                     resultFiles.Add(outEntity);
                 }
@@ -66,7 +69,7 @@ namespace DalCreator.Generators
         {
             StringBuilder properties = new StringBuilder();
 
-            foreach(var c in table.Columns)
+            foreach (var c in table.Columns)
             {
                 string prop = GenerateClassProperty(c) + "\r\n";
                 properties.Append(prop);
@@ -78,8 +81,16 @@ namespace DalCreator.Generators
         private string GenerateClassProperty(DataColumn c)
         {
             StringBuilder result = new StringBuilder();
+            result.Append($"\t\t[JsonPropertyName(\"{c.Name}\")]\r\n");
             result.Append("\t\tpublic ");
-            result.Append(DbTypeToType(c));
+            if (string.IsNullOrEmpty(c.FKRefTable))
+            {
+                result.Append(DbTypeToType(c));
+            }
+            else
+            {
+                result.Append(c.FKRefTable);
+            }
             result.Append(" ");
             result.Append($"{c.Name}" + " { get; set; }\r\n");
 
@@ -88,12 +99,12 @@ namespace DalCreator.Generators
 
         protected string GetTemplatesFolder()
         {
-            return Path.Combine(_genParams.TemplatesRoot, _genParams.TemplateName, "DalInterfaces");
+            return Path.Combine(_genParams.TemplatesRoot, _genParams.TemplateName, "DTOs");
         }
 
         protected string GetOutputFolder(string folder)
         {
-            string outFolder = Path.Combine(_genParams.OutputRoot, _genParams.TemplateName, _genParams.Timestamp.ToString("yyyy-MM-dd HH-mm-ss"), "DalInterfaces", folder);
+            string outFolder = Path.Combine(_genParams.OutputRoot, _genParams.TemplateName, _genParams.Timestamp.ToString("yyyy-MM-dd HH-mm-ss"), "DTOs", folder);
             if (!Directory.Exists(outFolder))
             {
                 Directory.CreateDirectory(outFolder);

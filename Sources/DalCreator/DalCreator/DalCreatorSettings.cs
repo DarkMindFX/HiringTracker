@@ -19,5 +19,9 @@ namespace DalCreator
         public string DalNamespace { get; set; }
 
         public string DalImplNamespace { get; set; }
+
+        public string DtoNamespace { get; set; }
+
+        public string ApiDalNamespace { get; set; }
     }
 }

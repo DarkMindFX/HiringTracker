@@ -142,7 +142,7 @@ namespace HRT.DAL.MSSQL
             entity.FirstName = (string)row["FirstName"];
             entity.MiddleName = !DBNull.Value.Equals(row["MiddleName"]) ?  (string)row["MiddleName"] : null;
             entity.LastName = (string)row["LastName"];
-            entity.CandidateID = (long)row["CandidateID"];
+            entity.CandidateID = (long)row["ID"];
             entity.Email = (string)row["Email"];
             entity.Phone = !DBNull.Value.Equals(row["Phone"]) ? (string)row["Phone"] : null;
             entity.CVLink = (string)row["CVLink"];            

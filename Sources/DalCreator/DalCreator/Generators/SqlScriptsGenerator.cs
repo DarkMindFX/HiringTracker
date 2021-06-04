@@ -111,7 +111,7 @@ namespace DalCreator.Generators
                 var c = table.Columns[i];
                 if (!c.IsIdentity)
                 {
-                    result.Append($"[{c.Name}] = IIF( @{c.Name} IS NOT NULL, @{c.Name}, [{c.Name}] )");
+                    result.Append($"(CASE WHEN @{c.Name} IS NOT NULL THEN (CASE WHEN e.[{c.Name}] = @{c.Name} THEN 1 ELSE 0 END) ELSE 1 END) = 1");
                     if (i + 1 < table.Columns.Count) result.Append(" AND \r\t\t");
                 }
             }

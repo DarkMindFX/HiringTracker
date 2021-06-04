@@ -16,14 +16,10 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	DECLARE @ItemID AS BIGINT
-
     IF(@ID IS NULL)
 	BEGIN
 		INSERT INTO [dbo].[{Entity}]
 		SELECT {UPSERT_INSERT_VALUES_LIST}
-
-		SET @ID = @@IDENTITY
 
 	END
 	ELSE
@@ -37,9 +33,6 @@ BEGIN
 			WHERE	
 				{WHERE_PK_LIST}
 
-
-			SELECT @ItemID = @ID FROM dbo.{Entity} WHERE {WHERE_PK_LIST}
-
  		END
 		ELSE
 		BEGIN
@@ -52,6 +45,6 @@ BEGIN
 	FROM
 		[dbo].[{Entity}] e
 	WHERE
-		{WHERE_PK_LIST}
+		{WHERE_UPSERT_LIST}
 END
 GO
