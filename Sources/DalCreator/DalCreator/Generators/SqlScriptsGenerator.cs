@@ -70,23 +70,6 @@ namespace DalCreator.Generators
 
         
 
-
-        private string GenerateUpserInsertValuesList(DataTable table)
-        {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < table.Columns.Count; ++i)
-            {
-                var c = table.Columns[i];
-                if (!c.IsIdentity)
-                {
-                    result.Append($"@{c.Name}");
-                    if (i + 1 < table.Columns.Count) result.Append(",\n\t\t");
-                }
-            }
-
-            return result.ToString();
-        }
-
         private string GenerateUpserUpdateValuesList(DataTable table)
         {
             StringBuilder result = new StringBuilder();
@@ -161,11 +144,7 @@ namespace DalCreator.Generators
 
             return result.ToString();
         }
-
-        private IList<DataColumn> GetPKColumns(DataTable table)
-        {
-            return table.Columns.Where(c => c.IsPK).ToList();
-        }
+        
 
         protected string GetTemplatesFolder()
         {

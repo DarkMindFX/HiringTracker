@@ -28,9 +28,11 @@ namespace DalCreator
 
         public string FKRefTable { get; set; }
 
+        public string FKRefColumn { get; set; }
+
         public override string ToString()
         {
-            return $"[{Name}] : {SqlType + (!string.IsNullOrEmpty(FKRefTable) ? ", FK -> " + FKRefTable : string.Empty)} ";
+            return $"[{Name}] : {SqlType + (!string.IsNullOrEmpty(FKRefTable) ? $", FK -> {FKRefTable}:{FKRefColumn}"  : string.Empty)} ";
         }
 
 

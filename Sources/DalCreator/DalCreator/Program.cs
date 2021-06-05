@@ -47,7 +47,8 @@ namespace DalCreator
             dalImplsGenParams.TemplatesRoot = settings.TemplatesRoot;
             dalImplsGenParams.TemplateName = settings.TemplateName;
             dalImplsGenParams.Timestamp = timestamp;
-            dalImplsGenParams.DalImplNamespace = settings.DalNamespace;
+            dalImplsGenParams.DalNamespace = settings.DalNamespace;
+            dalImplsGenParams.DalImplNamespace = settings.DalImplNamespace;
 
             var dalImplsGenerator = new DalImplsGenerator(dalImplsGenParams);
             var dalImplsFiles = dalImplsGenerator.GenerateScripts(tables);
@@ -63,6 +64,20 @@ namespace DalCreator
 
             var dtosGenerator = new DtosGenerator(dtosGenParams);
             var dtosFiles = dtosGenerator.GenerateScripts(tables);
+
+            // Generating Dal Tests Implementations
+            DalTestsGeneratorParams dalTestsGenParams = new DalTestsGeneratorParams();
+            dalTestsGenParams.OutputRoot = settings.OutputRoot;
+            dalTestsGenParams.TemplatesRoot = settings.TemplatesRoot;
+            dalTestsGenParams.TemplateName = settings.TemplateName;
+            dalTestsGenParams.Timestamp = timestamp;
+            dalImplsGenParams.DalNamespace = settings.DalNamespace;
+            dalImplsGenParams.DalImplNamespace = settings.DalImplNamespace;
+            dalTestsGenParams.DalTestsNamespace = settings.DalTestsNamespace;
+            dalTestsGenParams.ConnectionString = initParams.ConnectionString;
+
+            var dalTestsGenerator = new DalTestsGenerator(dalTestsGenParams);
+            var dalTestsFiles = dalTestsGenerator.GenerateScripts(tables);
 
         }
 

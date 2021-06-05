@@ -5,8 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using HRT.Common;
 using HRT.DAL.MSSQL;
-using {DalImplNamespace};
-using {DalImplNamespace}.Entities;
+using {DalNamespace};
+using {DalNamespace}.Entities;
 
 namespace {DalImplNamespace} 
 {

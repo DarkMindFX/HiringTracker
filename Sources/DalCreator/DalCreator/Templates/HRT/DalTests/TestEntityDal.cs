@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace Test.HRT.DAL.MSSQL
+namespace {DalTestsNamespace}
 {
     public class Test{Entity}Dal : TestBase
     {
@@ -100,7 +100,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = Prepare{Entity}Dal("DALInitParams");
 
             var newEntity = new {Entity}();
-            {TEST_INSERT_ENTITY_VALUES}
+            {SET_INSERT_ENTITY_VALUES}
 
             var entity = dal.Upsert(newEntity);
 
@@ -120,7 +120,7 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            {TEST_UPDATE_ENTITY_VALUES}
+            {SET_UPDATE_ENTITY_VALUES}
 
             var updatedEntity = dal.Upsert(entity);
 
@@ -137,7 +137,7 @@ namespace Test.HRT.DAL.MSSQL
 
             var newEntity = new {Entity}();
             newEntity.ID = Int64.MaxValue - 1;
-            {TEST_UPDATE_ENTITY_VALUES}
+            {SET_UPDATE_ENTITY_VALUES}
 
             try
             {
@@ -150,8 +150,5 @@ namespace Test.HRT.DAL.MSSQL
                 Assert.Pass("Success - exception thrown as expected");
             }
         }
-
-        
-        
     }
 }

@@ -19,6 +19,10 @@ namespace DalCreator.Generators
         public DateTime Timestamp { get; set; }
 
         public string DalImplNamespace { get; set; }
+
+        public string DalNamespace { get; set; }
+
+
     }
 
     public class DalImplsGenerator : GeneratorBase
@@ -60,6 +64,7 @@ namespace DalCreator.Generators
             Dictionary<string, string> replacements = new Dictionary<string, string>();
             replacements.Add("Entity", table.Name);
             replacements.Add("DalImplNamespace", _genParams.DalImplNamespace);
+            replacements.Add("DalNamespace", _genParams.DalNamespace);
             replacements.Add("ROW_TO_ENTITY_LIST", rowToEntityList);
             replacements.Add("UPSERT_PARAMS_LIST", upsertParamsList);
 
