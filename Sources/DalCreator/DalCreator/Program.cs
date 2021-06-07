@@ -71,8 +71,8 @@ namespace DalCreator
             dalTestsGenParams.TemplatesRoot = settings.TemplatesRoot;
             dalTestsGenParams.TemplateName = settings.TemplateName;
             dalTestsGenParams.Timestamp = timestamp;
-            dalImplsGenParams.DalNamespace = settings.DalNamespace;
-            dalImplsGenParams.DalImplNamespace = settings.DalImplNamespace;
+            dalTestsGenParams.DalNamespace = settings.DalNamespace;
+            dalTestsGenParams.DalImplNamespace = settings.DalImplNamespace;
             dalTestsGenParams.DalTestsNamespace = settings.DalTestsNamespace;
             dalTestsGenParams.ConnectionString = initParams.ConnectionString;
 

@@ -18,11 +18,18 @@ namespace DalCreator.Generators
             {
                 string fileName = templateFile.Replace("Entity", replacements["Entity"]);
                 resultFile = Path.Combine(outRoot, fileName);
+                string resultDir = Path.GetDirectoryName(resultFile);
+                if(!Directory.Exists(resultDir))
+                {
+                    Directory.CreateDirectory(resultDir);
+                }
                 string content = File.ReadAllText(templatePath);
 
                 foreach (var k in replacements.Keys)
                 {
-                    content = content.Replace("{" + k + "}", replacements[k]);
+                    string key = k;
+                    string replacement = replacements[k];
+                    content = content.Replace("{" + key + "}", replacement);
                 }
 
                 File.WriteAllText(resultFile, content);

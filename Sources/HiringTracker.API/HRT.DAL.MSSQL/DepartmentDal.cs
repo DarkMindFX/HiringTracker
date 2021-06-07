@@ -8,14 +8,14 @@ using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
 
-namespace HRT.Interfaces
+namespace HRT.DAL.MSSQL 
 {
     class DepartmentDalInitParams : InitParamsImpl
     {
     }
 
     [Export("MSSQL", typeof(IDepartmentDal))]
-    public class DepartmentDal : SQLDal, IDepartmentDal
+    public class DepartmentDal: SQLDal, IDepartmentDal
     {
         public IInitParams CreateInitParams()
         {
@@ -48,7 +48,7 @@ namespace HRT.Interfaces
             return result;
         }
 
-        public Department Upsert(Department entity)
+        public Department Upsert(Department entity) 
         {
             Department entityOut = base.Upsert<Department>("p_Department_Upsert", entity, AddUpsertParameters, DepartmentFromRow);
 
@@ -57,13 +57,15 @@ namespace HRT.Interfaces
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, Department entity)
         {
-            SqlParameter pID = new SqlParameter(@"ID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value); cmd.Parameters.Add(pID);
+            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
 
-            SqlParameter pName = new SqlParameter(@"Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value); cmd.Parameters.Add(pName);
+		   SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
 
-            SqlParameter pUUID = new SqlParameter(@"UUID", SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "UUID", DataRowVersion.Current, (object)entity.UUID != null ? (object)entity.UUID : DBNull.Value); cmd.Parameters.Add(pUUID);
+		   SqlParameter pUUID = new SqlParameter(@"UUID",    SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "UUID", DataRowVersion.Current, (object)entity.UUID != null ? (object)entity.UUID : DBNull.Value);   cmd.Parameters.Add(pUUID); 
 
-            SqlParameter pParentID = new SqlParameter(@"ParentID", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "ParentID", DataRowVersion.Current, (object)entity.ParentID != null ? (object)entity.ParentID : DBNull.Value); cmd.Parameters.Add(pParentID);
+		   SqlParameter pParentID = new SqlParameter(@"ParentID",    SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "ParentID", DataRowVersion.Current, (object)entity.ParentID != null ? (object)entity.ParentID : DBNull.Value);   cmd.Parameters.Add(pParentID); 
+
+		   SqlParameter pManagerID = new SqlParameter(@"ManagerID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ManagerID", DataRowVersion.Current, (object)entity.ManagerID != null ? (object)entity.ManagerID : DBNull.Value);   cmd.Parameters.Add(pManagerID); 
 
 
 
@@ -74,10 +76,11 @@ namespace HRT.Interfaces
         {
             var entity = new Department();
 
-            entity.ID = (System.Int64?)row["ID"];
-            entity.Name = (System.String)row["Name"];
-            entity.UUID = !DBNull.Value.Equals(row["UUID"]) ? (System.String)row["UUID"] : null;
-            entity.ParentID = !DBNull.Value.Equals(row["ParentID"]) ? (System.Int64?)row["ParentID"] : null;
+            		entity.ID = (System.Int64?)row["ID"];
+		entity.Name = (System.String)row["Name"];
+		entity.UUID = !DBNull.Value.Equals(row["UUID"]) ?  (System.String)row["UUID"] : null;
+		entity.ParentID = !DBNull.Value.Equals(row["ParentID"]) ?  (System.Int64?)row["ParentID"] : null;
+		entity.ManagerID = (System.Int64)row["ManagerID"];
 
 
             return entity;

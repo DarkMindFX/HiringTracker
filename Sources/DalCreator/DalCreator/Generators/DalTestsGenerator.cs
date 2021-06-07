@@ -45,8 +45,6 @@ namespace DalCreator.Generators
         {
             IList<string> resultFiles = new List<string>();
 
-          
-
             string templatesRoot = GetTemplatesFolder();
             
 
@@ -74,13 +72,14 @@ namespace DalCreator.Generators
                 string fieldsVariablesListDelete = GenerateFieldsVariablesList(table, testValsDelete);
                 string fieldsVariablesListInsert = GenerateFieldsVariablesList(table, testValsInsert);
                 string fieldsVariablesListUpdate = GenerateFieldsVariablesList(table, testValsUpdate);
+                string fieldsVariablesListUpdated = GenerateFieldsVariablesList(table, testValsUpdated);
                 string insertFieldsNamesList = GenerateUpserInsertNamesList(table);
                 string insertFieldsValuesList = GenerateUpserInsertValuesList(table);
 
                 string testGetValidation = GenerateFieldsValidationList(table, testValsGet);
-                string setInsertEntityValues = GenerateSetEntityFields(table, testValsInsert);
+                string setInsertEntityValues = GenerateSetEntityFields(table, testValsInsert, "entity");
                 string testInsertValidation = GenerateFieldsValidationList(table, testValsInsert);
-                string setUpdateEntityValues = GenerateSetEntityFields(table, testValsUpdated);
+                string setUpdateEntityValues = GenerateSetEntityFields(table, testValsUpdated, "entity");
                 string testUpdateValidation = GenerateFieldsValidationList(table, testValsUpdated);
 
                 IDictionary<string, string> replacements = new Dictionary<string, string>();
@@ -92,11 +91,12 @@ namespace DalCreator.Generators
                 replacements.Add("PKS_ASSIGNMENT_LIST", pksAssignmentList);
                 replacements.Add("PKS_VARS_LIST", pksVarsList);
                 replacements.Add("INSERT_FIELDS_NAMES_LIST", insertFieldsNamesList);
-                replacements.Add("INSERT_FIELDS_VALUES_LIST", insertFieldsValuesList);
+                replacements.Add("INSERT_FIELDS_VALS_LIST", insertFieldsValuesList);
                 replacements.Add("FIELDS_VARIABLES_LIST_GET", fieldsVariablesListGet);
                 replacements.Add("FIELDS_VARIABLES_LIST_DELETE", fieldsVariablesListDelete);
                 replacements.Add("FIELDS_VARIABLES_LIST_INSERT", fieldsVariablesListInsert);
                 replacements.Add("FIELDS_VARIABLES_LIST_UPDATE", fieldsVariablesListUpdate);
+                replacements.Add("FIELDS_VARIABLES_LIST_UPDATED", fieldsVariablesListUpdated);
 
                 replacements.Add("TEST_GET_VALIDATION", testGetValidation);
                 replacements.Add("SET_INSERT_ENTITY_VALUES", setInsertEntityValues);
@@ -104,13 +104,20 @@ namespace DalCreator.Generators
                 replacements.Add("SET_UPDATE_ENTITY_VALUES", setUpdateEntityValues);
                 replacements.Add("TEST_UPDATE_VALIDATION", testUpdateValidation);
 
-                string[] files = Directory.GetFiles(templatesRoot, "*", SearchOption.AllDirectories);
+                var files = Directory.GetFiles(templatesRoot, "*", SearchOption.AllDirectories).Select(s => s.Replace(templatesRoot, ""));
+                string outRoot = GetOutputFolder(table.Name);
+                foreach(var f in files)
+                {
+                    string resultFile = base.ComposeFile(outRoot, templatesRoot, f, replacements);
+                    resultFiles.Add(resultFile);
+                }
+                
             }
 
             return resultFiles;
         }
 
-        private string GenerateSetEntityFields(DataTable table, IDictionary<string, object> values)
+        private string GenerateSetEntityFields(DataTable table, IDictionary<string, object> values, string varName)
         {
             StringBuilder result = new StringBuilder();
             foreach (var c in table.Columns)
@@ -120,15 +127,15 @@ namespace DalCreator.Generators
                 {
                     if (columnType == typeof(DateTime))
                     {
-                        result.Append($"entity.{c.Name} = DateTime.Parse(\"{values[c.Name].ToString()}\");\r\n\t\t");
+                        result.Append($"{varName}.{c.Name} = DateTime.Parse(\"{values[c.Name].ToString()}\");\r\n\t\t");
                     }
                     else if (columnType == typeof(string))
                     {
-                        result.Append($"entity.{c.Name} = \"{values[c.Name].ToString()}\";\r\n\t\t");
+                        result.Append($"{varName}.{c.Name} = \"{values[c.Name].ToString()}\";\r\n\t\t");
                     }
-                    else
+                    else if(values[c.Name] != null)
                     {
-                        result.Append($"entity.{c.Name} = {values[c.Name].ToString().ToLower()};\r\n\t\t");
+                        result.Append($"{varName}.{c.Name} = {values[c.Name].ToString().ToLower()};\r\n\t\t");
                     }
                 }
 
@@ -157,7 +164,7 @@ namespace DalCreator.Generators
                     {
                         result.Append($"Assert.AreEqual(\"{values[c.Name].ToString()}\", entity.{c.Name});\r\n\t\t");
                     }
-                    else 
+                    else if(values[c.Name] != null)
                     {
                         result.Append($"Assert.AreEqual({values[c.Name].ToString().ToLower()}, entity.{c.Name});\r\n\t\t");
                     }
@@ -195,8 +202,21 @@ namespace DalCreator.Generators
                 result.Append(part);
                 if (!c.IsIdentity && values.ContainsKey(c.Name))
                 {
+                    Type columnType = GetColumnType(c);
                     result.Append(" = ");
-                    result.Append(values[c.Name].ToString());
+                    if (values[c.Name] != null)
+                    {
+                        string quote = string.Empty;
+                        if(columnType == typeof(string) || columnType == typeof(DateTime))
+                        {
+                            quote = "'";
+                        }
+                        result.Append(quote + values[c.Name].ToString() + quote);
+                    }
+                    else
+                    {
+                        result.Append("NULL");
+                    }
                 }
                 if(i+1 < table.Columns.Count)
                 {
@@ -215,7 +235,10 @@ namespace DalCreator.Generators
             if (!string.IsNullOrEmpty(c.FKRefTable) && !string.IsNullOrEmpty(c.FKRefColumn))
             {
                 object randColValue = GetRandomTableColumnValue(c.FKRefTable, c.FKRefColumn);
-                result = (columnType == typeof(string)) ? $"\"{randColValue.ToString()}\"" : randColValue.ToString();
+                if (randColValue != null)
+                {
+                    result = (columnType == typeof(string)) ? $"\"{randColValue.ToString()}\"" : randColValue.ToString();
+                }
             }
             else
             {
@@ -339,7 +362,7 @@ namespace DalCreator.Generators
 
         protected string GetTemplatesFolder()
         {
-            return Path.Combine(_genParams.TemplatesRoot, _genParams.TemplateName, "DalTests");
+            return Path.Combine(_genParams.TemplatesRoot, _genParams.TemplateName, "DalTests\\");
         }
 
         protected string GetOutputFolder(string entity)

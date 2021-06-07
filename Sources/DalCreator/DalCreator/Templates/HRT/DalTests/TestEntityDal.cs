@@ -99,10 +99,10 @@ namespace {DalTestsNamespace}
 
             var dal = Prepare{Entity}Dal("DALInitParams");
 
-            var newEntity = new {Entity}();
+            var entity = new {Entity}();
             {SET_INSERT_ENTITY_VALUES}
 
-            var entity = dal.Upsert(newEntity);
+            entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
@@ -122,11 +122,11 @@ namespace {DalTestsNamespace}
             var entity = dal.Get(id);
             {SET_UPDATE_ENTITY_VALUES}
 
-            var updatedEntity = dal.Upsert(entity);
+            entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
-            Assert.IsNotNull(updatedEntity);
+            Assert.IsNotNull(entity);
             {TEST_UPDATE_VALIDATION}
         }
 
@@ -135,13 +135,13 @@ namespace {DalTestsNamespace}
         {
             var dal = Prepare{Entity}Dal("DALInitParams");
 
-            var newEntity = new {Entity}();
-            newEntity.ID = Int64.MaxValue - 1;
+            var entity = new {Entity}();
+            entity.ID = Int64.MaxValue - 1;
             {SET_UPDATE_ENTITY_VALUES}
 
             try
             {
-                var entity = dal.Upsert(newEntity);
+                entity = dal.Upsert(entity);
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }
