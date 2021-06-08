@@ -111,7 +111,7 @@ namespace DalCreator
                     DataColumn column = new DataColumn();
                     column.Name = (string)r["column_name"];
                     column.SqlType = (string)r["column_type"];
-                    column.CharMaxLength = RequireMaxLength(column.SqlType) ? (Int16?)r["max_length"] / 2 : null;
+                    column.CharMaxLength = RequireMaxLength(column.SqlType) ? ((Int16?)r["max_length"] > 0 ? (Int16?)r["max_length"] / 2 : 4000) : null;
                     column.Precision = RequirePrecision(column.SqlType) ? (int?)(byte)r["precision"] : null;
                     column.Scale = RequireScale(column.SqlType) ? (int?)(byte)r["scale"] : null;
                     column.IsIdentity = (bool)r["is_identity"];

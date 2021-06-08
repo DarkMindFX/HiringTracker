@@ -139,6 +139,32 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
+        protected ICandidateCommentDal PrepareCandidateCommentDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            ICandidateCommentDal dal = new CandidateCommentDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
+        protected ICommentDal PrepareCommentDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            ICommentDal dal = new CommentDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
         protected object SetupCase(SqlConnection conn, string caseRoot)
         {
             object result = null;

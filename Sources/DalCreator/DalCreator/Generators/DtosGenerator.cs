@@ -17,6 +17,8 @@ namespace DalCreator.Generators
 
         public DateTime Timestamp { get; set; }
 
+        public string DalNamespace { get; set; }
+
         public string DtoNamespace { get; set; }
 
         public string ApiDalNamespace { get; set; }
@@ -46,6 +48,7 @@ namespace DalCreator.Generators
                 IDictionary<string, string> replacements = new Dictionary<string, string>();
                 replacements.Add("Entity", table.Name);
                 replacements.Add("DtoNamespace", _genParams.DtoNamespace);
+                replacements.Add("DalNamespace", _genParams.DalNamespace);
                 replacements.Add("ApiDalNamespace", _genParams.ApiDalNamespace);
                 replacements.Add("ENTITY_PROPERTIES_LIST", GenerateEntityProperties(table));
 

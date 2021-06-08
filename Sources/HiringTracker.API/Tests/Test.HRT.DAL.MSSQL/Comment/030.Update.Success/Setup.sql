@@ -1,0 +1,33 @@
+DECLARE @ID BIGINT
+DECLARE @Text NVARCHAR(4000) = 'Text 304fd1580cff4791ba902638ddf79ed5'
+DECLARE @CreatedDate DATETIME = '8/23/2020 10:09:03 PM'
+DECLARE @CreatedByID BIGINT = 100003
+DECLARE @ModifiedDate DATETIME = '11/15/2021 7:57:03 PM'
+DECLARE @ModifiedByID BIGINT = 100001
+
+IF(NOT EXISTS(SELECT 1 FROM 
+					[dbo].[Comment]
+				WHERE 
+					(CASE WHEN @Text IS NOT NULL THEN (CASE WHEN [Text] = @Text THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1))
+BEGIN
+	INSERT INTO [dbo].[Comment]
+		([Text],[CreatedDate],[CreatedByID],[ModifiedDate],[ModifiedByID])
+	SELECT 		
+		@Text,@CreatedDate,@CreatedByID,@ModifiedDate,@ModifiedByID
+END
+
+SELECT TOP 1 @ID = [ID] 
+FROM 
+	[dbo].[Comment] e
+WHERE
+	(CASE WHEN @Text IS NOT NULL THEN (CASE WHEN [Text] = @Text THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1
+
+SELECT @ID

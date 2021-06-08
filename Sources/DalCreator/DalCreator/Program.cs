@@ -59,6 +59,7 @@ namespace DalCreator
             dtosGenParams.TemplatesRoot = settings.TemplatesRoot;
             dtosGenParams.TemplateName = settings.TemplateName;
             dtosGenParams.Timestamp = timestamp;
+            dtosGenParams.DalNamespace = settings.DalNamespace;
             dtosGenParams.DtoNamespace = settings.DtoNamespace;
             dtosGenParams.ApiDalNamespace = settings.ApiDalNamespace;
 
