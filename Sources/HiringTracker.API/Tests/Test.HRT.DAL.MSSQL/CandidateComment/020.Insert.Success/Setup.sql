@@ -1,5 +1,5 @@
 DECLARE @CandidateID BIGINT = 100009
-DECLARE @CommentID BIGINT = NULL
+DECLARE @CommentID BIGINT = 100004
 
 DELETE FROM [dbo].[CandidateComment]
 WHERE

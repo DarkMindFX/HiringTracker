@@ -56,12 +56,11 @@ namespace HRT.DAL.MSSQL
 
             return result;
         }
+       
 
         public CandidateComment Get(long id)
         {
-            CandidateComment entityOut = base.Get<CandidateComment>("p_CandidateComment_GetDetails", id, "@ID", CandidateCommentFromRow);
-
-            return entityOut;
+            throw new NotSupportedException("Get by ID is not supported");
         }
 
         public IList<CandidateComment> GetAll()
@@ -107,7 +106,7 @@ namespace HRT.DAL.MSSQL
         {
             IList<CandidateComment> result = null;
 
-            string procName = "p_CandidateComment_Delete";
+            string procName = "p_CandidateComment_GetByCandidate";
 
             using (SqlConnection conn = OpenConnection())
             {
@@ -120,7 +119,7 @@ namespace HRT.DAL.MSSQL
 
                 DataSet ds = FillDataSet(cmd);
 
-                if((bool)pFound.Value)
+                if ((bool)pFound.Value)
                 {
                     result = new List<CandidateComment>();
                     foreach (DataRow row in ds.Tables[0].Rows)

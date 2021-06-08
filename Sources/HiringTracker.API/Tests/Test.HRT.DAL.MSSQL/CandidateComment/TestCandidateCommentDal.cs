@@ -36,8 +36,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotEmpty(entities);
         }
 
-        [TestCase("CandidateComment\\000.GetDetails.Success")]
-        public void GetCandidateComment_Success(string caseName)
+        [TestCase("CandidateComment\\000.GetByCandidate.Success")]
+        public void GetCandidateCommentsByCandidate_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareCandidateCommentDal("DALInitParams");
@@ -45,24 +45,24 @@ namespace Test.HRT.DAL.MSSQL
             object objId = SetupCase(conn, caseName);
             long id = (long)objId;
 
-            CandidateComment entity = dal.Get(id);
+            IList<CandidateComment> entities = dal.GetByCandidate(id);
 
             TeardownCase(conn, caseName);
 
-            Assert.IsNotNull(entity);
-            Assert.AreEqual(100006, entity.CandidateID);
+            Assert.IsNotNull(entities);
+            Assert.IsNotEmpty(entities);
 		
         }
 
         [Test]
-        public void GetCandidateComment_InvalidId()
+        public void GetCandidateCommentByCandidate_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PrepareCandidateCommentDal("DALInitParams");
 
-            CandidateComment entity = dal.Get(id);
+            IList<CandidateComment> entities = dal.GetByCandidate(id);
 
-            Assert.IsNull(entity);
+            Assert.IsNull(entities);
         }
 
         [TestCase("CandidateComment\\010.Delete.Success")]
@@ -72,9 +72,10 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateCommentDal("DALInitParams");
 
             object objId = SetupCase(conn, caseName);
-            long id = (long)objId;
+            long candidateId = 100002;
+            long commentId = 100004;
 
-            bool removed = dal.Delete(id);
+            bool removed = dal.Delete(candidateId, commentId);
 
             TeardownCase(conn, caseName);
 
@@ -84,10 +85,11 @@ namespace Test.HRT.DAL.MSSQL
         [Test]
         public void DeleteCandidateComment_InvalidId()
         {
-            long positionId = Int32.MaxValue - 1;
+            long candidateId = Int32.MaxValue - 1;
+            long commentId = Int32.MaxValue - 1;
             var dal = PrepareCandidateCommentDal("DALInitParams");
 
-            bool removed = dal.Delete(positionId);
+            bool removed = dal.Delete(candidateId, commentId);
             Assert.IsFalse(removed);
 
         }
@@ -102,7 +104,8 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = new CandidateComment();
             entity.CandidateID = 100009;
-		
+            entity.CommentID = 100004;
+
 
             entity = dal.Upsert(entity);
 
@@ -122,9 +125,9 @@ namespace Test.HRT.DAL.MSSQL
             object objId = SetupCase(conn, caseName);
             long id = (long)objId;
 
-            var entity = dal.Get(id);
+            var entity = new CandidateComment();
             entity.CandidateID = 100002;
-		
+            entity.CommentID = 100008;
 
             entity = dal.Upsert(entity);
 
@@ -132,7 +135,8 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNotNull(entity);
             Assert.AreEqual(100002, entity.CandidateID);
-		
+            Assert.AreEqual(100008, entity.CommentID);
+
         }
 
         [Test]

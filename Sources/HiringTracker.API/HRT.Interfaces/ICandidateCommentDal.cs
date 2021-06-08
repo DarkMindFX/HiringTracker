@@ -7,7 +7,7 @@ using HRT.Interfaces.Entities;
 
 namespace HRT.Interfaces
 {
-    public interface ICandidateCommentDal : IDalBase<CandidateComment>
+    public interface ICandidateCommentDal  : IDalBase<CandidateComment>
     {
         bool Delete(long candidateId, long commentId);
 

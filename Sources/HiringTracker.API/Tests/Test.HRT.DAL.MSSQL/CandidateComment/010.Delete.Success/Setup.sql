@@ -1,5 +1,5 @@
 DECLARE @CandidateID BIGINT = 100002
-DECLARE @CommentID BIGINT = NULL
+DECLARE @CommentID BIGINT = 100004
 
 IF(NOT EXISTS(SELECT 1 FROM 
 					[dbo].[CandidateComment]
