@@ -153,11 +153,11 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Candidate()
             {
-                CreatedBy = Convert(users[entity.CreatedByID], url),
+                CreatedByID = Convert(users[entity.CreatedByID], url),
                 CreatedDate = entity.CreatedDate,
-                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
+                ModifiedByID = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
-                CandidateID = entity.CandidateID ?? 0,
+                ID = entity.ID ?? 0,
                 CVLink = entity.CVLink,
                 Email = entity.Email,
                 FirstName = entity.FirstName,
@@ -166,8 +166,8 @@ namespace HRT.HiringTracker.API.Helpers
                 Phone = entity.Phone                
             };
 
-            dto.Links.Add(new DTO.Link(url.Action("GetCandidate", "candidates", new { id = dto.CandidateID }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteCandidate", "candidates", new { id = dto.CandidateID }), "delete_candidate", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("GetCandidate", "candidates", new { id = dto.ID }), "self", "GET"));
+            dto.Links.Add(new DTO.Link(url.Action("DeleteCandidate", "candidates", new { id = dto.ID }), "delete_candidate", "DELETE"));
             dto.Links.Add(new DTO.Link(url.Action("UpdateCandidate", "candidates"), "update_candidate", "PUT"));
 
             return dto;
@@ -222,7 +222,7 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var entity = new Interfaces.Entities.Candidate()
             {
-                CandidateID = dto.CandidateID,
+                ID = dto.ID,
                 CVLink = dto.CVLink,
                 Email = dto.Email,
                 FirstName = dto.FirstName,

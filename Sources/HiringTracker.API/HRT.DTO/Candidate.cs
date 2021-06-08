@@ -1,76 +1,47 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace HRT.DTO
 {
     public class Candidate : HateosDto
-    {
-        [JsonPropertyName("_candidateId")]
-        public long? CandidateID
-        {
-            get; set;
-        }
+	{
+		[JsonPropertyName("ID")]
+		public System.Int64? ID { get; set; }
 
-        [JsonPropertyName("_fname")]
-        public string FirstName
-        {
-            get; set;
-        }
+		[JsonPropertyName("FirstName")]
+		public System.String FirstName { get; set; }
 
-        [JsonPropertyName("_mname")]
-        public string MiddleName
-        {
-            get; set;
-        }
+		[JsonPropertyName("MiddleName")]
+		public System.String MiddleName { get; set; }
 
-        [JsonPropertyName("_lname")]
-        public string LastName
-        {
-            get; set;
-        }
+		[JsonPropertyName("LastName")]
+		public System.String LastName { get; set; }
 
-        [JsonPropertyName("_email")]
-        public string Email
-        {
-            get; set;
-        }
+		[JsonPropertyName("Email")]
+		public System.String Email { get; set; }
 
-        [JsonPropertyName("_phone")]
-        public string Phone
-        {
-            get; set;
-        }
+		[JsonPropertyName("Phone")]
+		public System.String Phone { get; set; }
 
-        [JsonPropertyName("_cvlink")]
-        public string CVLink
-        {
-            get; set;
-        }
+		[JsonPropertyName("CVLink")]
+		public System.String CVLink { get; set; }
 
-        [JsonPropertyName("_createdDate")]
-        public DateTime CreatedDate
-        {
-            get; set;
-        }
+		[JsonPropertyName("CreatedByID")]
+		public User CreatedByID { get; set; }
 
-        [JsonPropertyName("_createdBy")]
-        public User CreatedBy
-        {
-            get; set;
-        }
+		[JsonPropertyName("CreatedDate")]
+		public System.DateTime CreatedDate { get; set; }
 
-        [JsonPropertyName("_modifiedDate")]
-        public DateTime? ModifiedDate
-        {
-            get; set;
-        }
+		[JsonPropertyName("ModifiedByID")]
+		public User ModifiedByID { get; set; }
 
-        [JsonPropertyName("_modifiedBy")]
-        public User ModifiedBy
-        {
-            get; set;
-        }
+		[JsonPropertyName("ModifiedDate")]
+		public System.DateTime? ModifiedDate { get; set; }
+
+
     }
 }

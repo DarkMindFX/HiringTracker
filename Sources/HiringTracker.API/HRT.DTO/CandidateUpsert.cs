@@ -17,7 +17,7 @@ namespace HRT.DTO
     public class CandidateUpsertResponse
     {
         [JsonPropertyName("_candidateId")]
-        public long CandidateID
+        public long ID
         {
             get; set;
         }

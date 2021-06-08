@@ -1,15 +1,14 @@
-DECLARE @ID BIGINT
-DECLARE @FirstName NVARCHAR(50) = 'FirstName b3cd1a4b6009409db1146959c51df419'
-DECLARE @MiddleName NVARCHAR(50) = 'MiddleName b3cd1a4b6009409db1146959c51df419'
-DECLARE @LastName NVARCHAR(50) = 'LastName b3cd1a4b6009409db1146959c51df419'
-DECLARE @Email NVARCHAR(50) = 'Email b3cd1a4b6009409db1146959c51df419'
-DECLARE @Phone NVARCHAR(50) = 'Phone b3cd1a4b6009409db1146959c51df419'
-DECLARE @CVLink NVARCHAR(1000) = 'CVLink b3cd1a4b6009409db1146959c51df419'
-DECLARE @CreatedByID BIGINT = 33020024
-DECLARE @CreatedDate DATETIME = '12/1/2020 6:00:18 PM'
+﻿DECLARE @ID BIGINT
+DECLARE @FirstName NVARCHAR(50) = 'FirstName abc2220fde544f84916880c516c0d123'
+DECLARE @MiddleName NVARCHAR(50) = 'MiddleName abc2220fde544f84916880c516c0d123'
+DECLARE @LastName NVARCHAR(50) = 'LastName abc2220fde544f84916880c516c0d123'
+DECLARE @Email NVARCHAR(50) = 'Email abc2220fde544f84916880c516c0d123'
+DECLARE @Phone NVARCHAR(50) = 'Phone abc2220fde544f84916880c516c0d123'
+DECLARE @CVLink NVARCHAR(1000) = 'CVLink abc2220fde544f84916880c516c0d123'
+DECLARE @CreatedByID BIGINT = 33000067
+DECLARE @CreatedDate DATETIME = '1/23/2022 12:11:18 AM'
 DECLARE @ModifiedByID BIGINT = 100003
-DECLARE @ModifiedDate DATETIME = '8/27/2021 10:01:18 AM'
-DECLARE @Fail AS BIT = 0
+DECLARE @ModifiedDate DATETIME = '3/6/2020 4:39:18 PM'
 
 IF(NOT EXISTS(SELECT 1 FROM 
 					[dbo].[Candidate]
@@ -25,10 +24,15 @@ IF(NOT EXISTS(SELECT 1 FROM
 	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
 	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1))
 BEGIN
-	SET @Fail = 1
+	INSERT INTO [dbo].[Candidate]
+		([FirstName],[MiddleName],[LastName],[Email],[Phone],[CVLink],[CreatedByID],[CreatedDate],[ModifiedByID],[ModifiedDate])
+	SELECT 		
+		@FirstName,@MiddleName,@LastName,@Email,@Phone,@CVLink,@CreatedByID,@CreatedDate,@ModifiedByID,@ModifiedDate
 END
 
-DELETE FROM [dbo].[Candidate]
+SELECT TOP 1 @ID = [ID] 
+FROM 
+	[dbo].[Candidate] e
 WHERE
 	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
 	(CASE WHEN @MiddleName IS NOT NULL THEN (CASE WHEN [MiddleName] = @MiddleName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
@@ -41,7 +45,4 @@ WHERE
 	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
 	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1
 
-IF(@Fail = 1) 
-BEGIN
-	THROW 51001, 'Candidate was not inserted', 1
-END
+SELECT @ID

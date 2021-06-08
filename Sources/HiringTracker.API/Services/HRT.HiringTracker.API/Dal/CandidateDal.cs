@@ -29,7 +29,7 @@ namespace HRT.HiringTracker.API.Dal
         {
             var entities = _dalImpl.GetAll();
 
-            IDictionary<long, Candidate> result = entities.ToDictionary(s => s.CandidateID ?? 0);
+            IDictionary<long, Candidate> result = entities.ToDictionary(s => s.ID ?? 0);
 
             return result;
         }

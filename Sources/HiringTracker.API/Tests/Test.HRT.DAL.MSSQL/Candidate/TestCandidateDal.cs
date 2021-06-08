@@ -1,4 +1,4 @@
-﻿using HRT.DAL.MSSQL;
+using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
 using Microsoft.Extensions.Configuration;
@@ -36,64 +36,59 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotEmpty(entities);
         }
 
-        [TestCase("Candidate\\040.GetDetails.Success")]
+        [TestCase("Candidate\\000.GetDetails.Success")]
         public void GetCandidate_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
-            object objId = SetupCase(conn, caseName);
-
-            long id = (long)objId;
             var dal = PrepareCandidateDal("DALInitParams");
+
+            object objId = SetupCase(conn, caseName);
+            long id = (long)objId;
 
             Candidate entity = dal.Get(id);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.CandidateID);
-            Assert.IsTrue(!string.IsNullOrEmpty(entity.FirstName));
-            Assert.IsTrue(string.IsNullOrEmpty(entity.MiddleName));
-            Assert.IsTrue(!string.IsNullOrEmpty(entity.LastName));
-            Assert.IsTrue(!string.IsNullOrEmpty(entity.Email));
-            Assert.IsTrue(!string.IsNullOrEmpty(entity.Phone));
-            Assert.IsTrue(!string.IsNullOrEmpty(entity.CVLink));
-            Assert.AreEqual(100001, entity.CreatedByID);
-            Assert.AreNotEqual(DateTime.MinValue, entity.CreatedDate);
+            Assert.AreNotEqual(0, entity.ID);
+            Assert.AreEqual("FirstName 1c3c960501264186988bb3af92cce7cd", entity.FirstName);
+            Assert.AreEqual("MiddleName 1c3c960501264186988bb3af92cce7cd", entity.MiddleName);
+            Assert.AreEqual("LastName 1c3c960501264186988bb3af92cce7cd", entity.LastName);
+            Assert.AreEqual("Email 1c3c960501264186988bb3af92cce7cd", entity.Email);
+            Assert.AreEqual("Phone 1c3c960501264186988bb3af92cce7cd", entity.Phone);
+            Assert.AreEqual("CVLink 1c3c960501264186988bb3af92cce7cd", entity.CVLink);
+            Assert.AreEqual(33000067, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("10/29/2020 5:03:18 PM"), entity.CreatedDate);
+            Assert.AreEqual(33020024, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("9/16/2018 8:37:18 AM"), entity.ModifiedDate);
+
         }
 
         [Test]
         public void GetCandidate_InvalidId()
         {
-            long candidateId = Int32.MaxValue - 1;
+            long id = Int32.MaxValue - 1;
             var dal = PrepareCandidateDal("DALInitParams");
 
-            Candidate entity = dal.Get(candidateId);
+            Candidate entity = dal.Get(id);
 
             Assert.IsNull(entity);
         }
 
-        [TestCase("Candidate\\000.Delete.Success")]
+        [TestCase("Candidate\\010.Delete.Success")]
         public void DeleteCandidate_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
-            SetupCase(conn, caseName);
-
-            string uuid = "test_895A97819DEC4F7888EDD6939159D1A6@email.com";
-
             var dal = PrepareCandidateDal("DALInitParams");
 
-            IList<Candidate> entities = dal.GetAll();
+            object objId = SetupCase(conn, caseName);
+            long id = (long)objId;
 
-            Candidate entity = entities.FirstOrDefault(x => x.Email == uuid);
-
-            if (entity != null)
-            {
-                bool removed = dal.Delete((long)entity.CandidateID);
-
-                Assert.IsTrue(removed);
-            }
+            bool removed = dal.Delete(id);
 
             TeardownCase(conn, caseName);
+
+            Assert.IsTrue(removed);
         }
 
         [Test]
@@ -107,116 +102,116 @@ namespace Test.HRT.DAL.MSSQL
 
         }
 
-        [TestCase("Candidate\\010.Update.Success")]
-        public void UpdateCandidate_Success(string caseName)
-        {
-            SqlConnection conn = OpenConnection("DALInitParams");
-            SetupCase(conn, caseName);
-
-            string uuid = "test_7DE3B9014362458C8709B8D1DD3D8EBA@email.com";
-            long userId = 100001;
-
-            string newFname = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] First_U";
-            string newMName = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] Middle_U";
-            string newLName = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] Last_U";
-            string newPhone = "+7DE3B9014362458C8709B8D1DD3D8EBA_U";
-            string newCVLink = "http://www.dropbox.com/cvs/test_7DE3B9014362458C8709B8D1DD3D8EBA_U.pdf";
-
-            var dal = PrepareCandidateDal("DALInitParams");
-
-            IList<Candidate> entities = dal.GetAll();
-
-            Candidate entity = entities.FirstOrDefault(x => x.Email == uuid);
-
-            if (entity != null)
-            {
-                entity.FirstName = newFname;
-                entity.MiddleName = newMName;
-                entity.LastName = newLName;
-                entity.CVLink = newCVLink;
-                entity.Phone = newPhone;
-
-                long? id = dal.Upsert(entity, userId);
-
-                Assert.IsNull(id);
-            }
-
-            TeardownCase(conn, caseName);
-        }
-
-        [Test]
-        public void UpdateCandidate_InvalidId()
-        {
-            long userId = 100001;
-            long candidateId = Int64.MaxValue - 1;
-
-            string newFname = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] First";
-            string newMName = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] Middle";
-            string newLName = "[Test {7DE3B9014362458C8709B8D1DD3D8EBA}] Last";
-            string newPhone = "+7DE3B9014362458C8709B8D1DD3D8EBA_U";
-            string newCVLink = "http://www.dropbox.com/cvs/test_7DE3B9014362458C8709B8D1DD3D8EBA.pdf";
-            string newEmail = "test_7DE3B9014362458C8709B8D1DD3D8EBA@invalid.com";
-
-            Candidate entity = new Candidate()
-            {
-                CandidateID = candidateId,
-                FirstName = newFname,
-                MiddleName = newMName,
-                LastName = newLName,
-                Email = newEmail,
-                CVLink = newCVLink,
-                Phone = newPhone
-            };
-
-            var dal = PrepareCandidateDal("DALInitParams");
-
-            try
-            {
-                long? id = dal.Upsert(entity, userId);
-
-                Assert.Fail("Test Failed - exception was not thrown");
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.ToLower().IndexOf("candidate with given id was not found") < 0)
-                {
-                    Assert.Fail($"Unexpected exception thrown: {ex}");
-                }
-            }
-        }
-
         [TestCase("Candidate\\020.Insert.Success")]
         public void InsertCandidate_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
-                        
-            long userId = 100001;
-
-            string newFname = "[Test {A340848A514F429EA5768209D6BED3E0}] First";
-            string newMName = "[Test {A340848A514F429EA5768209D6BED3E0}] Middle";
-            string newLName = "[Test {A340848A514F429EA5768209D6BED3E0}] Last";
-            string newEmail = "test_A340848A514F429EA5768209D6BED3E0@email.com";
-            string newPhone = "+A340848A514F429EA5768209D6BED3E0";
-            string newCVLink = "http://www.dropbox.com/cvs/test_A340848A514F429EA5768209D6BED3E0.pdf";
 
             var dal = PrepareCandidateDal("DALInitParams");
 
-            Candidate entity = new Candidate();
+            var entity = new Candidate();
+            entity.FirstName = "FirstName b3cd1a4b6009409db1146959c51df419";
+            entity.MiddleName = "MiddleName b3cd1a4b6009409db1146959c51df419";
+            entity.LastName = "LastName b3cd1a4b6009409db1146959c51df419";
+            entity.Email = "Email b3cd1a4b6009409db1146959c51df419";
+            entity.Phone = "Phone b3cd1a4b6009409db1146959c51df419";
+            entity.CVLink = "CVLink b3cd1a4b6009409db1146959c51df419";
+            entity.CreatedByID = 33020024;
+            entity.CreatedDate = DateTime.Parse("12/1/2020 6:00:18 PM");
+            entity.ModifiedByID = 100003;
+            entity.ModifiedDate = DateTime.Parse("8/27/2021 10:01:18 AM");
 
-            entity.FirstName = newFname;
-            entity.MiddleName = newMName;
-            entity.LastName = newLName;
-            entity.CVLink = newCVLink;
-            entity.Phone = newPhone;
-            entity.Email = newEmail;
 
-            long? id = dal.Upsert(entity, userId);
-
-            Assert.IsNotNull(id);
-            Assert.Greater(id, 0);
+            entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
+
+            Assert.IsNotNull(entity);
+            Assert.AreNotEqual(0, entity.ID);
+            Assert.AreEqual("FirstName b3cd1a4b6009409db1146959c51df419", entity.FirstName);
+            Assert.AreEqual("MiddleName b3cd1a4b6009409db1146959c51df419", entity.MiddleName);
+            Assert.AreEqual("LastName b3cd1a4b6009409db1146959c51df419", entity.LastName);
+            Assert.AreEqual("Email b3cd1a4b6009409db1146959c51df419", entity.Email);
+            Assert.AreEqual("Phone b3cd1a4b6009409db1146959c51df419", entity.Phone);
+            Assert.AreEqual("CVLink b3cd1a4b6009409db1146959c51df419", entity.CVLink);
+            Assert.AreEqual(33020024, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("12/1/2020 6:00:18 PM"), entity.CreatedDate);
+            Assert.AreEqual(100003, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("8/27/2021 10:01:18 AM"), entity.ModifiedDate);
+
+        }
+
+        [TestCase("Candidate\\030.Update.Success")]
+        public void UpdateCandidate_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            var dal = PrepareCandidateDal("DALInitParams");
+
+            object objId = SetupCase(conn, caseName);
+            long id = (long)objId;
+
+            var entity = dal.Get(id);
+            entity.FirstName = "FirstName 3d513ab68a7b491db22f727769b2b91d";
+            entity.MiddleName = "MiddleName 3d513ab68a7b491db22f727769b2b91d";
+            entity.LastName = "LastName 3d513ab68a7b491db22f727769b2b91d";
+            entity.Email = "Email 3d513ab68a7b491db22f727769b2b91d";
+            entity.Phone = "Phone 3d513ab68a7b491db22f727769b2b91d";
+            entity.CVLink = "CVLink 3d513ab68a7b491db22f727769b2b91d";
+            entity.CreatedByID = 100003;
+            entity.CreatedDate = DateTime.Parse("8/14/2023 11:50:18 PM");
+            entity.ModifiedByID = 100001;
+            entity.ModifiedDate = DateTime.Parse("12/26/2021 9:12:18 PM");
+
+
+            entity = dal.Upsert(entity);
+
+            TeardownCase(conn, caseName);
+
+            Assert.IsNotNull(entity);
+            Assert.AreNotEqual(0, entity.ID);
+            Assert.AreEqual("FirstName 3d513ab68a7b491db22f727769b2b91d", entity.FirstName);
+            Assert.AreEqual("MiddleName 3d513ab68a7b491db22f727769b2b91d", entity.MiddleName);
+            Assert.AreEqual("LastName 3d513ab68a7b491db22f727769b2b91d", entity.LastName);
+            Assert.AreEqual("Email 3d513ab68a7b491db22f727769b2b91d", entity.Email);
+            Assert.AreEqual("Phone 3d513ab68a7b491db22f727769b2b91d", entity.Phone);
+            Assert.AreEqual("CVLink 3d513ab68a7b491db22f727769b2b91d", entity.CVLink);
+            Assert.AreEqual(100003, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("8/14/2023 11:50:18 PM"), entity.CreatedDate);
+            Assert.AreEqual(100001, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("12/26/2021 9:12:18 PM"), entity.ModifiedDate);
+
+        }
+
+        [Test]
+        public void UpdateCandidate_InvalidId()
+        {
+            var dal = PrepareCandidateDal("DALInitParams");
+
+            var entity = new Candidate();
+            entity.ID = Int64.MaxValue - 1;
+            entity.FirstName = "FirstName 3d513ab68a7b491db22f727769b2b91d";
+            entity.MiddleName = "MiddleName 3d513ab68a7b491db22f727769b2b91d";
+            entity.LastName = "LastName 3d513ab68a7b491db22f727769b2b91d";
+            entity.Email = "Email 3d513ab68a7b491db22f727769b2b91d";
+            entity.Phone = "Phone 3d513ab68a7b491db22f727769b2b91d";
+            entity.CVLink = "CVLink 3d513ab68a7b491db22f727769b2b91d";
+            entity.CreatedByID = 100003;
+            entity.CreatedDate = DateTime.Parse("8/14/2023 11:50:18 PM");
+            entity.ModifiedByID = 100001;
+            entity.ModifiedDate = DateTime.Parse("12/26/2021 9:12:18 PM");
+
+
+            try
+            {
+                entity = dal.Upsert(entity);
+
+                Assert.Fail("Fail - exception was expected, but wasn't thrown.");
+            }
+            catch (Exception ex)
+            {
+                Assert.Pass("Success - exception thrown as expected");
+            }
         }
 
         [Test]
@@ -242,25 +237,23 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNull(skills);
         }
 
-        [TestCase("Candidate\\030.SetSkills.Success")]
+        [TestCase("Candidate\\050.SetSkills.Success")]
         public void SetCandidateSkills_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
-            SetupCase(conn, caseName);
-
-            string email = "test_C6E0BFF2A9584726ACA898DBF51A3AD9@email.com";
+            object objId = SetupCase(conn, caseName);
+            long id = (long)objId;
 
             var dal = PrepareCandidateDal("DALInitParams");
 
-            IList<Candidate> positions = dal.GetAll();
-            var position = positions.FirstOrDefault(x => x.Email.Equals(email)); 
+            var candidate = dal.Get(id);
 
             IList<CandidateSkill> skills = new List<CandidateSkill>();
             skills.Add(new CandidateSkill() { SkillID = 1, ProficiencyID = 2 });
             skills.Add(new CandidateSkill() { SkillID = 2, ProficiencyID = 3 });
             skills.Add(new CandidateSkill() { SkillID = 3, ProficiencyID = 4 });
 
-            dal.SetSkills((long)position.CandidateID, skills);
+            dal.SetSkills((long)candidate.ID, skills);
 
             TeardownCase(conn, caseName);
         }
