@@ -78,7 +78,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             var entity = EntityToDtoConvertor.Convert(dto);
 
-            long? id = _dalSkill.Upsert(entity, editor.UserID);
+            long? id = _dalSkill.Upsert(entity, editor.ID);
 
             response = Ok();
 
@@ -94,7 +94,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             var entity = EntityToDtoConvertor.Convert(dto);
 
-            long? id = _dalSkill.Upsert(entity, editor.UserID);
+            long? id = _dalSkill.Upsert(entity, editor.ID);
 
             if(id != null)
             {

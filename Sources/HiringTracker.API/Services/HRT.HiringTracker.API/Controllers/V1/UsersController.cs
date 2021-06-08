@@ -47,7 +47,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             if(entity != null)
             {
                 string pwdHash = PasswordHelper.GenerateHash(request.Password, entity.Salt);
-                if(pwdHash.Equals(entity.PasswordHash))
+                if(pwdHash.Equals(entity.PwdHash))
                 {
                     var dto = new DTO.LoginResponse()
                     {
@@ -157,29 +157,29 @@ namespace HRT.HiringTracker.API.Controllers.V1
             IActionResult response = null;
 
             var entity = EntityToDtoConvertor.Convert(dto);
-            if(dto.UserID == null || !string.IsNullOrEmpty(dto.Password))
+            if(dto.ID == null || !string.IsNullOrEmpty(dto.Password))
             {
                 // new user generating salt
-                if (entity.UserID == null)
+                if (entity.ID == null)
                 {
                     entity.Salt = PasswordHelper.GenerateSalt(10);
                 }
                 else
                 {
-                    entity = _dalUser.Get((long)dto.UserID);
+                    entity = _dalUser.Get((long)dto.ID);
                 }
 
                 if (!string.IsNullOrEmpty(dto.Password))
                 {
-                    entity.PasswordHash = PasswordHelper.GenerateHash(dto.Password, entity.Salt);
+                    entity.PwdHash = PasswordHelper.GenerateHash(dto.Password, entity.Salt);
                 }
             }
 
             User editor = HttpContext.Items["User"] as User;
 
-            long? id = _dalUser.Upsert(entity, editor != null ? editor.UserID : null);
+            long? id = _dalUser.Upsert(entity, editor != null ? editor.ID : null);
 
-            response = GetUser(dto.UserID ?? (long)id); 
+            response = GetUser(dto.ID ?? (long)id); 
 
             return response;
         }
@@ -195,7 +195,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             {
                 Subject = new ClaimsIdentity(new[]
                     {
-                            new Claim("id", user.UserID.ToString())
+                            new Claim("id", user.ID.ToString())
                     }
                 ),
                 Expires = DateTime.UtcNow.AddHours(1),

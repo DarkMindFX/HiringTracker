@@ -1,0 +1,39 @@
+DECLARE @ID BIGINT
+DECLARE @Login NVARCHAR(50) = 'Login c3c8631931474adeb629fe8ac272773c'
+DECLARE @FirstName NVARCHAR(50) = 'FirstName c3c8631931474adeb629fe8ac272773c'
+DECLARE @LastName NVARCHAR(50) = 'LastName c3c8631931474adeb629fe8ac272773c'
+DECLARE @Email NVARCHAR(50) = 'Email c3c8631931474adeb629fe8ac272773c'
+DECLARE @Description NVARCHAR(255) = 'Description c3c8631931474adeb629fe8ac272773c'
+DECLARE @PwdHash NVARCHAR(255) = 'PwdHash c3c8631931474adeb629fe8ac272773c'
+DECLARE @Salt NVARCHAR(255) = 'Salt c3c8631931474adeb629fe8ac272773c'
+
+IF(NOT EXISTS(SELECT 1 FROM 
+					[dbo].[User]
+				WHERE 
+					(CASE WHEN @Login IS NOT NULL THEN (CASE WHEN [Login] = @Login THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Description IS NOT NULL THEN (CASE WHEN [Description] = @Description THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @PwdHash IS NOT NULL THEN (CASE WHEN [PwdHash] = @PwdHash THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Salt IS NOT NULL THEN (CASE WHEN [Salt] = @Salt THEN 1 ELSE 0 END) ELSE 1 END) = 1))
+BEGIN
+	INSERT INTO [dbo].[User]
+		([Login],[FirstName],[LastName],[Email],[Description],[PwdHash],[Salt])
+	SELECT 		
+		@Login,@FirstName,@LastName,@Email,@Description,@PwdHash,@Salt
+END
+
+SELECT TOP 1 @ID = [ID] 
+FROM 
+	[dbo].[User] e
+WHERE
+	(CASE WHEN @Login IS NOT NULL THEN (CASE WHEN [Login] = @Login THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Description IS NOT NULL THEN (CASE WHEN [Description] = @Description THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @PwdHash IS NOT NULL THEN (CASE WHEN [PwdHash] = @PwdHash THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
+	(CASE WHEN @Salt IS NOT NULL THEN (CASE WHEN [Salt] = @Salt THEN 1 ELSE 0 END) ELSE 1 END) = 1
+
+SELECT @ID

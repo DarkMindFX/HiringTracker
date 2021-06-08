@@ -1,53 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 
 namespace HRT.DTO
 {
     public class User : HateosDto
     {
-        [JsonPropertyName("_userId")]
-        public long? UserID
-        {
-            get; set;
-        }
+		[JsonPropertyName("ID")]
+		public System.Int64? ID { get; set; }
 
-        [JsonPropertyName("_login")]
-        public string Login
-        {
-            get; set;
-        }
+		[JsonPropertyName("Login")]
+		public System.String Login { get; set; }
 
-        [JsonPropertyName("_fname")]
-        public string FirstName
-        {
-            get; set;
-        }
+		[JsonPropertyName("FirstName")]
+		public System.String FirstName { get; set; }
 
+		[JsonPropertyName("LastName")]
+		public System.String LastName { get; set; }
 
-        [JsonPropertyName("_lname")]
-        public string LastName
-        {
-            get; set;
-        }
+		[JsonPropertyName("Email")]
+		public System.String Email { get; set; }
 
-        [JsonPropertyName("_email")]
-        public string Email
-        {
-            get; set;
-        }
+		[JsonPropertyName("Description")]
+		public System.String Description { get; set; }
 
-        [JsonPropertyName("_desc")]
-        public string Description
-        {
-            get; set;
-        }
+		[JsonPropertyName("Password")]
+		public System.String Password { get; set; }
 
-        [JsonPropertyName("_pwd")]
-        public string Password
-        {
-            get; set;
-        }
     }
 }

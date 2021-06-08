@@ -19,11 +19,11 @@ namespace HRT.HiringTracker.API.Helpers
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 Login = entity.Login,
-                UserID = entity.UserID
+                ID = entity.ID
             };
 
-            dto.Links.Add(new DTO.Link(url.Action("GetUser", "users", new { id = dto.UserID }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteUser", "users", new { id = dto.UserID }), "delete_user", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("GetUser", "users", new { id = dto.ID }), "self", "GET"));
+            dto.Links.Add(new DTO.Link(url.Action("DeleteUser", "users", new { id = dto.ID }), "delete_user", "DELETE"));
             dto.Links.Add(new DTO.Link(url.Action("UpdateUser", "users"), "update_user", "PUT"));
 
             return dto;
@@ -197,7 +197,7 @@ namespace HRT.HiringTracker.API.Helpers
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Login = dto.Login,
-                UserID = dto.UserID
+                ID = dto.ID
             };
 
             return entity;

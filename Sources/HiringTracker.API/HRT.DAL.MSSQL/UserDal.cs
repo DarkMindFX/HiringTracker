@@ -1,40 +1,44 @@
-﻿using HRT.Common;
-using HRT.Interfaces;
-using HRT.Interfaces.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
+using HRT.Common;
+using HRT.DAL.MSSQL;
+using HRT.Interfaces;
+using HRT.Interfaces.Entities;
 
-namespace HRT.DAL.MSSQL
+namespace HRT.DAL.MSSQL 
 {
-
     class UserDalInitParams : InitParamsImpl
     {
     }
 
     [Export("MSSQL", typeof(IUserDal))]
-    public class UserDal : SQLDal, IUserDal
+    public class UserDal: SQLDal, IUserDal
     {
         public IInitParams CreateInitParams()
         {
             return new UserDalInitParams();
         }
 
+        public void Init(IInitParams initParams)
+        {
+            InitDbConnection(initParams.Parameters["ConnectionString"]);
+        }
+
         public bool Delete(long id)
         {
-            bool removed = base.Delete<User>("p_User_Delete", id, "@UserID");
+            bool removed = base.Delete<User>("p_User_Delete", id, "@ID");
 
             return removed;
         }
 
         public User Get(long id)
         {
-            User entity = base.Get<User>("p_User_GetDetails", id, "@UserID", UserFromRow);
+            User entityOut = base.Get<User>("p_User_GetDetails", id, "@ID", UserFromRow);
 
-            return entity;
+            return entityOut;
         }
 
         public IList<User> GetAll()
@@ -44,7 +48,14 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public User GetByLogin(string login)
+        public User Upsert(User entity) 
+        {
+            User entityOut = base.Upsert<User>("p_User_Upsert", entity, AddUpsertParameters, UserFromRow);
+
+            return entityOut;
+        }
+		
+		public User GetByLogin(string login)
         {
             User result = default(User);
 
@@ -68,68 +79,49 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public void Init(IInitParams initParams)
+        protected SqlCommand AddUpsertParameters(SqlCommand cmd, User entity)
         {
-            InitDbConnection(initParams.Parameters["ConnectionString"]);
+            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+
+		   SqlParameter pLogin = new SqlParameter(@"Login",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Login", DataRowVersion.Current, (object)entity.Login != null ? (object)entity.Login : DBNull.Value);   cmd.Parameters.Add(pLogin); 
+
+		   SqlParameter pFirstName = new SqlParameter(@"FirstName",    SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "FirstName", DataRowVersion.Current, (object)entity.FirstName != null ? (object)entity.FirstName : DBNull.Value);   cmd.Parameters.Add(pFirstName); 
+
+		   SqlParameter pLastName = new SqlParameter(@"LastName",    SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "LastName", DataRowVersion.Current, (object)entity.LastName != null ? (object)entity.LastName : DBNull.Value);   cmd.Parameters.Add(pLastName); 
+
+		   SqlParameter pEmail = new SqlParameter(@"Email",    SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "Email", DataRowVersion.Current, (object)entity.Email != null ? (object)entity.Email : DBNull.Value);   cmd.Parameters.Add(pEmail); 
+
+		   SqlParameter pDescription = new SqlParameter(@"Description",    SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "Description", DataRowVersion.Current, (object)entity.Description != null ? (object)entity.Description : DBNull.Value);   cmd.Parameters.Add(pDescription); 
+
+		   SqlParameter pPwdHash = new SqlParameter(@"PwdHash",    SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "PwdHash", DataRowVersion.Current, (object)entity.PwdHash != null ? (object)entity.PwdHash : DBNull.Value);   cmd.Parameters.Add(pPwdHash); 
+
+		   SqlParameter pSalt = new SqlParameter(@"Salt",    SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "Salt", DataRowVersion.Current, (object)entity.Salt != null ? (object)entity.Salt : DBNull.Value);   cmd.Parameters.Add(pSalt); 
+
+
+
+            return cmd;
+        }
+
+        protected User UserFromRow(DataRow row)
+        {
+            var entity = new User();
+
+            		entity.ID = (System.Int64?)row["ID"];
+		entity.Login = (System.String)row["Login"];
+		entity.FirstName = !DBNull.Value.Equals(row["FirstName"]) ?  (System.String)row["FirstName"] : null;
+		entity.LastName = !DBNull.Value.Equals(row["LastName"]) ?  (System.String)row["LastName"] : null;
+		entity.Email = !DBNull.Value.Equals(row["Email"]) ?  (System.String)row["Email"] : null;
+		entity.Description = !DBNull.Value.Equals(row["Description"]) ?  (System.String)row["Description"] : null;
+		entity.PwdHash = (System.String)row["PwdHash"];
+		entity.Salt = (System.String)row["Salt"];
+
+
+            return entity;
         }
 
         public long? Upsert(User entity, long? editorID)
         {
-            long? result = null;
-            using (SqlConnection conn = OpenConnection())
-            {
-                SqlCommand cmd = new SqlCommand("p_User_Upsert", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                AddParameter(cmd, "@UserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.UserID));
-
-                AddParameter(cmd, "@Login", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Login));
-
-                AddParameter(cmd, "@Email", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Email));
-
-                AddParameter(cmd, "@Description", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Description));
-
-                AddParameter(cmd, "@FirstName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.FirstName));
-
-                AddParameter(cmd, "@LastName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.LastName));
-
-                AddParameter(cmd, "@PwdHash", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.PasswordHash));
-
-                AddParameter(cmd, "@Salt", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(entity.Salt));
-
-                AddParameter(cmd, "@ChangedByUserID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ValueOrDBNull(editorID));
-
-                var pNewUserId = AddParameter(cmd, "@NewUserID", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
-
-                cmd.ExecuteNonQuery();
-
-                result = !DBNull.Value.Equals(pNewUserId.Value) ? (long?)pNewUserId.Value : null;
-            }
-
-            return result;
-        }
-
-        public User Upsert(User entity)
-        {
             throw new NotImplementedException();
         }
-
-        #region Support methods
-        public User UserFromRow(DataRow row)
-        {
-            var entity = new User();
-
-            entity.UserID = (long)row["UserID"];
-            entity.Login = (string)row["Login"];
-            entity.Salt = (string)row["Salt"];
-            entity.FirstName = (string)row["FirstName"];
-            entity.LastName = (string)row["LastName"];
-            entity.Email = (string)row["Email"];
-            entity.Description = !DBNull.Value.Equals(row["Description"]) ? (string)row["Description"] : null;
-            entity.PasswordHash = (string)row["PwdHash"];
-
-            return entity;
-        }
-        #endregion
     }
 }

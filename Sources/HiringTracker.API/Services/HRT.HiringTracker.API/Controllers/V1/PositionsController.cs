@@ -128,7 +128,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             User editor = HttpContext.Items["User"] as User;
 
-            long? id = _dalPosition.Upsert(entity, editor != null ? editor.UserID : null);
+            long? id = _dalPosition.Upsert(entity, editor != null ? editor.ID : null);
 
             if (dto.Position.PositionID != null || id != null)
             {

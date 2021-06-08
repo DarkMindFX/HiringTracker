@@ -35,6 +35,19 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
+        protected IUserDal PrepareUserDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IUserDal dal = new UserDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
         protected ISkillProficiencyDal PrepareSkillProficiencyDal(string configName)
         {
             IConfiguration config = GetConfiguration();
