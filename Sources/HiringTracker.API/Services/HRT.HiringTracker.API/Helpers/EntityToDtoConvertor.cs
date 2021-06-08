@@ -69,10 +69,10 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.Skill()
             {
                 Name = entity.Name,
-                SkillID = entity.SkillID
+                ID = entity.ID
             };
 
-            dto.Links.Add(new DTO.Link(url.Action("DeleteSkill", "skills", new { id = entity.SkillID }), "delete_skill", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("DeleteSkill", "skills", new { id = entity.ID }), "delete_skill", "DELETE"));
             dto.Links.Add(new DTO.Link(url.Action("UpdateSkill", "skills"), "update_skill", "PUT"));
 
             return dto;
@@ -112,10 +112,10 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.SkillProficiency()
             {
                 Name = entity.Name,
-                ProficiencyID = entity.ProficiencyID
+                ID = entity.ID
             };
 
-            dto.Links.Add(new DTO.Link(url.Action("DeleteSkillProficiency", "skillproficiencies", new { id = entity.ProficiencyID }), "delete_proficiency", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("DeleteSkillProficiency", "skillproficiencies", new { id = entity.ID }), "delete_proficiency", "DELETE"));
             dto.Links.Add(new DTO.Link(url.Action("UpdateSkillProficiency", "skillproficiencies"), "update_proficiency", "PUT"));
 
             return dto;
@@ -182,7 +182,7 @@ namespace HRT.HiringTracker.API.Helpers
             var entity = new Interfaces.Entities.Skill()
             {
                 Name = dto.Name,
-                SkillID = dto.SkillID
+                ID = dto.ID
             };
 
             return entity;
@@ -239,8 +239,8 @@ namespace HRT.HiringTracker.API.Helpers
             var entity = new Interfaces.Entities.PositionSkill()
             {
                 IsMandatory = dto.IsMandatory,
-                SkillID = dto.Skill.SkillID,
-                ProficiencyID = dto.Proficiency.ProficiencyID
+                SkillID = (long)dto.Skill.ID,
+                ProficiencyID = dto.Proficiency.ID
             };
 
             return entity;
@@ -250,8 +250,8 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var entity = new Interfaces.Entities.CandidateSkill()
             {
-                SkillID = dto.Skill.SkillID,
-                ProficiencyID = dto.Proficiency.ProficiencyID
+                SkillID = (long)dto.Skill.ID,
+                ProficiencyID = dto.Proficiency.ID
             };
 
             return entity;

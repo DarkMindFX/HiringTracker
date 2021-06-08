@@ -98,7 +98,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             if(id != null)
             {
-                dto.SkillID = (long)id;
+                dto.ID = (long)id;
                 response = Ok(dto);
             }
             else

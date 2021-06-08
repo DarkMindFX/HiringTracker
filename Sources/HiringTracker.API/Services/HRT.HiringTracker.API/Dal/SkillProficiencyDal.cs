@@ -20,7 +20,7 @@ namespace HRT.HiringTracker.API.Dal
         {
             var statuses = _dalImpl.GetAll();
 
-            IDictionary<long, SkillProficiency> result = statuses.ToDictionary(s => s.ProficiencyID);
+            IDictionary<long, SkillProficiency> result = statuses.ToDictionary(s => s.ID);
 
             return result;
         }
