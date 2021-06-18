@@ -1,4 +1,4 @@
-﻿using HRT.Interfaces.Entities;
+using HRT.Interfaces.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

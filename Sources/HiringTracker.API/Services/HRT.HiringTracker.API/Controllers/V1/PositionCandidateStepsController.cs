@@ -15,14 +15,14 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class PositionCandidateStepsController : ControllerBase
+    public class ProposalStepsController : ControllerBase
     {
 
-        private readonly ILogger<PositionCandidateStepsController> _logger;
-        private readonly Dal.IPositionCandidateStepDal _dalPosCandidateSteps;
+        private readonly ILogger<ProposalStepsController> _logger;
+        private readonly Dal.IProposalStepDal _dalPosCandidateSteps;
 
-        public PositionCandidateStepsController(ILogger<PositionCandidateStepsController> logger,
-                                Dal.IPositionCandidateStepDal dalPosCandidateSteps)
+        public ProposalStepsController(ILogger<ProposalStepsController> logger,
+                                Dal.IProposalStepDal dalPosCandidateSteps)
         {
             _logger = logger;
             _dalPosCandidateSteps = dalPosCandidateSteps;
@@ -30,14 +30,14 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [HttpGet]
-        public IActionResult GetPositionCandidateSteps()
+        public IActionResult GetProposalSteps()
         {
             IActionResult response = null;
 
             var statuses = _dalPosCandidateSteps.GetAll();
             if (statuses != null)
             {
-                List<HRT.DTO.PositionCandidateStep> content = new List<HRT.DTO.PositionCandidateStep>();
+                List<HRT.DTO.ProposalStep> content = new List<HRT.DTO.ProposalStep>();
                 foreach (var u in statuses)
                 {
                     content.Add(EntityToDtoConvertor.Convert(u, this.Url));

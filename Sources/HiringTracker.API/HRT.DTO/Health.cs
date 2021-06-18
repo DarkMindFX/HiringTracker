@@ -7,7 +7,7 @@ namespace HRT.DTO
 {
     public class HealthResponse
     {
-        [JsonPropertyName("_message")]
+        [JsonPropertyName("Message")]
         public string Message
         {
             get;

@@ -34,29 +34,29 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.PositionStatus()
             {
                 Name = entity.Name,
-                StatusID = entity.StatusID
+                ID = entity.ID
             };
 
             return dto;
         }
 
-        public static DTO.PositionCandidateStatus Convert(Interfaces.Entities.PositionCandidateStatus entity, IUrlHelper url)
+        public static DTO.ProposalStatus Convert(Interfaces.Entities.ProposalStatus entity, IUrlHelper url)
         {
-            var dto = new DTO.PositionCandidateStatus()
+            var dto = new DTO.ProposalStatus()
             {
                 Name = entity.Name,
-                StatusID = entity.StatusID
+                ID = entity.ID
             };
 
             return dto;
         }
 
-        public static DTO.PositionCandidateStep Convert(Interfaces.Entities.PositionCandidateStep entity, IUrlHelper url)
+        public static DTO.ProposalStep Convert(Interfaces.Entities.ProposalStep entity, IUrlHelper url)
         {
-            var dto = new DTO.PositionCandidateStep()
+            var dto = new DTO.ProposalStep()
             {
                 Name = entity.Name,
-                StepID = entity.StepID,
+                ID = entity.ID,
                 ReqDueDate = entity.ReqDueDate,
                 RequiresRespInDays = entity.RequiresRespInDays
             };
@@ -86,8 +86,8 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.PositionSkill()
             {
                 IsMandatory = entity.IsMandatory,
-                Proficiency = Convert(profs[entity.ProficiencyID], url),
-                Skill = Convert(skills[entity.SkillID], url)
+                SkillProficiencyID = Convert(profs[entity.ProficiencyID], url),
+                SkillID = Convert(skills[entity.SkillID], url)
             };
 
             return dto;
@@ -112,7 +112,7 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.SkillProficiency()
             {
                 Name = entity.Name,
-                ID = entity.ID
+                ID = (long)entity.ID
             };
 
             dto.Links.Add(new DTO.Link(url.Action("DeleteSkillProficiency", "skillproficiencies", new { id = entity.ID }), "delete_proficiency", "DELETE"));
@@ -128,19 +128,19 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Position()
             {
-                CreatedBy = Convert(users[entity.CreatedByID], url),
+                CreatedByID = Convert(users[entity.CreatedByID], url),
                 CreatedDate = entity.CreatedDate,
                 Description = entity.Description,
-                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
+                ModifiedByID = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
-                PositionID = entity.PositionID ?? 0,
+                ID = entity.ID ?? 0,
                 ShortDesc = entity.ShortDesc,
-                Status = Convert(statuses[entity.StatusID], url),
+                StatusID = Convert(statuses[entity.StatusID], url),
                 Title = entity.Title
             };
 
-            dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.PositionID }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.PositionID }), "delete_position", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID }), "self", "GET"));
+            dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID }), "delete_position", "DELETE"));
             dto.Links.Add(new DTO.Link(url.Action("UpdatePosition", "positions"), "update_position", "PUT"));
 
             return dto;
@@ -209,9 +209,9 @@ namespace HRT.HiringTracker.API.Helpers
             {
                 Description = dto.Description,
                 DepartmentID = dto.DepartmentID,
-                PositionID = dto.PositionID,
+                ID = dto.ID,
                 ShortDesc = dto.ShortDesc,
-                StatusID = dto.Status.StatusID,
+                StatusID = (long)dto.StatusID.ID,
                 Title = dto.Title
             };
 
@@ -239,8 +239,8 @@ namespace HRT.HiringTracker.API.Helpers
             var entity = new Interfaces.Entities.PositionSkill()
             {
                 IsMandatory = dto.IsMandatory,
-                SkillID = (long)dto.Skill.ID,
-                ProficiencyID = dto.Proficiency.ID
+                SkillID = (long)dto.SkillID.ID,
+                ProficiencyID = dto.SkillProficiencyID.ID
             };
 
             return entity;

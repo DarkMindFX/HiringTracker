@@ -7,14 +7,14 @@ namespace HRT.DTO
 {
     public class LoginRequest
     {
-        [JsonPropertyName("_login")]
+        [JsonPropertyName("Login")]
         public string Login
         {
             get;
             set;
         }
 
-        [JsonPropertyName("_pwd")]
+        [JsonPropertyName("Password")]
         public string Password
         {
             get;
@@ -24,19 +24,19 @@ namespace HRT.DTO
 
     public class LoginResponse
     {
-        [JsonPropertyName("_user")]
+        [JsonPropertyName("User")]
         public User User
         {
             get; set;
         }
 
-        [JsonPropertyName("_token")]
+        [JsonPropertyName("Token")]
         public string Token
         {
             get; set;
         }
 
-        [JsonPropertyName("_expires")]
+        [JsonPropertyName("Expires")]
         public DateTime Expires
         {
             get; set;

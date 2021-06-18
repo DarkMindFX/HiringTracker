@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {
-    public class PositionCandidateDal : DalBaseImpl<PositionCandidate, Interfaces.IPositionCandidateDal>, IPositionCandidateDal
+    public class ProposalDal : DalBaseImpl<Proposal, Interfaces.IProposalDal>, IProposalDal
     {
-        public PositionCandidateDal(Interfaces.IPositionCandidateDal dalImpl) : base(dalImpl)
+        public ProposalDal(Interfaces.IProposalDal dalImpl) : base(dalImpl)
         {
         }
 
-        public IList<PositionCandidate> GetByCandidate(long id)
+        public IList<Proposal> GetByCandidate(long id)
         {
             return _dalImpl.GetByCandidate(id);
         }
 
-        public IList<PositionCandidate> GetByPosition(long id)
+        public IList<Proposal> GetByPosition(long id)
         {
             return _dalImpl.GetByPosition(id);
         }

@@ -17,9 +17,9 @@ namespace HRT.HiringTracker.API.Dal
 
         public new IDictionary<long, Position> GetAllAsDictionary()
         {
-            var statuses = _dalImpl.GetAll();
+            var entites = _dalImpl.GetAll();
 
-            IDictionary<long, Position> result = statuses.ToDictionary(s => s.PositionID ?? 0);
+            IDictionary<long, Position> result = entites.ToDictionary(s => s.ID ?? 0);
 
             return result;
         }

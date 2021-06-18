@@ -15,10 +15,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [UnhandledExceptionFilter]
     public class ProposalsController : ControllerBase
     {
-        private readonly IPositionCandidateDal _dalPosCandidate;
+        private readonly IProposalDal _dalPosCandidate;
 
         public ProposalsController(ILogger<ProposalsController> logger,
-                                   Dal.IPositionCandidateDal dalPosCandidate)
+                                   Dal.IProposalDal dalPosCandidate)
         {
             _dalPosCandidate = dalPosCandidate;
         }

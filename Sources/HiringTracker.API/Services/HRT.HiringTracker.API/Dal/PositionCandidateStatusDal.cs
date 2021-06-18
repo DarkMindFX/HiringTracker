@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {
-    [Export(typeof(IPositionCandidateStatusDal))]
-    public class PositionCandidateStatusDal : DalBaseImpl<PositionCandidateStatus, Interfaces.IPositionCandidateStatusDal>, IPositionCandidateStatusDal
+    [Export(typeof(IProposalStatusDal))]
+    public class ProposalStatusDal : DalBaseImpl<ProposalStatus, Interfaces.IProposalStatusDal>, IProposalStatusDal
     {
 
-        public PositionCandidateStatusDal(Interfaces.IPositionCandidateStatusDal dalImpl) : base(dalImpl)
+        public ProposalStatusDal(Interfaces.IProposalStatusDal dalImpl) : base(dalImpl)
         {
         }
 
-        public new IDictionary<long, PositionCandidateStatus> GetAllAsDictionary()
+        public new IDictionary<long, ProposalStatus> GetAllAsDictionary()
         {
-            var statuses = _dalImpl.GetAll();
+            var entites = _dalImpl.GetAll();
 
-            IDictionary<long, PositionCandidateStatus> result = statuses.ToDictionary(s => s.StatusID);
+            IDictionary<long, ProposalStatus> result = entites.ToDictionary(s => (long)s.ID);
 
             return result;
         }

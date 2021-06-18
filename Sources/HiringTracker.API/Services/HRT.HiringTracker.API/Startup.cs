@@ -146,18 +146,18 @@ namespace HRT.HiringTracker.API
             var dalPositionStatus = InitDal<IPositionStatusDal>(serviceCfg);
             services.AddSingleton<IPositionStatusDal>(dalPositionStatus);
 
-            var dalPositionCandidateStatus = InitDal<IPositionCandidateStatusDal>(serviceCfg);
-            services.AddSingleton<IPositionCandidateStatusDal>(dalPositionCandidateStatus);
+            var dalProposalStatus = InitDal<IProposalStatusDal>(serviceCfg);
+            services.AddSingleton<IProposalStatusDal>(dalProposalStatus);
 
-            var dalPositionCandidateStep = InitDal<IPositionCandidateStepDal>(serviceCfg);
-            services.AddSingleton<IPositionCandidateStepDal>(dalPositionCandidateStep);
+            var dalProposalStep = InitDal<IProposalStepDal>(serviceCfg);
+            services.AddSingleton<IProposalStepDal>(dalProposalStep);
 
             var dalCandidate = InitDal<ICandidateDal>(serviceCfg);
             services.AddSingleton<ICandidateDal>(dalCandidate);
 
             services.AddSingleton<Dal.ICandidateDal, Dal.CandidateDal>();
-            services.AddSingleton<Dal.IPositionCandidateStatusDal, Dal.PositionCandidateStatusDal>();
-            services.AddSingleton<Dal.IPositionCandidateStepDal, Dal.PositionCandidateStepDal>();
+            services.AddSingleton<Dal.IProposalStatusDal, Dal.ProposalStatusDal>();
+            services.AddSingleton<Dal.IProposalStepDal, Dal.ProposalStepDal>();
             services.AddSingleton<Dal.IPositionStatusDal, Dal.PositionStatusDal>();
             services.AddSingleton<Dal.IPositionDal, Dal.PositionDal>();
             services.AddSingleton<Dal.ISkillDal, Dal.SkillDal>();

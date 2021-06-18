@@ -7,13 +7,13 @@ namespace HRT.DTO
 {
     public class CandidateSkill
     {
-        [JsonPropertyName("_skill")]
+        [JsonPropertyName("Skill")]
         public Skill Skill
         {
             get; set;
         }
 
-        [JsonPropertyName("_proficiency")]
+        [JsonPropertyName("Proficiency")]
         public SkillProficiency Proficiency
         {
             get; set;

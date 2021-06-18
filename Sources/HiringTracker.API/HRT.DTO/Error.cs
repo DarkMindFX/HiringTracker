@@ -7,14 +7,14 @@ namespace HRT.DTO
 {
     public class Error
     {
-        [JsonPropertyName("_message")]
+        [JsonPropertyName("Message")]
         public string Message
         {
             get;
             set;
         }
 
-        [JsonPropertyName("_code")]
+        [JsonPropertyName("Code")]
         public int Code
         {
             get;

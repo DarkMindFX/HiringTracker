@@ -30,6 +30,11 @@ namespace HRT.HiringTracker.API.Dal
             return _dalImpl.GetAll();
         }
 
+        public TEntity Upsert(TEntity entity)
+        {
+            return _dalImpl.Upsert(entity);
+        }
+
         public IDictionary<long, TEntity> GetAllAsDictionary()
         {
             throw new NotImplementedException();

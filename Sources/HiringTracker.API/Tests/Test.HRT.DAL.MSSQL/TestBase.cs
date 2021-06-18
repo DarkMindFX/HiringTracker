@@ -74,12 +74,12 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
-        protected IPositionCandidateDal PreparePositionCandidateDal(string configName)
+        protected IProposalDal PrepareProposalDal(string configName)
         {
             IConfiguration config = GetConfiguration();
             var initParams = config.GetSection(configName).Get<TestDalInitParams>();
 
-            IPositionCandidateDal dal = new PositionCandidateDal();
+            IProposalDal dal = new ProposalDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
             dal.Init(dalInitParams);
@@ -87,12 +87,12 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
-        protected IPositionCandidateStepDal PreparePositionCandidateStepDal(string configName)
+        protected IProposalStepDal PrepareProposalStepDal(string configName)
         {
             IConfiguration config = GetConfiguration();
             var initParams = config.GetSection(configName).Get<TestDalInitParams>();
 
-            IPositionCandidateStepDal dal = new PositionCandidateStepDal();
+            IProposalStepDal dal = new ProposalStepDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
             dal.Init(dalInitParams);
@@ -100,12 +100,12 @@ namespace Test.HRT.DAL.MSSQL
             return dal;
         }
 
-        protected IPositionCandidateStatusDal PreparePositionCandidateStatusDal(string configName)
+        protected IProposalStatusDal PrepareProposalStatusDal(string configName)
         {
             IConfiguration config = GetConfiguration();
             var initParams = config.GetSection(configName).Get<TestDalInitParams>();
 
-            IPositionCandidateStatusDal dal = new PositionCandidateStatusDal();
+            IProposalStatusDal dal = new ProposalStatusDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
             dal.Init(dalInitParams);

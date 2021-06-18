@@ -130,7 +130,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             long? id = _dalPosition.Upsert(entity, editor != null ? editor.ID : null);
 
-            if (dto.Position.PositionID != null || id != null)
+            if (dto.Position.ID != null || id != null)
             {
                 var posSkills = new List<PositionSkill>();
                 foreach (var s in dto.Skills)
@@ -138,10 +138,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
                     posSkills.Add(EntityToDtoConvertor.Convert(s));
                 }
 
-                _dalPosition.SetSkills(dto.Position.PositionID ?? (long)id, posSkills);
+                _dalPosition.SetSkills(dto.Position.ID ?? (long)id, posSkills);
             }
 
-            response = Ok( new DTO.PositionUpsertResponse() {  PositionID = dto.Position.PositionID ?? (long)id } );
+            response = Ok( new DTO.PositionUpsertResponse() {  PositionID = dto.Position.ID ?? (long)id } );
 
             return response;
         }
