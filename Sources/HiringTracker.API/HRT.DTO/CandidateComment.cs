@@ -9,11 +9,11 @@ namespace HRT.DTO
 {
     public class CandidateComment : HateosDto
     {
-		[JsonPropertyName("CandidateID")]
-		public Candidate CandidateID { get; set; }
+		[JsonPropertyName("Candidate")]
+		public Candidate Candidate { get; set; }
 
-		[JsonPropertyName("CommentID")]
-		public Comment CommentID { get; set; }
+		[JsonPropertyName("Comment")]
+		public Comment Comment { get; set; }
 
 
     }

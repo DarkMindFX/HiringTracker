@@ -12,6 +12,8 @@ namespace HRT.HiringTracker.API.Dal
 
         long? Upsert(TEntity entity, long? editorID);
 
+        TEntity Upsert(TEntity entity);
+
         bool Delete(long id);
 
         IDictionary<long, TEntity> GetAllAsDictionary();

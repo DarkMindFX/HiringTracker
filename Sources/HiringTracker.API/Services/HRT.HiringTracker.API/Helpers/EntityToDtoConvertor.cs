@@ -86,8 +86,8 @@ namespace HRT.HiringTracker.API.Helpers
             var dto = new DTO.PositionSkill()
             {
                 IsMandatory = entity.IsMandatory,
-                SkillProficiencyID = Convert(profs[entity.ProficiencyID], url),
-                SkillID = Convert(skills[entity.SkillID], url)
+                SkillProficiency = Convert(profs[entity.ProficiencyID], url),
+                Skill = Convert(skills[entity.SkillID], url)
             };
 
             return dto;
@@ -128,10 +128,10 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Position()
             {
-                CreatedByID = Convert(users[entity.CreatedByID], url),
+                CreatedBy = Convert(users[entity.CreatedByID], url),
                 CreatedDate = entity.CreatedDate,
                 Description = entity.Description,
-                ModifiedByID = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
+                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
                 ID = entity.ID ?? 0,
                 ShortDesc = entity.ShortDesc,
@@ -153,9 +153,9 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Candidate()
             {
-                CreatedByID = Convert(users[entity.CreatedByID], url),
+                CreatedBy = Convert(users[entity.CreatedByID], url),
                 CreatedDate = entity.CreatedDate,
-                ModifiedByID = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
+                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
                 ID = entity.ID ?? 0,
                 CVLink = entity.CVLink,
@@ -239,8 +239,8 @@ namespace HRT.HiringTracker.API.Helpers
             var entity = new Interfaces.Entities.PositionSkill()
             {
                 IsMandatory = dto.IsMandatory,
-                SkillID = (long)dto.SkillID.ID,
-                ProficiencyID = dto.SkillProficiencyID.ID
+                SkillID = (long)dto.Skill.ID,
+                ProficiencyID = dto.SkillProficiency.ID
             };
 
             return entity;

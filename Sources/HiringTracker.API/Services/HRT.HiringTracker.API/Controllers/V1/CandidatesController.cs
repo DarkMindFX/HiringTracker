@@ -122,9 +122,18 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             User editor = HttpContext.Items["User"] as User;
 
-            long? id = _dalCandidate.Upsert(entity, editor != null ? editor.ID : null);
+            if (dto.Candidate.ID == null)
+            {
+                entity.CreatedByID = (long)editor.ID;
+            }
+            else
+            {
+                entity.ModifiedByID = (long)editor.ID;
+            }
 
-            if (dto.Candidate.ID != null || id != null)
+            Candidate upserted = _dalCandidate.Upsert(entity);
+
+            if (dto.Candidate.ID != null || upserted != null)
             {
                 var posSkills = new List<CandidateSkill>();
                 foreach (var s in dto.Skills)
@@ -132,10 +141,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
                     posSkills.Add(EntityToDtoConvertor.Convert(s));
                 }
 
-                _dalCandidate.SetSkills(dto.Candidate.ID ?? (long)id, posSkills);
+                _dalCandidate.SetSkills(dto.Candidate.ID ?? (long)upserted.ID, posSkills);
             }
 
-            response = Ok(new DTO.CandidateUpsertResponse() { ID = dto.Candidate.ID ?? (long)id });
+            response = Ok(new DTO.CandidateUpsertResponse() { Candidate = dto.Candidate  });
 
             return response;
         }

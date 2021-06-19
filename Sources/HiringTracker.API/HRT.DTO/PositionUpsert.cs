@@ -7,16 +7,16 @@ namespace HRT.DTO
 {
     public class PositionUpsert
     {
-        [JsonPropertyName("_position")]
+        [JsonPropertyName("Position")]
         public Position Position { get; set; }
 
-        [JsonPropertyName("_skills")]
+        [JsonPropertyName("Skills")]
         public IList<PositionSkill> Skills { get; set; }
     }
 
     public class PositionUpsertResponse
     {
-        [JsonPropertyName("_positionId")]
+        [JsonPropertyName("PositionId")]
         public long PositionID
         {
             get; set;

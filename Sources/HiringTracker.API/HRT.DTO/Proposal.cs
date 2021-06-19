@@ -13,10 +13,10 @@ namespace HRT.DTO
 		public System.Int64? ID { get; set; }
 
 		[JsonPropertyName("PositionID")]
-		public Position PositionID { get; set; }
+		public System.Int64 PositionID { get; set; }
 
 		[JsonPropertyName("CandidateID")]
-		public Candidate CandidateID { get; set; }
+		public System.Int64 CandidateID { get; set; }
 
 		[JsonPropertyName("Proposed")]
 		public System.DateTime Proposed { get; set; }
@@ -35,19 +35,6 @@ namespace HRT.DTO
 
 		[JsonPropertyName("StatusID")]
 		public System.Int64 StatusID { get; set; }
-
-		[JsonPropertyName("CreatedByID")]
-		public System.Int64? CreatedByID { get; set; }
-
-		[JsonPropertyName("CreatedDate")]
-		public System.DateTime? CreatedDate { get; set; }
-
-		[JsonPropertyName("ModifiedByID")]
-		public System.Int64? ModifiedByID { get; set; }
-
-		[JsonPropertyName("ModifiedDate")]
-		public System.DateTime? ModifiedDate { get; set; }
-
 
     }
 }

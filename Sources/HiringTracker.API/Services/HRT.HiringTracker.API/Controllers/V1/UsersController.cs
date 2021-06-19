@@ -22,7 +22,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
         private readonly Dal.IUserDal _dalUser;
         private readonly ILogger<UsersController> _logger;
@@ -175,11 +175,9 @@ namespace HRT.HiringTracker.API.Controllers.V1
                 }
             }
 
-            User editor = HttpContext.Items["User"] as User;
+            User upserted = _dalUser.Upsert(entity);
 
-            long? id = _dalUser.Upsert(entity, editor != null ? editor.ID : null);
-
-            response = GetUser(dto.ID ?? (long)id); 
+            response = Ok(EntityToDtoConvertor.Convert(upserted, this.Url)); 
 
             return response;
         }

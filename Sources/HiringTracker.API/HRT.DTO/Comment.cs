@@ -18,14 +18,14 @@ namespace HRT.DTO
 		[JsonPropertyName("CreatedDate")]
 		public System.DateTime CreatedDate { get; set; }
 
-		[JsonPropertyName("CreatedByID")]
-		public User CreatedByID { get; set; }
+		[JsonPropertyName("CreatedBy")]
+		public User CreatedBy { get; set; }
 
 		[JsonPropertyName("ModifiedDate")]
 		public System.DateTime? ModifiedDate { get; set; }
 
-		[JsonPropertyName("ModifiedByID")]
-		public User ModifiedByID { get; set; }
+		[JsonPropertyName("ModifiedBy")]
+		public User ModifiedBy { get; set; }
 
 
     }

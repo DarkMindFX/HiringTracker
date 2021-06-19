@@ -9,17 +9,17 @@ namespace HRT.DTO
 {
     public class PositionSkill : HateosDto
     {
-		[JsonPropertyName("PositionID")]
-		public Position PositionID { get; set; }
+		[JsonPropertyName("Position")]
+		public Position Position { get; set; }
 
-		[JsonPropertyName("SkillID")]
-		public Skill SkillID { get; set; }
+		[JsonPropertyName("Skill")]
+		public Skill Skill { get; set; }
 
 		[JsonPropertyName("IsMandatory")]
 		public System.Boolean IsMandatory { get; set; }
 
-		[JsonPropertyName("SkillProficiencyID")]
-		public SkillProficiency SkillProficiencyID { get; set; }
+		[JsonPropertyName("SkillProficiency")]
+		public SkillProficiency SkillProficiency { get; set; }
 
 
     }

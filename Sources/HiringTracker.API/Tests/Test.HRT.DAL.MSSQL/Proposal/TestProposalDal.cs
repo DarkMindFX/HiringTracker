@@ -51,19 +51,19 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNotNull(entity);
             Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual(100003, entity.PositionID);
-		Assert.AreEqual(100008, entity.CandidateID);
-		Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.Proposed);
-		Assert.AreEqual(450536, entity.CurrentStepID);
-		Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.StepSetDate);
-		Assert.AreEqual(450536, entity.NextStepID);
-		Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.DueDate);
-		Assert.AreEqual(450536, entity.StatusID);
-		Assert.AreEqual(450536, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.CreatedDate);
-		Assert.AreEqual(450536, entity.ModifiedByID);
-		Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.ModifiedDate);
-		
+            Assert.AreEqual(100003, entity.PositionID);
+            Assert.AreEqual(100008, entity.CandidateID);
+            Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.Proposed);
+            Assert.AreEqual(450536, entity.CurrentStepID);
+            Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.StepSetDate);
+            Assert.AreEqual(450536, entity.NextStepID);
+            Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.DueDate);
+            Assert.AreEqual(450536, entity.StatusID);
+            Assert.AreEqual(450536, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.CreatedDate);
+            Assert.AreEqual(450536, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("3/11/2021 7:59:33 PM"), entity.ModifiedDate);
+
         }
 
         [Test]
@@ -76,6 +76,53 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNull(entity);
         }
+
+        [Test]
+        public void GetProposal_ByCandidate_Success()
+        {
+            long id = 100002;
+            var dal = PrepareProposalDal("DALInitParams");
+
+            IList<Proposal> entities = dal.GetByCandidate(id);
+
+            Assert.IsNotNull(entities);
+            Assert.IsNotEmpty(entities);
+        }
+
+        [Test]
+        public void GetProposal_ByCandidate_InvalidId()
+        {
+            long id = Int64.MaxValue;
+            var dal = PrepareProposalDal("DALInitParams");
+
+            IList<Proposal> entities = dal.GetByCandidate(id);
+
+            Assert.IsNull(entities);
+        }
+
+        [Test]
+        public void GetProposal_ByPosition_Success()
+        {
+            long id = 100003;
+            var dal = PrepareProposalDal("DALInitParams");
+
+            IList<Proposal> entities = dal.GetByPosition(id);
+
+            Assert.IsNotNull(entities);
+            Assert.IsNotEmpty(entities);
+        }
+
+        [Test]
+        public void GetProposal_ByPosition_InvalidId()
+        {
+            long id = Int64.MaxValue;
+            var dal = PrepareProposalDal("DALInitParams");
+
+            IList<Proposal> entities = dal.GetByPosition(id);
+
+            Assert.IsNull(entities);
+        }
+
 
         [TestCase("Proposal\\010.Delete.Success")]
         public void DeleteProposal_Success(string caseName)
@@ -114,18 +161,18 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = new Proposal();
             entity.PositionID = 110118;
-		entity.CandidateID = 100001;
-		entity.Proposed = DateTime.Parse("4/11/2021 11:36:33 AM");
-		entity.CurrentStepID = 466318;
-		entity.StepSetDate = DateTime.Parse("4/11/2021 11:36:33 AM");
-		entity.NextStepID = 466318;
-		entity.DueDate = DateTime.Parse("4/11/2021 11:36:33 AM");
-		entity.StatusID = 466318;
-		entity.CreatedByID = 466318;
-		entity.CreatedDate = DateTime.Parse("4/11/2021 11:36:33 AM");
-		entity.ModifiedByID = 466318;
-		entity.ModifiedDate = DateTime.Parse("4/11/2021 11:36:33 AM");
-		
+            entity.CandidateID = 100001;
+            entity.Proposed = DateTime.Parse("4/11/2021 11:36:33 AM");
+            entity.CurrentStepID = 466318;
+            entity.StepSetDate = DateTime.Parse("4/11/2021 11:36:33 AM");
+            entity.NextStepID = 466318;
+            entity.DueDate = DateTime.Parse("4/11/2021 11:36:33 AM");
+            entity.StatusID = 466318;
+            entity.CreatedByID = 466318;
+            entity.CreatedDate = DateTime.Parse("4/11/2021 11:36:33 AM");
+            entity.ModifiedByID = 466318;
+            entity.ModifiedDate = DateTime.Parse("4/11/2021 11:36:33 AM");
+
 
             entity = dal.Upsert(entity);
 
@@ -133,19 +180,19 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNotNull(entity);
             Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual(110118, entity.PositionID);
-		Assert.AreEqual(100001, entity.CandidateID);
-		Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.Proposed);
-		Assert.AreEqual(466318, entity.CurrentStepID);
-		Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.StepSetDate);
-		Assert.AreEqual(466318, entity.NextStepID);
-		Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.DueDate);
-		Assert.AreEqual(466318, entity.StatusID);
-		Assert.AreEqual(466318, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.CreatedDate);
-		Assert.AreEqual(466318, entity.ModifiedByID);
-		Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.ModifiedDate);
-		
+            Assert.AreEqual(110118, entity.PositionID);
+            Assert.AreEqual(100001, entity.CandidateID);
+            Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.Proposed);
+            Assert.AreEqual(466318, entity.CurrentStepID);
+            Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.StepSetDate);
+            Assert.AreEqual(466318, entity.NextStepID);
+            Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.DueDate);
+            Assert.AreEqual(466318, entity.StatusID);
+            Assert.AreEqual(466318, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.CreatedDate);
+            Assert.AreEqual(466318, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("4/11/2021 11:36:33 AM"), entity.ModifiedDate);
+
         }
 
         [TestCase("Proposal\\030.Update.Success")]
@@ -159,18 +206,18 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = dal.Get(id);
             entity.PositionID = 100002;
-		entity.CandidateID = 100005;
-		entity.Proposed = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.CurrentStepID = 33594;
-		entity.StepSetDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.NextStepID = 33594;
-		entity.DueDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.StatusID = 33594;
-		entity.CreatedByID = 33594;
-		entity.CreatedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.ModifiedByID = 33594;
-		entity.ModifiedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		
+            entity.CandidateID = 100005;
+            entity.Proposed = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.CurrentStepID = 33594;
+            entity.StepSetDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.NextStepID = 33594;
+            entity.DueDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.StatusID = 33594;
+            entity.CreatedByID = 33594;
+            entity.CreatedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.ModifiedByID = 33594;
+            entity.ModifiedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+
 
             entity = dal.Upsert(entity);
 
@@ -178,19 +225,19 @@ namespace Test.HRT.DAL.MSSQL
 
             Assert.IsNotNull(entity);
             Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual(100002, entity.PositionID);
-		Assert.AreEqual(100005, entity.CandidateID);
-		Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.Proposed);
-		Assert.AreEqual(33594, entity.CurrentStepID);
-		Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.StepSetDate);
-		Assert.AreEqual(33594, entity.NextStepID);
-		Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.DueDate);
-		Assert.AreEqual(33594, entity.StatusID);
-		Assert.AreEqual(33594, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.CreatedDate);
-		Assert.AreEqual(33594, entity.ModifiedByID);
-		Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.ModifiedDate);
-		
+            Assert.AreEqual(100002, entity.PositionID);
+            Assert.AreEqual(100005, entity.CandidateID);
+            Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.Proposed);
+            Assert.AreEqual(33594, entity.CurrentStepID);
+            Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.StepSetDate);
+            Assert.AreEqual(33594, entity.NextStepID);
+            Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.DueDate);
+            Assert.AreEqual(33594, entity.StatusID);
+            Assert.AreEqual(33594, entity.CreatedByID);
+            Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.CreatedDate);
+            Assert.AreEqual(33594, entity.ModifiedByID);
+            Assert.AreEqual(DateTime.Parse("11/28/2018 7:36:33 AM"), entity.ModifiedDate);
+
         }
 
         [Test]
@@ -201,18 +248,18 @@ namespace Test.HRT.DAL.MSSQL
             var entity = new Proposal();
             entity.ID = Int64.MaxValue - 1;
             entity.PositionID = 100002;
-		entity.CandidateID = 100005;
-		entity.Proposed = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.CurrentStepID = 33594;
-		entity.StepSetDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.NextStepID = 33594;
-		entity.DueDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.StatusID = 33594;
-		entity.CreatedByID = 33594;
-		entity.CreatedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		entity.ModifiedByID = 33594;
-		entity.ModifiedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
-		
+            entity.CandidateID = 100005;
+            entity.Proposed = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.CurrentStepID = 33594;
+            entity.StepSetDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.NextStepID = 33594;
+            entity.DueDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.StatusID = 33594;
+            entity.CreatedByID = 33594;
+            entity.CreatedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+            entity.ModifiedByID = 33594;
+            entity.ModifiedDate = DateTime.Parse("11/28/2018 7:36:33 AM");
+
 
             try
             {
@@ -220,7 +267,7 @@ namespace Test.HRT.DAL.MSSQL
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
