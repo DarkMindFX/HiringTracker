@@ -9,8 +9,6 @@ namespace HRT.DTO
 {
     public class PositionSkill : HateosDto
     {
-		[JsonPropertyName("Position")]
-		public Position Position { get; set; }
 
 		[JsonPropertyName("Skill")]
 		public Skill Skill { get; set; }

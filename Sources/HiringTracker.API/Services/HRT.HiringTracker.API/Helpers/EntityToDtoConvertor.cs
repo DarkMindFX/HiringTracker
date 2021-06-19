@@ -128,14 +128,14 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Position()
             {
-                CreatedBy = Convert(users[entity.CreatedByID], url),
-                CreatedDate = entity.CreatedDate,
+                CreatedBy = Convert(users[(long)entity.CreatedByID], url),
+                CreatedDate = (DateTime)entity.CreatedDate,
                 Description = entity.Description,
                 ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
                 ID = entity.ID ?? 0,
                 ShortDesc = entity.ShortDesc,
-                StatusID = Convert(statuses[entity.StatusID], url),
+                Status = Convert(statuses[entity.StatusID], url),
                 Title = entity.Title
             };
 
@@ -153,8 +153,8 @@ namespace HRT.HiringTracker.API.Helpers
         {
             var dto = new DTO.Candidate()
             {
-                CreatedBy = Convert(users[entity.CreatedByID], url),
-                CreatedDate = entity.CreatedDate,
+                CreatedBy = Convert(users[(long)entity.CreatedByID], url),
+                CreatedDate = (DateTime)entity.CreatedDate,
                 ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
                 ModifiedDate = entity.ModifiedDate,
                 ID = entity.ID ?? 0,
@@ -211,7 +211,7 @@ namespace HRT.HiringTracker.API.Helpers
                 DepartmentID = dto.DepartmentID,
                 ID = dto.ID,
                 ShortDesc = dto.ShortDesc,
-                StatusID = (long)dto.StatusID.ID,
+                StatusID = (long)dto.Status.ID,
                 Title = dto.Title
             };
 

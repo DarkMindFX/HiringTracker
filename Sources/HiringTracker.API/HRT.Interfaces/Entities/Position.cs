@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class Position
-    {
+    public class Position : TrackedEntity
+	{
 		public System.Int64? ID { get; set; }
 
 		public System.Int64? DepartmentID { get; set; }
@@ -19,15 +19,5 @@ namespace HRT.Interfaces.Entities
 		public System.String Description { get; set; }
 
 		public System.Int64 StatusID { get; set; }
-
-		public System.DateTime CreatedDate { get; set; }
-
-		public System.Int64 CreatedByID { get; set; }
-
-		public System.DateTime? ModifiedDate { get; set; }
-
-		public System.Int64? ModifiedByID { get; set; }
-
-
     }
 }

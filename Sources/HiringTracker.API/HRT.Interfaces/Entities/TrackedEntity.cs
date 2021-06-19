@@ -6,13 +6,13 @@ namespace HRT.Interfaces.Entities
 {
     public class TrackedEntity
     {
-        public DateTime CreatedDate
+        public DateTime? CreatedDate
         {
             get; set;
         }
 
 
-        public long CreatedByID
+        public long? CreatedByID
         {
             get; set;
         }

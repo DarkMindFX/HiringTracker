@@ -13,13 +13,4 @@ namespace HRT.DTO
         [JsonPropertyName("Skills")]
         public IList<PositionSkill> Skills { get; set; }
     }
-
-    public class PositionUpsertResponse
-    {
-        [JsonPropertyName("PositionId")]
-        public long PositionID
-        {
-            get; set;
-        }
-    }
 }

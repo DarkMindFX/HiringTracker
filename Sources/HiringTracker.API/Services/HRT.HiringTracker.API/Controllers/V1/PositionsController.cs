@@ -17,7 +17,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class PositionsController : ControllerBase
+    public class PositionsController : BaseController
     {
         private readonly Dal.IPositionDal _dalPosition;
         private readonly Dal.IPositionStatusDal _dalPositionStatus;
@@ -126,11 +126,20 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             var entity = EntityToDtoConvertor.Convert(dto.Position);
 
-            User editor = HttpContext.Items["User"] as User;
+            if(dto.Position.ID != null)
+            {
+                entity.ModifiedByID = base.CurrentUser.ID;
+                entity.ModifiedDate = DateTime.UtcNow;
+            }
+            else
+            {
+                entity.CreatedByID = (long)base.CurrentUser.ID;
+                entity.CreatedDate = DateTime.UtcNow;
+            }
 
-            long? id = _dalPosition.Upsert(entity, editor != null ? editor.ID : null);
+            Position position = _dalPosition.Upsert(entity);
 
-            if (dto.Position.ID != null || id != null)
+            if (dto.Position.ID != null || position.ID != null)
             {
                 var posSkills = new List<PositionSkill>();
                 foreach (var s in dto.Skills)
@@ -138,10 +147,10 @@ namespace HRT.HiringTracker.API.Controllers.V1
                     posSkills.Add(EntityToDtoConvertor.Convert(s));
                 }
 
-                _dalPosition.SetSkills(dto.Position.ID ?? (long)id, posSkills);
+                _dalPosition.SetSkills(dto.Position.ID ?? (long)position.ID, posSkills);
             }
 
-            response = Ok( new DTO.PositionUpsertResponse() {  PositionID = dto.Position.ID ?? (long)id } );
+            response = GetPosition((long)position.ID);
 
             return response;
         }

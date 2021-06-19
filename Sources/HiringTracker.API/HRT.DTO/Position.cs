@@ -24,8 +24,8 @@ namespace HRT.DTO
 		[JsonPropertyName("Description")]
 		public System.String Description { get; set; }
 
-		[JsonPropertyName("StatusID")]
-		public PositionStatus StatusID { get; set; }
+		[JsonPropertyName("Status")]
+		public PositionStatus Status { get; set; }
 
 		[JsonPropertyName("CreatedDate")]
 		public System.DateTime CreatedDate { get; set; }

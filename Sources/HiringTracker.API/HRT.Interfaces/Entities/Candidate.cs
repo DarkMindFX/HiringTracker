@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class Candidate
+    public class Candidate : TrackedEntity
     {
 		public System.Int64? ID { get; set; }
 
@@ -21,15 +21,5 @@ namespace HRT.Interfaces.Entities
 		public System.String Phone { get; set; }
 
 		public System.String CVLink { get; set; }
-
-		public System.Int64 CreatedByID { get; set; }
-
-		public System.DateTime CreatedDate { get; set; }
-
-		public System.Int64? ModifiedByID { get; set; }
-
-		public System.DateTime? ModifiedDate { get; set; }
-
-
     }
 }
