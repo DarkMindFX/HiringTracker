@@ -174,9 +174,65 @@ namespace HRT.HiringTracker.API.Helpers
 
         }
 
+        public static DTO.Proposal Convert(Interfaces.Entities.Proposal entity, 
+                                            IDictionary<long, Interfaces.Entities.Candidate> candidates,
+                                            IDictionary<long, Interfaces.Entities.ProposalStatus> statuses,
+                                            IDictionary<long, Interfaces.Entities.ProposalStep> steps,
+                                            IDictionary<long, Interfaces.Entities.User> users,
+                                            IDictionary<long, Interfaces.Entities.Position> positions,
+                                            IDictionary<long, Interfaces.Entities.PositionStatus> positionStatuses,
+                                            IUrlHelper url)
+        {
+            var dto = new DTO.Proposal()
+            {
+                Candidate = Convert(candidates[entity.CandidateID], users, url),
+                CreatedBy = Convert(users[(long)entity.CreatedByID], url),
+                CreatedDate = (DateTime)entity.CreatedDate,
+                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
+                ModifiedDate = entity.ModifiedDate,
+                CurrentStep = Convert(steps[entity.CurrentStepID], url),
+                DueDate = entity.DueDate,
+                NextStep = entity.NextStepID != null ? Convert(steps[(long)entity.NextStepID], url) : null,
+                Position = Convert(positions[entity.PositionID], positionStatuses, users, url),
+                Proposed = entity.Proposed,
+                Status = Convert(statuses[entity.StatusID], url),
+                StepSetDate = entity.StepSetDate,
+                ID = entity.ID
+            };
+
+            dto.Links.Add(new DTO.Link(url.Action("GetProposal", "proposals", new { id = dto.ID }), "self", "GET"));
+            dto.Links.Add(new DTO.Link(url.Action("DeleteProposal", "proposals", new { id = dto.ID }), "delete_proposal", "DELETE"));
+            dto.Links.Add(new DTO.Link(url.Action("UpdateProposal", "proposals"), "update_proposal", "PUT"));
+
+            return dto;
+        }
+
         #endregion
 
         #region DTO-2-Entity
+
+        public static Interfaces.Entities.Proposal  Convert(DTO.Proposal dto)
+        {
+            var entity = new Interfaces.Entities.Proposal()
+            {
+                ID = dto.ID,
+                CandidateID = (long)dto.Candidate.ID,
+                CreatedByID = dto.CreatedBy.ID,
+                CreatedDate = dto.CreatedDate,
+                CurrentStepID = (long)dto.CurrentStep.ID,
+                DueDate = dto.DueDate,
+                ModifiedByID = dto.ModifiedBy.ID,
+                ModifiedDate = dto.ModifiedDate,
+                NextStepID = dto.NextStep.ID,
+                PositionID = (long)dto.Position.ID,
+                Proposed = dto.Proposed,
+                StatusID = (long)dto.Status.ID,
+                StepSetDate = dto.StepSetDate
+            };
+
+            return entity;
+        }
+
         public static Interfaces.Entities.Skill Convert(DTO.Skill dto)
         {
             var entity = new Interfaces.Entities.Skill()

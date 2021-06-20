@@ -7,6 +7,7 @@ using HRT.HiringTracker.API.Filters;
 using HRT.HiringTracker.API.Helpers;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _dalSkill = dalSkill;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetSkills()
         {
@@ -52,6 +54,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
+        [Authorize]
         [HttpDelete("{id}"), ActionName("DeleteSkill")]
         public IActionResult DeleteSkill(long id)
         {
@@ -69,42 +72,32 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
+        [Authorize]
         [HttpPut, ActionName("UpdateSkill")]
         public IActionResult UpdateSkill(DTO.Skill dto)
         {
             IActionResult response = null;
 
-            User editor = HttpContext.Items["User"] as User;
-
             var entity = EntityToDtoConvertor.Convert(dto);
 
-            long? id = _dalSkill.Upsert(entity, editor.ID);
+            var skill = _dalSkill.Upsert(entity);
 
-            response = Ok();
+            response = Ok(EntityToDtoConvertor.Convert(skill, Url));
 
             return response;
         }
 
+        [Authorize]
         [HttpPost, ActionName("InsertSkill")]
         public IActionResult InsertSkill(DTO.Skill dto)
         {
             IActionResult response = null;
 
-            User editor = HttpContext.Items["User"] as User;
-
             var entity = EntityToDtoConvertor.Convert(dto);
 
-            long? id = _dalSkill.Upsert(entity, editor.ID);
+            var skill = _dalSkill.Upsert(entity);
 
-            if(id != null)
-            {
-                dto.ID = (long)id;
-                response = Ok(dto);
-            }
-            else
-            {
-                response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to insert skill");
-            }
+            response = Ok(EntityToDtoConvertor.Convert(skill, Url));
 
             return response;
         }

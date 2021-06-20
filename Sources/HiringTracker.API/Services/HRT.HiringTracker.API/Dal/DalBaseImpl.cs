@@ -39,10 +39,5 @@ namespace HRT.HiringTracker.API.Dal
         {
             throw new NotImplementedException();
         }
-
-        public long? Upsert(TEntity entity, long? editorID)
-        {
-            return _dalImpl.Upsert(entity, editorID);
-        }
     }
 }

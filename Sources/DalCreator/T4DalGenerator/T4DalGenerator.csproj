@@ -1,0 +1,124 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\IServiceDalTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\SQLDalImplTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SQLDalImplTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\DtoTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
+	<Compile Update="Templates\IDalTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IDalTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\EntityTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EntityTemplate.tt</DependentUpon>
+    </Compile>
+	<Compile Update="Templates\StorProcEntityDelete.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StorProcEntityDelete.tt</DependentUpon>
+    </Compile>
+	<Compile Update="Templates\StorProcEntityGetAll.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityGetAll.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\StorProcEntityGetDetails.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityGetDetails.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\StorProcEntityUpsert.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityUpsert.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\StorProcEntityGetByField.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityGetByField.tt</DependentUpon>
+	</Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\IServiceDalTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>IServiceDalTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\SQLDalImplTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SQLDalImplTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\DtoTemplate.tt">
+      <LastGenOutput>DtoTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\IDalTemplate.tt">
+      <LastGenOutput>IDalTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\EntityTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EntityTemplate.cs</LastGenOutput>
+    </None>
+	<None Update="Templates\StorProcEntityDelete.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StorProcEntityDelete.cs</LastGenOutput>
+    </None>
+	<None Update="Templates\StorProcEntityGetAll.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>StorProcEntityGetAll.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\StorProcEntityGetDetails.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>StorProcEntityGetDetails.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\StorProcEntityUpsert.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>StorProcEntityUpsert.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\StorProcEntityGetByField.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>StorProcEntityGetByField.cs</LastGenOutput>
+	</None>
+  </ItemGroup>
+
+</Project>

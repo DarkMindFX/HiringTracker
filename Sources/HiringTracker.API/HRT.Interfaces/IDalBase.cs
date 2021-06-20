@@ -10,8 +10,6 @@ namespace HRT.Interfaces
 
         TEntity Get(long id);
 
-        long? Upsert(TEntity entity, long? editorID);
-
         TEntity Upsert(TEntity entity);
 
         bool Delete(long id);

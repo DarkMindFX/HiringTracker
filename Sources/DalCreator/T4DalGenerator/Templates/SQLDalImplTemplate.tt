@@ -1,0 +1,104 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ parameter name="table" type="DataModel.DataTable" #>
+<#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Data;
+using System.Data.SqlClient;
+using HRT.Common;
+using HRT.DAL.MSSQL;
+using HRT.Interfaces;
+using HRT.Interfaces.Entities;
+
+namespace HRT.DAL.MSSQL 
+{
+    class <#= table.Name #>DalInitParams : InitParamsImpl
+    {
+    }
+
+    [Export("MSSQL", typeof(I<#= table.Name #>Dal))]
+    public class <#= table.Name #>Dal: SQLDal, I<#= table.Name #>Dal
+    {
+        public IInitParams CreateInitParams()
+        {
+            return new <#= table.Name #>DalInitParams();
+        }
+
+        public void Init(IInitParams initParams)
+        {
+            InitDbConnection(initParams.Parameters["ConnectionString"]);
+        }
+
+        public bool Delete(long id)
+        {
+            bool removed = base.Delete<<#= table.Name #>>("p_<#= table.Name #>_Delete", id, "@ID");
+
+            return removed;
+        }
+
+        public <#= table.Name #> Get(long id)
+        {
+            <#= table.Name #> entityOut = base.Get<<#= table.Name #>>("p_<#= table.Name #>_GetDetails", id, "@ID", <#= table.Name #>FromRow);
+
+            return entityOut;
+        }
+
+        <#
+        foreach(var c in table.Columns)
+        {
+                if(!string.IsNullOrEmpty(c.FKRefTable))
+                {
+        #>
+        public IList<<#=table.Name #>> GetBy<#=c.Name #>(long <#=c.Name #>)
+        {
+            var entitiesOut = base.GetBy<<#= table.Name #>, long>("p_<#= table.Name #>_GetBy<#=c.Name #>", <#=c.Name #>, "@<#=c.Name #>", SqlDbType.BigInt, 0, <#= table.Name #>FromRow);
+
+            return entitiesOut;
+        }
+        <#
+                }
+        }
+        #>
+
+        public IList<<#= table.Name #>> GetAll()
+        {
+            IList<<#= table.Name #>> result = base.GetAll<<#= table.Name #>>("p_<#= table.Name #>_GetAll", <#= table.Name #>FromRow);
+
+            return result;
+        }
+
+        public <#= table.Name #> Upsert(<#= table.Name #> entity) 
+        {
+            <#= table.Name #> entityOut = base.Upsert<<#= table.Name #>>("p_<#= table.Name #>_Upsert", entity, AddUpsertParameters, <#= table.Name #>FromRow);
+
+            return entityOut;
+        }
+
+        protected SqlCommand AddUpsertParameters(SqlCommand cmd, <#= table.Name #> entity)
+        {
+            SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+
+            SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+
+            return cmd;
+        }
+
+        protected <#= table.Name #> <#= table.Name #>FromRow(DataRow row)
+        {
+            var entity = new <#= table.Name #>();
+
+            entity.ID = (System.Int64?)row["ID"];
+		    entity.Name = (System.String)row["Name"];
+
+            return entity;
+        }
+        
+    }
+}

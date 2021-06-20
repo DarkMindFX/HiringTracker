@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Templates\HRT\Controllers\EntitiesController.cs" />
     <Compile Remove="Templates\HRT\DalImplementations\EntityDal.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\Entity.cs" />
     <Compile Remove="Templates\HRT\DalInterfaces\IEntityDal.cs" />
@@ -15,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Templates\HRT\Controllers\EntitiesController.cs" />
     <None Include="Templates\HRT\DalImplementations\EntityDal.cs" />
     <None Include="Templates\HRT\DalInterfaces\Entity.cs" />
     <None Include="Templates\HRT\DalInterfaces\IEntityDal.cs" />

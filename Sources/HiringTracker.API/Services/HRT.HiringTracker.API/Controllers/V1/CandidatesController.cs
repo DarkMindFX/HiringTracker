@@ -17,7 +17,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class CandidatesController : ControllerBase
+    public class CandidatesController : BaseController
     {
         private readonly Dal.ICandidateDal _dalCandidate;
         private readonly Dal.IUserDal _dalUser;
@@ -120,15 +120,15 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             var entity = EntityToDtoConvertor.Convert(dto.Candidate);
 
-            User editor = HttpContext.Items["User"] as User;
-
-            if (dto.Candidate.ID == null)
+            if (dto.Candidate.ID != null)
             {
-                entity.CreatedByID = (long)editor.ID;
+                entity.ModifiedByID = base.CurrentUser.ID;
+                entity.ModifiedDate = DateTime.UtcNow;
             }
             else
             {
-                entity.ModifiedByID = (long)editor.ID;
+                entity.CreatedByID = (long)base.CurrentUser.ID;
+                entity.CreatedDate = DateTime.UtcNow;
             }
 
             Candidate upserted = _dalCandidate.Upsert(entity);
@@ -144,7 +144,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
                 _dalCandidate.SetSkills(dto.Candidate.ID ?? (long)upserted.ID, posSkills);
             }
 
-            response = Ok(new DTO.CandidateUpsertResponse() { Candidate = dto.Candidate  });
+            response = GetCandidate((long)upserted.ID);
 
             return response;
         }

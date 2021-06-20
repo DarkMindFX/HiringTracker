@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HRT.HiringTracker.API.Filters;
 using HRT.HiringTracker.API.Helpers;
 using HRT.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,6 +28,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _dalSkillProficiency = dalSkillProficiency;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetProficiencies()
         {

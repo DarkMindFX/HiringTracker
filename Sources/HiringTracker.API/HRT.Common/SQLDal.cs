@@ -49,10 +49,18 @@ namespace HRT.Common
             da.Fill(ds);
 
             return ds;
-
         }
 
         protected TEntity Get<TEntity>(string procName, long id, string paramName, Func<DataRow, TEntity> fnFromRow) where TEntity : new()
+        {
+            TEntity result = default(TEntity);
+
+            result = GetBy<TEntity, long>(procName, id, paramName, SqlDbType.BigInt, 0, fnFromRow);
+
+            return result;
+        }
+
+        protected TEntity GetBy<TEntity, TParamType>(string procName, TParamType byParam, string paramName, SqlDbType sqlType, int sqlSize, Func<DataRow, TEntity> fnFromRow)
         {
             TEntity result = default(TEntity);
 
@@ -61,7 +69,7 @@ namespace HRT.Common
                 SqlCommand cmd = new SqlCommand(procName, conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                AddParameter(cmd, paramName, SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, id);
+                AddParameter(cmd, paramName, sqlType, sqlSize, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, byParam);
 
                 var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 

@@ -1,0 +1,31 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ parameter name="table" type="DataModel.DataTable" #>
+<#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+
+using HRT.Interfaces.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HRT.HiringTracker.API.Dal
+{
+    public interface I<#= table.Name #>Dal : IDalBase<<#= table.Name #>
+    {  
+    <#
+            foreach(var c in table.Columns)
+            {
+                if(!string.IsNullOrEmpty(c.FKRefTable))
+                {
+    #>
+        IList<<#= table.Name #>> GetBy<#=c.Name #>(long <#=c.Name #>);
+    <#
+                }
+            }
+    #>
+    }
+}
