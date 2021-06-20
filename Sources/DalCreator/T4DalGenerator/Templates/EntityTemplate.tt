@@ -6,6 +6,7 @@
 
 <#@ parameter name="table" type="DataModel.DataTable" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+<#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
 
 using System;
 using System.Collections.Generic;

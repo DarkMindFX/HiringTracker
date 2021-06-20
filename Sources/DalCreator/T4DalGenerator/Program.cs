@@ -25,9 +25,12 @@ namespace T4DalGenerator
             Generate<StorProcsGenerator>(tables, settings, timestamp);
             Generate<IDalsGenerator>(tables, settings, timestamp);
             Generate<SQLDalGenerator>(tables, settings, timestamp);
+            Generate<SQLDalTestGenerator>(tables, settings, timestamp);
             Generate<EntitiesGenerator>(tables, settings, timestamp);
             Generate<DtosGenerator>(tables, settings, timestamp);
             Generate<IServiceDalsGenerator>(tables, settings, timestamp);
+            Generate<IServiceDalsGenerator>(tables, settings, timestamp);
+            Generate<ServiceDalsImplGenerator>(tables, settings, timestamp);
         }
 
         private static IList<string> Generate<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator

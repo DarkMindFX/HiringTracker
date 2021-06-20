@@ -28,6 +28,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="Templates\ServiceDalImplTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceDalImplTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\SQLDalImplTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -73,6 +78,21 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>StorProcEntityGetByField.tt</DependentUpon>
 	</Compile>
+	<Compile Update="Templates\Tests\TestDalTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>TestDalTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\GetDetailsSetupTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>GetDetailsSetupTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\GetDetailsTeardownTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>GetDetailsTeardownTemplate.tt</DependentUpon>
+	</Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,6 +102,10 @@
     <None Update="Templates\IServiceDalTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>IServiceDalTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\ServiceDalImplTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ServiceDalImplTemplate.cs</LastGenOutput>
     </None>
     <None Update="Templates\SQLDalImplTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -118,6 +142,18 @@
 	<None Update="Templates\StorProcEntityGetByField.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>StorProcEntityGetByField.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\TestDalTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\GetDetailsSetupTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>GetDetailsSetupTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\GetDetailsTeardownTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>GetDetailsTeardownTemplate.cs</LastGenOutput>
 	</None>
   </ItemGroup>
 

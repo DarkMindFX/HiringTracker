@@ -1,9 +1,7 @@
 ﻿using HRT.Interfaces.Entities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {

@@ -33,21 +33,21 @@ namespace T4DalGenerator.Templates
                     ";\r\nusing System.Text;\r\n\r\nnamespace HRT.HiringTracker.API.Dal\r\n{\r\n    public inte" +
                     "rface I");
             
-            #line 17 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 18 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Dal : IDalBase<");
             
-            #line 17 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 18 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\r\n    {  \r\n    ");
             
-            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
 
             foreach(var c in table.Columns)
             {
@@ -59,28 +59,35 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("        IList<");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("> GetBy");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
-            this.Write("(long ");
+            this.Write("(");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(c)));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n    ");
             
-            #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
+            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
 
                 }
             }
@@ -120,6 +127,19 @@ private global::T4DalGenerator.ModelHelper modelHelper
     }
 }
 
+private global::T4DalGenerator.Generators.GeneratorBase _generatorField;
+
+/// <summary>
+/// Access the generator parameter of the template.
+/// </summary>
+private global::T4DalGenerator.Generators.GeneratorBase generator
+{
+    get
+    {
+        return this._generatorField;
+    }
+}
+
 
 /// <summary>
 /// Initialize the template
@@ -154,6 +174,20 @@ if ((modelHelperValueAcquired == false))
     if ((data != null))
     {
         this._modelHelperField = ((global::T4DalGenerator.ModelHelper)(data));
+    }
+}
+bool generatorValueAcquired = false;
+if (this.Session.ContainsKey("generator"))
+{
+    this._generatorField = ((global::T4DalGenerator.Generators.GeneratorBase)(this.Session["generator"]));
+    generatorValueAcquired = true;
+}
+if ((generatorValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("generator");
+    if ((data != null))
+    {
+        this._generatorField = ((global::T4DalGenerator.Generators.GeneratorBase)(data));
     }
 }
 

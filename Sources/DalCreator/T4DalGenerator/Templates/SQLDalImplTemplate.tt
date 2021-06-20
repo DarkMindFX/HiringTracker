@@ -6,6 +6,7 @@
 
 <#@ parameter name="table" type="DataModel.DataTable" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+<#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
 
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace HRT.DAL.MSSQL
                 if(!string.IsNullOrEmpty(c.FKRefTable))
                 {
         #>
-        public IList<<#=table.Name #>> GetBy<#=c.Name #>(long <#=c.Name #>)
+        public IList<<#=table.Name #>> GetBy<#=c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name #>)
         {
             var entitiesOut = base.GetBy<<#= table.Name #>, long>("p_<#= table.Name #>_GetBy<#=c.Name #>", <#=c.Name #>, "@<#=c.Name #>", SqlDbType.BigInt, 0, <#= table.Name #>FromRow);
 

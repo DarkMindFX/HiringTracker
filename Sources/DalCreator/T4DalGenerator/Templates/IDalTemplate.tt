@@ -6,6 +6,7 @@
 
 <#@ parameter name="table" type="DataModel.DataTable" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+<#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace HRT.Interfaces
                 if(!string.IsNullOrEmpty(c.FKRefTable))
                 {
         #>
-        IList<<#= table.Name #>> GetBy<#=c.Name #>(long <#=c.Name #>);
+        IList<<#= table.Name #>> GetBy<#=c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name #>);
         <#
                 }
             }

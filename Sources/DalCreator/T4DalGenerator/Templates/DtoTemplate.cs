@@ -32,14 +32,14 @@ namespace T4DalGenerator.Templates
             this.Write("\r\nusing System.Text.Json.Serialization;\r\n\r\nnamespace HRT.DTO\r\n{\r\n    public class" +
                     " ");
             
-            #line 14 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 15 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" : HateosDto\r\n    {\r\n\t\t");
             
-            #line 16 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 17 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
  
 			foreach(var c in table.Columns) 
 			{
@@ -49,28 +49,28 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t[JsonPropertyName(\"");
             
-            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\")]\r\n\t\tpublic ");
             
-            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.DbTypeToType(c)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n\r\n\t\t");
             
-            #line 23 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            #line 24 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
 
 			}
 		
@@ -109,6 +109,19 @@ private global::T4DalGenerator.ModelHelper modelHelper
     }
 }
 
+private global::T4DalGenerator.Generators.GeneratorBase _generatorField;
+
+/// <summary>
+/// Access the generator parameter of the template.
+/// </summary>
+private global::T4DalGenerator.Generators.GeneratorBase generator
+{
+    get
+    {
+        return this._generatorField;
+    }
+}
+
 
 /// <summary>
 /// Initialize the template
@@ -143,6 +156,20 @@ if ((modelHelperValueAcquired == false))
     if ((data != null))
     {
         this._modelHelperField = ((global::T4DalGenerator.ModelHelper)(data));
+    }
+}
+bool generatorValueAcquired = false;
+if (this.Session.ContainsKey("generator"))
+{
+    this._generatorField = ((global::T4DalGenerator.Generators.GeneratorBase)(this.Session["generator"]));
+    generatorValueAcquired = true;
+}
+if ((generatorValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("generator");
+    if ((data != null))
+    {
+        this._generatorField = ((global::T4DalGenerator.Generators.GeneratorBase)(data));
     }
 }
 

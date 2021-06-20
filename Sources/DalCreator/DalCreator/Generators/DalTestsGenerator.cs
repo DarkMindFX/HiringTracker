@@ -176,22 +176,6 @@ namespace DalCreator.Generators
         }
 
 
-        private IDictionary<string, object> GenerateTestValues(DataTable table, string uuid)
-        {
-            IDictionary<string, object> result = new Dictionary<string, object>();
-
-            for (int i = 0; i < table.Columns.Count; ++i)
-            {
-                var c = table.Columns[i];
-                if (!c.IsIdentity)
-                {
-                    result[c.Name] = GetRandomValue(c, uuid);
-                }
-            }
-
-            return result;
-        }
-
         private string GenerateFieldsVariablesList(DataTable table, IDictionary<string, object> values)
         {
             StringBuilder result = new StringBuilder();
@@ -225,6 +209,22 @@ namespace DalCreator.Generators
             }
 
             return result.ToString();
+        }
+
+        private IDictionary<string, object> GenerateTestValues(DataTable table, string uuid)
+        {
+            IDictionary<string, object> result = new Dictionary<string, object>();
+
+            for (int i = 0; i < table.Columns.Count; ++i)
+            {
+                var c = table.Columns[i];
+                if (!c.IsIdentity)
+                {
+                    result[c.Name] = GetRandomValue(c, uuid);
+                }
+            }
+
+            return result;
         }
 
         private object GetRandomValue(DataColumn c, string uuid)

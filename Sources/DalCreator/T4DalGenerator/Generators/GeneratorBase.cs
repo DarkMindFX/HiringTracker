@@ -45,7 +45,7 @@ namespace T4DalGenerator.Generators
             return type;
         }
 
-        protected string DbTypeToType(DataColumn c)
+        public string DbTypeToType(DataColumn c)
         {
             string result = null;
             Type type = GetColumnType(c);
@@ -60,7 +60,7 @@ namespace T4DalGenerator.Generators
             return result;
         }
 
-        protected Type GetColumnType(DataColumn c)
+        public Type GetColumnType(DataColumn c)
         {
             Type type = null;
 
