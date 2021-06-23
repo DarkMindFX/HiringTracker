@@ -29,18 +29,52 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        PositionSkill Get(System.Int64? ID)
         {
-            bool removed = base.Delete<PositionSkill>("p_PositionSkill_Delete", id, "@ID");
+            PositionSkill result = default(PositionSkill);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_PositionSkill_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                 AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+            
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = PositionSkillFromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public PositionSkill Get(long id)
+        bool Delete(System.Int64? ID)
         {
-            PositionSkill entityOut = base.Get<PositionSkill>("p_PositionSkill_GetDetails", id, "@ID", PositionSkillFromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_PositionSkill_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+                            var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
                 public IList<PositionSkill> GetByPositionID(System.Int64 PositionID)

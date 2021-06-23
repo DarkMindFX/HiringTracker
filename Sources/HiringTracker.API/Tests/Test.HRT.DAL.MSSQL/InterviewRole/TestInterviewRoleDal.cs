@@ -51,12 +51,12 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.InterviewID);
-                        Assert.IsNotNull(entity.UserID);
-            
-                          Assert.AreEqual(100002, entity.UserID);
-                            Assert.AreEqual(4, entity.RoleID);
-                      }
+            Assert.IsNotNull(entity.InterviewID);
+            Assert.IsNotNull(entity.UserID);
+
+            Assert.AreEqual(100002, entity.UserID);
+            Assert.AreEqual(4, entity.RoleID);
+        }
 
         [Test]
         public void InterviewRole_GetDetails_InvalidId()
@@ -105,20 +105,20 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewRoleDal("DALInitParams");
 
             var entity = new InterviewRole();
-                          entity.UserID = 33000067;
-                            entity.RoleID = 1;
-                          
+            entity.UserID = 33000067;
+            entity.RoleID = 1;
+
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.InterviewID);
-                        Assert.IsNotNull(entity.UserID);
-            
-                          Assert.AreEqual(33000067, entity.UserID);
-                            Assert.AreEqual(1, entity.RoleID);
-              
+            Assert.IsNotNull(entity.InterviewID);
+            Assert.IsNotNull(entity.UserID);
+
+            Assert.AreEqual(33000067, entity.UserID);
+            Assert.AreEqual(1, entity.RoleID);
+
         }
 
         [TestCase("InterviewRole\\030.Update.Success")]
@@ -131,20 +131,20 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-                          entity.UserID = 100003;
-                            entity.RoleID = 4;
-              
+            entity.UserID = 100003;
+            entity.RoleID = 4;
+
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.InterviewID);
-                        Assert.IsNotNull(entity.UserID);
-            
-                          Assert.AreEqual(100003, entity.UserID);
-                            Assert.AreEqual(4, entity.RoleID);
-              
+            Assert.IsNotNull(entity.InterviewID);
+            Assert.IsNotNull(entity.UserID);
+
+            Assert.AreEqual(100003, entity.UserID);
+            Assert.AreEqual(4, entity.RoleID);
+
         }
 
         [Test]
@@ -154,9 +154,9 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = new InterviewRole();
             entity.ID = Int64.MaxValue - 1;
-                          entity.UserID = 100003;
-                            entity.RoleID = 4;
-              
+            entity.UserID = 100003;
+            entity.RoleID = 4;
+
             try
             {
                 entity = dal.Upsert(entity);

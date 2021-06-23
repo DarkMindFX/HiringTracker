@@ -29,18 +29,52 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        Comment Get(System.Int64? ID)
         {
-            bool removed = base.Delete<Comment>("p_Comment_Delete", id, "@ID");
+            Comment result = default(Comment);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_Comment_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                 AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+            
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = CommentFromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public Comment Get(long id)
+        bool Delete(System.Int64? ID)
         {
-            Comment entityOut = base.Get<Comment>("p_Comment_GetDetails", id, "@ID", CommentFromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_Comment_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+                            var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
                 public IList<Comment> GetByCreatedByID(System.Int64 CreatedByID)

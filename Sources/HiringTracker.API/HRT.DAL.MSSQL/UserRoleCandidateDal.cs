@@ -29,18 +29,58 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        UserRoleCandidate Get(System.Int64 CandidateID,System.Int64 UserID)
         {
-            bool removed = base.Delete<UserRoleCandidate>("p_UserRoleCandidate_Delete", id, "@ID");
+            UserRoleCandidate result = default(UserRoleCandidate);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_UserRoleCandidate_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                 AddParameter(   cmd, "@CandidateID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CandidateID);
+            
+                            AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
+            
+            
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = UserRoleCandidateFromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public UserRoleCandidate Get(long id)
+        bool Delete(System.Int64 CandidateID,System.Int64 UserID)
         {
-            UserRoleCandidate entityOut = base.Get<UserRoleCandidate>("p_UserRoleCandidate_GetDetails", id, "@ID", UserRoleCandidateFromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_UserRoleCandidate_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                            AddParameter(   cmd, "@CandidateID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CandidateID);
+            
+                            AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
+            
+                            var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
                 public IList<UserRoleCandidate> GetByCandidateID(System.Int64 CandidateID)

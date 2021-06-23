@@ -29,18 +29,52 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        InterviewFeedback Get(System.Int64 ID)
         {
-            bool removed = base.Delete<InterviewFeedback>("p_InterviewFeedback_Delete", id, "@ID");
+            InterviewFeedback result = default(InterviewFeedback);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_InterviewFeedback_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                 AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+            
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = InterviewFeedbackFromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public InterviewFeedback Get(long id)
+        bool Delete(System.Int64 ID)
         {
-            InterviewFeedback entityOut = base.Get<InterviewFeedback>("p_InterviewFeedback_GetDetails", id, "@ID", InterviewFeedbackFromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_InterviewFeedback_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+            
+                            var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
                 public IList<InterviewFeedback> GetByInterviewID(System.Int64 InterviewID)

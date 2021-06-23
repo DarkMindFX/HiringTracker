@@ -37,18 +37,78 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        <#= table.Name #> Get(<#
+            var pks = generator.GetPKColumns(table);
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #>
+<#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>)
         {
-            bool removed = base.Delete<<#= table.Name #>>("p_<#= table.Name #>_Delete", id, "@ID");
+            <#= table.Name #> result = default(<#= table.Name #>);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_<#= table.Name #>_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+ <#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                var pk = pks[i];
+            #>
+                AddParameter(   cmd, "@<#= pk.Name #>", System.Data.SqlDbType.<#= generator.DbTypeToSqlDbType(pk) #>, <#= pk.Type.CharMaxLength != null && pk.Type.CharMaxLength > 0 ? pk.Type.CharMaxLength : 0 #>,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, <#= pk.Name #>);
+            
+            <#
+            }
+            #>
+
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = <#= table.Name #>FromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public <#= table.Name #> Get(long id)
+        bool Delete(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #>
+<#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>)
         {
-            <#= table.Name #> entityOut = base.Get<<#= table.Name #>>("p_<#= table.Name #>_GetDetails", id, "@ID", <#= table.Name #>FromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_<#= table.Name #>_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            <#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                var pk = pks[i];
+            #>
+                AddParameter(   cmd, "@<#= pk.Name #>", System.Data.SqlDbType.<#= generator.DbTypeToSqlDbType(pk) #>, <#= pk.Type.CharMaxLength != null && pk.Type.CharMaxLength > 0 ? pk.Type.CharMaxLength : 0 #>, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, <#= pk.Name #>);
+            
+            <#
+            }
+            #>
+                var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
         <#

@@ -8,10 +8,8 @@ namespace HRT.Interfaces
     {
         IList<TEntity> GetAll();
 
-        TEntity Get(long id);
-
         TEntity Upsert(TEntity entity);
 
-        bool Delete(long id);
+        
     }
 }

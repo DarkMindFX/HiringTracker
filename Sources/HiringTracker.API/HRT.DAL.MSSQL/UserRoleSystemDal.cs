@@ -29,18 +29,58 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public bool Delete(long id)
+        UserRoleSystem Get(System.Int64 UserID,System.Int64 RoleID)
         {
-            bool removed = base.Delete<UserRoleSystem>("p_UserRoleSystem_Delete", id, "@ID");
+            UserRoleSystem result = default(UserRoleSystem);
 
-            return removed;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_UserRoleSystem_GetDetails", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                 AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
+            
+                            AddParameter(   cmd, "@RoleID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, RoleID);
+            
+            
+                var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                var ds = FillDataSet(cmd);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    result = UserRoleSystemFromRow(ds.Tables[0].Rows[0]);                    
+                }
+            }
+
+            return result;
         }
 
-        public UserRoleSystem Get(long id)
+        bool Delete(System.Int64 UserID,System.Int64 RoleID)
         {
-            UserRoleSystem entityOut = base.Get<UserRoleSystem>("p_UserRoleSystem_GetDetails", id, "@ID", UserRoleSystemFromRow);
+            bool result = false;
 
-            return entityOut;
+            using (SqlConnection conn = OpenConnection())
+            {
+                SqlCommand cmd = new SqlCommand("p_UserRoleSystem_Delete", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                            AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
+            
+                            AddParameter(   cmd, "@RoleID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, RoleID);
+            
+                            var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
+
+                cmd.ExecuteNonQuery();
+
+                result = (bool)pFound.Value;
+            }
+
+            return result;
         }
 
                 public IList<UserRoleSystem> GetByUserID(System.Int64 UserID)
