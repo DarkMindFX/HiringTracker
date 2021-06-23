@@ -30,24 +30,24 @@ namespace T4DalGenerator.Templates
         {
             this.Write("\r\n");
             this.Write("\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing Sys" +
-                    "tem.Text;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace HRT.Interfaces\r\n{\r\n    pub" +
-                    "lic interface I");
+                    "tem.Text;\r\nusing System.Threading.Tasks;\r\nusing HRT.Interfaces.Entities;\r\n\r\nname" +
+                    "space HRT.Interfaces\r\n{\r\n    public interface I");
             
-            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Dal : IDalBase<");
             
-            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(">\r\n    {\r\n        ");
             
-            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
 
             foreach(var c in table.Columns)
             {
@@ -59,35 +59,35 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("        IList<");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("> GetBy");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(c)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        ");
             
-            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
+            #line 29 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IDalTemplate.tt"
 
                 }
             }

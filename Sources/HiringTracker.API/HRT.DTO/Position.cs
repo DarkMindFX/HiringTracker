@@ -1,44 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 using System.Text.Json.Serialization;
 
 namespace HRT.DTO
 {
     public class Position : HateosDto
     {
-		[JsonPropertyName("ID")]
+				[JsonPropertyName("ID")]
 		public System.Int64? ID { get; set; }
 
-		[JsonPropertyName("DepartmentID")]
+				[JsonPropertyName("DepartmentID")]
 		public System.Int64? DepartmentID { get; set; }
 
-		[JsonPropertyName("Title")]
+				[JsonPropertyName("Title")]
 		public System.String Title { get; set; }
 
-		[JsonPropertyName("ShortDesc")]
+				[JsonPropertyName("ShortDesc")]
 		public System.String ShortDesc { get; set; }
 
-		[JsonPropertyName("Description")]
+				[JsonPropertyName("Description")]
 		public System.String Description { get; set; }
 
-		[JsonPropertyName("Status")]
-		public PositionStatus Status { get; set; }
+				[JsonPropertyName("StatusID")]
+		public System.Int64 StatusID { get; set; }
 
-		[JsonPropertyName("CreatedDate")]
+				[JsonPropertyName("CreatedDate")]
 		public System.DateTime CreatedDate { get; set; }
 
-		[JsonPropertyName("CreatedBy")]
-		public User CreatedBy { get; set; }
+				[JsonPropertyName("CreatedByID")]
+		public System.Int64 CreatedByID { get; set; }
 
-		[JsonPropertyName("ModifiedDate")]
+				[JsonPropertyName("ModifiedDate")]
 		public System.DateTime? ModifiedDate { get; set; }
 
-		[JsonPropertyName("ModifiedBy")]
-		public User ModifiedBy { get; set; }
+				[JsonPropertyName("ModifiedByID")]
+		public System.Int64? ModifiedByID { get; set; }
 
-
+				
     }
 }

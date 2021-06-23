@@ -1,0 +1,45 @@
+
+
+-- original values --
+DECLARE @ID BIGINT = 956372
+DECLARE @Name NVARCHAR(50) = 'Name 7341676f6fa94ae5a2b28dbfe88842cf'
+ 
+-- updated values --
+
+DECLARE @updID BIGINT = 956372
+DECLARE @updName NVARCHAR(50) = 'Name 56adea82142a475ab0ce362e55ca7753'
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[InterviewType]
+				WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[InterviewType]
+	WHERE 
+	(CASE WHEN @ID IS NOT NULL THEN (CASE WHEN [ID] = @ID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[InterviewType]
+	WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'InterviewType was not updated', 1
+END

@@ -1,29 +1,21 @@
-﻿using HRT.Interfaces.Entities;
+
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using HRT.Interfaces.Entities;
 
 namespace HRT.Interfaces
 {
-    public interface IInterviewSearchParams
-    {
-        long? TypeID { get; set; }
-
-        long? StatusID { get; set; }
-
-        DateTime? StartTime { get; set; }
-
-        DateTime? EndTime { get; set; }
-
-        long? CandidateID { get; set; }
-
-        long? InterviewerID { get; set; }
-
-        long? PositionID { get; set; }
-    }
-
     public interface IInterviewDal : IDalBase<Interview>
     {
-        IList<Interview> Find(IInterviewSearchParams searchParams);
-    }
+                IList<Interview> GetByProposalID(System.Int64 ProposalID);
+                IList<Interview> GetByInterviewTypeID(System.Int64 InterviewTypeID);
+                IList<Interview> GetByInterviewStatusID(System.Int64 InterviewStatusID);
+                IList<Interview> GetByCreatedByID(System.Int64 CreatedByID);
+                IList<Interview> GetByModifiedByID(System.Int64? ModifiedByID);
+            }
 }
+

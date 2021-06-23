@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace HRT.Interfaces
 {
     public interface IUserDal : IDalBase<User>
     {
-		User GetByLogin(string login);
-    }
+            }
 }
+

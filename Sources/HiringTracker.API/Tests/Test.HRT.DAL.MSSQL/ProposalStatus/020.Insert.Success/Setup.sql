@@ -1,6 +1,20 @@
-DECLARE @ID BIGINT
-DECLARE @Name NVARCHAR(50) = 'Name a3a2e149ccd344aeace10123a01de62f'
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name c8fb74fc9ee84a2da8e4fcadcf967619'
+ 
+
+
+IF(EXISTS(SELECT 1 FROM 
+					[dbo].[ProposalStatus]
+				WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
 
 DELETE FROM [dbo].[ProposalStatus]
-WHERE
-	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1
+WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+END

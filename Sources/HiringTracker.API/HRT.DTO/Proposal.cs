@@ -1,53 +1,50 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 using System.Text.Json.Serialization;
 
 namespace HRT.DTO
 {
     public class Proposal : HateosDto
     {
-		[JsonPropertyName("ID")]
+				[JsonPropertyName("ID")]
 		public System.Int64? ID { get; set; }
 
-		[JsonPropertyName("Position")]
-		public Position Position { get; set; }
+				[JsonPropertyName("PositionID")]
+		public System.Int64 PositionID { get; set; }
 
-		[JsonPropertyName("Candidate")]
-		public Candidate Candidate { get; set; }
+				[JsonPropertyName("CandidateID")]
+		public System.Int64 CandidateID { get; set; }
 
-		[JsonPropertyName("Proposed")]
+				[JsonPropertyName("Proposed")]
 		public System.DateTime Proposed { get; set; }
 
-		[JsonPropertyName("CurrentStep")]
-		public ProposalStep CurrentStep { get; set; }
+				[JsonPropertyName("CurrentStepID")]
+		public System.Int64 CurrentStepID { get; set; }
 
-		[JsonPropertyName("StepSetDate")]
+				[JsonPropertyName("StepSetDate")]
 		public System.DateTime StepSetDate { get; set; }
 
-		[JsonPropertyName("NextStep")]
-		public ProposalStep NextStep { get; set; }
+				[JsonPropertyName("NextStepID")]
+		public System.Int64? NextStepID { get; set; }
 
-		[JsonPropertyName("DueDate")]
+				[JsonPropertyName("DueDate")]
 		public System.DateTime? DueDate { get; set; }
 
-		[JsonPropertyName("Status")]
-		public ProposalStatus Status { get; set; }
+				[JsonPropertyName("StatusID")]
+		public System.Int64 StatusID { get; set; }
 
-		[JsonPropertyName("CreatedBy")]
-		public User CreatedBy { get; set; }
+				[JsonPropertyName("CreatedByID")]
+		public System.Int64? CreatedByID { get; set; }
 
-		[JsonPropertyName("CreatedDate")]
+				[JsonPropertyName("CreatedDate")]
 		public System.DateTime? CreatedDate { get; set; }
 
-		[JsonPropertyName("ModifiedBy")]
-		public User ModifiedBy { get; set; }
+				[JsonPropertyName("ModifiedByID")]
+		public System.Int64? ModifiedByID { get; set; }
 
-		[JsonPropertyName("ModifiedDate")]
+				[JsonPropertyName("ModifiedDate")]
 		public System.DateTime? ModifiedDate { get; set; }
 
-
+				
     }
 }

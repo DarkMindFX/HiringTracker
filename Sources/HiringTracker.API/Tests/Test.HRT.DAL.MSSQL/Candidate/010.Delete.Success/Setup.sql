@@ -1,48 +1,74 @@
-DECLARE @ID BIGINT
-DECLARE @FirstName NVARCHAR(50) = 'FirstName c392220fde544f84916880c516c0d3d3'
-DECLARE @MiddleName NVARCHAR(50) = 'MiddleName c392220fde544f84916880c516c0d3d3'
-DECLARE @LastName NVARCHAR(50) = 'LastName c392220fde544f84916880c516c0d3d3'
-DECLARE @Email NVARCHAR(50) = 'Email c392220fde544f84916880c516c0d3d3'
-DECLARE @Phone NVARCHAR(50) = 'Phone c392220fde544f84916880c516c0d3d3'
-DECLARE @CVLink NVARCHAR(1000) = 'CVLink c392220fde544f84916880c516c0d3d3'
-DECLARE @CreatedByID BIGINT = 33000067
-DECLARE @CreatedDate DATETIME = '1/23/2022 12:11:18 AM'
-DECLARE @ModifiedByID BIGINT = 100003
-DECLARE @ModifiedDate DATETIME = '3/6/2020 4:39:18 PM'
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @FirstName NVARCHAR(50) = 'FirstName 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @MiddleName NVARCHAR(50) = 'MiddleName 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @LastName NVARCHAR(50) = 'LastName 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @Email NVARCHAR(50) = 'Email 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @Phone NVARCHAR(50) = 'Phone 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @CVLink NVARCHAR(1000) = 'CVLink 8979cdcc59744278ab82b5c4e9717344'
+DECLARE @CreatedByID BIGINT = 100003
+DECLARE @CreatedDate DATETIME = '12/22/2018 2:06:10 AM'
+DECLARE @ModifiedByID BIGINT = 33020042
+DECLARE @ModifiedDate DATETIME = '7/28/2022 3:54:10 AM'
+ 
+
 
 IF(NOT EXISTS(SELECT 1 FROM 
 					[dbo].[Candidate]
 				WHERE 
-					(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @MiddleName IS NOT NULL THEN (CASE WHEN [MiddleName] = @MiddleName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @Phone IS NOT NULL THEN (CASE WHEN [Phone] = @Phone THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CVLink IS NOT NULL THEN (CASE WHEN [CVLink] = @CVLink THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1))
+	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @MiddleName IS NOT NULL THEN (CASE WHEN [MiddleName] = @MiddleName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Phone IS NOT NULL THEN (CASE WHEN [Phone] = @Phone THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CVLink IS NOT NULL THEN (CASE WHEN [CVLink] = @CVLink THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
 BEGIN
 	INSERT INTO [dbo].[Candidate]
-		([FirstName],[MiddleName],[LastName],[Email],[Phone],[CVLink],[CreatedByID],[CreatedDate],[ModifiedByID],[ModifiedDate])
+		(
+	 [FirstName],
+	 [MiddleName],
+	 [LastName],
+	 [Email],
+	 [Phone],
+	 [CVLink],
+	 [CreatedByID],
+	 [CreatedDate],
+	 [ModifiedByID],
+	 [ModifiedDate]
+		)
 	SELECT 		
-		@FirstName,@MiddleName,@LastName,@Email,@Phone,@CVLink,@CreatedByID,@CreatedDate,@ModifiedByID,@ModifiedDate
+			 @FirstName,
+	 @MiddleName,
+	 @LastName,
+	 @Email,
+	 @Phone,
+	 @CVLink,
+	 @CreatedByID,
+	 @CreatedDate,
+	 @ModifiedByID,
+	 @ModifiedDate
 END
 
 SELECT TOP 1 @ID = [ID] 
 FROM 
 	[dbo].[Candidate] e
 WHERE
-	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @MiddleName IS NOT NULL THEN (CASE WHEN [MiddleName] = @MiddleName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @Phone IS NOT NULL THEN (CASE WHEN [Phone] = @Phone THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CVLink IS NOT NULL THEN (CASE WHEN [CVLink] = @CVLink THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND 
-	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1
+	(CASE WHEN @FirstName IS NOT NULL THEN (CASE WHEN [FirstName] = @FirstName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @MiddleName IS NOT NULL THEN (CASE WHEN [MiddleName] = @MiddleName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @LastName IS NOT NULL THEN (CASE WHEN [LastName] = @LastName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Email IS NOT NULL THEN (CASE WHEN [Email] = @Email THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Phone IS NOT NULL THEN (CASE WHEN [Phone] = @Phone THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CVLink IS NOT NULL THEN (CASE WHEN [CVLink] = @CVLink THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 
 
 SELECT @ID

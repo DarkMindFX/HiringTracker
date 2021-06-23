@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,6 +43,7 @@ namespace HRT.DAL.MSSQL
             return entityOut;
         }
 
+        
         public IList<ProposalStep> GetAll()
         {
             IList<ProposalStep> result = base.GetAll<ProposalStep>("p_ProposalStep_GetAll", ProposalStepFromRow);
@@ -57,16 +60,11 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, ProposalStep entity)
         {
-            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-		   SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
-
-		   SqlParameter pReqDueDate = new SqlParameter(@"ReqDueDate",    SqlDbType.Bit, 0, ParameterDirection.Input, false, 0, 0, "ReqDueDate", DataRowVersion.Current, (object)entity.ReqDueDate != null ? (object)entity.ReqDueDate : DBNull.Value);   cmd.Parameters.Add(pReqDueDate); 
-
-		   SqlParameter pRequiresRespInDays = new SqlParameter(@"RequiresRespInDays",    SqlDbType.Int, 0, ParameterDirection.Input, true, 0, 0, "RequiresRespInDays", DataRowVersion.Current, (object)entity.RequiresRespInDays != null ? (object)entity.RequiresRespInDays : DBNull.Value);   cmd.Parameters.Add(pRequiresRespInDays); 
-
-
-
+                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+                SqlParameter pName = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+                SqlParameter pReqDueDate = new SqlParameter("@ReqDueDate", System.Data.SqlDbType.Bit, 0, ParameterDirection.Input, false, 0, 0, "ReqDueDate", DataRowVersion.Current, (object)entity.ReqDueDate != null ? (object)entity.ReqDueDate : DBNull.Value);   cmd.Parameters.Add(pReqDueDate); 
+                SqlParameter pRequiresRespInDays = new SqlParameter("@RequiresRespInDays", System.Data.SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "RequiresRespInDays", DataRowVersion.Current, (object)entity.RequiresRespInDays != null ? (object)entity.RequiresRespInDays : DBNull.Value);   cmd.Parameters.Add(pRequiresRespInDays); 
+        
             return cmd;
         }
 
@@ -74,18 +72,13 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new ProposalStep();
 
-            		entity.ID = (System.Int64?)row["ID"];
-		entity.Name = (System.String)row["Name"];
-		entity.ReqDueDate = (System.Boolean)row["ReqDueDate"];
-		entity.RequiresRespInDays = !DBNull.Value.Equals(row["RequiresRespInDays"]) ?  (System.Int32?)row["RequiresRespInDays"] : null;
-
-
+                    entity.ID = (System.Int64?)row["ID"];
+                    entity.Name = (System.String)row["Name"];
+                    entity.ReqDueDate = (System.Boolean)row["ReqDueDate"];
+                    entity.RequiresRespInDays = (System.Int32?)row["RequiresRespInDays"];
+        
             return entity;
         }
-
-        public long? Upsert(ProposalStep entity, long? editorID)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

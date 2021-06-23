@@ -19,14 +19,17 @@ namespace T4DalGenerator.Generators
 
         public abstract IList<string> Generate();
        
-        protected string DbTypeToSqlDbType(DataColumn c)
+        public string DbTypeToSqlDbType(DataColumn c)
         {
             string type = null;
 
             IDictionary<string, System.Data.SqlDbType> mapping = new Dictionary<string, System.Data.SqlDbType>();
             mapping.Add("int", System.Data.SqlDbType.Int);
             mapping.Add("date", System.Data.SqlDbType.Date);
-            mapping.Add("datetime", System.Data.SqlDbType.DateTime2);
+            mapping.Add("datetime", System.Data.SqlDbType.DateTime);
+            mapping.Add("datetime2", System.Data.SqlDbType.DateTime2);
+            mapping.Add("timestamp", System.Data.SqlDbType.Timestamp);
+            mapping.Add("time", System.Data.SqlDbType.Time);
             mapping.Add("bit", System.Data.SqlDbType.Bit);
             mapping.Add("bigint", System.Data.SqlDbType.BigInt);
             mapping.Add("float", System.Data.SqlDbType.Float);

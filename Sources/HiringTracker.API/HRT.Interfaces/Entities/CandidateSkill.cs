@@ -1,34 +1,21 @@
-﻿using System;
+
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class CandidateSkill
+    public class CandidateSkill 
     {
-        public long CandidateID
-        {
-            get; set;
-        }
+				public System.Int64 CandidateID { get; set; }
 
-        public long SkillID
-        {
-            get; set;
-        }
+				public System.Int64 SkillID { get; set; }
 
-        public string SkillName
-        {
-            get; set;
-        }
+				public System.Int64 SkillProficiencyID { get; set; }
 
-        public long ProficiencyID
-        {
-            get; set;
-        }
-
-        public string ProficiencyName
-        {
-            get; set;
-        }
+				
     }
 }

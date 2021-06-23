@@ -1,39 +1,35 @@
-﻿using System;
+
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class Interview : TrackedEntity
+    public class Interview 
     {
-        public long InterviewID
-        {
-            get; set;
-        }
+				public System.Int64? ID { get; set; }
 
-        public long ProposalID
-        {
-            get; set;
-        }
+				public System.Int64 ProposalID { get; set; }
 
-        public long InterviewTypeID
-        {
-            get; set;
-        }
+				public System.Int64 InterviewTypeID { get; set; }
 
-        public DateTime StartTime
-        {
-            get; set;
-        }
+				public System.DateTime StartTime { get; set; }
 
-        public DateTime EndTime
-        {
-            get; set;
-        }
+				public System.DateTime EndTime { get; set; }
 
-        public long InterviewStatusID
-        {
-            get; set;
-        }
+				public System.Int64 InterviewStatusID { get; set; }
+
+				public System.Int64 CreatedByID { get; set; }
+
+				public System.DateTime CretedDate { get; set; }
+
+				public System.Int64? ModifiedByID { get; set; }
+
+				public System.DateTime? ModifiedDate { get; set; }
+
+				
     }
 }

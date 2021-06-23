@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,6 +43,19 @@ namespace HRT.DAL.MSSQL
             return entityOut;
         }
 
+                public IList<Department> GetByParentID(System.Int64? ParentID)
+        {
+            var entitiesOut = base.GetBy<Department, System.Int64?>("p_Department_GetByParentID", ParentID, "@ParentID", SqlDbType.BigInt, 0, DepartmentFromRow);
+
+            return entitiesOut;
+        }
+                public IList<Department> GetByManagerID(System.Int64 ManagerID)
+        {
+            var entitiesOut = base.GetBy<Department, System.Int64>("p_Department_GetByManagerID", ManagerID, "@ManagerID", SqlDbType.BigInt, 0, DepartmentFromRow);
+
+            return entitiesOut;
+        }
+        
         public IList<Department> GetAll()
         {
             IList<Department> result = base.GetAll<Department>("p_Department_GetAll", DepartmentFromRow);
@@ -57,18 +72,12 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, Department entity)
         {
-            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-		   SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
-
-		   SqlParameter pUUID = new SqlParameter(@"UUID",    SqlDbType.NVarChar, 50, ParameterDirection.Input, true, 0, 0, "UUID", DataRowVersion.Current, (object)entity.UUID != null ? (object)entity.UUID : DBNull.Value);   cmd.Parameters.Add(pUUID); 
-
-		   SqlParameter pParentID = new SqlParameter(@"ParentID",    SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "ParentID", DataRowVersion.Current, (object)entity.ParentID != null ? (object)entity.ParentID : DBNull.Value);   cmd.Parameters.Add(pParentID); 
-
-		   SqlParameter pManagerID = new SqlParameter(@"ManagerID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ManagerID", DataRowVersion.Current, (object)entity.ManagerID != null ? (object)entity.ManagerID : DBNull.Value);   cmd.Parameters.Add(pManagerID); 
-
-
-
+                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+                SqlParameter pName = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+                SqlParameter pUUID = new SqlParameter("@UUID", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "UUID", DataRowVersion.Current, (object)entity.UUID != null ? (object)entity.UUID : DBNull.Value);   cmd.Parameters.Add(pUUID); 
+                SqlParameter pParentID = new SqlParameter("@ParentID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ParentID", DataRowVersion.Current, (object)entity.ParentID != null ? (object)entity.ParentID : DBNull.Value);   cmd.Parameters.Add(pParentID); 
+                SqlParameter pManagerID = new SqlParameter("@ManagerID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ManagerID", DataRowVersion.Current, (object)entity.ManagerID != null ? (object)entity.ManagerID : DBNull.Value);   cmd.Parameters.Add(pManagerID); 
+        
             return cmd;
         }
 
@@ -76,19 +85,14 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Department();
 
-            		entity.ID = (System.Int64?)row["ID"];
-		entity.Name = (System.String)row["Name"];
-		entity.UUID = !DBNull.Value.Equals(row["UUID"]) ?  (System.String)row["UUID"] : null;
-		entity.ParentID = !DBNull.Value.Equals(row["ParentID"]) ?  (System.Int64?)row["ParentID"] : null;
-		entity.ManagerID = (System.Int64)row["ManagerID"];
-
-
+                    entity.ID = (System.Int64?)row["ID"];
+                    entity.Name = (System.String)row["Name"];
+                    entity.UUID = (System.String)row["UUID"];
+                    entity.ParentID = (System.Int64?)row["ParentID"];
+                    entity.ManagerID = (System.Int64)row["ManagerID"];
+        
             return entity;
         }
-
-        public long? Upsert(Department entity, long? editorID)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

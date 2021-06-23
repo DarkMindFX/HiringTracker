@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,10 @@ using HRT.Interfaces.Entities;
 
 namespace HRT.Interfaces
 {
-    public interface ICandidateCommentDal  : IDalBase<CandidateComment>
+    public interface ICandidateCommentDal : IDalBase<CandidateComment>
     {
-        bool Delete(long candidateId, long commentId);
-
-        IList<CandidateComment> GetByCandidate(long candidateId);
-    }
+                IList<CandidateComment> GetByCandidateID(System.Int64 CandidateID);
+                IList<CandidateComment> GetByCommentID(System.Int64 CommentID);
+            }
 }
+

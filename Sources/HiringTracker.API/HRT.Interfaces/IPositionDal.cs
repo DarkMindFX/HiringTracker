@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,10 @@ namespace HRT.Interfaces
 {
     public interface IPositionDal : IDalBase<Position>
     {
-        IList<PositionSkill> GetSkills(long id);
-
-        void SetSkills(long id, IList<PositionSkill> skills);
-    }
+                IList<Position> GetByDepartmentID(System.Int64? DepartmentID);
+                IList<Position> GetByStatusID(System.Int64 StatusID);
+                IList<Position> GetByCreatedByID(System.Int64 CreatedByID);
+                IList<Position> GetByModifiedByID(System.Int64? ModifiedByID);
+            }
 }
+

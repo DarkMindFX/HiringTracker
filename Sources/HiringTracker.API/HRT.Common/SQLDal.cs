@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 
 namespace HRT.Common
 {
@@ -55,14 +56,14 @@ namespace HRT.Common
         {
             TEntity result = default(TEntity);
 
-            result = GetBy<TEntity, long>(procName, id, paramName, SqlDbType.BigInt, 0, fnFromRow);
+            result = GetBy<TEntity, long>(procName, id, paramName, SqlDbType.BigInt, 0, fnFromRow).FirstOrDefault();
 
             return result;
         }
 
-        protected TEntity GetBy<TEntity, TParamType>(string procName, TParamType byParam, string paramName, SqlDbType sqlType, int sqlSize, Func<DataRow, TEntity> fnFromRow)
+        protected IList<TEntity> GetBy<TEntity, TParamType>(string procName, TParamType byParam, string paramName, SqlDbType sqlType, int sqlSize, Func<DataRow, TEntity> fnFromRow)
         {
-            TEntity result = default(TEntity);
+            IList<TEntity> result = new List<TEntity>();
 
             using (SqlConnection conn = OpenConnection())
             {
@@ -75,9 +76,15 @@ namespace HRT.Common
 
                 var ds = FillDataSet(cmd);
 
-                if ((bool)pFound.Value && ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
+                if (ds.Tables.Count >= 1)
                 {
-                    result = fnFromRow(ds.Tables[0].Rows[0]);
+                    result = new List<TEntity>();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        var c = fnFromRow(row);
+
+                        result.Add(c);
+                    }
                 }
             }
 

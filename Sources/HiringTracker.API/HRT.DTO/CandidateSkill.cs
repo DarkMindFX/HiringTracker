@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
+
 using System.Text.Json.Serialization;
 
 namespace HRT.DTO
 {
-    public class CandidateSkill
+    public class CandidateSkill : HateosDto
     {
-        [JsonPropertyName("Skill")]
-        public Skill Skill
-        {
-            get; set;
-        }
+				[JsonPropertyName("CandidateID")]
+		public System.Int64 CandidateID { get; set; }
 
-        [JsonPropertyName("Proficiency")]
-        public SkillProficiency Proficiency
-        {
-            get; set;
-        }
+				[JsonPropertyName("SkillID")]
+		public System.Int64 SkillID { get; set; }
+
+				[JsonPropertyName("SkillProficiencyID")]
+		public System.Int64 SkillProficiencyID { get; set; }
+
+				
     }
 }

@@ -1,0 +1,17 @@
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @PositionID BIGINT = 100002
+DECLARE @SkillID BIGINT = 3
+DECLARE @IsMandatory BIT = False
+DECLARE @SkillProficiencyID BIGINT = 3
+ 
+
+DELETE FROM [PositionSkill]
+FROM 
+	[dbo].[PositionSkill] e
+WHERE
+	(CASE WHEN @PositionID IS NOT NULL THEN (CASE WHEN [PositionID] = @PositionID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @SkillID IS NOT NULL THEN (CASE WHEN [SkillID] = @SkillID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @IsMandatory IS NOT NULL THEN (CASE WHEN [IsMandatory] = @IsMandatory THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @SkillProficiencyID IS NOT NULL THEN (CASE WHEN [SkillProficiencyID] = @SkillProficiencyID THEN 1 ELSE 0 END) ELSE 1 END) = 1 

@@ -95,6 +95,12 @@ namespace Test.HRT.DAL.MSSQL
               Assert.AreEqual("<#= testValsGet[c.Name].ToString() #>", entity.<#= c.Name #>);
               <#
                         }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              Assert.AreEqual(<#= testValsGet[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
+              <#
+                        }
                         else if(testValsGet[c.Name] != null)
                         {
               #>
@@ -171,6 +177,12 @@ namespace Test.HRT.DAL.MSSQL
               entity.<#= c.Name #> = "<#= testValsInsert[c.Name].ToString() #>";
               <#
                         }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              entity.<#= c.Name #> = <#= testValsInsert[c.Name].ToString().ToLower() #>;              
+              <#
+                        }
                         else if(testValsInsert[c.Name] != null)
                         {
               #>
@@ -216,6 +228,12 @@ namespace Test.HRT.DAL.MSSQL
               Assert.AreEqual("<#= testValsInsert[c.Name].ToString() #>", entity.<#= c.Name #>);
               <#
                         }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              Assert.AreEqual(<#= testValsGet[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
+              <#
+                        }
                         else if(testValsInsert[c.Name] != null)
                         {
               #>
@@ -254,6 +272,12 @@ namespace Test.HRT.DAL.MSSQL
                         {
               #>
               entity.<#= c.Name #> = "<#= testValsUpdateAfter[c.Name].ToString() #>";
+              <#
+                        }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              entity.<#= c.Name #> = <#= testValsInsert[c.Name].ToString().ToLower() #>;              
               <#
                         }
                         else if(testValsUpdateAfter[c.Name] != null)
@@ -301,6 +325,12 @@ namespace Test.HRT.DAL.MSSQL
               Assert.AreEqual("<#= testValsUpdateAfter[c.Name].ToString() #>", entity.<#= c.Name #>);
               <#
                         }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              Assert.AreEqual(<#= testValsGet[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
+              <#
+                        }
                         else if(testValsUpdateAfter[c.Name] != null)
                         {
               #>
@@ -338,6 +368,12 @@ namespace Test.HRT.DAL.MSSQL
               entity.<#= c.Name #> = "<#= testValsUpdateAfter[c.Name].ToString() #>";
               <#
                         }
+                        else if(columnType == typeof(bool))
+                        {
+              #>
+              entity.<#= c.Name #> = <#= testValsInsert[c.Name].ToString().ToLower() #>;              
+              <#
+                        }
                         else if(testValsUpdateAfter[c.Name] != null)
                         {
               #>
@@ -358,6 +394,19 @@ namespace Test.HRT.DAL.MSSQL
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected I<#= table.Name #>Dal Prepare<#= table.Name #>Dal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            I<#= table.Name #>Dal dal = new <#= table.Name #>Dal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

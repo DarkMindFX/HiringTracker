@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -8,14 +10,14 @@ using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
 
-namespace HRT.DAL.MSSQL
+namespace HRT.DAL.MSSQL 
 {
     class SkillProficiencyDalInitParams : InitParamsImpl
     {
     }
 
     [Export("MSSQL", typeof(ISkillProficiencyDal))]
-    public class SkillProficiencyDal : SQLDal, ISkillProficiencyDal
+    public class SkillProficiencyDal: SQLDal, ISkillProficiencyDal
     {
         public IInitParams CreateInitParams()
         {
@@ -41,6 +43,7 @@ namespace HRT.DAL.MSSQL
             return entityOut;
         }
 
+        
         public IList<SkillProficiency> GetAll()
         {
             IList<SkillProficiency> result = base.GetAll<SkillProficiency>("p_SkillProficiency_GetAll", SkillProficiencyFromRow);
@@ -48,7 +51,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public SkillProficiency Upsert(SkillProficiency entity)
+        public SkillProficiency Upsert(SkillProficiency entity) 
         {
             SkillProficiency entityOut = base.Upsert<SkillProficiency>("p_SkillProficiency_Upsert", entity, AddUpsertParameters, SkillProficiencyFromRow);
 
@@ -57,10 +60,9 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, SkillProficiency entity)
         {
-            SqlParameter pID = new SqlParameter(@"ID", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value); cmd.Parameters.Add(pID);
-
-            SqlParameter pName = new SqlParameter(@"Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value); cmd.Parameters.Add(pName);
-
+                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+                SqlParameter pName = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+        
             return cmd;
         }
 
@@ -68,16 +70,11 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new SkillProficiency();
 
-            entity.ID = (System.Int64)row["ID"];
-            entity.Name = (System.String)row["Name"];
-
-
+                    entity.ID = (System.Int64)row["ID"];
+                    entity.Name = (System.String)row["Name"];
+        
             return entity;
         }
-
-        public long? Upsert(SkillProficiency entity, long? editorID)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

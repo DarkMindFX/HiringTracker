@@ -1,3 +1,5 @@
+
+
 using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
@@ -6,8 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -26,7 +27,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void GetPositionStatuss_Success()
+        public void PositionStatus_GetAll_Success()
         {
             var dal = PreparePositionStatusDal("DALInitParams");
 
@@ -37,7 +38,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("PositionStatus\\000.GetDetails.Success")]
-        public void GetPositionStatus_Success(string caseName)
+        public void PositionStatus_GetDetails_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PreparePositionStatusDal("DALInitParams");
@@ -50,13 +51,13 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name 456040d680694451879c2a07a67832b4", entity.Name);
-
-        }
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 61bbb193c1fd46cca7f3ffa3d373b850", entity.Name);
+                      }
 
         [Test]
-        public void GetPositionStatus_InvalidId()
+        public void PositionStatus_GetDetails_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PreparePositionStatusDal("DALInitParams");
@@ -67,7 +68,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("PositionStatus\\010.Delete.Success")]
-        public void DeletePositionStatus_Success(string caseName)
+        public void PositionStatus_Delete_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PreparePositionStatusDal("DALInitParams");
@@ -83,7 +84,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void DeletePositionStatus_InvalidId()
+        public void PositionStatus_Delete_InvalidId()
         {
             long positionId = Int32.MaxValue - 1;
             var dal = PreparePositionStatusDal("DALInitParams");
@@ -94,7 +95,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("PositionStatus\\020.Insert.Success")]
-        public void InsertPositionStatus_Success(string caseName)
+        public void PositionStatus_Insert_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
@@ -102,21 +103,21 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionStatusDal("DALInitParams");
 
             var entity = new PositionStatus();
-            entity.Name = "Name 49cad6d4e14544d6ad014fcdd1628769";
-
-
+                          entity.Name = "Name d4a8a410a2f04f92ba6ef610811c5fa0";
+                          
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name 49cad6d4e14544d6ad014fcdd1628769", entity.Name);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name d4a8a410a2f04f92ba6ef610811c5fa0", entity.Name);
+              
         }
 
         [TestCase("PositionStatus\\030.Update.Success")]
-        public void UpdatePositionStatus_Success(string caseName)
+        public void PositionStatus_Update_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PreparePositionStatusDal("DALInitParams");
@@ -125,29 +126,28 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            entity.Name = "Name 0fbae53dd2784151b5446f9023aca330";
-
-
+                          entity.Name = "Name 7fe280be078f4639b33852466bc90a66";
+              
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name 0fbae53dd2784151b5446f9023aca330", entity.Name);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 7fe280be078f4639b33852466bc90a66", entity.Name);
+              
         }
 
         [Test]
-        public void UpdatePositionStatus_InvalidId()
+        public void PositionStatus_Update_InvalidId()
         {
             var dal = PreparePositionStatusDal("DALInitParams");
 
             var entity = new PositionStatus();
             entity.ID = Int64.MaxValue - 1;
-            entity.Name = "Name 0fbae53dd2784151b5446f9023aca330";
-
-
+                          entity.Name = "Name 7fe280be078f4639b33852466bc90a66";
+              
             try
             {
                 entity = dal.Upsert(entity);
@@ -158,6 +158,19 @@ namespace Test.HRT.DAL.MSSQL
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected IPositionStatusDal PreparePositionStatusDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IPositionStatusDal dal = new PositionStatusDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

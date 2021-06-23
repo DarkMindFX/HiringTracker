@@ -1,19 +1,19 @@
-﻿using System;
+
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class InterviewStatus
+    public class InterviewStatus 
     {
-        public long StatusID
-        {
-            get; set;
-        }
+				public System.Int64? ID { get; set; }
 
-        public string Name
-        {
-            get; set;
-        }
+				public System.String Name { get; set; }
+
+				
     }
 }

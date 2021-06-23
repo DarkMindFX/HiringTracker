@@ -1,3 +1,5 @@
+
+
 using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
@@ -6,8 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -26,7 +27,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void GetProposalSteps_Success()
+        public void ProposalStep_GetAll_Success()
         {
             var dal = PrepareProposalStepDal("DALInitParams");
 
@@ -37,7 +38,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("ProposalStep\\000.GetDetails.Success")]
-        public void GetProposalStep_Success(string caseName)
+        public void ProposalStep_GetDetails_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareProposalStepDal("DALInitParams");
@@ -50,15 +51,15 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Name 8664d44acb47416fa2a3b208b908d748", entity.Name);
-		Assert.AreEqual(true, entity.ReqDueDate);
-		Assert.AreEqual(648, entity.RequiresRespInDays);
-		
-        }
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 8287fdb31762473daa8e4b60c4f2831f", entity.Name);
+                            Assert.AreEqual(true, entity.ReqDueDate);
+                            Assert.AreEqual(190, entity.RequiresRespInDays);
+                      }
 
         [Test]
-        public void GetProposalStep_InvalidId()
+        public void ProposalStep_GetDetails_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PrepareProposalStepDal("DALInitParams");
@@ -69,7 +70,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("ProposalStep\\010.Delete.Success")]
-        public void DeleteProposalStep_Success(string caseName)
+        public void ProposalStep_Delete_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareProposalStepDal("DALInitParams");
@@ -85,7 +86,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void DeleteProposalStep_InvalidId()
+        public void ProposalStep_Delete_InvalidId()
         {
             long positionId = Int32.MaxValue - 1;
             var dal = PrepareProposalStepDal("DALInitParams");
@@ -96,7 +97,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("ProposalStep\\020.Insert.Success")]
-        public void InsertProposalStep_Success(string caseName)
+        public void ProposalStep_Insert_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
@@ -104,25 +105,25 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalStepDal("DALInitParams");
 
             var entity = new ProposalStep();
-            entity.Name = "Name 9f2e83d49da44b4aa247494426d77b06";
-		entity.ReqDueDate = true;
-		entity.RequiresRespInDays = 648;
-		
-
+                          entity.Name = "Name f41a2f4bd35e4cf6a3927b8835b92221";
+                            entity.ReqDueDate = true;              
+                            entity.RequiresRespInDays = 190;
+                          
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Name 9f2e83d49da44b4aa247494426d77b06", entity.Name);
-		Assert.AreEqual(true, entity.ReqDueDate);
-		Assert.AreEqual(648, entity.RequiresRespInDays);
-		
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name f41a2f4bd35e4cf6a3927b8835b92221", entity.Name);
+                            Assert.AreEqual(true, entity.ReqDueDate);
+                            Assert.AreEqual(190, entity.RequiresRespInDays);
+              
         }
 
         [TestCase("ProposalStep\\030.Update.Success")]
-        public void UpdateProposalStep_Success(string caseName)
+        public void ProposalStep_Update_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareProposalStepDal("DALInitParams");
@@ -131,45 +132,57 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            entity.Name = "Name 62c6fba1c2fc41589738434d7ab63e04";
-		entity.ReqDueDate = true;
-		entity.RequiresRespInDays = 648;
-		
-
+                          entity.Name = "Name 71e90b29674b46ea95de3922703c6660";
+                            entity.ReqDueDate = true;              
+                            entity.RequiresRespInDays = 190;
+              
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Name 62c6fba1c2fc41589738434d7ab63e04", entity.Name);
-		Assert.AreEqual(true, entity.ReqDueDate);
-		Assert.AreEqual(648, entity.RequiresRespInDays);
-		
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 71e90b29674b46ea95de3922703c6660", entity.Name);
+                            Assert.AreEqual(true, entity.ReqDueDate);
+                            Assert.AreEqual(190, entity.RequiresRespInDays);
+              
         }
 
         [Test]
-        public void UpdateProposalStep_InvalidId()
+        public void ProposalStep_Update_InvalidId()
         {
             var dal = PrepareProposalStepDal("DALInitParams");
 
             var entity = new ProposalStep();
             entity.ID = Int64.MaxValue - 1;
-            entity.Name = "Name 62c6fba1c2fc41589738434d7ab63e04";
-		entity.ReqDueDate = true;
-		entity.RequiresRespInDays = 648;
-		
-
+                          entity.Name = "Name 71e90b29674b46ea95de3922703c6660";
+                            entity.ReqDueDate = true;              
+                            entity.RequiresRespInDays = 190;
+              
             try
             {
                 entity = dal.Upsert(entity);
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected IProposalStepDal PrepareProposalStepDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IProposalStepDal dal = new ProposalStepDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

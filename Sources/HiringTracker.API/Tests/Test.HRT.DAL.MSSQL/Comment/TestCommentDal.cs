@@ -1,3 +1,5 @@
+
+
 using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
@@ -6,8 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -26,7 +27,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void GetComments_Success()
+        public void Comment_GetAll_Success()
         {
             var dal = PrepareCommentDal("DALInitParams");
 
@@ -37,7 +38,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Comment\\000.GetDetails.Success")]
-        public void GetComment_Success(string caseName)
+        public void Comment_GetDetails_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareCommentDal("DALInitParams");
@@ -50,17 +51,17 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Text effd539ecd9e4367ac63bd677073b21d", entity.Text);
-		Assert.AreEqual(DateTime.Parse("10/23/2019 4:33:03 PM"), entity.CreatedDate);
-		Assert.AreEqual(100003, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("12/25/2023 3:45:03 PM"), entity.ModifiedDate);
-		Assert.AreEqual(33000067, entity.ModifiedByID);
-		
-        }
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Text 66525186721c4f368089a510431f69de", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("11/1/2018 3:37:10 PM"), entity.CreatedDate);
+                            Assert.AreEqual(33000067, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("4/23/2020 8:59:10 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100002, entity.ModifiedByID);
+                      }
 
         [Test]
-        public void GetComment_InvalidId()
+        public void Comment_GetDetails_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PrepareCommentDal("DALInitParams");
@@ -71,7 +72,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Comment\\010.Delete.Success")]
-        public void DeleteComment_Success(string caseName)
+        public void Comment_Delete_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareCommentDal("DALInitParams");
@@ -87,7 +88,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void DeleteComment_InvalidId()
+        public void Comment_Delete_InvalidId()
         {
             long positionId = Int32.MaxValue - 1;
             var dal = PrepareCommentDal("DALInitParams");
@@ -98,7 +99,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Comment\\020.Insert.Success")]
-        public void InsertComment_Success(string caseName)
+        public void Comment_Insert_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
@@ -106,29 +107,29 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCommentDal("DALInitParams");
 
             var entity = new Comment();
-            entity.Text = "Text 556f8522b133407ba6b9879908b8adda";
-		entity.CreatedDate = DateTime.Parse("4/18/2021 10:33:03 PM");
-		entity.CreatedByID = 33020024;
-		entity.ModifiedDate = DateTime.Parse("2/26/2020 4:22:03 PM");
-		entity.ModifiedByID = 100003;
-		
-
+                          entity.Text = "Text 9cc5c68a0b794a8081441e7a28ed86c6";
+                            entity.CreatedDate = DateTime.Parse("7/21/2020 7:13:10 PM");
+                            entity.CreatedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("7/21/2020 7:13:10 PM");
+                            entity.ModifiedByID = 100002;
+                          
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Text 556f8522b133407ba6b9879908b8adda", entity.Text);
-		Assert.AreEqual(DateTime.Parse("4/18/2021 10:33:03 PM"), entity.CreatedDate);
-		Assert.AreEqual(33020024, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("2/26/2020 4:22:03 PM"), entity.ModifiedDate);
-		Assert.AreEqual(100003, entity.ModifiedByID);
-		
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Text 9cc5c68a0b794a8081441e7a28ed86c6", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("7/21/2020 7:13:10 PM"), entity.CreatedDate);
+                            Assert.AreEqual(100001, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("7/21/2020 7:13:10 PM"), entity.ModifiedDate);
+                            Assert.AreEqual(100002, entity.ModifiedByID);
+              
         }
 
         [TestCase("Comment\\030.Update.Success")]
-        public void UpdateComment_Success(string caseName)
+        public void Comment_Update_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareCommentDal("DALInitParams");
@@ -137,51 +138,63 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            entity.Text = "Text e746b302de8743e79e74b123e76b4abb";
-		entity.CreatedDate = DateTime.Parse("5/7/2023 3:59:03 AM");
-		entity.CreatedByID = 100001;
-		entity.ModifiedDate = DateTime.Parse("2/5/2019 1:48:03 AM");
-		entity.ModifiedByID = 100003;
-		
-
+                          entity.Text = "Text 7f6a8f5a0ea547a09ce6ecac90d9d16a";
+                            entity.CreatedDate = DateTime.Parse("10/20/2020 2:46:10 PM");
+                            entity.CreatedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("8/30/2023 3:13:10 PM");
+                            entity.ModifiedByID = 100001;
+              
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-		Assert.AreEqual("Text e746b302de8743e79e74b123e76b4abb", entity.Text);
-		Assert.AreEqual(DateTime.Parse("5/7/2023 3:59:03 AM"), entity.CreatedDate);
-		Assert.AreEqual(100001, entity.CreatedByID);
-		Assert.AreEqual(DateTime.Parse("2/5/2019 1:48:03 AM"), entity.ModifiedDate);
-		Assert.AreEqual(100003, entity.ModifiedByID);
-		
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Text 7f6a8f5a0ea547a09ce6ecac90d9d16a", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("10/20/2020 2:46:10 PM"), entity.CreatedDate);
+                            Assert.AreEqual(100001, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("8/30/2023 3:13:10 PM"), entity.ModifiedDate);
+                            Assert.AreEqual(100001, entity.ModifiedByID);
+              
         }
 
         [Test]
-        public void UpdateComment_InvalidId()
+        public void Comment_Update_InvalidId()
         {
             var dal = PrepareCommentDal("DALInitParams");
 
             var entity = new Comment();
             entity.ID = Int64.MaxValue - 1;
-            entity.Text = "Text e746b302de8743e79e74b123e76b4abb";
-		entity.CreatedDate = DateTime.Parse("5/7/2023 3:59:03 AM");
-		entity.CreatedByID = 100001;
-		entity.ModifiedDate = DateTime.Parse("2/5/2019 1:48:03 AM");
-		entity.ModifiedByID = 100003;
-		
-
+                          entity.Text = "Text 7f6a8f5a0ea547a09ce6ecac90d9d16a";
+                            entity.CreatedDate = DateTime.Parse("10/20/2020 2:46:10 PM");
+                            entity.CreatedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("8/30/2023 3:13:10 PM");
+                            entity.ModifiedByID = 100001;
+              
             try
             {
                 entity = dal.Upsert(entity);
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected ICommentDal PrepareCommentDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            ICommentDal dal = new CommentDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

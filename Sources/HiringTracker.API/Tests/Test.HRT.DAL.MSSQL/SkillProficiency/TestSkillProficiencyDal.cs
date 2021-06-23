@@ -1,3 +1,5 @@
+
+
 using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
@@ -6,8 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -26,7 +27,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void GetSkillProficiencys_Success()
+        public void SkillProficiency_GetAll_Success()
         {
             var dal = PrepareSkillProficiencyDal("DALInitParams");
 
@@ -37,7 +38,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("SkillProficiency\\000.GetDetails.Success")]
-        public void GetSkillProficiency_Success(string caseName)
+        public void SkillProficiency_GetDetails_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareSkillProficiencyDal("DALInitParams");
@@ -50,13 +51,14 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreEqual(361640, entity.ID);
-            Assert.AreEqual("Name bdea0906de38438bac64d2ea6640ff81", entity.Name);
-
-        }
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual(400693, entity.ID);
+                            Assert.AreEqual("Name ef6b79fa3f3e4f8ab26affa754a16fb2", entity.Name);
+                      }
 
         [Test]
-        public void GetSkillProficiency_InvalidId()
+        public void SkillProficiency_GetDetails_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PrepareSkillProficiencyDal("DALInitParams");
@@ -67,7 +69,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("SkillProficiency\\010.Delete.Success")]
-        public void DeleteSkillProficiency_Success(string caseName)
+        public void SkillProficiency_Delete_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareSkillProficiencyDal("DALInitParams");
@@ -83,7 +85,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void DeleteSkillProficiency_InvalidId()
+        public void SkillProficiency_Delete_InvalidId()
         {
             long positionId = Int32.MaxValue - 1;
             var dal = PrepareSkillProficiencyDal("DALInitParams");
@@ -94,7 +96,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("SkillProficiency\\020.Insert.Success")]
-        public void InsertSkillProficiency_Success(string caseName)
+        public void SkillProficiency_Insert_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
@@ -102,22 +104,23 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareSkillProficiencyDal("DALInitParams");
 
             var entity = new SkillProficiency();
-            entity.ID = 361640;
-            entity.Name = "Name 7532d2dc7aa649118b3ffb5355ba5dc6";
-
-
+                          entity.ID = 400693;
+                            entity.Name = "Name 60c858c33a604d87bb041b0d8a003211";
+                          
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreEqual(361640, entity.ID);
-            Assert.AreEqual("Name 7532d2dc7aa649118b3ffb5355ba5dc6", entity.Name);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual(400693, entity.ID);
+                            Assert.AreEqual("Name 60c858c33a604d87bb041b0d8a003211", entity.Name);
+              
         }
 
         [TestCase("SkillProficiency\\030.Update.Success")]
-        public void UpdateSkillProficiency_Success(string caseName)
+        public void SkillProficiency_Update_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareSkillProficiencyDal("DALInitParams");
@@ -126,31 +129,31 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            entity.ID = 361640;
-            entity.Name = "Name f363293791f9448694b222929dd04c70";
-
-
+                          entity.ID = 400693;
+                            entity.Name = "Name 5c6d5d8d20404ebea81f9447d37cc15c";
+              
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreEqual(361640, entity.ID);
-            Assert.AreEqual("Name f363293791f9448694b222929dd04c70", entity.Name);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual(400693, entity.ID);
+                            Assert.AreEqual("Name 5c6d5d8d20404ebea81f9447d37cc15c", entity.Name);
+              
         }
 
         [Test]
-        public void UpdateSkillProficiency_InvalidId()
+        public void SkillProficiency_Update_InvalidId()
         {
             var dal = PrepareSkillProficiencyDal("DALInitParams");
 
             var entity = new SkillProficiency();
             entity.ID = Int64.MaxValue - 1;
-            entity.ID = 361640;
-            entity.Name = "Name f363293791f9448694b222929dd04c70";
-
-
+                          entity.ID = 400693;
+                            entity.Name = "Name 5c6d5d8d20404ebea81f9447d37cc15c";
+              
             try
             {
                 entity = dal.Upsert(entity);
@@ -161,6 +164,19 @@ namespace Test.HRT.DAL.MSSQL
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected ISkillProficiencyDal PrepareSkillProficiencyDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            ISkillProficiencyDal dal = new SkillProficiencyDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

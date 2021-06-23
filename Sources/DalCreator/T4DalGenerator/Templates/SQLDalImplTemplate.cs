@@ -185,7 +185,14 @@ namespace HRT.DAL.MSSQL
             
             #line default
             #line hidden
-            this.Write(", long>(\"p_");
+            this.Write(", ");
+            
+            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(c)));
+            
+            #line default
+            #line hidden
+            this.Write(">(\"p_");
             
             #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
@@ -315,39 +322,143 @@ namespace HRT.DAL.MSSQL
             
             #line default
             #line hidden
-            this.Write(@" entity)
-        {
-            SqlParameter pID = new SqlParameter(@""ID"",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, ""ID"", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-            SqlParameter pName = new SqlParameter(@""Name"",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, ""Name"", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
-
-            return cmd;
-        }
-
-        protected ");
+            this.Write(" entity)\r\n        {\r\n        ");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            #line 87 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+
+            foreach(var c in table.Columns)
+            {
+        
+            
+            #line default
+            #line hidden
+            this.Write("        SqlParameter p");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = new SqlParameter(\"@");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\", System.Data.SqlDbType.");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToSqlDbType(c)));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Type.CharMaxLength != null && c.Type.CharMaxLength > 0 ? c.Type.CharMaxLength : 0));
+            
+            #line default
+            #line hidden
+            this.Write(", ParameterDirection.Input, false, 0, 0, \"");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\", DataRowVersion.Current, (object)entity.");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" != null ? (object)entity.");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" : DBNull.Value);   cmd.Parameters.Add(p");
+            
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("); \r\n        ");
+            
+            #line 92 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+
+            }
+        
+            
+            #line default
+            #line hidden
+            this.Write("\r\n            return cmd;\r\n        }\r\n\r\n        protected ");
+            
+            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("FromRow(DataRow row)\r\n        {\r\n            var entity = new ");
             
-            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write("();\r\n\r\n            entity.ID = (System.Int64?)row[\"ID\"];\r\n\t\t    entity.Name = (Sy" +
-                    "stem.String)row[\"Name\"];\r\n\r\n            return entity;\r\n        }\r\n        \r\n   " +
-                    " }\r\n}\r\n");
+            this.Write("();\r\n\r\n        ");
+            
+            #line 103 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+
+            foreach(var c in table.Columns)
+            {
+        
+            
+            #line default
+            #line hidden
+            this.Write("            entity.");
+            
+            #line 107 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = (");
+            
+            #line 107 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(c)));
+            
+            #line default
+            #line hidden
+            this.Write(")row[\"");
+            
+            #line 107 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\"];\r\n        ");
+            
+            #line 108 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
+
+            }
+        
+            
+            #line default
+            #line hidden
+            this.Write("\r\n            return entity;\r\n        }\r\n        \r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

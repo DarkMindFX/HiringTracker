@@ -1,3 +1,5 @@
+
+
 using HRT.DAL.MSSQL;
 using HRT.Interfaces;
 using HRT.Interfaces.Entities;
@@ -6,8 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+
 
 namespace Test.HRT.DAL.MSSQL
 {
@@ -26,7 +27,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void GetDepartments_Success()
+        public void Department_GetAll_Success()
         {
             var dal = PrepareDepartmentDal("DALInitParams");
 
@@ -37,7 +38,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Department\\000.GetDetails.Success")]
-        public void GetDepartment_Success(string caseName)
+        public void Department_GetDetails_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareDepartmentDal("DALInitParams");
@@ -50,16 +51,16 @@ namespace Test.HRT.DAL.MSSQL
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name 592d8fc07d184399a7333dcb2f39b950", entity.Name);
-            Assert.AreEqual("UUID 592d8fc07d184399a7333dcb2f39b950", entity.UUID);
-            Assert.AreEqual(10, entity.ParentID);
-            Assert.AreEqual(33000067, entity.ManagerID);
-
-        }
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 3c34d9a895104a7c9a93267c1fc5de33", entity.Name);
+                            Assert.AreEqual("UUID 3c34d9a895104a7c9a93267c1fc5de33", entity.UUID);
+                            Assert.AreEqual(2, entity.ParentID);
+                            Assert.AreEqual(100001, entity.ManagerID);
+                      }
 
         [Test]
-        public void GetDepartment_InvalidId()
+        public void Department_GetDetails_InvalidId()
         {
             long id = Int32.MaxValue - 1;
             var dal = PrepareDepartmentDal("DALInitParams");
@@ -70,7 +71,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Department\\010.Delete.Success")]
-        public void DeleteDepartment_Success(string caseName)
+        public void Department_Delete_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareDepartmentDal("DALInitParams");
@@ -86,7 +87,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [Test]
-        public void DeleteDepartment_InvalidId()
+        public void Department_Delete_InvalidId()
         {
             long positionId = Int32.MaxValue - 1;
             var dal = PrepareDepartmentDal("DALInitParams");
@@ -97,7 +98,7 @@ namespace Test.HRT.DAL.MSSQL
         }
 
         [TestCase("Department\\020.Insert.Success")]
-        public void InsertDepartment_Success(string caseName)
+        public void Department_Insert_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             SetupCase(conn, caseName);
@@ -105,27 +106,27 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareDepartmentDal("DALInitParams");
 
             var entity = new Department();
-            entity.Name = "Name 6de9d6731940477b9c034dfae62e602b";
-            entity.UUID = "UUID 6de9d6731940477b9c034dfae62e602b";
-            entity.ParentID = 3;
-            entity.ManagerID = 33000067;
-
-
+                          entity.Name = "Name 48acf4d067e041519a5b59485c7add59";
+                            entity.UUID = "UUID 48acf4d067e041519a5b59485c7add59";
+                            entity.ParentID = 3;
+                            entity.ManagerID = 33000067;
+                          
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name 6de9d6731940477b9c034dfae62e602b", entity.Name);
-            Assert.AreEqual("UUID 6de9d6731940477b9c034dfae62e602b", entity.UUID);
-            Assert.AreEqual(3, entity.ParentID);
-            Assert.AreEqual(33000067, entity.ManagerID);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 48acf4d067e041519a5b59485c7add59", entity.Name);
+                            Assert.AreEqual("UUID 48acf4d067e041519a5b59485c7add59", entity.UUID);
+                            Assert.AreEqual(3, entity.ParentID);
+                            Assert.AreEqual(33000067, entity.ManagerID);
+              
         }
 
         [TestCase("Department\\030.Update.Success")]
-        public void UpdateDepartment_Success(string caseName)
+        public void Department_Update_Success(string caseName)
         {
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = PrepareDepartmentDal("DALInitParams");
@@ -134,38 +135,37 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-            entity.Name = "Name f7fd524bfc3345fcb2d05c2836a57ada";
-            entity.UUID = "UUID f7fd524bfc3345fcb2d05c2836a57ada";
-            entity.ParentID = 3;
-            entity.ManagerID = 100001;
-
-
+                          entity.Name = "Name 72b4b3e87cab47ccb389fb9d1b995d31";
+                            entity.UUID = "UUID 72b4b3e87cab47ccb389fb9d1b995d31";
+                            entity.ParentID = 3;
+                            entity.ManagerID = 100002;
+              
             entity = dal.Upsert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.AreNotEqual(0, entity.ID);
-            Assert.AreEqual("Name f7fd524bfc3345fcb2d05c2836a57ada", entity.Name);
-            Assert.AreEqual("UUID f7fd524bfc3345fcb2d05c2836a57ada", entity.UUID);
-            Assert.AreEqual(3, entity.ParentID);
-            Assert.AreEqual(100001, entity.ManagerID);
-
+                        Assert.IsNotNull(entity.ID);
+            
+                          Assert.AreEqual("Name 72b4b3e87cab47ccb389fb9d1b995d31", entity.Name);
+                            Assert.AreEqual("UUID 72b4b3e87cab47ccb389fb9d1b995d31", entity.UUID);
+                            Assert.AreEqual(3, entity.ParentID);
+                            Assert.AreEqual(100002, entity.ManagerID);
+              
         }
 
         [Test]
-        public void UpdateDepartment_InvalidId()
+        public void Department_Update_InvalidId()
         {
             var dal = PrepareDepartmentDal("DALInitParams");
 
             var entity = new Department();
             entity.ID = Int64.MaxValue - 1;
-            entity.Name = "Name f7fd524bfc3345fcb2d05c2836a57ada";
-            entity.UUID = "UUID f7fd524bfc3345fcb2d05c2836a57ada";
-            entity.ParentID = 3;
-            entity.ManagerID = 100001;
-
-
+                          entity.Name = "Name 72b4b3e87cab47ccb389fb9d1b995d31";
+                            entity.UUID = "UUID 72b4b3e87cab47ccb389fb9d1b995d31";
+                            entity.ParentID = 3;
+                            entity.ManagerID = 100002;
+              
             try
             {
                 entity = dal.Upsert(entity);
@@ -176,6 +176,19 @@ namespace Test.HRT.DAL.MSSQL
             {
                 Assert.Pass("Success - exception thrown as expected");
             }
+        }
+
+        protected IDepartmentDal PrepareDepartmentDal(string configName)
+        {
+            IConfiguration config = GetConfiguration();
+            var initParams = config.GetSection(configName).Get<TestDalInitParams>();
+
+            IDepartmentDal dal = new DepartmentDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = initParams.ConnectionString;
+            dal.Init(dalInitParams);
+
+            return dal;
         }
     }
 }

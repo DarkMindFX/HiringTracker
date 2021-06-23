@@ -1,21 +1,29 @@
-DECLARE @ID BIGINT
-DECLARE @Name NVARCHAR(50) = 'Name b50afef8199d49cd902ed06e5ea74f67'
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name c83b251d8cf74c948687160289752b0c'
+ 
+
 
 IF(NOT EXISTS(SELECT 1 FROM 
 					[dbo].[Skill]
 				WHERE 
-					(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1))
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
 BEGIN
 	INSERT INTO [dbo].[Skill]
-		([Name])
+		(
+	 [Name]
+		)
 	SELECT 		
-		@Name
+			 @Name
 END
 
 SELECT TOP 1 @ID = [ID] 
 FROM 
 	[dbo].[Skill] e
 WHERE
-	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
 
 SELECT @ID

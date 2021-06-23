@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,6 +43,7 @@ namespace HRT.DAL.MSSQL
             return entityOut;
         }
 
+        
         public IList<ProposalStatus> GetAll()
         {
             IList<ProposalStatus> result = base.GetAll<ProposalStatus>("p_ProposalStatus_GetAll", ProposalStatusFromRow);
@@ -57,12 +60,9 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, ProposalStatus entity)
         {
-            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-		   SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
-
-
-
+                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+                SqlParameter pName = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+        
             return cmd;
         }
 
@@ -70,16 +70,11 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new ProposalStatus();
 
-            		entity.ID = (System.Int64?)row["ID"];
-		entity.Name = (System.String)row["Name"];
-
-
+                    entity.ID = (System.Int64?)row["ID"];
+                    entity.Name = (System.String)row["Name"];
+        
             return entity;
         }
-
-        public long? Upsert(ProposalStatus entity, long? editorID)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

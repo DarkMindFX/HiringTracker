@@ -1,21 +1,19 @@
-﻿using HRT.Interfaces.Entities;
+
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using HRT.Interfaces.Entities;
 
 namespace HRT.Interfaces
 {
-    public interface IInterviewRoleDal : IInitializable
+    public interface IInterviewRoleDal : IDalBase<InterviewRole>
     {
-
-        bool UpsertUserRole(long interviewId, long userId, long roleId);
-
-        bool RemoveUserRole(long interviewId, long userId);
-
-        IList<InterviewRole> GetByInterview(long id);
-
-        IList<InterviewRole> GetByUser(long id);
-
-        IList<InterviewRole> GetByRole(long id);
-    }
+                IList<InterviewRole> GetByInterviewID(System.Int64 InterviewID);
+                IList<InterviewRole> GetByUserID(System.Int64 UserID);
+                IList<InterviewRole> GetByRoleID(System.Int64 RoleID);
+            }
 }
+

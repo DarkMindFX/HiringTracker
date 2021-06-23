@@ -1,0 +1,50 @@
+
+
+-- original values --
+DECLARE @InterviewID BIGINT = NULL
+DECLARE @UserID BIGINT = 33000067
+DECLARE @RoleID BIGINT = 2
+ 
+-- updated values --
+
+DECLARE @updInterviewID BIGINT = NULL
+DECLARE @updUserID BIGINT = 100003
+DECLARE @updRoleID BIGINT = 4
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[InterviewRole]
+				WHERE 
+	(CASE WHEN @updInterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @updInterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updUserID IS NOT NULL THEN (CASE WHEN [UserID] = @updUserID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updRoleID IS NOT NULL THEN (CASE WHEN [RoleID] = @updRoleID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[InterviewRole]
+	WHERE 
+	(CASE WHEN @InterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @InterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @UserID IS NOT NULL THEN (CASE WHEN [UserID] = @UserID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @RoleID IS NOT NULL THEN (CASE WHEN [RoleID] = @RoleID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[InterviewRole]
+	WHERE 
+	(CASE WHEN @updInterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @updInterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updUserID IS NOT NULL THEN (CASE WHEN [UserID] = @updUserID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updRoleID IS NOT NULL THEN (CASE WHEN [RoleID] = @updRoleID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'InterviewRole was not updated', 1
+END

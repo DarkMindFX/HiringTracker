@@ -59,7 +59,7 @@ namespace HRT.DAL.MSSQL
         #>
         public IList<<#=table.Name #>> GetBy<#=c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name #>)
         {
-            var entitiesOut = base.GetBy<<#= table.Name #>, long>("p_<#= table.Name #>_GetBy<#=c.Name #>", <#=c.Name #>, "@<#=c.Name #>", SqlDbType.BigInt, 0, <#= table.Name #>FromRow);
+            var entitiesOut = base.GetBy<<#= table.Name #>, <#= generator.DbTypeToType(c) #>>("p_<#= table.Name #>_GetBy<#=c.Name #>", <#=c.Name #>, "@<#=c.Name #>", SqlDbType.BigInt, 0, <#= table.Name #>FromRow);
 
             return entitiesOut;
         }
@@ -84,9 +84,14 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, <#= table.Name #> entity)
         {
-            SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-            SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+        <#
+            foreach(var c in table.Columns)
+            {
+        #>
+        SqlParameter p<#= c.Name #> = new SqlParameter("@<#= c.Name #>", System.Data.SqlDbType.<#= generator.DbTypeToSqlDbType(c) #>, <#= c.Type.CharMaxLength != null && c.Type.CharMaxLength > 0 ? c.Type.CharMaxLength : 0 #>, ParameterDirection.Input, false, 0, 0, "<#= c.Name #>", DataRowVersion.Current, (object)entity.<#= c.Name #> != null ? (object)entity.<#= c.Name #> : DBNull.Value);   cmd.Parameters.Add(p<#= c.Name #>); 
+        <#
+            }
+        #>
 
             return cmd;
         }
@@ -95,8 +100,14 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new <#= table.Name #>();
 
-            entity.ID = (System.Int64?)row["ID"];
-		    entity.Name = (System.String)row["Name"];
+        <#
+            foreach(var c in table.Columns)
+            {
+        #>
+            entity.<#= c.Name #> = (<#= generator.DbTypeToType(c) #>)row["<#= c.Name #>"];
+        <#
+            }
+        #>
 
             return entity;
         }

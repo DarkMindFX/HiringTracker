@@ -1,39 +1,25 @@
-﻿using System;
+
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class PositionSkill
+    public class PositionSkill 
     {
-        public long PositionID
-        {
-            get; set;
-        }
+				public System.Int64? ID { get; set; }
 
-        public long SkillID
-        {
-            get; set;
-        }
+				public System.Int64 PositionID { get; set; }
 
-        public string SkillName
-        {
-            get; set;
-        }
+				public System.Int64 SkillID { get; set; }
 
-        public long ProficiencyID
-        {
-            get; set;
-        }
+				public System.Boolean IsMandatory { get; set; }
 
-        public string ProficiencyName
-        {
-            get; set;
-        }
+				public System.Int64 SkillProficiencyID { get; set; }
 
-        public bool IsMandatory
-        {
-            get; set;
-        }
+				
     }
 }

@@ -1,24 +1,21 @@
-﻿using System;
+
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRT.Interfaces.Entities
 {
-    public class InterviewRole
+    public class InterviewRole 
     {
-        public long InterviewID
-        {
-            get; set;
-        }
+				public System.Int64 InterviewID { get; set; }
 
-        public long UserID
-        {
-            get; set;
-        }
+				public System.Int64 UserID { get; set; }
 
-        public long RoleID
-        {
-            get; set;
-        }
+				public System.Int64 RoleID { get; set; }
+
+				
     }
 }

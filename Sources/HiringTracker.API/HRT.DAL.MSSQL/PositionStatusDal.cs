@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,6 +43,7 @@ namespace HRT.DAL.MSSQL
             return entityOut;
         }
 
+        
         public IList<PositionStatus> GetAll()
         {
             IList<PositionStatus> result = base.GetAll<PositionStatus>("p_PositionStatus_GetAll", PositionStatusFromRow);
@@ -57,12 +60,9 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, PositionStatus entity)
         {
-            		   SqlParameter pID = new SqlParameter(@"ID",    SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
-
-		   SqlParameter pName = new SqlParameter(@"Name",    SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
-
-
-
+                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
+                SqlParameter pName = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, (object)entity.Name != null ? (object)entity.Name : DBNull.Value);   cmd.Parameters.Add(pName); 
+        
             return cmd;
         }
 
@@ -70,16 +70,11 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new PositionStatus();
 
-            		entity.ID = (System.Int64)row["ID"];
-		entity.Name = (System.String)row["Name"];
-
-
+                    entity.ID = (System.Int64?)row["ID"];
+                    entity.Name = (System.String)row["Name"];
+        
             return entity;
         }
-
-        public long? Upsert(PositionStatus entity, long? editorID)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
