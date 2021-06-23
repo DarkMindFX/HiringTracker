@@ -8,24 +8,24 @@
 <#@ parameter name="table" type="DataModel.DataTable" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
 <#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
-<#@ parameter name="testValsGet" type="System.Collections.Generic.IDictionary<string,object>" #>
+<#@ parameter name="testValsInsert" type="System.Collections.Generic.IDictionary<string,object>" #>
 
 <#
 	foreach(var c in table.Columns)
 	{
 		string val = string.Empty;
 
-		if (!c.IsIdentity && testValsGet.ContainsKey(c.Name))
+		if (!c.IsIdentity && testValsInsert.ContainsKey(c.Name))
         {
 			Type columnType = generator.GetColumnType(c);
-            if (testValsGet[c.Name] != null)
+            if (testValsInsert[c.Name] != null)
             {
 				string quote = string.Empty;
                 if(columnType == typeof(string) || columnType == typeof(DateTime))
                 {
 					quote = "'";
                 }
-				val = quote + testValsGet[c.Name].ToString() + quote;
+				val = quote + testValsInsert[c.Name].ToString() + quote;
             
 			}
             else
@@ -44,7 +44,7 @@
 #> 
 
 
-IF(NOT EXISTS(SELECT 1 FROM 
+IF(EXISTS(SELECT 1 FROM 
 					[dbo].[<#= table.Name #>]
 				WHERE 
 <#
@@ -61,40 +61,9 @@ IF(NOT EXISTS(SELECT 1 FROM
 #> ))
 					
 BEGIN
-	INSERT INTO [dbo].[<#= table.Name #>]
-		(
-<#
-for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-#>
-	 [<#= c.Name #>]<#= i + 1 < table.Columns.Count ? "," : string.Empty #>
-<#
-		}
-	}
-#>
-		)
-	SELECT 		
-		<#
-for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-#>
-	 @<#= c.Name #><#= i + 1 < table.Columns.Count ? "," : string.Empty #>
-<#
-		}
-	}
-#>
-END
 
-SELECT TOP 1 @ID = [ID] 
-FROM 
-	[dbo].[<#= table.Name #>] e
-WHERE
+DELETE FROM [dbo].[<#= table.Name #>]
+WHERE 
 <#
 	for(int i = 0; i < table.Columns.Count; ++i) 
 	{
@@ -108,4 +77,4 @@ WHERE
 	}
 #>
 
-SELECT @ID
+END

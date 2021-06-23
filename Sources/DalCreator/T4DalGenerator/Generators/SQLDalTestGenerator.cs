@@ -39,6 +39,12 @@ namespace T4DalGenerator.Generators
             files.Add(GenerateTestClass(modelHelper, testValsGet, testValsInsert, testValsUpdateAfter));
             files.Add(GenerateGetSetup(modelHelper, testValsGet));
             files.Add(GenerateGetTeardown(modelHelper, testValsGet));
+            files.Add(GenerateInsertSetup(modelHelper, testValsInsert));
+            files.Add(GenerateInsertTeardown(modelHelper, testValsInsert));
+            files.Add(GenerateDeleteSetup(modelHelper, testValsDelete));
+            files.Add(GenerateDeleteTeardown(modelHelper, testValsDelete));
+            files.Add(GenerateUpdateSetup(modelHelper, testValsUpdateBefore));
+            files.Add(GenerateUpdateTeardown(modelHelper, testValsUpdateBefore, testValsUpdateAfter));
 
             return files;
         }
@@ -73,8 +79,8 @@ namespace T4DalGenerator.Generators
         protected string GenerateGetSetup(ModelHelper modelHelper,
                                             IDictionary<string, object> testValsGet)
         {
-            string fileName = $"Setup.cs";
-            string fileOut = Path.Combine(GetOutputFolder(), "010.GetDetails.Success", fileName);
+            string fileName = $"Setup.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "000.GetDetails.Success", fileName);
             string dirOut = Path.GetDirectoryName(fileOut);
 
             if (!Directory.Exists(dirOut))
@@ -100,8 +106,8 @@ namespace T4DalGenerator.Generators
         protected string GenerateGetTeardown(ModelHelper modelHelper,
                                             IDictionary<string, object> testValsGet)
         {
-            string fileName = $"Teardown.cs";
-            string fileOut = Path.Combine(GetOutputFolder(), "010.GetDetails.Success", fileName);
+            string fileName = $"Teardown.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "000.GetDetails.Success", fileName);
             string dirOut = Path.GetDirectoryName(fileOut);
 
             if (!Directory.Exists(dirOut))
@@ -115,6 +121,170 @@ namespace T4DalGenerator.Generators
             template.Session["table"] = _genParams.Table;
             template.Session["modelHelper"] = modelHelper;
             template.Session["testValsGet"] = testValsGet;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateInsertSetup(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsInsert)
+        {
+            string fileName = $"Setup.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "020.Insert.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new InsertSetupTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsInsert"] = testValsInsert;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateInsertTeardown(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsInsert)
+        {
+            string fileName = $"Teardown.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "020.Insert.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new InsertTeardownTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsInsert"] = testValsInsert;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateDeleteSetup(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsDelete)
+        {
+            string fileName = $"Setup.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "010.Delete.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new DeleteSetupTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsDelete"] = testValsDelete;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateDeleteTeardown(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsDelete)
+        {
+            string fileName = $"Teardown.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "010.Delete.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new DeleteTeardownTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsDelete"] = testValsDelete;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateUpdateSetup(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsUpdateBefore)
+        {
+            string fileName = $"Setup.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "030.Update.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new UpdateSetupTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsUpdateBefore"] = testValsUpdateBefore;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateUpdateTeardown(ModelHelper modelHelper,
+                                            IDictionary<string, object> testValsUpdateBefore,
+                                            IDictionary<string, object> testValsUpdateAfter)
+        {
+            string fileName = $"Teardown.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), "030.Update.Success", fileName);
+            string dirOut = Path.GetDirectoryName(fileOut);
+
+            if (!Directory.Exists(dirOut))
+            {
+                Directory.CreateDirectory(dirOut);
+            }
+
+            var template = new UpdateTeardownTemplate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Session["testValsUpdateBefore"] = testValsUpdateBefore;
+            template.Session["testValsUpdateAfter"] = testValsUpdateAfter;
             template.Initialize();
 
             string content = template.TransformText();

@@ -8,24 +8,24 @@
 <#@ parameter name="table" type="DataModel.DataTable" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
 <#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
-<#@ parameter name="testValsGet" type="System.Collections.Generic.IDictionary<string,object>" #>
+<#@ parameter name="testValsUpdateBefore" type="System.Collections.Generic.IDictionary<string,object>" #>
 
 <#
 	foreach(var c in table.Columns)
 	{
 		string val = string.Empty;
 
-		if (!c.IsIdentity && testValsGet.ContainsKey(c.Name))
+		if (!c.IsIdentity && testValsUpdateBefore.ContainsKey(c.Name))
         {
 			Type columnType = generator.GetColumnType(c);
-            if (testValsGet[c.Name] != null)
+            if (testValsUpdateBefore[c.Name] != null)
             {
 				string quote = string.Empty;
                 if(columnType == typeof(string) || columnType == typeof(DateTime))
                 {
 					quote = "'";
                 }
-				val = quote + testValsGet[c.Name].ToString() + quote;
+				val = quote + testValsUpdateBefore[c.Name].ToString() + quote;
             
 			}
             else

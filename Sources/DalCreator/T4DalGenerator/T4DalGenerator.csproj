@@ -78,6 +78,26 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>StorProcEntityGetByField.tt</DependentUpon>
 	</Compile>
+	<Compile Update="Templates\Tests\DeleteSetupTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>DeleteSetupTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\DeleteTeardownTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>DeleteTeardownTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\InsertSetupTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>InsertSetupTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\InsertTeardownTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>InsertTeardownTemplate.tt</DependentUpon>
+	</Compile>
 	<Compile Update="Templates\Tests\TestDalTemplate.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -92,6 +112,16 @@
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>GetDetailsTeardownTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\UpdateSetupTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>UpdateSetupTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\UpdateTeardownTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>UpdateTeardownTemplate.tt</DependentUpon>
 	</Compile>
   </ItemGroup>
 
@@ -143,6 +173,22 @@
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>StorProcEntityGetByField.cs</LastGenOutput>
 	</None>
+	<None Update="Templates\Tests\DeleteSetupTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>DeleteSetupTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\DeleteTeardownTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>DeleteTeardownTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\InsertSetupTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>InsertSetupTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\InsertTeardownTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>InsertTeardownTemplate.cs</LastGenOutput>
+	</None>
 	<None Update="Templates\Tests\TestDalTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
@@ -154,6 +200,14 @@
 	<None Update="Templates\Tests\GetDetailsTeardownTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>GetDetailsTeardownTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\UpdateSetupTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>UpdateSetupTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\UpdateTeardownTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>UpdateTeardownTemplate.cs</LastGenOutput>
 	</None>
   </ItemGroup>
 

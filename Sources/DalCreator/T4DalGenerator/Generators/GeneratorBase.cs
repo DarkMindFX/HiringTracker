@@ -112,11 +112,11 @@ namespace T4DalGenerator.Generators
             return result.ToString();
         }
 
-        public string GenerateVariableDeclaration(DataColumn c)
+        public string GenerateVariableDeclaration(DataColumn c, string prefix = "")
         {
             StringBuilder result = new StringBuilder();
 
-            result.Append($"DECLARE @{c.Name} {c.Type.SqlType.ToUpper()}");
+            result.Append($"DECLARE @{prefix}{c.Name} {c.Type.SqlType.ToUpper()}");
             if (c.Type.CharMaxLength != null) result.Append($"({c.Type.CharMaxLength})");
             if (c.Type.Precision != null && c.Type.Scale != null) result.Append($"({c.Type.Precision}, {c.Type.Scale})");
 
