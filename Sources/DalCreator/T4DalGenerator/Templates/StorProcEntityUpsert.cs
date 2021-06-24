@@ -84,17 +84,50 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("AS\r\nBEGIN\r\n\r\n\tSET NOCOUNT ON;\r\n\r\n    IF(@ID IS NULL)\r\n\tBEGIN\r\n\t\tINSERT INTO [dbo]" +
-                    ".[");
+            this.Write("AS\r\nBEGIN\r\n\r\n\tSET NOCOUNT ON;\r\n\r\n    IF(");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 37 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+
+		for(int i = 0; i < pks.Count; ++i)
+		{
+			var c = pks[i];
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t\t@");
+            
+            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" IS NULL ");
+            
+            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "AND" : string.Empty));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t");
+            
+            #line 43 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+
+		}
+	
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n\tBEGIN\r\n\t\tINSERT INTO [dbo].[");
+            
+            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("]\r\n\t\tSELECT \r\n\t\t");
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 49 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 			for(int i = 0; i < table.Columns.Count; ++i)
 			{
@@ -107,20 +140,20 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\t@");
             
-            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             
-            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < table.Columns.Count ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 49 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 				}
 			}
@@ -130,14 +163,14 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\r\n\tEND\r\n\tELSE\r\n\tBEGIN\r\n\t\t\r\n\t\tIF(EXISTS(\tSELECT 1 FROM dbo.");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" \r\n\t\t\t\t\tWHERE \r\n\t\t\t\t\t");
             
-            #line 60 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 68 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 						for(int i = 0; i < pks.Count; ++i)
 						{
@@ -149,28 +182,28 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\t\t\t\t\t[");
             
-            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < pks.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t\t");
             
-            #line 67 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 
 						}//for
@@ -180,14 +213,14 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t))\r\n\t\tBEGIN\r\n\t\t\tUPDATE [dbo].[");
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 81 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("]\r\n\t\t\tSET\r\n\t\t\t\t");
             
-            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 					for(int i = 0; i < table.Columns.Count; ++i)
 					{
@@ -200,42 +233,42 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\t\t\t[");
             
-            #line 82 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = IIF( @");
             
-            #line 82 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" IS NOT NULL, @");
             
-            #line 82 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(", [");
             
-            #line 82 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] ) ");
             
-            #line 82 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < table.Columns.Count ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t");
             
-            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 						}
 					}
@@ -245,7 +278,7 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\tWHERE \r\n\t\t\t\t\t");
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 						for(int i = 0; i < pks.Count; ++i)
 						{
@@ -257,28 +290,28 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\t\t\t\t\t[");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < pks.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t\t");
             
-            #line 95 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 103 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 
 						}//for
@@ -288,21 +321,21 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\r\n \t\tEND\r\n\t\tELSE\r\n\t\tBEGIN\r\n\t\t\tTHROW 51001, \'");
             
-            #line 103 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 111 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" was not found\', 1;\r\n\t\tEND\t\t\r\n\tEND\r\n\r\n\tSELECT\r\n\t\te.*\r\n\tFROM\r\n\t\t[dbo].[");
             
-            #line 110 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("] e\r\n\tWHERE\r\n\t\t");
             
-            #line 112 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 120 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 			for(int i = 0; i < table.Columns.Count; ++i)
 			{
@@ -313,35 +346,35 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t(CASE WHEN @");
             
-            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" IS NOT NULL THEN (CASE WHEN e.[");
             
-            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" THEN 1 ELSE 0 END) ELSE 1 END) = 1 ");
             
-            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
+            #line 126 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityUpsert.tt"
 
 			}//for
 		

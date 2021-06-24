@@ -11,6 +11,14 @@ namespace HRT.Interfaces
 {
     public interface IUserDal : IDalBase<User>
     {
+        User Get(
+                    System.Int64? ID
+        );
+
+        bool Delete(
+                    System.Int64? ID
+        );
+
             }
 }
 

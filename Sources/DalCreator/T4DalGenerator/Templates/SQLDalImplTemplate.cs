@@ -80,7 +80,7 @@ namespace HRT.DAL.MSSQL
             #line hidden
             this.Write("DalInitParams();\r\n        }\r\n\r\n        public void Init(IInitParams initParams)\r\n" +
                     "        {\r\n            InitDbConnection(initParams.Parameters[\"ConnectionString\"" +
-                    "]);\r\n        }\r\n\r\n        ");
+                    "]);\r\n        }\r\n\r\n        public ");
             
             #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
@@ -211,7 +211,7 @@ namespace HRT.DAL.MSSQL
             #line default
             #line hidden
             this.Write("FromRow(ds.Tables[0].Rows[0]);                    \r\n                }\r\n          " +
-                    "  }\r\n\r\n            return result;\r\n        }\r\n\r\n        bool Delete(");
+                    "  }\r\n\r\n            return result;\r\n        }\r\n\r\n        public bool Delete(");
             
             #line 80 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\SQLDalImplTemplate.tt"
 

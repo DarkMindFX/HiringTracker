@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        UserRolePosition Get(System.Int64 PositionID,System.Int64 UserID)
+        public UserRolePosition Get(System.Int64 PositionID,System.Int64 UserID)
         {
             UserRolePosition result = default(UserRolePosition);
 
@@ -58,7 +58,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        bool Delete(System.Int64 PositionID,System.Int64 UserID)
+        public bool Delete(System.Int64 PositionID,System.Int64 UserID)
         {
             bool result = false;
 
@@ -67,11 +67,9 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_UserRolePosition_Delete", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                            AddParameter(   cmd, "@PositionID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, PositionID);
+                            AddParameter(   cmd, "@PositionID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, PositionID);
             
-                            AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
+                            AddParameter(   cmd, "@UserID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, UserID);
             
                             var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 

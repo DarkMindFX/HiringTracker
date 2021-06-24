@@ -57,10 +57,16 @@ namespace Test.HRT.DAL.MSSQL
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
 
-            object objId = SetupCase(conn, caseName);
-            long id = (long)objId;
-
-            <#= table.Name #> entity = dal.Get(id);
+            IList<object> objIds = SetupCase(conn, caseName);
+<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+#>
+                var param<#= pks[i].Name #> = (<#= generator.DbTypeToType(pks[i]) #>)objIds[<#= i #>];
+<#
+            }
+#>
+            <#= table.Name #> entity = dal.Get(<# for(int i = 0; i < pks.Count; ++i) {#>param<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
 
             TeardownCase(conn, caseName);
 
@@ -115,10 +121,17 @@ namespace Test.HRT.DAL.MSSQL
         [Test]
         public void <#= table.Name #>_GetDetails_InvalidId()
         {
-            long id = Int32.MaxValue - 1;
+<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+#>
+                var param<#= pks[i].Name #> = Int62.MaxValue - 1;
+<#
+            }
+#>
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
 
-            <#= table.Name #> entity = dal.Get(id);
+            <#= table.Name #> entity = dal.Get(<# for(int i = 0; i < pks.Count; ++i) {#>param<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
 
             Assert.IsNull(entity);
         }
@@ -129,10 +142,16 @@ namespace Test.HRT.DAL.MSSQL
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
 
-            object objId = SetupCase(conn, caseName);
-            long id = (long)objId;
-
-            bool removed = dal.Delete(id);
+            IList<object> objIds = SetupCase(conn, caseName);
+<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+#>
+                var param<#= pks[i].Name #> = (<#= generator.DbTypeToType(pks[i]) #>)objIds[<#= i #>];
+<#
+            }
+#>
+            bool removed = dal.Delete(<# for(int i = 0; i < pks.Count; ++i) {#>param<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
 
             TeardownCase(conn, caseName);
 
@@ -142,10 +161,17 @@ namespace Test.HRT.DAL.MSSQL
         [Test]
         public void <#= table.Name #>_Delete_InvalidId()
         {
-            long positionId = Int32.MaxValue - 1;
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
-
-            bool removed = dal.Delete(positionId);
+<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+#>
+                var param<#= pks[i].Name #> = Int62.MaxValue - 1;
+<#
+            }
+#>
+   
+            bool removed = dal.Delete(<# for(int i = 0; i < pks.Count; ++i) {#>param<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
             Assert.IsFalse(removed);
 
         }
@@ -252,15 +278,22 @@ namespace Test.HRT.DAL.MSSQL
             SqlConnection conn = OpenConnection("DALInitParams");
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
 
-            object objId = SetupCase(conn, caseName);
-            long id = (long)objId;
+            IList<object> objIds = SetupCase(conn, caseName);
+<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+#>
+                var param<#= pks[i].Name #> = (<#= generator.DbTypeToType(pks[i]) #>)objIds[<#= i #>];
+<#
+            }
+#>
+            <#= table.Name #> entity = dal.Get(<# for(int i = 0; i < pks.Count; ++i) {#>param<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
 
-            var entity = dal.Get(id);
             <#
                 foreach(var c in table.Columns)
                 {
                     Type columnType = generator.GetColumnType(c);
-                    if(!c.IsIdentity && testValsUpdateAfter.ContainsKey(c.Name))
+                    if(!c.IsIdentity && !c.IsPK && testValsUpdateAfter.ContainsKey(c.Name))
                     {
                         if(columnType == typeof(DateTime))
                         {

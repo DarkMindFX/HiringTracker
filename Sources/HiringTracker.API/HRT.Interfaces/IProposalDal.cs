@@ -11,6 +11,14 @@ namespace HRT.Interfaces
 {
     public interface IProposalDal : IDalBase<Proposal>
     {
+        Proposal Get(
+                    System.Int64? ID
+        );
+
+        bool Delete(
+                    System.Int64? ID
+        );
+
                 IList<Proposal> GetByPositionID(System.Int64 PositionID);
                 IList<Proposal> GetByCandidateID(System.Int64 CandidateID);
                 IList<Proposal> GetByCurrentStepID(System.Int64 CurrentStepID);

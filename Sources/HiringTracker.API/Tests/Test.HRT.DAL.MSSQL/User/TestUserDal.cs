@@ -53,13 +53,13 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Login e8291e684a4845bd867e8911e7d1f817", entity.Login);
-                            Assert.AreEqual("FirstName e8291e684a4845bd867e8911e7d1f817", entity.FirstName);
-                            Assert.AreEqual("LastName e8291e684a4845bd867e8911e7d1f817", entity.LastName);
-                            Assert.AreEqual("Email e8291e684a4845bd867e8911e7d1f817", entity.Email);
-                            Assert.AreEqual("Description e8291e684a4845bd867e8911e7d1f817", entity.Description);
-                            Assert.AreEqual("PwdHash e8291e684a4845bd867e8911e7d1f817", entity.PwdHash);
-                            Assert.AreEqual("Salt e8291e684a4845bd867e8911e7d1f817", entity.Salt);
+                          Assert.AreEqual("Login cf4ebefc22dd42709f65a0d80f7879e7", entity.Login);
+                            Assert.AreEqual("FirstName cf4ebefc22dd42709f65a0d80f7879e7", entity.FirstName);
+                            Assert.AreEqual("LastName cf4ebefc22dd42709f65a0d80f7879e7", entity.LastName);
+                            Assert.AreEqual("Email cf4ebefc22dd42709f65a0d80f7879e7", entity.Email);
+                            Assert.AreEqual("Description cf4ebefc22dd42709f65a0d80f7879e7", entity.Description);
+                            Assert.AreEqual("PwdHash cf4ebefc22dd42709f65a0d80f7879e7", entity.PwdHash);
+                            Assert.AreEqual("Salt cf4ebefc22dd42709f65a0d80f7879e7", entity.Salt);
                       }
 
         [Test]
@@ -109,13 +109,13 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserDal("DALInitParams");
 
             var entity = new User();
-                          entity.Login = "Login a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.FirstName = "FirstName a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.LastName = "LastName a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.Email = "Email a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.Description = "Description a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.PwdHash = "PwdHash a92b17a6e7fd4a92892847c7b84aaeef";
-                            entity.Salt = "Salt a92b17a6e7fd4a92892847c7b84aaeef";
+                          entity.Login = "Login 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.FirstName = "FirstName 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.LastName = "LastName 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.Email = "Email 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.Description = "Description 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.PwdHash = "PwdHash 0e0f9e12ee4349d293dc68533103f56e";
+                            entity.Salt = "Salt 0e0f9e12ee4349d293dc68533103f56e";
                           
             entity = dal.Upsert(entity);
 
@@ -124,13 +124,13 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Login a92b17a6e7fd4a92892847c7b84aaeef", entity.Login);
-                            Assert.AreEqual("FirstName a92b17a6e7fd4a92892847c7b84aaeef", entity.FirstName);
-                            Assert.AreEqual("LastName a92b17a6e7fd4a92892847c7b84aaeef", entity.LastName);
-                            Assert.AreEqual("Email a92b17a6e7fd4a92892847c7b84aaeef", entity.Email);
-                            Assert.AreEqual("Description a92b17a6e7fd4a92892847c7b84aaeef", entity.Description);
-                            Assert.AreEqual("PwdHash a92b17a6e7fd4a92892847c7b84aaeef", entity.PwdHash);
-                            Assert.AreEqual("Salt a92b17a6e7fd4a92892847c7b84aaeef", entity.Salt);
+                          Assert.AreEqual("Login 0e0f9e12ee4349d293dc68533103f56e", entity.Login);
+                            Assert.AreEqual("FirstName 0e0f9e12ee4349d293dc68533103f56e", entity.FirstName);
+                            Assert.AreEqual("LastName 0e0f9e12ee4349d293dc68533103f56e", entity.LastName);
+                            Assert.AreEqual("Email 0e0f9e12ee4349d293dc68533103f56e", entity.Email);
+                            Assert.AreEqual("Description 0e0f9e12ee4349d293dc68533103f56e", entity.Description);
+                            Assert.AreEqual("PwdHash 0e0f9e12ee4349d293dc68533103f56e", entity.PwdHash);
+                            Assert.AreEqual("Salt 0e0f9e12ee4349d293dc68533103f56e", entity.Salt);
               
         }
 
@@ -144,13 +144,13 @@ namespace Test.HRT.DAL.MSSQL
             long id = (long)objId;
 
             var entity = dal.Get(id);
-                          entity.Login = "Login f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.FirstName = "FirstName f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.LastName = "LastName f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Email = "Email f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Description = "Description f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.PwdHash = "PwdHash f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Salt = "Salt f54bc868ab8b47ddb7f6ea4e354299a6";
+                          entity.Login = "Login de9c1d6947c745208c4287f69d5de879";
+                            entity.FirstName = "FirstName de9c1d6947c745208c4287f69d5de879";
+                            entity.LastName = "LastName de9c1d6947c745208c4287f69d5de879";
+                            entity.Email = "Email de9c1d6947c745208c4287f69d5de879";
+                            entity.Description = "Description de9c1d6947c745208c4287f69d5de879";
+                            entity.PwdHash = "PwdHash de9c1d6947c745208c4287f69d5de879";
+                            entity.Salt = "Salt de9c1d6947c745208c4287f69d5de879";
               
             entity = dal.Upsert(entity);
 
@@ -159,13 +159,13 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Login f54bc868ab8b47ddb7f6ea4e354299a6", entity.Login);
-                            Assert.AreEqual("FirstName f54bc868ab8b47ddb7f6ea4e354299a6", entity.FirstName);
-                            Assert.AreEqual("LastName f54bc868ab8b47ddb7f6ea4e354299a6", entity.LastName);
-                            Assert.AreEqual("Email f54bc868ab8b47ddb7f6ea4e354299a6", entity.Email);
-                            Assert.AreEqual("Description f54bc868ab8b47ddb7f6ea4e354299a6", entity.Description);
-                            Assert.AreEqual("PwdHash f54bc868ab8b47ddb7f6ea4e354299a6", entity.PwdHash);
-                            Assert.AreEqual("Salt f54bc868ab8b47ddb7f6ea4e354299a6", entity.Salt);
+                          Assert.AreEqual("Login de9c1d6947c745208c4287f69d5de879", entity.Login);
+                            Assert.AreEqual("FirstName de9c1d6947c745208c4287f69d5de879", entity.FirstName);
+                            Assert.AreEqual("LastName de9c1d6947c745208c4287f69d5de879", entity.LastName);
+                            Assert.AreEqual("Email de9c1d6947c745208c4287f69d5de879", entity.Email);
+                            Assert.AreEqual("Description de9c1d6947c745208c4287f69d5de879", entity.Description);
+                            Assert.AreEqual("PwdHash de9c1d6947c745208c4287f69d5de879", entity.PwdHash);
+                            Assert.AreEqual("Salt de9c1d6947c745208c4287f69d5de879", entity.Salt);
               
         }
 
@@ -176,13 +176,13 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = new User();
             entity.ID = Int64.MaxValue - 1;
-                          entity.Login = "Login f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.FirstName = "FirstName f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.LastName = "LastName f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Email = "Email f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Description = "Description f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.PwdHash = "PwdHash f54bc868ab8b47ddb7f6ea4e354299a6";
-                            entity.Salt = "Salt f54bc868ab8b47ddb7f6ea4e354299a6";
+                          entity.Login = "Login de9c1d6947c745208c4287f69d5de879";
+                            entity.FirstName = "FirstName de9c1d6947c745208c4287f69d5de879";
+                            entity.LastName = "LastName de9c1d6947c745208c4287f69d5de879";
+                            entity.Email = "Email de9c1d6947c745208c4287f69d5de879";
+                            entity.Description = "Description de9c1d6947c745208c4287f69d5de879";
+                            entity.PwdHash = "PwdHash de9c1d6947c745208c4287f69d5de879";
+                            entity.Salt = "Salt de9c1d6947c745208c4287f69d5de879";
               
             try
             {

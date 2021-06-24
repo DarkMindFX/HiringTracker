@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -22,9 +23,9 @@ namespace Test.HRT.DAL.MSSQL
             }
         }
 
-        protected object SetupCase(SqlConnection conn, string caseRoot)
+        protected IList<object> SetupCase(SqlConnection conn, string caseRoot)
         {
-            object result = null;
+            IList<object> result = null;
             string fileName = "Setup.sql";
             string path = Path.Combine(TestBaseFolder, caseRoot, fileName);
             if (File.Exists(path))
@@ -53,26 +54,41 @@ namespace Test.HRT.DAL.MSSQL
             }
         }
 
-        protected void TeardownCase(SqlConnection conn, string caseRoot)
+        protected IList<object> TeardownCase(SqlConnection conn, string caseRoot)
         {
+            IList<object> result = null;
             string fileName = "Teardown.sql";
             string path = Path.Combine(TestBaseFolder, caseRoot, fileName);
             if (File.Exists(path))
             {
-                RunScript(conn, path);
+                result = RunScript(conn, path);
             }
+
+            return result;
         }
 
-        protected object RunScript(SqlConnection conn, string filePath)
+        protected IList<object> RunScript(SqlConnection conn, string filePath)
         {
-            object result = null;
+            IList<object> result = null;
             string sql = File.ReadAllText(filePath);
             if (!string.IsNullOrEmpty(sql))
             {
                 SqlCommand cmd = new SqlCommand(sql);
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                result = cmd.ExecuteScalar();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = new List<object>();
+
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        for (int i = 0; i < reader.FieldCount; ++i)
+                        {
+                            result.Add(reader[i]);
+                        }
+                    }
+                }
             }
 
             return result;

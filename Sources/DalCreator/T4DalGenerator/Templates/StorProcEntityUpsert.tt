@@ -34,7 +34,15 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-    IF(@ID IS NULL)
+    IF(<#
+		for(int i = 0; i < pks.Count; ++i)
+		{
+			var c = pks[i];
+	#>
+		@<#=c.Name#> IS NULL <#= i+1 < pks.Count ? "AND" : string.Empty #>
+	<#
+		}
+	#>)
 	BEGIN
 		INSERT INTO [dbo].[<#= table.Name #>]
 		SELECT 

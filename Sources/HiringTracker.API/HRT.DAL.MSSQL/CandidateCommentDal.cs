@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        CandidateComment Get(System.Int64 CandidateID,System.Int64 CommentID)
+        public CandidateComment Get(System.Int64 CandidateID,System.Int64 CommentID)
         {
             CandidateComment result = default(CandidateComment);
 
@@ -58,7 +58,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        bool Delete(System.Int64 CandidateID,System.Int64 CommentID)
+        public bool Delete(System.Int64 CandidateID,System.Int64 CommentID)
         {
             bool result = false;
 
@@ -67,11 +67,9 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_CandidateComment_Delete", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                            AddParameter(   cmd, "@CandidateID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CandidateID);
+                            AddParameter(   cmd, "@CandidateID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CandidateID);
             
-                            AddParameter(   cmd, "@CommentID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CommentID);
+                            AddParameter(   cmd, "@CommentID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, CommentID);
             
                             var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 

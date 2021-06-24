@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        Proposal Get(System.Int64? ID)
+        public Proposal Get(System.Int64? ID)
         {
             Proposal result = default(Proposal);
 
@@ -55,7 +55,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        bool Delete(System.Int64? ID)
+        public bool Delete(System.Int64? ID)
         {
             bool result = false;
 
@@ -64,8 +64,7 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_Proposal_Delete", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
             
                             var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 
