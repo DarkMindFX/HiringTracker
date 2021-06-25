@@ -22,13 +22,19 @@
 			Type columnType = generator.GetColumnType(c);
             if (testValsGet[c.Name] != null)
             {
-				string quote = string.Empty;
-                if(columnType == typeof(string) || columnType == typeof(DateTime))
-                {
-					quote = "'";
-                }
-				val = quote + testValsGet[c.Name].ToString() + quote;
-            
+				if(columnType == typeof(bool))
+				{
+					val = (bool)testValsGet[c.Name] ? "1" : "0";
+				}
+				else 
+				{
+					string quote = string.Empty;
+					if(columnType == typeof(string) || columnType == typeof(DateTime))
+					{
+						quote = "'";
+					}
+					val = quote + testValsGet[c.Name].ToString() + quote;
+				}            
 			}
             else
 			{

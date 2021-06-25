@@ -802,7 +802,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("              Assert.AreEqual(");
             
             #line 260 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestDalTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(testValsGet[c.Name].ToString().ToLower()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
@@ -1020,7 +1020,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" = ");
             
             #line 313 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestDalTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString().ToLower()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
@@ -1158,7 +1158,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("              Assert.AreEqual(");
             
             #line 364 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestDalTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(testValsGet[c.Name].ToString().ToLower()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
@@ -1301,7 +1301,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" = ");
             
             #line 406 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestDalTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString().ToLower()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden

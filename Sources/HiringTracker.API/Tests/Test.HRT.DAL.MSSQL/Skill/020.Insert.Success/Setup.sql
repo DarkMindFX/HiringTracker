@@ -1,0 +1,20 @@
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name f8193fbfb6c74721bc2be05e8ea94345'
+ 
+
+
+IF(EXISTS(SELECT 1 FROM 
+					[dbo].[Skill]
+				WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM [dbo].[Skill]
+WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+END

@@ -1,0 +1,80 @@
+
+
+-- original values --
+DECLARE @ID BIGINT = 701361
+DECLARE @Comment NVARCHAR(4000) = 'Comment 492fc6855416400688a23d06d2dff9c2'
+DECLARE @Rating INT = 701
+DECLARE @InterviewID BIGINT = NULL
+DECLARE @InterviewerID BIGINT = 33000067
+DECLARE @CreatedByID BIGINT = 100002
+DECLARE @CreatedDate DATETIME = '12/21/2019 8:21:12 AM'
+DECLARE @ModifiedByID BIGINT = 33020042
+DECLARE @ModifiedDate DATETIME = '10/30/2022 8:48:12 AM'
+ 
+-- updated values --
+
+DECLARE @updID BIGINT = 701361
+DECLARE @updComment NVARCHAR(4000) = 'Comment 76f0915144fe4c099ee495d102aae0e8'
+DECLARE @updRating INT = 746
+DECLARE @updInterviewID BIGINT = NULL
+DECLARE @updInterviewerID BIGINT = 100001
+DECLARE @updCreatedByID BIGINT = 33000067
+DECLARE @updCreatedDate DATETIME = '1/29/2023 4:22:12 AM'
+DECLARE @updModifiedByID BIGINT = 33020042
+DECLARE @updModifiedDate DATETIME = '6/17/2020 2:08:12 PM'
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[InterviewFeedback]
+				WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updComment IS NOT NULL THEN (CASE WHEN [Comment] = @updComment THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updRating IS NOT NULL THEN (CASE WHEN [Rating] = @updRating THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updInterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @updInterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updInterviewerID IS NOT NULL THEN (CASE WHEN [InterviewerID] = @updInterviewerID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @updCreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @updCreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @updModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @updModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[InterviewFeedback]
+	WHERE 
+	(CASE WHEN @ID IS NOT NULL THEN (CASE WHEN [ID] = @ID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Comment IS NOT NULL THEN (CASE WHEN [Comment] = @Comment THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Rating IS NOT NULL THEN (CASE WHEN [Rating] = @Rating THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @InterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @InterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @InterviewerID IS NOT NULL THEN (CASE WHEN [InterviewerID] = @InterviewerID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[InterviewFeedback]
+	WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updComment IS NOT NULL THEN (CASE WHEN [Comment] = @updComment THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updRating IS NOT NULL THEN (CASE WHEN [Rating] = @updRating THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updInterviewID IS NOT NULL THEN (CASE WHEN [InterviewID] = @updInterviewID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updInterviewerID IS NOT NULL THEN (CASE WHEN [InterviewerID] = @updInterviewerID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @updCreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @updCreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @updModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @updModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'InterviewFeedback was not updated', 1
+END

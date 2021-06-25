@@ -1,0 +1,11 @@
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name 2d05692fb7b942328dc955da1cbab41d'
+ 
+
+DELETE FROM [ProposalStatus]
+FROM 
+	[dbo].[ProposalStatus] e
+WHERE
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 

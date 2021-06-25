@@ -42,13 +42,19 @@ namespace T4DalGenerator.Templates.Tests
 			Type columnType = generator.GetColumnType(c);
             if (testValsGet[c.Name] != null)
             {
-				string quote = string.Empty;
-                if(columnType == typeof(string) || columnType == typeof(DateTime))
-                {
-					quote = "'";
-                }
-				val = quote + testValsGet[c.Name].ToString() + quote;
-            
+				if(columnType == typeof(bool))
+				{
+					val = (bool)testValsGet[c.Name] ? "1" : "0";
+				}
+				else 
+				{
+					string quote = string.Empty;
+					if(columnType == typeof(string) || columnType == typeof(DateTime))
+					{
+						quote = "'";
+					}
+					val = quote + testValsGet[c.Name].ToString() + quote;
+				}        
 			}
             else
 			{
@@ -64,21 +70,21 @@ namespace T4DalGenerator.Templates.Tests
             #line default
             #line hidden
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.GenerateVariableDeclaration(c)));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(val));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
 
 	}
 
@@ -87,21 +93,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write(" \r\n\r\nDELETE FROM [");
             
-            #line 46 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("]\r\nFROM \r\n\t[dbo].[");
             
-            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 54 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("] e\r\nWHERE\r\n");
             
-            #line 50 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
 
 	for(int i = 0; i < table.Columns.Count; ++i) 
 	{
@@ -114,35 +120,35 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t(CASE WHEN @");
             
-            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 63 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" IS NOT NULL THEN (CASE WHEN [");
             
-            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 63 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 63 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" THEN 1 ELSE 0 END) ELSE 1 END) = 1 ");
             
-            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 63 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
+            #line 64 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\GetDetailsTeardownTemplate.tt"
 
 		}
 	}

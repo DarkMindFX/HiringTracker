@@ -1,0 +1,45 @@
+
+
+-- original values --
+DECLARE @ID BIGINT = 488704
+DECLARE @Name NVARCHAR(50) = 'Name 0ec98dd558814aeba85b581ee8e28ecd'
+ 
+-- updated values --
+
+DECLARE @updID BIGINT = 488704
+DECLARE @updName NVARCHAR(50) = 'Name 0a73fd4353934ecb81a8f2dc0f505d4c'
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[SkillProficiency]
+				WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[SkillProficiency]
+	WHERE 
+	(CASE WHEN @ID IS NOT NULL THEN (CASE WHEN [ID] = @ID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[SkillProficiency]
+	WHERE 
+	(CASE WHEN @updID IS NOT NULL THEN (CASE WHEN [ID] = @updID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'SkillProficiency was not updated', 1
+END

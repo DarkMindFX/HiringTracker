@@ -1,0 +1,52 @@
+
+
+-- original values --
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name d3357b5047364b90aeb2d272c7121f30'
+DECLARE @Value NVARCHAR(1000) = 'Value d3357b5047364b90aeb2d272c7121f30'
+DECLARE @CandidateID BIGINT = 100002
+ 
+-- updated values --
+
+DECLARE @updID BIGINT = NULL
+DECLARE @updName NVARCHAR(50) = 'Name c7653d3c4725408f8065efa8b8f1a4e4'
+DECLARE @updValue NVARCHAR(1000) = 'Value c7653d3c4725408f8065efa8b8f1a4e4'
+DECLARE @updCandidateID BIGINT = 100001
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[CandidateProperty]
+				WHERE 
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updValue IS NOT NULL THEN (CASE WHEN [Value] = @updValue THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCandidateID IS NOT NULL THEN (CASE WHEN [CandidateID] = @updCandidateID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[CandidateProperty]
+	WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @Value IS NOT NULL THEN (CASE WHEN [Value] = @Value THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CandidateID IS NOT NULL THEN (CASE WHEN [CandidateID] = @CandidateID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[CandidateProperty]
+	WHERE 
+	(CASE WHEN @updName IS NOT NULL THEN (CASE WHEN [Name] = @updName THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updValue IS NOT NULL THEN (CASE WHEN [Value] = @updValue THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCandidateID IS NOT NULL THEN (CASE WHEN [CandidateID] = @updCandidateID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'CandidateProperty was not updated', 1
+END

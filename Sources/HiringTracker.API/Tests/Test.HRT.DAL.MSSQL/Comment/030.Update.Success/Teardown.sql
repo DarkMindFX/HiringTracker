@@ -1,0 +1,62 @@
+
+
+-- original values --
+DECLARE @ID BIGINT = NULL
+DECLARE @Text NVARCHAR(4000) = 'Text 0632ae22b1d9470290165df69bc76475'
+DECLARE @CreatedDate DATETIME = '2/2/2024 10:21:12 AM'
+DECLARE @CreatedByID BIGINT = 100002
+DECLARE @ModifiedDate DATETIME = '6/22/2021 8:08:12 PM'
+DECLARE @ModifiedByID BIGINT = 100003
+ 
+-- updated values --
+
+DECLARE @updID BIGINT = NULL
+DECLARE @updText NVARCHAR(4000) = 'Text 80a074f257644a648ad0db9c4ca5b0ff'
+DECLARE @updCreatedDate DATETIME = '9/20/2021 6:22:12 AM'
+DECLARE @updCreatedByID BIGINT = 33020042
+DECLARE @updModifiedDate DATETIME = '2/7/2019 4:09:12 PM'
+DECLARE @updModifiedByID BIGINT = 100001
+ 
+
+DECLARE @Fail AS BIT = 0
+
+IF(NOT EXISTS(SELECT 1 FROM 
+				[dbo].[Comment]
+				WHERE 
+	(CASE WHEN @updText IS NOT NULL THEN (CASE WHEN [Text] = @updText THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @updCreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @updCreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @updModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @updModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM 
+	[dbo].[Comment]
+	WHERE 
+	(CASE WHEN @Text IS NOT NULL THEN (CASE WHEN [Text] = @Text THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @CreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @CreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @ModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @ModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @ModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+	SET @Fail = 1
+END
+ELSE
+BEGIN
+DELETE FROM 
+	[dbo].[Comment]
+	WHERE 
+	(CASE WHEN @updText IS NOT NULL THEN (CASE WHEN [Text] = @updText THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedDate IS NOT NULL THEN (CASE WHEN [CreatedDate] = @updCreatedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updCreatedByID IS NOT NULL THEN (CASE WHEN [CreatedByID] = @updCreatedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedDate IS NOT NULL THEN (CASE WHEN [ModifiedDate] = @updModifiedDate THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @updModifiedByID IS NOT NULL THEN (CASE WHEN [ModifiedByID] = @updModifiedByID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+END
+
+
+IF(@Fail = 1) 
+BEGIN
+	THROW 51001, 'Comment was not updated', 1
+END

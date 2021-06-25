@@ -257,7 +257,7 @@ namespace Test.HRT.DAL.MSSQL
                         else if(columnType == typeof(bool))
                         {
               #>
-              Assert.AreEqual(<#= testValsGet[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
+              Assert.AreEqual(<#= testValsInsert[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
               <#
                         }
                         else if(testValsInsert[c.Name] != null)
@@ -310,7 +310,7 @@ namespace Test.HRT.DAL.MSSQL
                         else if(columnType == typeof(bool))
                         {
               #>
-              entity.<#= c.Name #> = <#= testValsInsert[c.Name].ToString().ToLower() #>;              
+              entity.<#= c.Name #> = <#= testValsUpdateAfter[c.Name].ToString().ToLower() #>;              
               <#
                         }
                         else if(testValsUpdateAfter[c.Name] != null)
@@ -361,7 +361,7 @@ namespace Test.HRT.DAL.MSSQL
                         else if(columnType == typeof(bool))
                         {
               #>
-              Assert.AreEqual(<#= testValsGet[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
+              Assert.AreEqual(<#= testValsUpdateAfter[c.Name].ToString().ToLower() #>, entity.<#= c.Name #>);
               <#
                         }
                         else if(testValsUpdateAfter[c.Name] != null)
@@ -403,7 +403,7 @@ namespace Test.HRT.DAL.MSSQL
                         else if(columnType == typeof(bool))
                         {
               #>
-              entity.<#= c.Name #> = <#= testValsInsert[c.Name].ToString().ToLower() #>;              
+              entity.<#= c.Name #> = <#= testValsUpdateAfter[c.Name].ToString().ToLower() #>;              
               <#
                         }
                         else if(testValsUpdateAfter[c.Name] != null)

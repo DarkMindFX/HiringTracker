@@ -1,0 +1,22 @@
+
+
+DECLARE @ProposalID BIGINT = 100007
+DECLARE @CommentID BIGINT = 100003
+ 
+
+
+IF(EXISTS(SELECT 1 FROM 
+					[dbo].[ProposalComment]
+				WHERE 
+	(CASE WHEN @ProposalID IS NOT NULL THEN (CASE WHEN [ProposalID] = @ProposalID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CommentID IS NOT NULL THEN (CASE WHEN [CommentID] = @CommentID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM [dbo].[ProposalComment]
+WHERE 
+	(CASE WHEN @ProposalID IS NOT NULL THEN (CASE WHEN [ProposalID] = @ProposalID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
+	(CASE WHEN @CommentID IS NOT NULL THEN (CASE WHEN [CommentID] = @CommentID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+END

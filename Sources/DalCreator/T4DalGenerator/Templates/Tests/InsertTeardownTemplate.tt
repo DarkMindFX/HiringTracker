@@ -20,12 +20,19 @@
 			Type columnType = generator.GetColumnType(c);
             if (testValsInsert[c.Name] != null)
             {
-				string quote = string.Empty;
-                if(columnType == typeof(string) || columnType == typeof(DateTime))
-                {
-					quote = "'";
-                }
-				val = quote + testValsInsert[c.Name].ToString() + quote;
+				if(columnType == typeof(bool))
+				{
+					val = (bool)testValsInsert[c.Name] ? "1" : "0";
+				}
+				else 
+				{
+					string quote = string.Empty;
+					if(columnType == typeof(string) || columnType == typeof(DateTime))
+					{
+						quote = "'";
+					}
+					val = quote + testValsInsert[c.Name].ToString() + quote;
+				}
 			}
             else
 			{

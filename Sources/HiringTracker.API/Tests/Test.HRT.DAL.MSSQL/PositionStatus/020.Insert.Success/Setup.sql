@@ -1,0 +1,20 @@
+
+
+DECLARE @ID BIGINT = NULL
+DECLARE @Name NVARCHAR(50) = 'Name 2f34f6abdcec4dd38801e2fc4a3b6cf5'
+ 
+
+
+IF(EXISTS(SELECT 1 FROM 
+					[dbo].[PositionStatus]
+				WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+ ))
+					
+BEGIN
+
+DELETE FROM [dbo].[PositionStatus]
+WHERE 
+	(CASE WHEN @Name IS NOT NULL THEN (CASE WHEN [Name] = @Name THEN 1 ELSE 0 END) ELSE 1 END) = 1 
+
+END

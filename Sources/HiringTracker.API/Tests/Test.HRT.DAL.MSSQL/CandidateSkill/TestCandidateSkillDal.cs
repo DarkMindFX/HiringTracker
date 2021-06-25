@@ -44,29 +44,29 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramCandidateID = (System.Int64)objIds[0];
-            var paramSkillID = (System.Int64)objIds[1];
-            CandidateSkill entity = dal.Get(paramCandidateID, paramSkillID);
+                var paramCandidateID = (System.Int64)objIds[0];
+                var paramSkillID = (System.Int64)objIds[1];
+            CandidateSkill entity = dal.Get(paramCandidateID,paramSkillID);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.CandidateID);
-            Assert.IsNotNull(entity.SkillID);
-
-            Assert.AreEqual(100004, entity.CandidateID);
-            Assert.AreEqual(13, entity.SkillID);
-            Assert.AreEqual(1, entity.SkillProficiencyID);
-        }
+                        Assert.IsNotNull(entity.CandidateID);
+                        Assert.IsNotNull(entity.SkillID);
+            
+                          Assert.AreEqual(100002, entity.CandidateID);
+                            Assert.AreEqual(7, entity.SkillID);
+                            Assert.AreEqual(4, entity.SkillProficiencyID);
+                      }
 
         [Test]
         public void CandidateSkill_GetDetails_InvalidId()
         {
-            var paramCandidateID = Int64.MaxValue - 1;
-            var paramSkillID = Int64.MaxValue - 1;
+                var paramCandidateID = Int64.MaxValue - 1;
+                var paramSkillID = Int64.MaxValue - 1;
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
-            CandidateSkill entity = dal.Get(paramCandidateID, paramSkillID);
+            CandidateSkill entity = dal.Get(paramCandidateID,paramSkillID);
 
             Assert.IsNull(entity);
         }
@@ -78,9 +78,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramCandidateID = (System.Int64)objIds[0];
-            var paramSkillID = (System.Int64)objIds[1];
-            bool removed = dal.Delete(paramCandidateID, paramSkillID);
+                var paramCandidateID = (System.Int64)objIds[0];
+                var paramSkillID = (System.Int64)objIds[1];
+            bool removed = dal.Delete(paramCandidateID,paramSkillID);
 
             TeardownCase(conn, caseName);
 
@@ -91,10 +91,10 @@ namespace Test.HRT.DAL.MSSQL
         public void CandidateSkill_Delete_InvalidId()
         {
             var dal = PrepareCandidateSkillDal("DALInitParams");
-            var paramCandidateID = Int64.MaxValue - 1;
-            var paramSkillID = Int64.MaxValue - 1;
-
-            bool removed = dal.Delete(paramCandidateID, paramSkillID);
+                var paramCandidateID = Int64.MaxValue - 1;
+                var paramSkillID = Int64.MaxValue - 1;
+   
+            bool removed = dal.Delete(paramCandidateID,paramSkillID);
             Assert.IsFalse(removed);
 
         }
@@ -108,22 +108,22 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             var entity = new CandidateSkill();
-            entity.CandidateID = 100006;
-            entity.SkillID = 8;
-            entity.SkillProficiencyID = 1;
-
+                          entity.CandidateID = 110127;
+                            entity.SkillID = 2;
+                            entity.SkillProficiencyID = 801046;
+                          
             entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.CandidateID);
-            Assert.IsNotNull(entity.SkillID);
-
-            Assert.AreEqual(100006, entity.CandidateID);
-            Assert.AreEqual(8, entity.SkillID);
-            Assert.AreEqual(1, entity.SkillProficiencyID);
-
+                        Assert.IsNotNull(entity.CandidateID);
+                        Assert.IsNotNull(entity.SkillID);
+            
+                          Assert.AreEqual(110127, entity.CandidateID);
+                            Assert.AreEqual(2, entity.SkillID);
+                            Assert.AreEqual(801046, entity.SkillProficiencyID);
+              
         }
 
         [TestCase("CandidateSkill\\030.Update.Success")]
@@ -133,24 +133,24 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramCandidateID = (System.Int64)objIds[0];
-            var paramSkillID = (System.Int64)objIds[1];
-            CandidateSkill entity = dal.Get(paramCandidateID, paramSkillID);
+                var paramCandidateID = (System.Int64)objIds[0];
+                var paramSkillID = (System.Int64)objIds[1];
+            CandidateSkill entity = dal.Get(paramCandidateID,paramSkillID);
 
-            entity.SkillProficiencyID = 1;
-
+                          entity.SkillProficiencyID = 1;
+              
             entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.CandidateID);
-            Assert.IsNotNull(entity.SkillID);
-
-            Assert.AreEqual(100005, entity.CandidateID);
-            Assert.AreEqual(6, entity.SkillID);
-            Assert.AreEqual(1, entity.SkillProficiencyID);
-
+                        Assert.IsNotNull(entity.CandidateID);
+                        Assert.IsNotNull(entity.SkillID);
+            
+                          Assert.AreEqual(100003, entity.CandidateID);
+                            Assert.AreEqual(12, entity.SkillID);
+                            Assert.AreEqual(1, entity.SkillProficiencyID);
+              
         }
 
         [Test]
@@ -159,10 +159,10 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             var entity = new CandidateSkill();
-            entity.CandidateID = 100005;
-            entity.SkillID = 6;
-            entity.SkillProficiencyID = 1;
-
+                          entity.CandidateID = 100003;
+                            entity.SkillID = 12;
+                            entity.SkillProficiencyID = 1;
+              
             try
             {
                 entity = dal.Update(entity);

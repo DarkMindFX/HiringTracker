@@ -36,6 +36,16 @@ namespace T4DalGenerator.Generators
             IDictionary<string, object> testValsUpdateBefore = GenerateTestValues(_genParams.Table, updateBeforeUUID);
             IDictionary<string, object> testValsUpdateAfter = GenerateTestValues(_genParams.Table, updateAfterUUID);
 
+            // PKs should stay the same
+            var pks = this.GetPKColumns(_genParams.Table);
+            foreach(var pk in pks)
+            {
+                if (testValsUpdateBefore.ContainsKey(pk.Name))
+                {
+                    testValsUpdateAfter[pk.Name] = testValsUpdateBefore[pk.Name];
+                }
+            }
+
             files.Add(GenerateTestClass(modelHelper, testValsGet, testValsInsert, testValsUpdateAfter));
             files.Add(GenerateGetSetup(modelHelper, testValsGet));
             files.Add(GenerateGetTeardown(modelHelper, testValsGet));
