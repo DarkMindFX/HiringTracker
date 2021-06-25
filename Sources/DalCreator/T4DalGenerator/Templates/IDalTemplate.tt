@@ -19,40 +19,26 @@ namespace HRT.Interfaces
 {
     public interface I<#= table.Name #>Dal : IDalBase<<#= table.Name #>>
     {
-        <#= table.Name #> Get(
-        <#
+        <#= table.Name #> Get(<#
             var pks = generator.GetPKColumns(table);
             for(int i = 0; i < pks.Count; ++i)
             {
             var pk = pks[i];
-        #>
-            <#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #>
-        <#
-            }
-        #>);
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>);
 
-        bool Delete(
-        <#
+        bool Delete(<#
             for(int i = 0; i < pks.Count; ++i)
             {
             var pk = pks[i];
-        #>
-            <#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #>
-        <#
-            }
-        #>);
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>);
 
         <#
             foreach(var c in table.Columns)
             {
                 if(!string.IsNullOrEmpty(c.FKRefTable))
                 {
-        #>
-        IList<<#= table.Name #>> GetBy<#=c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name #>);
-        <#
-                }
-            }
-        #>
+        #>IList<<#= table.Name #>> GetBy<#=c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name #>);
+        <#  } } #>
     }
 }
 

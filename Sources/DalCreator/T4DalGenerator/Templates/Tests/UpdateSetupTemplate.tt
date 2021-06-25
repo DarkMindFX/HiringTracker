@@ -11,6 +11,7 @@
 <#@ parameter name="testValsUpdateBefore" type="System.Collections.Generic.IDictionary<string,object>" #>
 
 <#
+	var pks = modelHelper.GetPKColumns(table);
 	foreach(var c in table.Columns)
 	{
 		string val = string.Empty;
@@ -91,7 +92,16 @@ for(int i = 0; i < table.Columns.Count; ++i)
 #>
 END
 
-SELECT TOP 1 @ID = [ID] 
+SELECT TOP 1 
+<#
+	for(int i = 0; i < pks.Count; ++i)
+	{
+		var pk = pks[i];
+#>
+	@<#= pk.Name #> = [<#= pk.Name #>]<#= i+1 < pks.Count ? ", " : string.Empty #>
+<#
+	}
+#>
 FROM 
 	[dbo].[<#= table.Name #>] e
 WHERE
@@ -108,4 +118,13 @@ WHERE
 	}
 #>
 
-SELECT @ID
+SELECT 
+<#
+	for(int i = 0; i < pks.Count; ++i)
+	{
+		var pk = pks[i];
+#>
+	@<#= pk.Name #><#= i+1 < pks.Count ? ", " : string.Empty #>
+<#
+	}
+#>

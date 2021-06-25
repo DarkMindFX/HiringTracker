@@ -11,16 +11,12 @@ namespace HRT.Interfaces
 {
     public interface IDepartmentDal : IDalBase<Department>
     {
-        Department Get(
-                    System.Int64? ID
-        );
+        Department Get(System.Int64? ID);
 
-        bool Delete(
-                    System.Int64? ID
-        );
+        bool Delete(System.Int64? ID);
 
-                IList<Department> GetByParentID(System.Int64? ParentID);
-                IList<Department> GetByManagerID(System.Int64 ManagerID);
+        IList<Department> GetByParentID(System.Int64? ParentID);
+        IList<Department> GetByManagerID(System.Int64 ManagerID);
             }
 }
 

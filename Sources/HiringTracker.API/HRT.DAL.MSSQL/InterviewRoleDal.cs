@@ -107,9 +107,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public InterviewRole Upsert(InterviewRole entity) 
+        public InterviewRole Insert(InterviewRole entity) 
         {
-            InterviewRole entityOut = base.Upsert<InterviewRole>("p_InterviewRole_Upsert", entity, AddUpsertParameters, InterviewRoleFromRow);
+            InterviewRole entityOut = base.Upsert<InterviewRole>("p_InterviewRole_Insert", entity, AddUpsertParameters, InterviewRoleFromRow);
+
+            return entityOut;
+        }
+
+        public InterviewRole Update(InterviewRole entity) 
+        {
+            InterviewRole entityOut = base.Upsert<InterviewRole>("p_InterviewRole_Update", entity, AddUpsertParameters, InterviewRoleFromRow);
 
             return entityOut;
         }
@@ -127,9 +134,9 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewRole();
 
-                    entity.InterviewID = (System.Int64)row["InterviewID"];
-                    entity.UserID = (System.Int64)row["UserID"];
-                    entity.RoleID = (System.Int64)row["RoleID"];
+                    entity.InterviewID = !DBNull.Value.Equals(row["InterviewID"]) ? (System.Int64)row["InterviewID"] : default(System.Int64);
+                    entity.UserID = !DBNull.Value.Equals(row["UserID"]) ? (System.Int64)row["UserID"] : default(System.Int64);
+                    entity.RoleID = !DBNull.Value.Equals(row["RoleID"]) ? (System.Int64)row["RoleID"] : default(System.Int64);
         
             return entity;
         }

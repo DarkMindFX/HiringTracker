@@ -8,8 +8,10 @@ namespace HRT.Interfaces
     {
         IList<TEntity> GetAll();
 
-        TEntity Upsert(TEntity entity);
+        TEntity Insert(TEntity entity);
 
-        
+        TEntity Update(TEntity entity);
+
+
     }
 }

@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public ProposalStep Upsert(ProposalStep entity) 
+        public ProposalStep Insert(ProposalStep entity) 
         {
-            ProposalStep entityOut = base.Upsert<ProposalStep>("p_ProposalStep_Upsert", entity, AddUpsertParameters, ProposalStepFromRow);
+            ProposalStep entityOut = base.Upsert<ProposalStep>("p_ProposalStep_Insert", entity, AddUpsertParameters, ProposalStepFromRow);
+
+            return entityOut;
+        }
+
+        public ProposalStep Update(ProposalStep entity) 
+        {
+            ProposalStep entityOut = base.Upsert<ProposalStep>("p_ProposalStep_Update", entity, AddUpsertParameters, ProposalStepFromRow);
 
             return entityOut;
         }
@@ -105,10 +112,10 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new ProposalStep();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
-                    entity.ReqDueDate = (System.Boolean)row["ReqDueDate"];
-                    entity.RequiresRespInDays = (System.Int32?)row["RequiresRespInDays"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
+                    entity.ReqDueDate = !DBNull.Value.Equals(row["ReqDueDate"]) ? (System.Boolean)row["ReqDueDate"] : default(System.Boolean);
+                    entity.RequiresRespInDays = !DBNull.Value.Equals(row["RequiresRespInDays"]) ? (System.Int32?)row["RequiresRespInDays"] : default(System.Int32?);
         
             return entity;
         }

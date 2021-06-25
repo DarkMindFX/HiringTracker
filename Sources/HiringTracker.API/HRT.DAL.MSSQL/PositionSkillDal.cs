@@ -102,9 +102,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public PositionSkill Upsert(PositionSkill entity) 
+        public PositionSkill Insert(PositionSkill entity) 
         {
-            PositionSkill entityOut = base.Upsert<PositionSkill>("p_PositionSkill_Upsert", entity, AddUpsertParameters, PositionSkillFromRow);
+            PositionSkill entityOut = base.Upsert<PositionSkill>("p_PositionSkill_Insert", entity, AddUpsertParameters, PositionSkillFromRow);
+
+            return entityOut;
+        }
+
+        public PositionSkill Update(PositionSkill entity) 
+        {
+            PositionSkill entityOut = base.Upsert<PositionSkill>("p_PositionSkill_Update", entity, AddUpsertParameters, PositionSkillFromRow);
 
             return entityOut;
         }
@@ -124,11 +131,11 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new PositionSkill();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.PositionID = (System.Int64)row["PositionID"];
-                    entity.SkillID = (System.Int64)row["SkillID"];
-                    entity.IsMandatory = (System.Boolean)row["IsMandatory"];
-                    entity.SkillProficiencyID = (System.Int64)row["SkillProficiencyID"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.PositionID = !DBNull.Value.Equals(row["PositionID"]) ? (System.Int64)row["PositionID"] : default(System.Int64);
+                    entity.SkillID = !DBNull.Value.Equals(row["SkillID"]) ? (System.Int64)row["SkillID"] : default(System.Int64);
+                    entity.IsMandatory = !DBNull.Value.Equals(row["IsMandatory"]) ? (System.Boolean)row["IsMandatory"] : default(System.Boolean);
+                    entity.SkillProficiencyID = !DBNull.Value.Equals(row["SkillProficiencyID"]) ? (System.Int64)row["SkillProficiencyID"] : default(System.Int64);
         
             return entity;
         }

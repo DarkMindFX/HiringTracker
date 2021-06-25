@@ -11,13 +11,9 @@ namespace HRT.Interfaces
 {
     public interface IProposalStatusDal : IDalBase<ProposalStatus>
     {
-        ProposalStatus Get(
-                    System.Int64? ID
-        );
+        ProposalStatus Get(System.Int64? ID);
 
-        bool Delete(
-                    System.Int64? ID
-        );
+        bool Delete(System.Int64? ID);
 
             }
 }

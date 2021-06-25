@@ -24,8 +24,9 @@ namespace T4DalGenerator.Generators
             files.Add(GenerateDelete(modelHelper));
             files.Add(GenerateGetAll(modelHelper));
             files.Add(GenerateGetDetails(modelHelper));
-            files.Add(GenerateGetUpsert(modelHelper));
-            foreach(var c in _genParams.Table.Columns)
+            files.Add(GenerateUpdate(modelHelper));
+            files.Add(GenerateInsert(modelHelper));
+            foreach (var c in _genParams.Table.Columns)
             {
                 if (c.FKRefTable != null)
                 {
@@ -113,12 +114,31 @@ namespace T4DalGenerator.Generators
             return fileOut;
         }
 
-        protected string GenerateGetUpsert(ModelHelper modelHelper)
+        protected string GenerateUpdate(ModelHelper modelHelper)
         {
-            string fileName = $"p_{_genParams.Table.Name}_Upsert.sql";
+            string fileName = $"p_{_genParams.Table.Name}_Update.sql";
             string fileOut = Path.Combine(GetOutputFolder(), fileName);
 
-            var template = new StorProcEntityUpsert();
+            var template = new StorProcEntityUpdate();
+            template.Session = new Dictionary<string, object>();
+            template.Session["generator"] = this;
+            template.Session["table"] = _genParams.Table;
+            template.Session["modelHelper"] = modelHelper;
+            template.Initialize();
+
+            string content = template.TransformText();
+
+            File.WriteAllText(fileOut, content);
+
+            return fileOut;
+        }
+
+        protected string GenerateInsert(ModelHelper modelHelper)
+        {
+            string fileName = $"p_{_genParams.Table.Name}_Insert.sql";
+            string fileOut = Path.Combine(GetOutputFolder(), fileName);
+
+            var template = new StorProcEntityInsert();
             template.Session = new Dictionary<string, object>();
             template.Session["generator"] = this;
             template.Session["table"] = _genParams.Table;

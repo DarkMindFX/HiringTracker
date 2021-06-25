@@ -96,9 +96,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Comment Upsert(Comment entity) 
+        public Comment Insert(Comment entity) 
         {
-            Comment entityOut = base.Upsert<Comment>("p_Comment_Upsert", entity, AddUpsertParameters, CommentFromRow);
+            Comment entityOut = base.Upsert<Comment>("p_Comment_Insert", entity, AddUpsertParameters, CommentFromRow);
+
+            return entityOut;
+        }
+
+        public Comment Update(Comment entity) 
+        {
+            Comment entityOut = base.Upsert<Comment>("p_Comment_Update", entity, AddUpsertParameters, CommentFromRow);
 
             return entityOut;
         }
@@ -119,12 +126,12 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Comment();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Text = (System.String)row["Text"];
-                    entity.CreatedDate = (System.DateTime)row["CreatedDate"];
-                    entity.CreatedByID = (System.Int64)row["CreatedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Text = !DBNull.Value.Equals(row["Text"]) ? (System.String)row["Text"] : default(System.String);
+                    entity.CreatedDate = !DBNull.Value.Equals(row["CreatedDate"]) ? (System.DateTime)row["CreatedDate"] : default(System.DateTime);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64)row["CreatedByID"] : default(System.Int64);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
         
             return entity;
         }

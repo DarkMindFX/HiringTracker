@@ -108,9 +108,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public InterviewFeedback Upsert(InterviewFeedback entity) 
+        public InterviewFeedback Insert(InterviewFeedback entity) 
         {
-            InterviewFeedback entityOut = base.Upsert<InterviewFeedback>("p_InterviewFeedback_Upsert", entity, AddUpsertParameters, InterviewFeedbackFromRow);
+            InterviewFeedback entityOut = base.Upsert<InterviewFeedback>("p_InterviewFeedback_Insert", entity, AddUpsertParameters, InterviewFeedbackFromRow);
+
+            return entityOut;
+        }
+
+        public InterviewFeedback Update(InterviewFeedback entity) 
+        {
+            InterviewFeedback entityOut = base.Upsert<InterviewFeedback>("p_InterviewFeedback_Update", entity, AddUpsertParameters, InterviewFeedbackFromRow);
 
             return entityOut;
         }
@@ -134,15 +141,15 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewFeedback();
 
-                    entity.ID = (System.Int64)row["ID"];
-                    entity.Comment = (System.String)row["Comment"];
-                    entity.Rating = (System.Int32)row["Rating"];
-                    entity.InterviewID = (System.Int64)row["InterviewID"];
-                    entity.InterviewerID = (System.Int64)row["InterviewerID"];
-                    entity.CreatedByID = (System.Int64)row["CreatedByID"];
-                    entity.CreatedDate = (System.DateTime)row["CreatedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64)row["ID"] : default(System.Int64);
+                    entity.Comment = !DBNull.Value.Equals(row["Comment"]) ? (System.String)row["Comment"] : default(System.String);
+                    entity.Rating = !DBNull.Value.Equals(row["Rating"]) ? (System.Int32)row["Rating"] : default(System.Int32);
+                    entity.InterviewID = !DBNull.Value.Equals(row["InterviewID"]) ? (System.Int64)row["InterviewID"] : default(System.Int64);
+                    entity.InterviewerID = !DBNull.Value.Equals(row["InterviewerID"]) ? (System.Int64)row["InterviewerID"] : default(System.Int64);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64)row["CreatedByID"] : default(System.Int64);
+                    entity.CreatedDate = !DBNull.Value.Equals(row["CreatedDate"]) ? (System.DateTime)row["CreatedDate"] : default(System.DateTime);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
         
             return entity;
         }

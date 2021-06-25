@@ -11,13 +11,9 @@ namespace HRT.Interfaces
 {
     public interface ISkillDal : IDalBase<Skill>
     {
-        Skill Get(
-                    System.Int64? ID
-        );
+        Skill Get(System.Int64? ID);
 
-        bool Delete(
-                    System.Int64? ID
-        );
+        bool Delete(System.Int64? ID);
 
             }
 }

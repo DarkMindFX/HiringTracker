@@ -107,9 +107,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public UserRolePosition Upsert(UserRolePosition entity) 
+        public UserRolePosition Insert(UserRolePosition entity) 
         {
-            UserRolePosition entityOut = base.Upsert<UserRolePosition>("p_UserRolePosition_Upsert", entity, AddUpsertParameters, UserRolePositionFromRow);
+            UserRolePosition entityOut = base.Upsert<UserRolePosition>("p_UserRolePosition_Insert", entity, AddUpsertParameters, UserRolePositionFromRow);
+
+            return entityOut;
+        }
+
+        public UserRolePosition Update(UserRolePosition entity) 
+        {
+            UserRolePosition entityOut = base.Upsert<UserRolePosition>("p_UserRolePosition_Update", entity, AddUpsertParameters, UserRolePositionFromRow);
 
             return entityOut;
         }
@@ -127,9 +134,9 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new UserRolePosition();
 
-                    entity.PositionID = (System.Int64)row["PositionID"];
-                    entity.UserID = (System.Int64)row["UserID"];
-                    entity.RoleID = (System.Int64)row["RoleID"];
+                    entity.PositionID = !DBNull.Value.Equals(row["PositionID"]) ? (System.Int64)row["PositionID"] : default(System.Int64);
+                    entity.UserID = !DBNull.Value.Equals(row["UserID"]) ? (System.Int64)row["UserID"] : default(System.Int64);
+                    entity.RoleID = !DBNull.Value.Equals(row["RoleID"]) ? (System.Int64)row["RoleID"] : default(System.Int64);
         
             return entity;
         }

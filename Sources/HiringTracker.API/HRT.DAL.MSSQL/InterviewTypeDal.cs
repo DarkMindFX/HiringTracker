@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public InterviewType Upsert(InterviewType entity) 
+        public InterviewType Insert(InterviewType entity) 
         {
-            InterviewType entityOut = base.Upsert<InterviewType>("p_InterviewType_Upsert", entity, AddUpsertParameters, InterviewTypeFromRow);
+            InterviewType entityOut = base.Upsert<InterviewType>("p_InterviewType_Insert", entity, AddUpsertParameters, InterviewTypeFromRow);
+
+            return entityOut;
+        }
+
+        public InterviewType Update(InterviewType entity) 
+        {
+            InterviewType entityOut = base.Upsert<InterviewType>("p_InterviewType_Update", entity, AddUpsertParameters, InterviewTypeFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewType();
 
-                    entity.ID = (System.Int64)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64)row["ID"] : default(System.Int64);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

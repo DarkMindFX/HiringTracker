@@ -14,11 +14,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-IF OBJECT_ID('p_<#= table.Name #>_Upsert', 'P') IS NOT NULL
-DROP PROC [dbo].[p_<#= table.Name #>_Upsert]
+IF OBJECT_ID('p_<#= table.Name #>_Update', 'P') IS NOT NULL
+DROP PROC [dbo].[p_<#= table.Name #>_Update]
 GO
 
-CREATE PROCEDURE [dbo].[p_<#= table.Name #>_Upsert]
+CREATE PROCEDURE [dbo].[p_<#= table.Name #>_Update]
 	<#
 		var pks = generator.GetPKColumns(table);
 		for(int i = 0; i < table.Columns.Count; ++i)
@@ -34,36 +34,9 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-    IF(<#
-		for(int i = 0; i < pks.Count; ++i)
-		{
-			var c = pks[i];
-	#>
-		@<#=c.Name#> IS NULL <#= i+1 < pks.Count ? "AND" : string.Empty #>
-	<#
-		}
-	#>)
-	BEGIN
-		INSERT INTO [dbo].[<#= table.Name #>]
-		SELECT 
-		<#
-			for(int i = 0; i < table.Columns.Count; ++i)
-			{
-				var c = table.Columns[i];
-				if(!c.IsIdentity) 
-				{
-		#>
-			@<#=c.Name #><#= i+1 < table.Columns.Count ? "," : string.Empty #>
-		<#
-				}
-			}
-		#>
 
-	END
-	ELSE
-	BEGIN
 		
-		IF(EXISTS(	SELECT 1 FROM dbo.<#= table.Name #> 
+	IF(EXISTS(	SELECT 1 FROM [dbo].[<#= table.Name #>]
 					WHERE 
 					<#
 						for(int i = 0; i < pks.Count; ++i)
@@ -77,9 +50,9 @@ BEGIN
 						}//for
 					#>
 		))
-		BEGIN
-			UPDATE [dbo].[<#= table.Name #>]
-			SET
+	BEGIN
+		UPDATE [dbo].[<#= table.Name #>]
+		SET
 				<#
 					for(int i = 0; i < table.Columns.Count; ++i)
 					{
@@ -92,7 +65,7 @@ BEGIN
 						}
 					}
 				#>
-			WHERE 
+		WHERE 
 					<#
 						for(int i = 0; i < pks.Count; ++i)
 						{
@@ -105,12 +78,13 @@ BEGIN
 						}//for
 					#>
 
- 		END
-		ELSE
-		BEGIN
-			THROW 51001, '<#= table.Name #> was not found', 1;
-		END		
+ 		
+			
 	END
+	ELSE
+	BEGIN
+		THROW 51001, '<#= table.Name #> was not found', 1;
+	END	
 
 	SELECT
 		e.*
@@ -123,8 +97,6 @@ BEGIN
 				var c = table.Columns[i];
 		#>
 		(CASE WHEN @<#=c.Name #> IS NOT NULL THEN (CASE WHEN e.[<#=c.Name #>] = @<#=c.Name #> THEN 1 ELSE 0 END) ELSE 1 END) = 1 <#= i + 1 < table.Columns.Count ? "AND" : string.Empty #>
-		<#
-			}//for
-		#>
+		<# 	}//for #>
 END
 GO

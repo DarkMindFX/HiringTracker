@@ -107,9 +107,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public UserRoleCandidate Upsert(UserRoleCandidate entity) 
+        public UserRoleCandidate Insert(UserRoleCandidate entity) 
         {
-            UserRoleCandidate entityOut = base.Upsert<UserRoleCandidate>("p_UserRoleCandidate_Upsert", entity, AddUpsertParameters, UserRoleCandidateFromRow);
+            UserRoleCandidate entityOut = base.Upsert<UserRoleCandidate>("p_UserRoleCandidate_Insert", entity, AddUpsertParameters, UserRoleCandidateFromRow);
+
+            return entityOut;
+        }
+
+        public UserRoleCandidate Update(UserRoleCandidate entity) 
+        {
+            UserRoleCandidate entityOut = base.Upsert<UserRoleCandidate>("p_UserRoleCandidate_Update", entity, AddUpsertParameters, UserRoleCandidateFromRow);
 
             return entityOut;
         }
@@ -127,9 +134,9 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new UserRoleCandidate();
 
-                    entity.CandidateID = (System.Int64)row["CandidateID"];
-                    entity.UserID = (System.Int64)row["UserID"];
-                    entity.RoleID = (System.Int64)row["RoleID"];
+                    entity.CandidateID = !DBNull.Value.Equals(row["CandidateID"]) ? (System.Int64)row["CandidateID"] : default(System.Int64);
+                    entity.UserID = !DBNull.Value.Equals(row["UserID"]) ? (System.Int64)row["UserID"] : default(System.Int64);
+                    entity.RoleID = !DBNull.Value.Equals(row["RoleID"]) ? (System.Int64)row["RoleID"] : default(System.Int64);
         
             return entity;
         }

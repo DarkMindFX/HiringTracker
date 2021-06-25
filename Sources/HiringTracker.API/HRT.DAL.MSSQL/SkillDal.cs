@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Skill Upsert(Skill entity) 
+        public Skill Insert(Skill entity) 
         {
-            Skill entityOut = base.Upsert<Skill>("p_Skill_Upsert", entity, AddUpsertParameters, SkillFromRow);
+            Skill entityOut = base.Upsert<Skill>("p_Skill_Insert", entity, AddUpsertParameters, SkillFromRow);
+
+            return entityOut;
+        }
+
+        public Skill Update(Skill entity) 
+        {
+            Skill entityOut = base.Upsert<Skill>("p_Skill_Update", entity, AddUpsertParameters, SkillFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Skill();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

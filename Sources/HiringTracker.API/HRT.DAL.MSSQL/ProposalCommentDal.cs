@@ -101,9 +101,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public ProposalComment Upsert(ProposalComment entity) 
+        public ProposalComment Insert(ProposalComment entity) 
         {
-            ProposalComment entityOut = base.Upsert<ProposalComment>("p_ProposalComment_Upsert", entity, AddUpsertParameters, ProposalCommentFromRow);
+            ProposalComment entityOut = base.Upsert<ProposalComment>("p_ProposalComment_Insert", entity, AddUpsertParameters, ProposalCommentFromRow);
+
+            return entityOut;
+        }
+
+        public ProposalComment Update(ProposalComment entity) 
+        {
+            ProposalComment entityOut = base.Upsert<ProposalComment>("p_ProposalComment_Update", entity, AddUpsertParameters, ProposalCommentFromRow);
 
             return entityOut;
         }
@@ -120,8 +127,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new ProposalComment();
 
-                    entity.ProposalID = (System.Int64)row["ProposalID"];
-                    entity.CommentID = (System.Int64)row["CommentID"];
+                    entity.ProposalID = !DBNull.Value.Equals(row["ProposalID"]) ? (System.Int64)row["ProposalID"] : default(System.Int64);
+                    entity.CommentID = !DBNull.Value.Equals(row["CommentID"]) ? (System.Int64)row["CommentID"] : default(System.Int64);
         
             return entity;
         }

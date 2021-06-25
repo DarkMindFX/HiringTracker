@@ -114,9 +114,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Interview Upsert(Interview entity) 
+        public Interview Insert(Interview entity) 
         {
-            Interview entityOut = base.Upsert<Interview>("p_Interview_Upsert", entity, AddUpsertParameters, InterviewFromRow);
+            Interview entityOut = base.Upsert<Interview>("p_Interview_Insert", entity, AddUpsertParameters, InterviewFromRow);
+
+            return entityOut;
+        }
+
+        public Interview Update(Interview entity) 
+        {
+            Interview entityOut = base.Upsert<Interview>("p_Interview_Update", entity, AddUpsertParameters, InterviewFromRow);
 
             return entityOut;
         }
@@ -141,16 +148,16 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Interview();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.ProposalID = (System.Int64)row["ProposalID"];
-                    entity.InterviewTypeID = (System.Int64)row["InterviewTypeID"];
-                    entity.StartTime = (System.DateTime)row["StartTime"];
-                    entity.EndTime = (System.DateTime)row["EndTime"];
-                    entity.InterviewStatusID = (System.Int64)row["InterviewStatusID"];
-                    entity.CreatedByID = (System.Int64)row["CreatedByID"];
-                    entity.CretedDate = (System.DateTime)row["CretedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.ProposalID = !DBNull.Value.Equals(row["ProposalID"]) ? (System.Int64)row["ProposalID"] : default(System.Int64);
+                    entity.InterviewTypeID = !DBNull.Value.Equals(row["InterviewTypeID"]) ? (System.Int64)row["InterviewTypeID"] : default(System.Int64);
+                    entity.StartTime = !DBNull.Value.Equals(row["StartTime"]) ? (System.DateTime)row["StartTime"] : default(System.DateTime);
+                    entity.EndTime = !DBNull.Value.Equals(row["EndTime"]) ? (System.DateTime)row["EndTime"] : default(System.DateTime);
+                    entity.InterviewStatusID = !DBNull.Value.Equals(row["InterviewStatusID"]) ? (System.Int64)row["InterviewStatusID"] : default(System.Int64);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64)row["CreatedByID"] : default(System.Int64);
+                    entity.CretedDate = !DBNull.Value.Equals(row["CretedDate"]) ? (System.DateTime)row["CretedDate"] : default(System.DateTime);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
         
             return entity;
         }

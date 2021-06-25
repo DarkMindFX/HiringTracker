@@ -11,13 +11,9 @@ namespace HRT.Interfaces
 {
     public interface IRoleDal : IDalBase<Role>
     {
-        Role Get(
-                    System.Int64? ID
-        );
+        Role Get(System.Int64? ID);
 
-        bool Delete(
-                    System.Int64? ID
-        );
+        bool Delete(System.Int64? ID);
 
             }
 }

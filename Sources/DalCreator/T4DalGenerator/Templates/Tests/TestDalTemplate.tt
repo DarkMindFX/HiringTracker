@@ -125,7 +125,7 @@ namespace Test.HRT.DAL.MSSQL
             for(int i = 0; i < pks.Count; ++i)
             {
 #>
-                var param<#= pks[i].Name #> = Int62.MaxValue - 1;
+                var param<#= pks[i].Name #> = Int64.MaxValue - 1;
 <#
             }
 #>
@@ -166,7 +166,7 @@ namespace Test.HRT.DAL.MSSQL
             for(int i = 0; i < pks.Count; ++i)
             {
 #>
-                var param<#= pks[i].Name #> = Int62.MaxValue - 1;
+                var param<#= pks[i].Name #> = Int64.MaxValue - 1;
 <#
             }
 #>
@@ -219,7 +219,7 @@ namespace Test.HRT.DAL.MSSQL
                 }
             #>
             
-            entity = dal.Upsert(entity);
+            entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
@@ -323,7 +323,7 @@ namespace Test.HRT.DAL.MSSQL
                 }
             #>
 
-            entity = dal.Upsert(entity);
+            entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
@@ -382,7 +382,6 @@ namespace Test.HRT.DAL.MSSQL
             var dal = Prepare<#= table.Name #>Dal("DALInitParams");
 
             var entity = new <#= table.Name #>();
-            entity.ID = Int64.MaxValue - 1;
             <#
                 foreach(var c in table.Columns)
                 {
@@ -419,7 +418,7 @@ namespace Test.HRT.DAL.MSSQL
 
             try
             {
-                entity = dal.Upsert(entity);
+                entity = dal.Update(entity);
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }

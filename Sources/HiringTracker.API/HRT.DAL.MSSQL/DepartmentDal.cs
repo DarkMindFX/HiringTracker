@@ -96,9 +96,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Department Upsert(Department entity) 
+        public Department Insert(Department entity) 
         {
-            Department entityOut = base.Upsert<Department>("p_Department_Upsert", entity, AddUpsertParameters, DepartmentFromRow);
+            Department entityOut = base.Upsert<Department>("p_Department_Insert", entity, AddUpsertParameters, DepartmentFromRow);
+
+            return entityOut;
+        }
+
+        public Department Update(Department entity) 
+        {
+            Department entityOut = base.Upsert<Department>("p_Department_Update", entity, AddUpsertParameters, DepartmentFromRow);
 
             return entityOut;
         }
@@ -118,11 +125,11 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Department();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
-                    entity.UUID = (System.String)row["UUID"];
-                    entity.ParentID = (System.Int64?)row["ParentID"];
-                    entity.ManagerID = (System.Int64)row["ManagerID"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
+                    entity.UUID = !DBNull.Value.Equals(row["UUID"]) ? (System.String)row["UUID"] : default(System.String);
+                    entity.ParentID = !DBNull.Value.Equals(row["ParentID"]) ? (System.Int64?)row["ParentID"] : default(System.Int64?);
+                    entity.ManagerID = !DBNull.Value.Equals(row["ManagerID"]) ? (System.Int64)row["ManagerID"] : default(System.Int64);
         
             return entity;
         }

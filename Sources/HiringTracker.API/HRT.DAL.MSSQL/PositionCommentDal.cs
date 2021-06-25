@@ -101,9 +101,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public PositionComment Upsert(PositionComment entity) 
+        public PositionComment Insert(PositionComment entity) 
         {
-            PositionComment entityOut = base.Upsert<PositionComment>("p_PositionComment_Upsert", entity, AddUpsertParameters, PositionCommentFromRow);
+            PositionComment entityOut = base.Upsert<PositionComment>("p_PositionComment_Insert", entity, AddUpsertParameters, PositionCommentFromRow);
+
+            return entityOut;
+        }
+
+        public PositionComment Update(PositionComment entity) 
+        {
+            PositionComment entityOut = base.Upsert<PositionComment>("p_PositionComment_Update", entity, AddUpsertParameters, PositionCommentFromRow);
 
             return entityOut;
         }
@@ -120,8 +127,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new PositionComment();
 
-                    entity.PositionID = (System.Int64)row["PositionID"];
-                    entity.CommentID = (System.Int64)row["CommentID"];
+                    entity.PositionID = !DBNull.Value.Equals(row["PositionID"]) ? (System.Int64)row["PositionID"] : default(System.Int64);
+                    entity.CommentID = !DBNull.Value.Equals(row["CommentID"]) ? (System.Int64)row["CommentID"] : default(System.Int64);
         
             return entity;
         }

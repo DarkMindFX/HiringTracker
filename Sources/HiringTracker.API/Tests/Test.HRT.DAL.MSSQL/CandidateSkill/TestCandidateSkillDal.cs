@@ -54,18 +54,19 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity.CandidateID);
             Assert.IsNotNull(entity.SkillID);
 
-            Assert.AreEqual(110127, entity.CandidateID);
-            Assert.AreEqual(18, entity.SkillID);
-            Assert.AreEqual(4, entity.SkillProficiencyID);
+            Assert.AreEqual(100004, entity.CandidateID);
+            Assert.AreEqual(13, entity.SkillID);
+            Assert.AreEqual(1, entity.SkillProficiencyID);
         }
 
         [Test]
         public void CandidateSkill_GetDetails_InvalidId()
         {
-            long id = Int32.MaxValue - 1;
+            var paramCandidateID = Int64.MaxValue - 1;
+            var paramSkillID = Int64.MaxValue - 1;
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
-            CandidateSkill entity = dal.Get(id, id);
+            CandidateSkill entity = dal.Get(paramCandidateID, paramSkillID);
 
             Assert.IsNull(entity);
         }
@@ -79,7 +80,6 @@ namespace Test.HRT.DAL.MSSQL
             IList<object> objIds = SetupCase(conn, caseName);
             var paramCandidateID = (System.Int64)objIds[0];
             var paramSkillID = (System.Int64)objIds[1];
-
             bool removed = dal.Delete(paramCandidateID, paramSkillID);
 
             TeardownCase(conn, caseName);
@@ -90,10 +90,11 @@ namespace Test.HRT.DAL.MSSQL
         [Test]
         public void CandidateSkill_Delete_InvalidId()
         {
-            long id = Int32.MaxValue - 1;
             var dal = PrepareCandidateSkillDal("DALInitParams");
+            var paramCandidateID = Int64.MaxValue - 1;
+            var paramSkillID = Int64.MaxValue - 1;
 
-            bool removed = dal.Delete(id, id);
+            bool removed = dal.Delete(paramCandidateID, paramSkillID);
             Assert.IsFalse(removed);
 
         }
@@ -107,11 +108,11 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             var entity = new CandidateSkill();
-            entity.CandidateID = 110125;
-            entity.SkillID = 16;
+            entity.CandidateID = 100006;
+            entity.SkillID = 8;
             entity.SkillProficiencyID = 1;
 
-            entity = dal.Upsert(entity);
+            entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
@@ -119,8 +120,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity.CandidateID);
             Assert.IsNotNull(entity.SkillID);
 
-            Assert.AreEqual(110125, entity.CandidateID);
-            Assert.AreEqual(16, entity.SkillID);
+            Assert.AreEqual(100006, entity.CandidateID);
+            Assert.AreEqual(8, entity.SkillID);
             Assert.AreEqual(1, entity.SkillProficiencyID);
 
         }
@@ -134,14 +135,11 @@ namespace Test.HRT.DAL.MSSQL
             IList<object> objIds = SetupCase(conn, caseName);
             var paramCandidateID = (System.Int64)objIds[0];
             var paramSkillID = (System.Int64)objIds[1];
+            CandidateSkill entity = dal.Get(paramCandidateID, paramSkillID);
 
+            entity.SkillProficiencyID = 1;
 
-            var entity = dal.Get(paramCandidateID, paramSkillID);
-            entity.CandidateID = 100006;
-            entity.SkillID = 14;
-            entity.SkillProficiencyID = 3;
-
-            entity = dal.Upsert(entity);
+            entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
@@ -149,9 +147,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity.CandidateID);
             Assert.IsNotNull(entity.SkillID);
 
-            Assert.AreEqual(100006, entity.CandidateID);
-            Assert.AreEqual(14, entity.SkillID);
-            Assert.AreEqual(3, entity.SkillProficiencyID);
+            Assert.AreEqual(100005, entity.CandidateID);
+            Assert.AreEqual(6, entity.SkillID);
+            Assert.AreEqual(1, entity.SkillProficiencyID);
 
         }
 
@@ -161,13 +159,13 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateSkillDal("DALInitParams");
 
             var entity = new CandidateSkill();
-            entity.CandidateID = Int64.MaxValue - 1;
-            entity.SkillID = 14;
-            entity.SkillProficiencyID = 3;
+            entity.CandidateID = 100005;
+            entity.SkillID = 6;
+            entity.SkillProficiencyID = 1;
 
             try
             {
-                entity = dal.Upsert(entity);
+                entity = dal.Update(entity);
 
                 Assert.Fail("Fail - exception was expected, but wasn't thrown.");
             }

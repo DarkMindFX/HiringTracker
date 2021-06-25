@@ -126,9 +126,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Proposal Upsert(Proposal entity) 
+        public Proposal Insert(Proposal entity) 
         {
-            Proposal entityOut = base.Upsert<Proposal>("p_Proposal_Upsert", entity, AddUpsertParameters, ProposalFromRow);
+            Proposal entityOut = base.Upsert<Proposal>("p_Proposal_Insert", entity, AddUpsertParameters, ProposalFromRow);
+
+            return entityOut;
+        }
+
+        public Proposal Update(Proposal entity) 
+        {
+            Proposal entityOut = base.Upsert<Proposal>("p_Proposal_Update", entity, AddUpsertParameters, ProposalFromRow);
 
             return entityOut;
         }
@@ -156,19 +163,19 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Proposal();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.PositionID = (System.Int64)row["PositionID"];
-                    entity.CandidateID = (System.Int64)row["CandidateID"];
-                    entity.Proposed = (System.DateTime)row["Proposed"];
-                    entity.CurrentStepID = (System.Int64)row["CurrentStepID"];
-                    entity.StepSetDate = (System.DateTime)row["StepSetDate"];
-                    entity.NextStepID = (System.Int64?)row["NextStepID"];
-                    entity.DueDate = (System.DateTime?)row["DueDate"];
-                    entity.StatusID = (System.Int64)row["StatusID"];
-                    entity.CreatedByID = (System.Int64?)row["CreatedByID"];
-                    entity.CreatedDate = (System.DateTime?)row["CreatedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.PositionID = !DBNull.Value.Equals(row["PositionID"]) ? (System.Int64)row["PositionID"] : default(System.Int64);
+                    entity.CandidateID = !DBNull.Value.Equals(row["CandidateID"]) ? (System.Int64)row["CandidateID"] : default(System.Int64);
+                    entity.Proposed = !DBNull.Value.Equals(row["Proposed"]) ? (System.DateTime)row["Proposed"] : default(System.DateTime);
+                    entity.CurrentStepID = !DBNull.Value.Equals(row["CurrentStepID"]) ? (System.Int64)row["CurrentStepID"] : default(System.Int64);
+                    entity.StepSetDate = !DBNull.Value.Equals(row["StepSetDate"]) ? (System.DateTime)row["StepSetDate"] : default(System.DateTime);
+                    entity.NextStepID = !DBNull.Value.Equals(row["NextStepID"]) ? (System.Int64?)row["NextStepID"] : default(System.Int64?);
+                    entity.DueDate = !DBNull.Value.Equals(row["DueDate"]) ? (System.DateTime?)row["DueDate"] : default(System.DateTime?);
+                    entity.StatusID = !DBNull.Value.Equals(row["StatusID"]) ? (System.Int64)row["StatusID"] : default(System.Int64);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64?)row["CreatedByID"] : default(System.Int64?);
+                    entity.CreatedDate = !DBNull.Value.Equals(row["CreatedDate"]) ? (System.DateTime?)row["CreatedDate"] : default(System.DateTime?);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
         
             return entity;
         }

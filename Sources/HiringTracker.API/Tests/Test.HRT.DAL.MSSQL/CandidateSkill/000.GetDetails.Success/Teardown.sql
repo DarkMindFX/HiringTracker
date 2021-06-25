@@ -1,8 +1,8 @@
 
 
-DECLARE @CandidateID BIGINT = 110127
-DECLARE @SkillID BIGINT = 18
-DECLARE @SkillProficiencyID BIGINT = 4
+DECLARE @CandidateID BIGINT = 100004
+DECLARE @SkillID BIGINT = 13
+DECLARE @SkillProficiencyID BIGINT = 1
  
 
 DELETE FROM [CandidateSkill]

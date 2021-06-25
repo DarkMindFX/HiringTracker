@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public SkillProficiency Upsert(SkillProficiency entity) 
+        public SkillProficiency Insert(SkillProficiency entity) 
         {
-            SkillProficiency entityOut = base.Upsert<SkillProficiency>("p_SkillProficiency_Upsert", entity, AddUpsertParameters, SkillProficiencyFromRow);
+            SkillProficiency entityOut = base.Upsert<SkillProficiency>("p_SkillProficiency_Insert", entity, AddUpsertParameters, SkillProficiencyFromRow);
+
+            return entityOut;
+        }
+
+        public SkillProficiency Update(SkillProficiency entity) 
+        {
+            SkillProficiency entityOut = base.Upsert<SkillProficiency>("p_SkillProficiency_Update", entity, AddUpsertParameters, SkillProficiencyFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new SkillProficiency();
 
-                    entity.ID = (System.Int64)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64)row["ID"] : default(System.Int64);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

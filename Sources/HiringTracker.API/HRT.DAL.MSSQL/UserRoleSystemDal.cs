@@ -101,9 +101,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public UserRoleSystem Upsert(UserRoleSystem entity) 
+        public UserRoleSystem Insert(UserRoleSystem entity) 
         {
-            UserRoleSystem entityOut = base.Upsert<UserRoleSystem>("p_UserRoleSystem_Upsert", entity, AddUpsertParameters, UserRoleSystemFromRow);
+            UserRoleSystem entityOut = base.Upsert<UserRoleSystem>("p_UserRoleSystem_Insert", entity, AddUpsertParameters, UserRoleSystemFromRow);
+
+            return entityOut;
+        }
+
+        public UserRoleSystem Update(UserRoleSystem entity) 
+        {
+            UserRoleSystem entityOut = base.Upsert<UserRoleSystem>("p_UserRoleSystem_Update", entity, AddUpsertParameters, UserRoleSystemFromRow);
 
             return entityOut;
         }
@@ -120,8 +127,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new UserRoleSystem();
 
-                    entity.UserID = (System.Int64)row["UserID"];
-                    entity.RoleID = (System.Int64)row["RoleID"];
+                    entity.UserID = !DBNull.Value.Equals(row["UserID"]) ? (System.Int64)row["UserID"] : default(System.Int64);
+                    entity.RoleID = !DBNull.Value.Equals(row["RoleID"]) ? (System.Int64)row["RoleID"] : default(System.Int64);
         
             return entity;
         }

@@ -1,8 +1,8 @@
 
 
-DECLARE @CandidateID BIGINT = 100008
-DECLARE @SkillID BIGINT = 12
-DECLARE @SkillProficiencyID BIGINT = 1
+DECLARE @CandidateID BIGINT = 100007
+DECLARE @SkillID BIGINT = 1
+DECLARE @SkillProficiencyID BIGINT = 2
  
 
 
@@ -27,7 +27,9 @@ BEGIN
 	 @SkillProficiencyID
 END
 
-SELECT TOP 1 @ID = [ID] 
+SELECT TOP 1 
+	@CandidateID = [CandidateID], 
+	@SkillID = [SkillID]
 FROM 
 	[dbo].[CandidateSkill] e
 WHERE
@@ -35,4 +37,6 @@ WHERE
 	(CASE WHEN @SkillID IS NOT NULL THEN (CASE WHEN [SkillID] = @SkillID THEN 1 ELSE 0 END) ELSE 1 END) = 1 AND
 	(CASE WHEN @SkillProficiencyID IS NOT NULL THEN (CASE WHEN [SkillProficiencyID] = @SkillProficiencyID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
 
-SELECT @ID
+SELECT 
+	@CandidateID, 
+	@SkillID

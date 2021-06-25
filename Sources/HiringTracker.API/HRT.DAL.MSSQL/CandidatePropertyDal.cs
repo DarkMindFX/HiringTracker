@@ -90,9 +90,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public CandidateProperty Upsert(CandidateProperty entity) 
+        public CandidateProperty Insert(CandidateProperty entity) 
         {
-            CandidateProperty entityOut = base.Upsert<CandidateProperty>("p_CandidateProperty_Upsert", entity, AddUpsertParameters, CandidatePropertyFromRow);
+            CandidateProperty entityOut = base.Upsert<CandidateProperty>("p_CandidateProperty_Insert", entity, AddUpsertParameters, CandidatePropertyFromRow);
+
+            return entityOut;
+        }
+
+        public CandidateProperty Update(CandidateProperty entity) 
+        {
+            CandidateProperty entityOut = base.Upsert<CandidateProperty>("p_CandidateProperty_Update", entity, AddUpsertParameters, CandidatePropertyFromRow);
 
             return entityOut;
         }
@@ -111,10 +118,10 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new CandidateProperty();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
-                    entity.Value = (System.String)row["Value"];
-                    entity.CandidateID = (System.Int64)row["CandidateID"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
+                    entity.Value = !DBNull.Value.Equals(row["Value"]) ? (System.String)row["Value"] : default(System.String);
+                    entity.CandidateID = !DBNull.Value.Equals(row["CandidateID"]) ? (System.Int64)row["CandidateID"] : default(System.Int64);
         
             return entity;
         }

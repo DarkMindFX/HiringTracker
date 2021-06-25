@@ -135,9 +135,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public <#= table.Name #> Upsert(<#= table.Name #> entity) 
+        public <#= table.Name #> Insert(<#= table.Name #> entity) 
         {
-            <#= table.Name #> entityOut = base.Upsert<<#= table.Name #>>("p_<#= table.Name #>_Upsert", entity, AddUpsertParameters, <#= table.Name #>FromRow);
+            <#= table.Name #> entityOut = base.Upsert<<#= table.Name #>>("p_<#= table.Name #>_Insert", entity, AddUpsertParameters, <#= table.Name #>FromRow);
+
+            return entityOut;
+        }
+
+        public <#= table.Name #> Update(<#= table.Name #> entity) 
+        {
+            <#= table.Name #> entityOut = base.Upsert<<#= table.Name #>>("p_<#= table.Name #>_Update", entity, AddUpsertParameters, <#= table.Name #>FromRow);
 
             return entityOut;
         }
@@ -164,7 +171,7 @@ namespace HRT.DAL.MSSQL
             foreach(var c in table.Columns)
             {
         #>
-            entity.<#= c.Name #> = (<#= generator.DbTypeToType(c) #>)row["<#= c.Name #>"];
+            entity.<#= c.Name #> = !DBNull.Value.Equals(row["<#= c.Name #>"]) ? (<#= generator.DbTypeToType(c) #>)row["<#= c.Name #>"] : default(<#= generator.DbTypeToType(c) #>);
         <#
             }
         #>

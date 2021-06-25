@@ -11,13 +11,9 @@ namespace HRT.Interfaces
 {
     public interface ISkillProficiencyDal : IDalBase<SkillProficiency>
     {
-        SkillProficiency Get(
-                    System.Int64 ID
-        );
+        SkillProficiency Get(System.Int64 ID);
 
-        bool Delete(
-                    System.Int64 ID
-        );
+        bool Delete(System.Int64 ID);
 
             }
 }

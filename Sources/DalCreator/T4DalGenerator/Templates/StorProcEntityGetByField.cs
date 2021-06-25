@@ -36,14 +36,28 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("_GetDetails\', \'P\') IS NOT NULL\r\nDROP PROC [dbo].[p_");
+            this.Write("_GetBy");
+            
+            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityGetByField.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(column.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\', \'P\') IS NOT NULL\r\nDROP PROC [dbo].[p_");
             
             #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityGetByField.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write("_GetDetails]\r\nGO\r\n\r\nCREATE PROCEDURE [dbo].[p_");
+            this.Write("_GetBy");
+            
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityGetByField.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(column.Name));
+            
+            #line default
+            #line hidden
+            this.Write("]\r\nGO\r\n\r\nCREATE PROCEDURE [dbo].[p_");
             
             #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityGetByField.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));

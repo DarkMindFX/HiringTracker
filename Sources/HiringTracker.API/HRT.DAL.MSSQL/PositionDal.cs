@@ -108,9 +108,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Position Upsert(Position entity) 
+        public Position Insert(Position entity) 
         {
-            Position entityOut = base.Upsert<Position>("p_Position_Upsert", entity, AddUpsertParameters, PositionFromRow);
+            Position entityOut = base.Upsert<Position>("p_Position_Insert", entity, AddUpsertParameters, PositionFromRow);
+
+            return entityOut;
+        }
+
+        public Position Update(Position entity) 
+        {
+            Position entityOut = base.Upsert<Position>("p_Position_Update", entity, AddUpsertParameters, PositionFromRow);
 
             return entityOut;
         }
@@ -135,16 +142,16 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Position();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.DepartmentID = (System.Int64?)row["DepartmentID"];
-                    entity.Title = (System.String)row["Title"];
-                    entity.ShortDesc = (System.String)row["ShortDesc"];
-                    entity.Description = (System.String)row["Description"];
-                    entity.StatusID = (System.Int64)row["StatusID"];
-                    entity.CreatedDate = (System.DateTime)row["CreatedDate"];
-                    entity.CreatedByID = (System.Int64)row["CreatedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.DepartmentID = !DBNull.Value.Equals(row["DepartmentID"]) ? (System.Int64?)row["DepartmentID"] : default(System.Int64?);
+                    entity.Title = !DBNull.Value.Equals(row["Title"]) ? (System.String)row["Title"] : default(System.String);
+                    entity.ShortDesc = !DBNull.Value.Equals(row["ShortDesc"]) ? (System.String)row["ShortDesc"] : default(System.String);
+                    entity.Description = !DBNull.Value.Equals(row["Description"]) ? (System.String)row["Description"] : default(System.String);
+                    entity.StatusID = !DBNull.Value.Equals(row["StatusID"]) ? (System.Int64)row["StatusID"] : default(System.Int64);
+                    entity.CreatedDate = !DBNull.Value.Equals(row["CreatedDate"]) ? (System.DateTime)row["CreatedDate"] : default(System.DateTime);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64)row["CreatedByID"] : default(System.Int64);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
         
             return entity;
         }

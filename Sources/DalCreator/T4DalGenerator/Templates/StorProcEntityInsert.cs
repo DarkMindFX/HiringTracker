@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace T4DalGenerator.Templates.Tests
+namespace T4DalGenerator.Templates
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace T4DalGenerator.Templates.Tests
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class DeleteSetupTemplate : DeleteSetupTemplateBase
+    public partial class StorProcEntityInsert : StorProcEntityInsertBase
     {
 #line hidden
         /// <summary>
@@ -29,337 +29,162 @@ namespace T4DalGenerator.Templates.Tests
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\n");
+            this.Write("\r\nSET ANSI_NULLS ON\r\nGO\r\nSET QUOTED_IDENTIFIER ON\r\nGO\r\n\r\nIF OBJECT_ID(\'p_");
             
-            #line 13 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	var pks = modelHelper.GetPKColumns(table);
-	foreach(var c in table.Columns)
-	{
-		string val = string.Empty;
-
-		if (!c.IsIdentity && testValsDelete.ContainsKey(c.Name))
-        {
-			Type columnType = generator.GetColumnType(c);
-            if (testValsDelete[c.Name] != null)
-            {
-				string quote = string.Empty;
-                if(columnType == typeof(string) || columnType == typeof(DateTime))
-                {
-					quote = "'";
-                }
-				val = quote + testValsDelete[c.Name].ToString() + quote;
+            #line 17 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
-			}
-            else
+            #line default
+            #line hidden
+            this.Write("_Insert\', \'P\') IS NOT NULL\r\nDROP PROC [dbo].[p_");
+            
+            #line 18 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("_Insert]\r\nGO\r\n\r\nCREATE PROCEDURE [dbo].[p_");
+            
+            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("_Insert]\r\n\t");
+            
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+
+		var pks = generator.GetPKColumns(table);
+		for(int i = 0; i < table.Columns.Count; ++i)
+		{
+			var c = table.Columns[i];
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t\t");
+            
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.GenerateParamDeclaration(c)));
+            
+            #line default
+            #line hidden
+            
+            #line 28 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < table.Columns.Count ? "," : string.Empty));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t");
+            
+            #line 29 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+
+		}
+	
+            
+            #line default
+            #line hidden
+            this.Write("AS\r\nBEGIN\r\n\r\n\tSET NOCOUNT ON;\r\n\r\n\r\n\tINSERT INTO [dbo].[");
+            
+            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("]\r\n\tSELECT \r\n\t");
+            
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+
+		for(int i = 0; i < table.Columns.Count; ++i)
+		{
+			var c = table.Columns[i];
+			if(!c.IsIdentity) 
 			{
-				val = "NULL";
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t@");
+            
+            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            
+            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < table.Columns.Count ? "," : string.Empty));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t");
+            
+            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+
 			}
-        }
-		else
-		{
-			val = "NULL";
 		}
-
+	
             
             #line default
             #line hidden
+            this.Write("\r\n\t\r\n\r\n\tSELECT\r\n\t\te.*\r\n\tFROM\r\n\t\t[dbo].[");
             
-            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(generator.GenerateVariableDeclaration(c)));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(val));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 43 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write(" \r\n\r\n\r\nIF(NOT EXISTS(SELECT 1 FROM \r\n\t\t\t\t\t[dbo].[");
-            
-            #line 49 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write("]\r\n\t\t\t\tWHERE \r\n");
+            this.Write("] e\r\n\tWHERE\r\n\t\t");
             
-            #line 51 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 60 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
 
-	for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-
+			for(int i = 0; i < table.Columns.Count; ++i)
+			{
+				var c = table.Columns[i];
+		
             
             #line default
             #line hidden
-            this.Write("\t(CASE WHEN @");
+            this.Write("\t\t(CASE WHEN @");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
-            this.Write(" IS NOT NULL THEN (CASE WHEN [");
+            this.Write(" IS NOT NULL THEN (CASE WHEN e.[");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" THEN 1 ELSE 0 END) ELSE 1 END) = 1 ");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            this.Write("\r\n\t\t");
             
-            #line 59 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-		}
-	}
-
+            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
+ 	}//for 
             
             #line default
             #line hidden
-            this.Write(" ))\r\n\t\t\t\t\t\r\nBEGIN\r\n\tINSERT INTO [dbo].[");
-            
-            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
-            
-            #line default
-            #line hidden
-            this.Write("]\r\n\t\t(\r\n");
-            
-            #line 67 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t [");
-            
-            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
-            
-            #line default
-            #line hidden
-            this.Write("]");
-            
-            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "," : string.Empty));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-		}
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t)\r\n\tSELECT \t\t\r\n\t\t");
-            
-            #line 81 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t @");
-            
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
-            
-            #line default
-            #line hidden
-            
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "," : string.Empty));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 89 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-		}
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("END\r\n\r\nSELECT TOP 1 \r\n");
-            
-            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	for(int i = 0; i < pks.Count; ++i)
-	{
-		var pk = pks[i];
-
-            
-            #line default
-            #line hidden
-            this.Write("\t@");
-            
-            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = [");
-            
-            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name));
-            
-            #line default
-            #line hidden
-            this.Write("]");
-            
-            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("FROM \r\n\t[dbo].[");
-            
-            #line 106 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
-            
-            #line default
-            #line hidden
-            this.Write("] e\r\nWHERE\r\n");
-            
-            #line 108 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	for(int i = 0; i < table.Columns.Count; ++i) 
-	{
-		var c = table.Columns[i];
-		if(!c.IsIdentity)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t(CASE WHEN @");
-            
-            #line 115 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" IS NOT NULL THEN (CASE WHEN [");
-            
-            #line 115 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
-            
-            #line default
-            #line hidden
-            this.Write("] = @");
-            
-            #line 115 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" THEN 1 ELSE 0 END) ELSE 1 END) = 1 ");
-            
-            #line 115 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < table.Columns.Count ? "AND" : string.Empty));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 116 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-		}
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("\r\nSELECT \r\n");
-            
-            #line 122 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	for(int i = 0; i < pks.Count; ++i)
-	{
-		var pk = pks[i];
-
-            
-            #line default
-            #line hidden
-            this.Write("\t@");
-            
-            #line 127 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name));
-            
-            #line default
-            #line hidden
-            
-            #line 127 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 128 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
-
-	}
-
-            
-            #line default
-            #line hidden
+            this.Write("END\r\nGO");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
+        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityInsert.tt"
 
 private global::DataModel.DataTable _tableField;
 
@@ -397,19 +222,6 @@ private global::T4DalGenerator.Generators.GeneratorBase generator
     get
     {
         return this._generatorField;
-    }
-}
-
-private global::System.Collections.Generic.IDictionary<string,object> _testValsDeleteField;
-
-/// <summary>
-/// Access the testValsDelete parameter of the template.
-/// </summary>
-private global::System.Collections.Generic.IDictionary<string,object> testValsDelete
-{
-    get
-    {
-        return this._testValsDeleteField;
     }
 }
 
@@ -463,20 +275,6 @@ if ((generatorValueAcquired == false))
         this._generatorField = ((global::T4DalGenerator.Generators.GeneratorBase)(data));
     }
 }
-bool testValsDeleteValueAcquired = false;
-if (this.Session.ContainsKey("testValsDelete"))
-{
-    this._testValsDeleteField = ((global::System.Collections.Generic.IDictionary<string,object>)(this.Session["testValsDelete"]));
-    testValsDeleteValueAcquired = true;
-}
-if ((testValsDeleteValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("testValsDelete");
-    if ((data != null))
-    {
-        this._testValsDeleteField = ((global::System.Collections.Generic.IDictionary<string,object>)(data));
-    }
-}
 
 
     }
@@ -495,7 +293,7 @@ if ((testValsDeleteValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class DeleteSetupTemplateBase
+    public class StorProcEntityInsertBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

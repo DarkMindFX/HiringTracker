@@ -78,6 +78,16 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>StorProcEntityGetByField.tt</DependentUpon>
 	</Compile>
+	<Compile Update="Templates\StorProcEntityUpdate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityUpdate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\StorProcEntityInsert.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>StorProcEntityInsert.tt</DependentUpon>
+	</Compile>
 	<Compile Update="Templates\Tests\DeleteSetupTemplate.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -156,6 +166,14 @@
 	<None Update="Templates\StorProcEntityDelete.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>StorProcEntityDelete.cs</LastGenOutput>
+    </None>
+	<None Update="Templates\StorProcEntityUpdate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StorProcEntityUpdate.cs</LastGenOutput>
+    </None>
+	<None Update="Templates\StorProcEntityInsert.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StorProcEntityInsert.cs</LastGenOutput>
     </None>
 	<None Update="Templates\StorProcEntityGetAll.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>

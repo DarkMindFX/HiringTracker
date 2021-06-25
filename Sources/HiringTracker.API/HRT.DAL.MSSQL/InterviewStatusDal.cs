@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public InterviewStatus Upsert(InterviewStatus entity) 
+        public InterviewStatus Insert(InterviewStatus entity) 
         {
-            InterviewStatus entityOut = base.Upsert<InterviewStatus>("p_InterviewStatus_Upsert", entity, AddUpsertParameters, InterviewStatusFromRow);
+            InterviewStatus entityOut = base.Upsert<InterviewStatus>("p_InterviewStatus_Insert", entity, AddUpsertParameters, InterviewStatusFromRow);
+
+            return entityOut;
+        }
+
+        public InterviewStatus Update(InterviewStatus entity) 
+        {
+            InterviewStatus entityOut = base.Upsert<InterviewStatus>("p_InterviewStatus_Update", entity, AddUpsertParameters, InterviewStatusFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewStatus();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

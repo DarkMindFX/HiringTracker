@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public ProposalStatus Upsert(ProposalStatus entity) 
+        public ProposalStatus Insert(ProposalStatus entity) 
         {
-            ProposalStatus entityOut = base.Upsert<ProposalStatus>("p_ProposalStatus_Upsert", entity, AddUpsertParameters, ProposalStatusFromRow);
+            ProposalStatus entityOut = base.Upsert<ProposalStatus>("p_ProposalStatus_Insert", entity, AddUpsertParameters, ProposalStatusFromRow);
+
+            return entityOut;
+        }
+
+        public ProposalStatus Update(ProposalStatus entity) 
+        {
+            ProposalStatus entityOut = base.Upsert<ProposalStatus>("p_ProposalStatus_Update", entity, AddUpsertParameters, ProposalStatusFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new ProposalStatus();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

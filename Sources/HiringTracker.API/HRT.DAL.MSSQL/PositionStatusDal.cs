@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public PositionStatus Upsert(PositionStatus entity) 
+        public PositionStatus Insert(PositionStatus entity) 
         {
-            PositionStatus entityOut = base.Upsert<PositionStatus>("p_PositionStatus_Upsert", entity, AddUpsertParameters, PositionStatusFromRow);
+            PositionStatus entityOut = base.Upsert<PositionStatus>("p_PositionStatus_Insert", entity, AddUpsertParameters, PositionStatusFromRow);
+
+            return entityOut;
+        }
+
+        public PositionStatus Update(PositionStatus entity) 
+        {
+            PositionStatus entityOut = base.Upsert<PositionStatus>("p_PositionStatus_Update", entity, AddUpsertParameters, PositionStatusFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new PositionStatus();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

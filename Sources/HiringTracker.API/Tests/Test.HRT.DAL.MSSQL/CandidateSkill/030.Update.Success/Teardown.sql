@@ -1,15 +1,15 @@
 
 
 -- original values --
-DECLARE @CandidateID BIGINT = 100006
+DECLARE @CandidateID BIGINT = 110118
 DECLARE @SkillID BIGINT = 3
 DECLARE @SkillProficiencyID BIGINT = 2
  
 -- updated values --
 
-DECLARE @updCandidateID BIGINT = 100006
-DECLARE @updSkillID BIGINT = 14
-DECLARE @updSkillProficiencyID BIGINT = 3
+DECLARE @updCandidateID BIGINT = 100005
+DECLARE @updSkillID BIGINT = 6
+DECLARE @updSkillProficiencyID BIGINT = 1
  
 
 DECLARE @Fail AS BIT = 0

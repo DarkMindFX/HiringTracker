@@ -84,9 +84,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Role Upsert(Role entity) 
+        public Role Insert(Role entity) 
         {
-            Role entityOut = base.Upsert<Role>("p_Role_Upsert", entity, AddUpsertParameters, RoleFromRow);
+            Role entityOut = base.Upsert<Role>("p_Role_Insert", entity, AddUpsertParameters, RoleFromRow);
+
+            return entityOut;
+        }
+
+        public Role Update(Role entity) 
+        {
+            Role entityOut = base.Upsert<Role>("p_Role_Update", entity, AddUpsertParameters, RoleFromRow);
 
             return entityOut;
         }
@@ -103,8 +110,8 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Role();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.Name = (System.String)row["Name"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;
         }

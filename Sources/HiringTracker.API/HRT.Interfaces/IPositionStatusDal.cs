@@ -11,13 +11,9 @@ namespace HRT.Interfaces
 {
     public interface IPositionStatusDal : IDalBase<PositionStatus>
     {
-        PositionStatus Get(
-                    System.Int64? ID
-        );
+        PositionStatus Get(System.Int64? ID);
 
-        bool Delete(
-                    System.Int64? ID
-        );
+        bool Delete(System.Int64? ID);
 
             }
 }

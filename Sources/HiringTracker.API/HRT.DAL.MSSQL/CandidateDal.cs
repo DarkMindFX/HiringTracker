@@ -96,9 +96,16 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public Candidate Upsert(Candidate entity) 
+        public Candidate Insert(Candidate entity) 
         {
-            Candidate entityOut = base.Upsert<Candidate>("p_Candidate_Upsert", entity, AddUpsertParameters, CandidateFromRow);
+            Candidate entityOut = base.Upsert<Candidate>("p_Candidate_Insert", entity, AddUpsertParameters, CandidateFromRow);
+
+            return entityOut;
+        }
+
+        public Candidate Update(Candidate entity) 
+        {
+            Candidate entityOut = base.Upsert<Candidate>("p_Candidate_Update", entity, AddUpsertParameters, CandidateFromRow);
 
             return entityOut;
         }
@@ -124,17 +131,17 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new Candidate();
 
-                    entity.ID = (System.Int64?)row["ID"];
-                    entity.FirstName = (System.String)row["FirstName"];
-                    entity.MiddleName = (System.String)row["MiddleName"];
-                    entity.LastName = (System.String)row["LastName"];
-                    entity.Email = (System.String)row["Email"];
-                    entity.Phone = (System.String)row["Phone"];
-                    entity.CVLink = (System.String)row["CVLink"];
-                    entity.CreatedByID = (System.Int64)row["CreatedByID"];
-                    entity.CreatedDate = (System.DateTime)row["CreatedDate"];
-                    entity.ModifiedByID = (System.Int64?)row["ModifiedByID"];
-                    entity.ModifiedDate = (System.DateTime?)row["ModifiedDate"];
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
+                    entity.FirstName = !DBNull.Value.Equals(row["FirstName"]) ? (System.String)row["FirstName"] : default(System.String);
+                    entity.MiddleName = !DBNull.Value.Equals(row["MiddleName"]) ? (System.String)row["MiddleName"] : default(System.String);
+                    entity.LastName = !DBNull.Value.Equals(row["LastName"]) ? (System.String)row["LastName"] : default(System.String);
+                    entity.Email = !DBNull.Value.Equals(row["Email"]) ? (System.String)row["Email"] : default(System.String);
+                    entity.Phone = !DBNull.Value.Equals(row["Phone"]) ? (System.String)row["Phone"] : default(System.String);
+                    entity.CVLink = !DBNull.Value.Equals(row["CVLink"]) ? (System.String)row["CVLink"] : default(System.String);
+                    entity.CreatedByID = !DBNull.Value.Equals(row["CreatedByID"]) ? (System.Int64)row["CreatedByID"] : default(System.Int64);
+                    entity.CreatedDate = !DBNull.Value.Equals(row["CreatedDate"]) ? (System.DateTime)row["CreatedDate"] : default(System.DateTime);
+                    entity.ModifiedByID = !DBNull.Value.Equals(row["ModifiedByID"]) ? (System.Int64?)row["ModifiedByID"] : default(System.Int64?);
+                    entity.ModifiedDate = !DBNull.Value.Equals(row["ModifiedDate"]) ? (System.DateTime?)row["ModifiedDate"] : default(System.DateTime?);
         
             return entity;
         }

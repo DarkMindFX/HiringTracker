@@ -18,8 +18,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-IF OBJECT_ID('p_<#= table.Name #>_GetDetails', 'P') IS NOT NULL
-DROP PROC [dbo].[p_<#= table.Name #>_GetDetails]
+IF OBJECT_ID('p_<#= table.Name #>_GetBy<#= column.Name #>', 'P') IS NOT NULL
+DROP PROC [dbo].[p_<#= table.Name #>_GetBy<#= column.Name #>]
 GO
 
 CREATE PROCEDURE [dbo].[p_<#= table.Name #>_GetBy<#= column.Name #>]
