@@ -8,12 +8,9 @@ namespace HRT.HiringTracker.API.Dal
     {
         IList<TEntity> GetAll();
 
-        TEntity Get(long id);
+        TEntity Insert(TEntity entity);
 
-        TEntity Upsert(TEntity entity);
+        TEntity Update(TEntity entity);
 
-        bool Delete(long id);
-
-        IDictionary<long, TEntity> GetAllAsDictionary();
     }
 }

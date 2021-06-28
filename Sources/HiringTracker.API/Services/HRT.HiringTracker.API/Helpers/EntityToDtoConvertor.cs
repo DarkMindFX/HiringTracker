@@ -121,31 +121,7 @@ namespace HRT.HiringTracker.API.Helpers
             return dto;
         }
 
-        public static DTO.Position Convert(Interfaces.Entities.Position entity,
-                                            IDictionary<long, Interfaces.Entities.PositionStatus> statuses,
-                                            IDictionary<long, Interfaces.Entities.User> users,
-                                            IUrlHelper url)
-        {
-            var dto = new DTO.Position()
-            {
-                CreatedBy = Convert(users[(long)entity.CreatedByID], url),
-                CreatedDate = (DateTime)entity.CreatedDate,
-                Description = entity.Description,
-                ModifiedBy = entity.ModifiedByID != null ? Convert(users[(long)entity.ModifiedByID], url) : null,
-                ModifiedDate = entity.ModifiedDate,
-                ID = entity.ID ?? 0,
-                ShortDesc = entity.ShortDesc,
-                Status = Convert(statuses[entity.StatusID], url),
-                Title = entity.Title
-            };
-
-            dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID }), "delete_position", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdatePosition", "positions"), "update_position", "PUT"));
-
-            return dto;
-
-        }
+        
 
         public static DTO.Candidate Convert(Interfaces.Entities.Candidate entity,
                                             IDictionary<long, Interfaces.Entities.User> users,

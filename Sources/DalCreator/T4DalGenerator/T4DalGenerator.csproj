@@ -23,6 +23,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Templates\EntityControllerTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EntityControllerTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\EntityConvertorTemplate - Copy.cs">
+      <DependentUpon>EntityConvertorTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Templates\EntityTemplate - Copy.cs">
+      <DependentUpon>EntityTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Templates\IServiceDalTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -47,11 +62,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>IDalTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Templates\EntityTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EntityTemplate.tt</DependentUpon>
     </Compile>
 	<Compile Update="Templates\StorProcEntityDelete.cs">
       <DesignTime>True</DesignTime>
@@ -139,6 +149,14 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\EntityControllerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EntityControllerTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\EntityConvertorTemplate.tt">
+      <LastGenOutput>EntityConvertorTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
     <None Update="Templates\IServiceDalTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>IServiceDalTemplate.cs</LastGenOutput>
@@ -161,7 +179,7 @@
     </None>
     <None Update="Templates\EntityTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EntityTemplate.cs</LastGenOutput>
+      <LastGenOutput>EntityConverterTemplate.cs</LastGenOutput>
     </None>
 	<None Update="Templates\StorProcEntityDelete.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

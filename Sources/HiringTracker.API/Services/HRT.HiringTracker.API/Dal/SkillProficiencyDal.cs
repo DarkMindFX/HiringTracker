@@ -1,13 +1,12 @@
-﻿using HRT.Interfaces.Entities;
-using System;
+
+
+using HRT.Interfaces.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {
-
     [Export(typeof(ISkillProficiencyDal))]
     public class SkillProficiencyDal : DalBaseImpl<SkillProficiency, Interfaces.ISkillProficiencyDal>, ISkillProficiencyDal
     {
@@ -16,13 +15,15 @@ namespace HRT.HiringTracker.API.Dal
         {
         }
 
-        public new IDictionary<long, SkillProficiency> GetAllAsDictionary()
+        public SkillProficiency Get(System.Int64 ID)
         {
-            var entites = _dalImpl.GetAll();
-
-            IDictionary<long, SkillProficiency> result = entites.ToDictionary(s => (long)s.ID);
-
-            return result;
+            return _dalImpl.Get(            ID);
         }
-    }
+
+        public bool Delete(System.Int64 ID)
+        {
+            return _dalImpl.Delete(            ID);
+        }
+
+            }
 }

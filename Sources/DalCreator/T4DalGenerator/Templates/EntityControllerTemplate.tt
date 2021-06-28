@@ -1,0 +1,187 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ parameter name="table" type="DataModel.DataTable" #>
+<#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+<#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using HRT.HiringTracker.API.Filters;
+using HRT.Interfaces.Entities;
+using HRT.Utils.Convertors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+<# var pks = generator.GetPKColumns(table); #>
+
+namespace HRT.HiringTracker.API.Controllers.V1
+{
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    [UnhandledExceptionFilter]
+    public class <#= modelHelper.Pluralize(table.Name) #>Controller : BaseController
+    {
+        private readonly Dal.I<#= table.Name #>Dal _dal<#= table.Name #>;
+        private readonly ILogger<<#= modelHelper.Pluralize(table.Name) #>Controller> _logger;
+
+
+        public <#= modelHelper.Pluralize(table.Name) #>Controller( Dal.I<#= table.Name #>Dal dal<#= table.Name #>,
+                                    ILogger<<#= modelHelper.Pluralize(table.Name) #>Controller> logger)
+        {
+            _dal<#= table.Name #> = dal<#= table.Name #>; 
+            _logger = logger;
+        }
+
+        //[Authorize]
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+            IActionResult response = null;
+
+            var entities = _dal<#= table.Name #>.GetAll();
+
+            IList<DTO.<#= table.Name #>> dtos = new List<DTO.<#= table.Name #>>();
+
+            foreach (var p in entities)
+            {
+                var dto = <#= table.Name #>Convertor.Convert(p, this.Url);
+
+                dtos.Add(dto);
+            }
+
+            response = Ok(dtos);
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        //[Authorize]
+        [HttpGet("<#
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+            #>{<#=pk.Name.ToLower()#>}<#= i+1 < pks.Count ? "/" : string.Empty #><# } #>"), ActionName("Get<#= table.Name #>")]
+        public IActionResult Get(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entity = _dal<#= table.Name #>.Get(id);
+            if (entity != null)
+            {
+                var dto = <#= table.Name #>Convertor.Convert(entity, this.Url);
+                response = Ok(dto);
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.NotFound, $"<#= table.Name #> was not found [id:{id}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        //[Authorize]
+        [HttpDelete("<#
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+            #> {<#=pk.Name.ToLower()#>}<#= i+1 < pks.Count ? "/" : string.Empty #><# } #>"), ActionName("Delete<#= table.Name #>")]
+        public IActionResult Delete(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var existingEntity = _dal<#= table.Name #>.Get(id);
+
+            if (existingEntity != null)
+            {
+                bool removed = _dal<#= table.Name #>.Delete(id);
+                if (removed)
+                {
+                    response = Ok();
+                }
+                else
+                {
+                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete <#= table.Name #> [id:{id}]");
+                }
+            }
+            else
+            {
+                response = NotFound($"<#= table.Name #> not found [id: {id}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        //[Authorize]
+        [HttpPost]
+        public IActionResult Insert(DTO.<#= table.Name #> dto)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entity = <#= table.Name #>Convertor.Convert(dto);
+
+            <#= table.Name #> newEntity = _dal<#= table.Name #>.Insert(entity);
+
+            response = Ok(<#= table.Name #>Convertor.Convert(newEntity, this.Url));
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+
+        //[Authorize]
+        [HttpPut, ActionName("Update<#= table.Name #>")]
+        public IActionResult Update(DTO.<#= table.Name #> dto)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var newEntity = <#= table.Name #>Convertor.Convert(dto);
+
+            var existingEntity = _dal<#= table.Name #>.Get(newEntity.ID);
+            if (existingEntity != null)
+            {
+                <#= table.Name #> entity = _dal<#= table.Name #>.Insert(newEntity);
+
+                response = Ok(<#= table.Name #>Convertor.Convert(entity, this.Url));
+            }
+            else
+            {
+                response = NotFound($"<#= table.Name #> not found [id: {newEntity.ID}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+    }
+}
+

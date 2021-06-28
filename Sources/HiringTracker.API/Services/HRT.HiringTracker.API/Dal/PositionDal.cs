@@ -1,37 +1,45 @@
-﻿using HRT.Interfaces.Entities;
-using System;
+
+
+using HRT.Interfaces.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {
     [Export(typeof(IPositionDal))]
-    public class PositionDal : DalBaseImpl<Position, Interfaces.IPositionDal>, Dal.IPositionDal
+    public class PositionDal : DalBaseImpl<Position, Interfaces.IPositionDal>, IPositionDal
     {
 
         public PositionDal(Interfaces.IPositionDal dalImpl) : base(dalImpl)
         {
         }
 
-        public new IDictionary<long, Position> GetAllAsDictionary()
+        public Position Get(System.Int64? ID)
         {
-            var entites = _dalImpl.GetAll();
-
-            IDictionary<long, Position> result = entites.ToDictionary(s => s.ID ?? 0);
-
-            return result;
+            return _dalImpl.Get(            ID);
         }
 
-        public IList<PositionSkill> GetSkills(long id)
+        public bool Delete(System.Int64? ID)
         {
-            return _dalImpl.GetSkills(id);
+            return _dalImpl.Delete(            ID);
         }
 
-        public void SetSkills(long id, IList<PositionSkill> skills)
+        public IList<Position> GetByDepartmentID(System.Int64? DepartmentID)
         {
-            _dalImpl.SetSkills(id, skills);
+            return _dalImpl.GetByDepartmentID(DepartmentID);
         }
-    }
+        public IList<Position> GetByStatusID(System.Int64 StatusID)
+        {
+            return _dalImpl.GetByStatusID(StatusID);
+        }
+        public IList<Position> GetByCreatedByID(System.Int64 CreatedByID)
+        {
+            return _dalImpl.GetByCreatedByID(CreatedByID);
+        }
+        public IList<Position> GetByModifiedByID(System.Int64? ModifiedByID)
+        {
+            return _dalImpl.GetByModifiedByID(ModifiedByID);
+        }
+            }
 }

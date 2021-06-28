@@ -1,3 +1,5 @@
+
+
 using HRT.Interfaces.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,8 +9,13 @@ namespace HRT.HiringTracker.API.Dal
 {
     public interface IPositionDal : IDalBase<Position>
     {
-        IList<PositionSkill> GetSkills(long id);
+        Position Get(System.Int64? ID);
 
-        void SetSkills(long id, IList<PositionSkill> skills);
-    }
+        bool Delete(System.Int64? ID);
+
+            IList<Position> GetByDepartmentID(System.Int64? DepartmentID);
+            IList<Position> GetByStatusID(System.Int64 StatusID);
+            IList<Position> GetByCreatedByID(System.Int64 CreatedByID);
+            IList<Position> GetByModifiedByID(System.Int64? ModifiedByID);
+        }
 }

@@ -1,10 +1,9 @@
 
 
-DECLARE @ID BIGINT = NULL
-DECLARE @PositionID BIGINT = 100002
-DECLARE @SkillID BIGINT = 19
-DECLARE @IsMandatory BIT = 0
-DECLARE @SkillProficiencyID BIGINT = 4
+DECLARE @PositionID BIGINT = 100009
+DECLARE @SkillID BIGINT = 13
+DECLARE @IsMandatory BIT = 1
+DECLARE @SkillProficiencyID BIGINT = 801046
  
 
 
@@ -33,7 +32,8 @@ BEGIN
 END
 
 SELECT TOP 1 
-	@ID = [ID]
+	@PositionID = [PositionID], 
+	@SkillID = [SkillID]
 FROM 
 	[dbo].[PositionSkill] e
 WHERE
@@ -43,4 +43,5 @@ WHERE
 	(CASE WHEN @SkillProficiencyID IS NOT NULL THEN (CASE WHEN [SkillProficiencyID] = @SkillProficiencyID THEN 1 ELSE 0 END) ELSE 1 END) = 1 
 
 SELECT 
-	@ID
+	@PositionID, 
+	@SkillID

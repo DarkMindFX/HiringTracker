@@ -23,13 +23,39 @@ namespace HRT.HiringTracker.API.Dal
         {
         }
 
+        public <#= table.Name #> Get(<#
+            var pks = generator.GetPKColumns(table);
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        {
+            return _dalImpl.Get(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i]; #>
+            <#= pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><#}#>);
+        }
+
+        public bool Delete(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        {
+            return _dalImpl.Delete(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i]; #>
+            <#= pk.Name #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>);
+        }
+
         <#
         foreach(var c in table.Columns)
         {
             if(!string.IsNullOrEmpty(c.FKRefTable))
             {
-        #>
-        public IList<<#= table.Name #>> GetBy<#= c.Name #>(<#= generator.DbTypeToType(c) #> <#= c.Name #>)
+        #>public IList<<#= table.Name #>> GetBy<#= c.Name #>(<#= generator.DbTypeToType(c) #> <#= c.Name #>)
         {
             return _dalImpl.GetBy<#= c.Name #>(<#= c.Name #>);
         }

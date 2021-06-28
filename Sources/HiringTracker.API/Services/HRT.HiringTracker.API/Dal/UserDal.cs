@@ -1,33 +1,29 @@
-﻿using HRT.Interfaces.Entities;
-using System;
+
+
+using HRT.Interfaces.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HRT.HiringTracker.API.Dal
 {
-
     [Export(typeof(IUserDal))]
-    public class UserDal : DalBaseImpl<User, Interfaces.IUserDal>, Dal.IUserDal
+    public class UserDal : DalBaseImpl<User, Interfaces.IUserDal>, IUserDal
     {
 
         public UserDal(Interfaces.IUserDal dalImpl) : base(dalImpl)
         {
         }
 
-        public new IDictionary<long, User> GetAllAsDictionary()
+        public User Get(System.Int64? ID)
         {
-            var statuses = _dalImpl.GetAll();
-
-            IDictionary<long, User> result = statuses.ToDictionary(s => (long)s.ID);
-
-            return result;
+            return _dalImpl.Get(            ID);
         }
 
-        public User GetByLogin(string login)
+        public bool Delete(System.Int64? ID)
         {
-            return _dalImpl.GetByLogin(login);
+            return _dalImpl.Delete(            ID);
         }
-    }
+
+            }
 }

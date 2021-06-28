@@ -155,14 +155,8 @@ namespace HRT.HiringTracker.API
             var dalCandidate = InitDal<ICandidateDal>(serviceCfg);
             services.AddSingleton<ICandidateDal>(dalCandidate);
 
-            services.AddSingleton<Dal.ICandidateDal, Dal.CandidateDal>();
-            services.AddSingleton<Dal.IProposalStatusDal, Dal.ProposalStatusDal>();
-            services.AddSingleton<Dal.IProposalStepDal, Dal.ProposalStepDal>();
-            services.AddSingleton<Dal.IPositionStatusDal, Dal.PositionStatusDal>();
             services.AddSingleton<Dal.IPositionDal, Dal.PositionDal>();
-            services.AddSingleton<Dal.ISkillDal, Dal.SkillDal>();
-            services.AddSingleton<Dal.ISkillProficiencyDal, Dal.SkillProficiencyDal>();
-            services.AddSingleton<Dal.IUserDal, Dal.UserDal>();
+
         }
 
         private TDal InitDal<TDal>(ServiceConfig serviceCfg) where TDal : IInitializable

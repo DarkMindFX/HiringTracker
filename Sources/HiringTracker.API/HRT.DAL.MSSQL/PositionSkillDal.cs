@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public PositionSkill Get(System.Int64? ID)
+        public PositionSkill Get(System.Int64 PositionID,System.Int64 SkillID)
         {
             PositionSkill result = default(PositionSkill);
 
@@ -38,8 +38,11 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_PositionSkill_GetDetails", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                 AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0,
-                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+                 AddParameter(   cmd, "@PositionID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, PositionID);
+            
+                            AddParameter(   cmd, "@SkillID", System.Data.SqlDbType.BigInt, 0,
+                                ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, SkillID);
             
             
                 var pFound = AddParameter(cmd, "@Found", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
@@ -55,7 +58,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public bool Delete(System.Int64? ID)
+        public bool Delete(System.Int64 PositionID,System.Int64 SkillID)
         {
             bool result = false;
 
@@ -64,7 +67,9 @@ namespace HRT.DAL.MSSQL
                 SqlCommand cmd = new SqlCommand("p_PositionSkill_Delete", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                            AddParameter(   cmd, "@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, ID);
+                            AddParameter(   cmd, "@PositionID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, PositionID);
+            
+                            AddParameter(   cmd, "@SkillID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, string.Empty, DataRowVersion.Current, SkillID);
             
                             var pFound = AddParameter(cmd, "@Removed", SqlDbType.Bit, 0, ParameterDirection.Output, false, 0, 0, string.Empty, DataRowVersion.Current, 0);
 
@@ -118,7 +123,6 @@ namespace HRT.DAL.MSSQL
 
         protected SqlCommand AddUpsertParameters(SqlCommand cmd, PositionSkill entity)
         {
-                SqlParameter pID = new SqlParameter("@ID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, (object)entity.ID != null ? (object)entity.ID : DBNull.Value);   cmd.Parameters.Add(pID); 
                 SqlParameter pPositionID = new SqlParameter("@PositionID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "PositionID", DataRowVersion.Current, (object)entity.PositionID != null ? (object)entity.PositionID : DBNull.Value);   cmd.Parameters.Add(pPositionID); 
                 SqlParameter pSkillID = new SqlParameter("@SkillID", System.Data.SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "SkillID", DataRowVersion.Current, (object)entity.SkillID != null ? (object)entity.SkillID : DBNull.Value);   cmd.Parameters.Add(pSkillID); 
                 SqlParameter pIsMandatory = new SqlParameter("@IsMandatory", System.Data.SqlDbType.Bit, 0, ParameterDirection.Input, false, 0, 0, "IsMandatory", DataRowVersion.Current, (object)entity.IsMandatory != null ? (object)entity.IsMandatory : DBNull.Value);   cmd.Parameters.Add(pIsMandatory); 
@@ -131,7 +135,6 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new PositionSkill();
 
-                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
                     entity.PositionID = !DBNull.Value.Equals(row["PositionID"]) ? (System.Int64)row["PositionID"] : default(System.Int64);
                     entity.SkillID = !DBNull.Value.Equals(row["SkillID"]) ? (System.Int64)row["SkillID"] : default(System.Int64);
                     entity.IsMandatory = !DBNull.Value.Equals(row["IsMandatory"]) ? (System.Boolean)row["IsMandatory"] : default(System.Boolean);

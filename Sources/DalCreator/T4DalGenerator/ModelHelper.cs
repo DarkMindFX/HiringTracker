@@ -10,6 +10,21 @@ namespace T4DalGenerator
 {
     public class ModelHelper
     {
+        public string Pluralize(string name)
+        {
+            string result = string.Empty;
+            if(!name.EndsWith("y"))
+            {
+                result = name + "s";
+            }
+            else
+            {
+                var endIdx = name.LastIndexOf('y');
+                result = name.Substring(0, endIdx) + "ies";
+            }
+
+            return result;
+        }
         public string DbTypeToSqlDbType(DataModel.DataColumn c)
         {
             string type = null;

@@ -1,4 +1,6 @@
-﻿using HRT.Interfaces.Entities;
+
+
+using HRT.Interfaces.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -13,23 +15,23 @@ namespace HRT.HiringTracker.API.Dal
         {
         }
 
-        public IList<CandidateSkill> GetSkills(long id)
+        public Candidate Get(System.Int64? ID)
         {
-            return _dalImpl.GetSkills(id);
+            return _dalImpl.Get(            ID);
         }
 
-        public void SetSkills(long id, IList<CandidateSkill> skills)
+        public bool Delete(System.Int64? ID)
         {
-            _dalImpl.SetSkills(id, skills);
+            return _dalImpl.Delete(            ID);
         }
 
-        public new IDictionary<long, Candidate> GetAllAsDictionary()
+        public IList<Candidate> GetByCreatedByID(System.Int64 CreatedByID)
         {
-            var entities = _dalImpl.GetAll();
-
-            IDictionary<long, Candidate> result = entities.ToDictionary(s => s.ID ?? 0);
-
-            return result;
+            return _dalImpl.GetByCreatedByID(CreatedByID);
         }
-    }
+        public IList<Candidate> GetByModifiedByID(System.Int64? ModifiedByID)
+        {
+            return _dalImpl.GetByModifiedByID(ModifiedByID);
+        }
+            }
 }

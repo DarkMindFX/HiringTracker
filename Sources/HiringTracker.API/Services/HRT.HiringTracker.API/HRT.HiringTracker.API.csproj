@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\EntityToDtoConvertor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="0nf5ky13.4eb~" />
   </ItemGroup>
 
@@ -20,6 +24,7 @@
     <ProjectReference Include="..\..\HRT.DAL.MSSQL\HRT.DAL.MSSQL.csproj" />
     <ProjectReference Include="..\..\HRT.DTO\HRT.DTO.csproj" />
     <ProjectReference Include="..\..\HRT.Interfaces\HRT.Interfaces.csproj" />
+    <ProjectReference Include="..\..\HRT.Utils\HRT.Utils.csproj" />
   </ItemGroup>
 
 

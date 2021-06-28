@@ -10,8 +10,6 @@ namespace HRT.Interfaces.Entities
 {
     public class PositionSkill 
     {
-				public System.Int64? ID { get; set; }
-
 				public System.Int64 PositionID { get; set; }
 
 				public System.Int64 SkillID { get; set; }

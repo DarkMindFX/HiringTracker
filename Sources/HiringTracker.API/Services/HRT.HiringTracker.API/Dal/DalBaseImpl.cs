@@ -15,14 +15,9 @@ namespace HRT.HiringTracker.API.Dal
             _dalImpl = dalImpl;
         }
 
-        public bool Delete(long id)
+        public TEntity Update(TEntity entity)
         {
-            return _dalImpl.Delete(id);
-        }
-
-        public TEntity Get(long id)
-        {
-            return _dalImpl.Get(id);
+            return _dalImpl.Update(entity);
         }
 
         public IList<TEntity> GetAll()
@@ -30,14 +25,9 @@ namespace HRT.HiringTracker.API.Dal
             return _dalImpl.GetAll();
         }
 
-        public TEntity Upsert(TEntity entity)
+        public TEntity Insert(TEntity entity)
         {
-            return _dalImpl.Upsert(entity);
-        }
-
-        public IDictionary<long, TEntity> GetAllAsDictionary()
-        {
-            throw new NotImplementedException();
+            return _dalImpl.Insert(entity);
         }
     }
 }
