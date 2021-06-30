@@ -21,12 +21,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetUserRoleSystem", "userrolesystems", new { userid = dto.UserID, roleid = dto.RoleID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteUserRoleSystem", "userrolesystems", new { userid = dto.UserID, roleid = dto.RoleID  }), "delete_userrolesystem", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertUserRoleSystem", "userrolesystems"), "insert_userrolesystem", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateUserRoleSystem", "userrolesystems"), "update_userrolesystem", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetUserRoleSystem", "userrolesystems", new { userid = dto.UserID, roleid = dto.RoleID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteUserRoleSystem", "userrolesystems", new { userid = dto.UserID, roleid = dto.RoleID  }), "delete_userrolesystem", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertUserRoleSystem", "userrolesystems"), "insert_userrolesystem", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateUserRoleSystem", "userrolesystems"), "update_userrolesystem", "PUT"));
+            }
             return dto;
 
         }

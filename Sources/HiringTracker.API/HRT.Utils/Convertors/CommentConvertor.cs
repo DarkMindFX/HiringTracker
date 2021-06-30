@@ -29,12 +29,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetComment", "comments", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteComment", "comments", new { id = dto.ID  }), "delete_comment", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertComment", "comments"), "insert_comment", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateComment", "comments"), "update_comment", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetComment", "comments", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteComment", "comments", new { id = dto.ID  }), "delete_comment", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertComment", "comments"), "insert_comment", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateComment", "comments"), "update_comment", "PUT"));
+            }
             return dto;
 
         }

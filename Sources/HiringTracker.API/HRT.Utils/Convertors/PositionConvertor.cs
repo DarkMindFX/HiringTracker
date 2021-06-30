@@ -14,35 +14,36 @@ namespace HRT.Utils.Convertors
         {
             var dto = new DTO.Position()
             {
-        		        ID = entity.ID,
+                ID = entity.ID,
 
-				        DepartmentID = entity.DepartmentID,
+                DepartmentID = entity.DepartmentID,
 
-				        Title = entity.Title,
+                Title = entity.Title,
 
-				        ShortDesc = entity.ShortDesc,
+                ShortDesc = entity.ShortDesc,
 
-				        Description = entity.Description,
+                Description = entity.Description,
 
-				        StatusID = entity.StatusID,
+                StatusID = entity.StatusID,
 
-				        CreatedDate = entity.CreatedDate,
+                CreatedDate = entity.CreatedDate,
 
-				        CreatedByID = entity.CreatedByID,
+                CreatedByID = entity.CreatedByID,
 
-				        ModifiedDate = entity.ModifiedDate,
+                ModifiedDate = entity.ModifiedDate,
 
-				        ModifiedByID = entity.ModifiedByID,
+                ModifiedByID = entity.ModifiedByID,
 
-				
+
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID  }), "delete_position", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertPosition", "positions"), "insert_position", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdatePosition", "positions"), "update_position", "PUT"));
-
+            if (url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID }), "delete_position", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertPosition", "positions"), "insert_position", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdatePosition", "positions"), "update_position", "PUT"));
+            }
             return dto;
 
         }
@@ -51,29 +52,29 @@ namespace HRT.Utils.Convertors
         {
             var entity = new Interfaces.Entities.Position()
             {
-                
-        		        ID = dto.ID,
 
-				        DepartmentID = dto.DepartmentID,
+                ID = dto.ID,
 
-				        Title = dto.Title,
+                DepartmentID = dto.DepartmentID,
 
-				        ShortDesc = dto.ShortDesc,
+                Title = dto.Title,
 
-				        Description = dto.Description,
+                ShortDesc = dto.ShortDesc,
 
-				        StatusID = dto.StatusID,
+                Description = dto.Description,
 
-				        CreatedDate = dto.CreatedDate,
+                StatusID = dto.StatusID,
 
-				        CreatedByID = dto.CreatedByID,
+                CreatedDate = dto.CreatedDate,
 
-				        ModifiedDate = dto.ModifiedDate,
+                CreatedByID = dto.CreatedByID,
 
-				        ModifiedByID = dto.ModifiedByID,
+                ModifiedDate = dto.ModifiedDate,
 
-				
-     
+                ModifiedByID = dto.ModifiedByID,
+
+
+
             };
 
             return entity;

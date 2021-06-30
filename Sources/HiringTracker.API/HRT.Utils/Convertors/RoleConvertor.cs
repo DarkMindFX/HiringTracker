@@ -21,12 +21,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetRole", "roles", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteRole", "roles", new { id = dto.ID  }), "delete_role", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertRole", "roles"), "insert_role", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateRole", "roles"), "update_role", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetRole", "roles", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteRole", "roles", new { id = dto.ID  }), "delete_role", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertRole", "roles"), "insert_role", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateRole", "roles"), "update_role", "PUT"));
+            }
             return dto;
 
         }

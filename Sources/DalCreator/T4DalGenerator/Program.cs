@@ -33,6 +33,7 @@ namespace T4DalGenerator
             Generate<ServiceDalsImplGenerator>(tables, settings, timestamp);
             Generate<ConvertorsGenerator>(tables, settings, timestamp);
             Generate<EntityControllerGenerator>(tables, settings, timestamp);
+            Generate<ControllerTestGenerator>(tables, settings, timestamp);
         }
 
         private static IList<string> Generate<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator

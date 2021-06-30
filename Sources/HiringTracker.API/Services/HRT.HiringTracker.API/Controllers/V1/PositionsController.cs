@@ -1,9 +1,6 @@
 
 
-
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using HRT.HiringTracker.API.Filters;
 using HRT.Interfaces.Entities;
@@ -144,7 +141,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             var existingEntity = _dalPosition.Get(newEntity.ID);
             if (existingEntity != null)
             {
-                Position entity = _dalPosition.Insert(newEntity);
+                Position entity = _dalPosition.Update(newEntity);
 
                 response = Ok(PositionConvertor.Convert(entity, this.Url));
             }

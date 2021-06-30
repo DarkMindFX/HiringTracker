@@ -21,12 +21,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetSkillProficiency", "skillproficiencies", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteSkillProficiency", "skillproficiencies", new { id = dto.ID  }), "delete_skillproficiency", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertSkillProficiency", "skillproficiencies"), "insert_skillproficiency", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateSkillProficiency", "skillproficiencies"), "update_skillproficiency", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetSkillProficiency", "skillproficiencies", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteSkillProficiency", "skillproficiencies", new { id = dto.ID  }), "delete_skillproficiency", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertSkillProficiency", "skillproficiencies"), "insert_skillproficiency", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateSkillProficiency", "skillproficiencies"), "update_skillproficiency", "PUT"));
+            }
             return dto;
 
         }

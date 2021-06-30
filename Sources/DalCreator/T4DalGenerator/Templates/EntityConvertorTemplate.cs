@@ -98,174 +98,176 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("\r\n            dto.Links.Add(new DTO.Link(url.Action(\"Get");
+            this.Write("            if(url != null)\r\n            {\r\n                dto.Links.Add(new DTO" +
+                    ".Link(url.Action(\"Get");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\", new { ");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
  for(int i = 0; i < pks.Count; ++i) { 
             
             #line default
             #line hidden
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name.ToLower()));
             
             #line default
             #line hidden
             this.Write(" = dto.");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
             
             #line default
             #line hidden
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write(" }), \"self\", \"GET\"));\r\n            dto.Links.Add(new DTO.Link(url.Action(\"Delete");
+            this.Write(" }), \"self\", \"GET\"));\r\n                dto.Links.Add(new DTO.Link(url.Action(\"Del" +
+                    "ete");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\", new { ");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
  for(int i = 0; i < pks.Count; ++i) { 
             
             #line default
             #line hidden
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name.ToLower()));
             
             #line default
             #line hidden
             this.Write(" = dto.");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
             
             #line default
             #line hidden
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write(" }), \"delete_");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
             
             #line default
             #line hidden
-            this.Write("\", \"DELETE\"));\r\n            dto.Links.Add(new DTO.Link(url.Action(\"Insert");
+            this.Write("\", \"DELETE\"));\r\n                dto.Links.Add(new DTO.Link(url.Action(\"Insert");
             
-            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\"), \"insert_");
             
-            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
             
             #line default
             #line hidden
-            this.Write("\", \"POST\"));\r\n            dto.Links.Add(new DTO.Link(url.Action(\"Update");
+            this.Write("\", \"POST\"));\r\n                dto.Links.Add(new DTO.Link(url.Action(\"Update");
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\"), \"update_");
             
-            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 42 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
             
             #line default
             #line hidden
-            this.Write("\", \"PUT\"));\r\n\r\n            return dto;\r\n\r\n        }\r\n\r\n        public static Inte" +
-                    "rfaces.Entities.");
+            this.Write("\", \"PUT\"));\r\n            }\r\n            return dto;\r\n\r\n        }\r\n\r\n        publi" +
+                    "c static Interfaces.Entities.");
             
-            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" Convert(DTO.");
             
-            #line 47 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" dto)\r\n        {\r\n            var entity = new Interfaces.Entities.");
             
-            #line 49 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 50 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("()\r\n            {\r\n                \r\n        ");
             
-            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 53 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
  
 			foreach(var c in table.Columns) 
 			{
@@ -275,21 +277,21 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t        ");
             
-            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = dto.");
             
-            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n\r\n\t\t");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
+            #line 59 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"
 
 			}
 		

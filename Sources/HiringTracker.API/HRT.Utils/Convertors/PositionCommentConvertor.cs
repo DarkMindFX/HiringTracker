@@ -21,12 +21,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetPositionComment", "positioncomments", new { positionid = dto.PositionID, commentid = dto.CommentID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeletePositionComment", "positioncomments", new { positionid = dto.PositionID, commentid = dto.CommentID  }), "delete_positioncomment", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertPositionComment", "positioncomments"), "insert_positioncomment", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdatePositionComment", "positioncomments"), "update_positioncomment", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetPositionComment", "positioncomments", new { positionid = dto.PositionID, commentid = dto.CommentID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeletePositionComment", "positioncomments", new { positionid = dto.PositionID, commentid = dto.CommentID  }), "delete_positioncomment", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertPositionComment", "positioncomments"), "insert_positioncomment", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdatePositionComment", "positioncomments"), "update_positioncomment", "PUT"));
+            }
             return dto;
 
         }

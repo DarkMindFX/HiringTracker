@@ -23,12 +23,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetUserRolePosition", "userrolepositions", new { positionid = dto.PositionID, userid = dto.UserID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteUserRolePosition", "userrolepositions", new { positionid = dto.PositionID, userid = dto.UserID  }), "delete_userroleposition", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertUserRolePosition", "userrolepositions"), "insert_userroleposition", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateUserRolePosition", "userrolepositions"), "update_userroleposition", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetUserRolePosition", "userrolepositions", new { positionid = dto.PositionID, userid = dto.UserID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteUserRolePosition", "userrolepositions", new { positionid = dto.PositionID, userid = dto.UserID  }), "delete_userroleposition", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertUserRolePosition", "userrolepositions"), "insert_userroleposition", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateUserRolePosition", "userrolepositions"), "update_userroleposition", "PUT"));
+            }
             return dto;
 
         }

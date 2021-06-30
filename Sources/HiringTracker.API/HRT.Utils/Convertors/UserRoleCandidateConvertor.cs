@@ -23,12 +23,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetUserRoleCandidate", "userrolecandidates", new { candidateid = dto.CandidateID, userid = dto.UserID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteUserRoleCandidate", "userrolecandidates", new { candidateid = dto.CandidateID, userid = dto.UserID  }), "delete_userrolecandidate", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertUserRoleCandidate", "userrolecandidates"), "insert_userrolecandidate", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateUserRoleCandidate", "userrolecandidates"), "update_userrolecandidate", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetUserRoleCandidate", "userrolecandidates", new { candidateid = dto.CandidateID, userid = dto.UserID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteUserRoleCandidate", "userrolecandidates", new { candidateid = dto.CandidateID, userid = dto.UserID  }), "delete_userrolecandidate", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertUserRoleCandidate", "userrolecandidates"), "insert_userrolecandidate", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateUserRoleCandidate", "userrolecandidates"), "update_userrolecandidate", "PUT"));
+            }
             return dto;
 
         }

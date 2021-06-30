@@ -33,6 +33,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Templates\EntityConvertorTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EntityConvertorTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\EntityTemplate - Copy.cs">
       <DependentUpon>EntityTemplate.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -118,10 +123,15 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>InsertTeardownTemplate.tt</DependentUpon>
 	</Compile>
-	<Compile Update="Templates\Tests\TestDalTemplate.cs">
+	<Compile Update="Templates\Tests\TestDalTemplate - Copy.cs">
+	  <DependentUpon>TestDalTemplate.tt</DependentUpon>
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
-	  <DependentUpon>TestDalTemplate.tt</DependentUpon>
+	</Compile>
+	<Compile Update="Templates\Tests\TestControllerTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>TestControllerTemplate.tt</DependentUpon>
 	</Compile>
 	<Compile Update="Templates\Tests\GetDetailsSetupTemplate.cs">
 	  <DesignTime>True</DesignTime>
@@ -225,9 +235,13 @@
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>InsertTeardownTemplate.cs</LastGenOutput>
 	</None>
+	<None Update="Templates\Tests\TestControllerTemplate.tt">
+	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	</None>
 	<None Update="Templates\Tests\TestDalTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
-	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
+	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>
 	</None>
 	<None Update="Templates\Tests\GetDetailsSetupTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>

@@ -25,12 +25,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetCandidateProperty", "candidateproperties", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateProperty", "candidateproperties", new { id = dto.ID  }), "delete_candidateproperty", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertCandidateProperty", "candidateproperties"), "insert_candidateproperty", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateProperty", "candidateproperties"), "update_candidateproperty", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetCandidateProperty", "candidateproperties", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateProperty", "candidateproperties", new { id = dto.ID  }), "delete_candidateproperty", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertCandidateProperty", "candidateproperties"), "insert_candidateproperty", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateProperty", "candidateproperties"), "update_candidateproperty", "PUT"));
+            }
             return dto;
 
         }

@@ -23,8 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HRT.DAL.MSSQL\HRT.DAL.MSSQL.csproj" />
     <ProjectReference Include="..\..\HRT.DTO\HRT.DTO.csproj" />
+    <ProjectReference Include="..\..\HRT.Interfaces\HRT.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\HRT.HiringTracker.API\HRT.HiringTracker.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

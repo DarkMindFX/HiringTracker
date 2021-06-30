@@ -21,12 +21,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetCandidateComment", "candidatecomments", new { candidateid = dto.CandidateID, commentid = dto.CommentID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateComment", "candidatecomments", new { candidateid = dto.CandidateID, commentid = dto.CommentID  }), "delete_candidatecomment", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertCandidateComment", "candidatecomments"), "insert_candidatecomment", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateComment", "candidatecomments"), "update_candidatecomment", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetCandidateComment", "candidatecomments", new { candidateid = dto.CandidateID, commentid = dto.CommentID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateComment", "candidatecomments", new { candidateid = dto.CandidateID, commentid = dto.CommentID  }), "delete_candidatecomment", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertCandidateComment", "candidatecomments"), "insert_candidatecomment", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateComment", "candidatecomments"), "update_candidatecomment", "PUT"));
+            }
             return dto;
 
         }

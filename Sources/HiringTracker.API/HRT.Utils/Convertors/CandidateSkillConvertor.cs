@@ -14,21 +14,22 @@ namespace HRT.Utils.Convertors
         {
             var dto = new DTO.CandidateSkill()
             {
-                CandidateID = entity.CandidateID,
+        		        CandidateID = entity.CandidateID,
 
-                SkillID = entity.SkillID,
+				        SkillID = entity.SkillID,
 
-                SkillProficiencyID = entity.SkillProficiencyID,
+				        SkillProficiencyID = entity.SkillProficiencyID,
 
-
+				
             };
 
-
-            dto.Links.Add(new DTO.Link(url.Action("GetCandidateSkill", "candidateskills", new { candidateid = dto.CandidateID, skillid = dto.SkillID }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateSkill", "candidateskills", new { candidateid = dto.CandidateID, skillid = dto.SkillID }), "delete_candidateskill", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertCandidateSkill", "candidateskills"), "insert_candidateskill", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateSkill", "candidateskills"), "update_candidateskill", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetCandidateSkill", "candidateskills", new { candidateid = dto.CandidateID, skillid = dto.SkillID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteCandidateSkill", "candidateskills", new { candidateid = dto.CandidateID, skillid = dto.SkillID  }), "delete_candidateskill", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertCandidateSkill", "candidateskills"), "insert_candidateskill", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateCandidateSkill", "candidateskills"), "update_candidateskill", "PUT"));
+            }
             return dto;
 
         }
@@ -37,15 +38,15 @@ namespace HRT.Utils.Convertors
         {
             var entity = new Interfaces.Entities.CandidateSkill()
             {
+                
+        		        CandidateID = dto.CandidateID,
 
-                CandidateID = dto.CandidateID,
+				        SkillID = dto.SkillID,
 
-                SkillID = dto.SkillID,
+				        SkillProficiencyID = dto.SkillProficiencyID,
 
-                SkillProficiencyID = dto.SkillProficiencyID,
-
-
-
+				
+     
             };
 
             return entity;

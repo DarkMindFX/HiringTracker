@@ -37,12 +37,13 @@ namespace HRT.Utils.Convertors
 				
             };
 
-            
-            dto.Links.Add(new DTO.Link(url.Action("GetInterview", "interviews", new { id = dto.ID  }), "self", "GET"));
-            dto.Links.Add(new DTO.Link(url.Action("DeleteInterview", "interviews", new { id = dto.ID  }), "delete_interview", "DELETE"));
-            dto.Links.Add(new DTO.Link(url.Action("InsertInterview", "interviews"), "insert_interview", "POST"));
-            dto.Links.Add(new DTO.Link(url.Action("UpdateInterview", "interviews"), "update_interview", "PUT"));
-
+                        if(url != null)
+            {
+                dto.Links.Add(new DTO.Link(url.Action("GetInterview", "interviews", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteInterview", "interviews", new { id = dto.ID  }), "delete_interview", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertInterview", "interviews"), "insert_interview", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateInterview", "interviews"), "update_interview", "PUT"));
+            }
             return dto;
 
         }
