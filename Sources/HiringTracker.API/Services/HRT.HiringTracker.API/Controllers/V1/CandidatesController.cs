@@ -17,16 +17,16 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class PositionsController : BaseController
+    public class CandidatesController : BaseController
     {
-        private readonly Dal.IPositionDal _dalPosition;
-        private readonly ILogger<PositionsController> _logger;
+        private readonly Dal.ICandidateDal _dalCandidate;
+        private readonly ILogger<CandidatesController> _logger;
 
 
-        public PositionsController( Dal.IPositionDal dalPosition,
-                                    ILogger<PositionsController> logger)
+        public CandidatesController( Dal.ICandidateDal dalCandidate,
+                                    ILogger<CandidatesController> logger)
         {
-            _dalPosition = dalPosition; 
+            _dalCandidate = dalCandidate; 
             _logger = logger;
         }
 
@@ -37,13 +37,13 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
             IActionResult response = null;
 
-            var entities = _dalPosition.GetAll();
+            var entities = _dalCandidate.GetAll();
 
-            IList<DTO.Position> dtos = new List<DTO.Position>();
+            IList<DTO.Candidate> dtos = new List<DTO.Candidate>();
 
             foreach (var p in entities)
             {
-                var dto = PositionConvertor.Convert(p, this.Url);
+                var dto = CandidateConvertor.Convert(p, this.Url);
 
                 dtos.Add(dto);
             }
@@ -56,22 +56,22 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpGet("{id}"), ActionName("GetPosition")]
+        [HttpGet("{id}"), ActionName("GetCandidate")]
         public IActionResult Get(System.Int64? id)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var entity = _dalPosition.Get(id);
+            var entity = _dalCandidate.Get(id);
             if (entity != null)
             {
-                var dto = PositionConvertor.Convert(entity, this.Url);
+                var dto = CandidateConvertor.Convert(entity, this.Url);
                 response = Ok(dto);
             }
             else
             {
-                response = StatusCode((int)HttpStatusCode.NotFound, $"Position was not found [ids:{id}]");
+                response = StatusCode((int)HttpStatusCode.NotFound, $"Candidate was not found [ids:{id}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -80,30 +80,30 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpDelete("{id}"), ActionName("DeletePosition")]
+        [HttpDelete("{id}"), ActionName("DeleteCandidate")]
         public IActionResult Delete(System.Int64? id)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var existingEntity = _dalPosition.Get(id);
+            var existingEntity = _dalCandidate.Get(id);
 
             if (existingEntity != null)
             {
-                bool removed = _dalPosition.Delete(id);
+                bool removed = _dalCandidate.Delete(id);
                 if (removed)
                 {
                     response = Ok();
                 }
                 else
                 {
-                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete Position [ids:{id}]");
+                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete Candidate [ids:{id}]");
                 }
             }
             else
             {
-                response = NotFound($"Position not found [ids:{id}]");
+                response = NotFound($"Candidate not found [ids:{id}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -112,18 +112,18 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpPost, ActionName("InsertPosition")]
-        public IActionResult Insert(DTO.Position dto)
+        [HttpPost, ActionName("InsertCandidate")]
+        public IActionResult Insert(DTO.Candidate dto)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var entity = PositionConvertor.Convert(dto);
+            var entity = CandidateConvertor.Convert(dto);
 
-            Position newEntity = _dalPosition.Insert(entity);
+            Candidate newEntity = _dalCandidate.Insert(entity);
 
-            response = Ok(PositionConvertor.Convert(newEntity, this.Url));
+            response = Ok(CandidateConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 
@@ -132,25 +132,25 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
 
         //[Authorize]
-        [HttpPut, ActionName("UpdatePosition")]
-        public IActionResult Update(DTO.Position dto)
+        [HttpPut, ActionName("UpdateCandidate")]
+        public IActionResult Update(DTO.Candidate dto)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var newEntity = PositionConvertor.Convert(dto);
+            var newEntity = CandidateConvertor.Convert(dto);
 
-            var existingEntity = _dalPosition.Get(newEntity.ID);
+            var existingEntity = _dalCandidate.Get(newEntity.ID);
             if (existingEntity != null)
             {
-                Position entity = _dalPosition.Update(newEntity);
+                Candidate entity = _dalCandidate.Update(newEntity);
 
-                response = Ok(PositionConvertor.Convert(entity, this.Url));
+                response = Ok(CandidateConvertor.Convert(entity, this.Url));
             }
             else
             {
-                response = NotFound($"Position not found [ids:{newEntity.ID}]");
+                response = NotFound($"Candidate not found [ids:{newEntity.ID}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");

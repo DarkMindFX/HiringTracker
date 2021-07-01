@@ -74,13 +74,17 @@ namespace HRT.HiringTracker.API.Controllers.V1
             for(int i = 0; i < pks.Count; ++i)
             {
             var pk = pks[i];
-        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var entity = _dal<#= table.Name #>.Get(id);
+            var entity = _dal<#= table.Name #>.Get(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);
             if (entity != null)
             {
                 var dto = <#= table.Name #>Convertor.Convert(entity, this.Url);
@@ -88,7 +92,11 @@ namespace HRT.HiringTracker.API.Controllers.V1
             }
             else
             {
-                response = StatusCode((int)HttpStatusCode.NotFound, $"<#= table.Name #> was not found [id:{id}]");
+                response = StatusCode((int)HttpStatusCode.NotFound, $"<#= table.Name #> was not found [ids:{<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "}, {" : "}" #><# } #>]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -101,34 +109,50 @@ namespace HRT.HiringTracker.API.Controllers.V1
         for(int i = 0; i < pks.Count; ++i)
         {
             var pk = pks[i];
-            #> {<#=pk.Name.ToLower()#>}<#= i+1 < pks.Count ? "/" : string.Empty #><# } #>"), ActionName("Delete<#= table.Name #>")]
+            #>{<#=pk.Name.ToLower()#>}<#= i+1 < pks.Count ? "/" : string.Empty #><# } #>"), ActionName("Delete<#= table.Name #>")]
         public IActionResult Delete(<#
             for(int i = 0; i < pks.Count; ++i)
             {
             var pk = pks[i];
-        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "," : string.Empty #><# } #>)
+        #><#= generator.DbTypeToType(pk) #> <#=pk.Name.ToLower() #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var existingEntity = _dal<#= table.Name #>.Get(id);
+            var existingEntity = _dal<#= table.Name #>.Get(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);
 
             if (existingEntity != null)
             {
-                bool removed = _dal<#= table.Name #>.Delete(id);
+                bool removed = _dal<#= table.Name #>.Delete(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);
                 if (removed)
                 {
                     response = Ok();
                 }
                 else
                 {
-                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete <#= table.Name #> [id:{id}]");
+                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete <#= table.Name #> [ids:{<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "}, {" : "}" #><# } #>]");
                 }
             }
             else
             {
-                response = NotFound($"<#= table.Name #> not found [id: {id}]");
+                response = NotFound($"<#= table.Name #> not found [ids:{<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #><#=pk.Name.ToLower() #><#= i+1 < pks.Count ? "}, {" : "}" #><# } #>]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -137,7 +161,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpPost]
+        [HttpPost, ActionName("Insert<#= table.Name #>")]
         public IActionResult Insert(DTO.<#= table.Name #> dto)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
@@ -166,16 +190,24 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             var newEntity = <#= table.Name #>Convertor.Convert(dto);
 
-            var existingEntity = _dal<#= table.Name #>.Get(newEntity.ID);
+            var existingEntity = _dal<#= table.Name #>.Get(<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #>newEntity.<#= pk.Name #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);
             if (existingEntity != null)
             {
-                <#= table.Name #> entity = _dal<#= table.Name #>.Insert(newEntity);
+                <#= table.Name #> entity = _dal<#= table.Name #>.Update(newEntity);
 
                 response = Ok(<#= table.Name #>Convertor.Convert(entity, this.Url));
             }
             else
             {
-                response = NotFound($"<#= table.Name #> not found [id: {newEntity.ID}]");
+                response = NotFound($"<#= table.Name #> not found [ids:{<#
+            for(int i = 0; i < pks.Count; ++i)
+            {
+            var pk = pks[i];
+        #>newEntity.<#= pk.Name #><#= i+1 < pks.Count ? "}, {" : "}" #><# } #>]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");

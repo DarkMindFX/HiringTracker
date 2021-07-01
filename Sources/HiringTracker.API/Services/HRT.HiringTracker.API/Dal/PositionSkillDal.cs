@@ -15,14 +15,14 @@ namespace HRT.HiringTracker.API.Dal
         {
         }
 
-        public PositionSkill Get(System.Int64 PositionID,System.Int64 SkillID)
+        public PositionSkill Get(System.Int64 PositionID, System.Int64 SkillID)
         {
-            return _dalImpl.Get(            PositionID,            SkillID);
+            return _dalImpl.Get(PositionID, SkillID);
         }
 
-        public bool Delete(System.Int64 PositionID,System.Int64 SkillID)
+        public bool Delete(System.Int64 PositionID, System.Int64 SkillID)
         {
-            return _dalImpl.Delete(            PositionID,            SkillID);
+            return _dalImpl.Delete(PositionID, SkillID);
         }
 
         public IList<PositionSkill> GetByPositionID(System.Int64 PositionID)
@@ -37,5 +37,5 @@ namespace HRT.HiringTracker.API.Dal
         {
             return _dalImpl.GetBySkillProficiencyID(SkillProficiencyID);
         }
-            }
+    }
 }

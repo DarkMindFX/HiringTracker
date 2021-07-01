@@ -14,33 +14,33 @@ namespace HRT.Utils.Convertors
         {
             var dto = new DTO.Position()
             {
-                ID = entity.ID,
+        		        ID = entity.ID,
 
-                DepartmentID = entity.DepartmentID,
+				        DepartmentID = entity.DepartmentID,
 
-                Title = entity.Title,
+				        Title = entity.Title,
 
-                ShortDesc = entity.ShortDesc,
+				        ShortDesc = entity.ShortDesc,
 
-                Description = entity.Description,
+				        Description = entity.Description,
 
-                StatusID = entity.StatusID,
+				        StatusID = entity.StatusID,
 
-                CreatedDate = entity.CreatedDate,
+				        CreatedDate = entity.CreatedDate,
 
-                CreatedByID = entity.CreatedByID,
+				        CreatedByID = entity.CreatedByID,
 
-                ModifiedDate = entity.ModifiedDate,
+				        ModifiedDate = entity.ModifiedDate,
 
-                ModifiedByID = entity.ModifiedByID,
+				        ModifiedByID = entity.ModifiedByID,
 
-
+				
             };
 
-            if (url != null)
+                        if(url != null)
             {
-                dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID }), "self", "GET"));
-                dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID }), "delete_position", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("GetPosition", "positions", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeletePosition", "positions", new { id = dto.ID  }), "delete_position", "DELETE"));
                 dto.Links.Add(new DTO.Link(url.Action("InsertPosition", "positions"), "insert_position", "POST"));
                 dto.Links.Add(new DTO.Link(url.Action("UpdatePosition", "positions"), "update_position", "PUT"));
             }
@@ -52,29 +52,29 @@ namespace HRT.Utils.Convertors
         {
             var entity = new Interfaces.Entities.Position()
             {
+                
+        		        ID = dto.ID,
 
-                ID = dto.ID,
+				        DepartmentID = dto.DepartmentID,
 
-                DepartmentID = dto.DepartmentID,
+				        Title = dto.Title,
 
-                Title = dto.Title,
+				        ShortDesc = dto.ShortDesc,
 
-                ShortDesc = dto.ShortDesc,
+				        Description = dto.Description,
 
-                Description = dto.Description,
+				        StatusID = dto.StatusID,
 
-                StatusID = dto.StatusID,
+				        CreatedDate = dto.CreatedDate,
 
-                CreatedDate = dto.CreatedDate,
+				        CreatedByID = dto.CreatedByID,
 
-                CreatedByID = dto.CreatedByID,
+				        ModifiedDate = dto.ModifiedDate,
 
-                ModifiedDate = dto.ModifiedDate,
+				        ModifiedByID = dto.ModifiedByID,
 
-                ModifiedByID = dto.ModifiedByID,
-
-
-
+				
+     
             };
 
             return entity;

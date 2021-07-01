@@ -102,73 +102,190 @@ namespace T4DalGenerator.Templates.Tests
             
             #line default
             #line hidden
-            this.Write("_Get_Success()\r\n        {\r\n            using (var client = _factory.CreateClient(" +
-                    "))\r\n            {\r\n                long ID = 100002;\r\n\r\n                var resp" +
-                    "Get = client.GetAsync($\"/api/v1/");
+            this.Write("_Get_Success()\r\n        {\r\n            HRT.Interfaces.Entities.");
             
-            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 54 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" testEntity = AddTestEntity();\r\n            using (var client = _factory.CreateCl" +
+                    "ient())\r\n            {\r\n                try\r\n                {\r\n");
+            
+            #line 59 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            string keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+
+            
+            #line default
+            #line hidden
+            this.Write("                var param");
+            
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = testEntity.");
+            
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            }
+
+            
+            #line default
+            #line hidden
+            this.Write("                    var respGet = client.GetAsync($\"/api/v1/");
+            
+            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
-            this.Write("/{ID}\");\r\n\r\n                Assert.Equal(HttpStatusCode.OK, respGet.Result.Status" +
-                    "Code);\r\n\r\n                ");
+            this.Write("/");
             
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" dto = ExtractContentJson<");
-            
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(keys));
             
             #line default
             #line hidden
-            this.Write(">(respGet.Result.Content);\r\n\r\n                Assert.NotNull(dto);\r\n             " +
-                    "   Assert.NotNull(dto.Links);\r\n            }\r\n        }\r\n\r\n        [Fact]\r\n     " +
-                    "   public void ");
+            this.Write(@""");
+
+                    Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
+
+                    Position dto = ExtractContentJson<Position>(respGet.Result.Content);
+
+                    Assert.NotNull(dto);
+                    Assert.NotNull(dto.Links);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
+            }
+        }
+
+        [Fact]
+        public void ");
             
-            #line 70 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 86 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("_Get_InvalidID()\r\n        {\r\n            using (var client = _factory.CreateClien" +
-                    "t())\r\n            {\r\n                long ID = Int64.MaxValue;\r\n\r\n              " +
-                    "  var respGet = client.GetAsync($\"/api/v1/");
+                    "t())\r\n            {\r\n");
             
-            #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+
+            
+            #line default
+            #line hidden
+            this.Write("                var param");
+            
+            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = Int64.MaxValue;\r\n");
+            
+            #line 97 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            }
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n                var respGet = client.GetAsync($\"/api/v1/");
+            
+            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
-            this.Write("/{ID}\");\r\n\r\n                Assert.Equal(HttpStatusCode.NotFound, respGet.Result." +
-                    "StatusCode);\r\n            }\r\n        }\r\n\r\n        [Fact]\r\n        public void ");
+            this.Write("/");
             
-            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 101 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(keys));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n\r\n                Assert.Equal(HttpStatusCode.NotFound, respGet.Result.Statu" +
+                    "sCode);\r\n            }\r\n        }\r\n\r\n        [Fact]\r\n        public void ");
+            
+            #line 108 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write(@"_Delete_Success()
-        {
-            var testEntity = AddTestEntity();
-            using (var client = _factory.CreateClient())
-            {
-                try
-                {
-                    long? ID = testEntity.ID;
-
-                    var respDel = client.DeleteAsync($""/api/v1/");
+            this.Write("_Delete_Success()\r\n        {\r\n            var testEntity = AddTestEntity();\r\n    " +
+                    "        using (var client = _factory.CreateClient())\r\n            {\r\n           " +
+                    "     try\r\n                {\r\n");
             
-            #line 92 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 115 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+
+            
+            #line default
+            #line hidden
+            this.Write("                var param");
+            
+            #line 121 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = testEntity.");
+            
+            #line 121 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 122 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            }
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n                    var respDel = client.DeleteAsync($\"/api/v1/");
+            
+            #line 126 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
-            this.Write(@"/{ID}"");
+            this.Write("/");
+            
+            #line 126 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(keys));
+            
+            #line default
+            #line hidden
+            this.Write(@""");
 
                     Assert.Equal(HttpStatusCode.OK, respDel.Result.StatusCode);
                 }
@@ -182,24 +299,58 @@ namespace T4DalGenerator.Templates.Tests
         [Fact]
         public void ");
             
-            #line 104 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 138 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("_Delete_InvalidID()\r\n        {\r\n            using (var client = _factory.CreateCl" +
-                    "ient())\r\n            {\r\n                long? ID = Int64.MaxValue;\r\n\r\n          " +
-                    "      var respDel = client.DeleteAsync($\"/api/v1/");
+                    "ient())\r\n            {\r\n");
             
-            #line 110 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 142 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+
+            
+            #line default
+            #line hidden
+            this.Write("                var param");
+            
+            #line 148 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = Int64.MaxValue;\r\n");
+            
+            #line 149 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+
+            }
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n                var respDel = client.DeleteAsync($\"/api/v1/");
+            
+            #line 153 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
-            this.Write("/{ID}\");\r\n\r\n                Assert.Equal(HttpStatusCode.NotFound, respDel.Result." +
-                    "StatusCode);\r\n            }\r\n        }\r\n\r\n        [Fact]\r\n        public void ");
+            this.Write("/");
             
-            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 153 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(keys));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n\r\n                Assert.Equal(HttpStatusCode.NotFound, respDel.Result.Statu" +
+                    "sCode);\r\n            }\r\n        }\r\n\r\n        [Fact]\r\n        public void ");
+            
+            #line 160 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -207,14 +358,14 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("_Insert_Success()\r\n        {\r\n            using (var client = _factory.CreateClie" +
                     "nt())\r\n            {\r\n                HRT.Interfaces.Entities.");
             
-            #line 121 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 164 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" testEntity = CreateTestEntity();\r\n                HRT.Interfaces.Entities.");
             
-            #line 122 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 165 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -222,7 +373,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" respEntity = null;\r\n                try\r\n                {\r\n                    " +
                     "var reqDto = ");
             
-            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 168 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -231,7 +382,7 @@ namespace T4DalGenerator.Templates.Tests
                     "ontentJson(reqDto);\r\n\r\n                    var respInsert = client.PostAsync($\"/" +
                     "api/v1/");
             
-            #line 129 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 172 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -239,21 +390,21 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("/\", content);\r\n\r\n                    Assert.Equal(HttpStatusCode.OK, respInsert.R" +
                     "esult.StatusCode);\r\n\r\n                    ");
             
-            #line 133 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" respDto = ExtractContentJson<");
             
-            #line 133 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(">(respInsert.Result.Content);\r\n\r\n                ");
             
-            #line 135 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 178 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                 foreach(var c in table.Columns)
                 {
@@ -264,14 +415,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("                    Assert.NotNull(respDto.");
             
-            #line 140 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n                ");
             
-            #line 141 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 184 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                     else {
@@ -281,21 +432,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("                    Assert.Equal(reqDto.");
             
-            #line 145 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 188 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(", respDto.");
             
-            #line 145 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 188 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n                ");
             
-            #line 146 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 189 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                 }
@@ -305,7 +456,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\r\n                    respEntity = ");
             
-            #line 151 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 194 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -314,7 +465,7 @@ namespace T4DalGenerator.Templates.Tests
                     "        {\r\n                    RemoveTestEntity(respEntity);\r\n                }\r" +
                     "\n            }\r\n        }\r\n\r\n        [Fact]\r\n        public void ");
             
-            #line 161 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 204 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -322,7 +473,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("_Update_Success()\r\n        {\r\n            using (var client = _factory.CreateClie" +
                     "nt())\r\n            {\r\n                HRT.Interfaces.Entities.");
             
-            #line 165 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 208 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -330,12 +481,12 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" testEntity = AddTestEntity();\r\n                try\r\n                {\r\n         " +
                     "   ");
             
-            #line 168 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 211 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                 foreach(var c in table.Columns)
                 {
                     Type columnType = generator.GetColumnType(c);
-                    if(!c.IsIdentity && testValsUpdateAfter.ContainsKey(c.Name))
+                    if(!c.IsIdentity && !c.IsPK && testValsUpdateAfter.ContainsKey(c.Name))
                     {
                         if(columnType == typeof(DateTime))
                         {
@@ -345,21 +496,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 177 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = DateTime.Parse(\"");
             
-            #line 177 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\");\r\n              ");
             
-            #line 178 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 221 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(string))
@@ -370,21 +521,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\";\r\n              ");
             
-            #line 184 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 227 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(bool))
@@ -395,21 +546,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 189 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 232 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 189 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 232 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
             this.Write(";              \r\n              ");
             
-            #line 190 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 233 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(testValsUpdateAfter[c.Name] != null)
@@ -420,21 +571,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 195 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 238 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 195 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 238 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write(";\r\n              ");
             
-            #line 196 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 239 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                     }                    
@@ -445,7 +596,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\r\n                    var reqDto = ");
             
-            #line 202 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 245 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -454,7 +605,7 @@ namespace T4DalGenerator.Templates.Tests
                     "ontentJson(reqDto);\r\n\r\n                    var respUpdate = client.PutAsync($\"/a" +
                     "pi/v1/");
             
-            #line 206 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 249 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -462,21 +613,21 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("/\", content);\r\n\r\n                    Assert.Equal(HttpStatusCode.OK, respUpdate.R" +
                     "esult.StatusCode);\r\n\r\n                    ");
             
-            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" respDto = ExtractContentJson<");
             
-            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(">(respUpdate.Result.Content);\r\n\r\n                 ");
             
-            #line 212 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 255 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                 foreach(var c in table.Columns)
                 {
@@ -487,14 +638,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("                    Assert.NotNull(respDto.");
             
-            #line 217 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 260 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n                ");
             
-            #line 218 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 261 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                     else {
@@ -504,21 +655,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("                    Assert.Equal(reqDto.");
             
-            #line 222 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(", respDto.");
             
-            #line 222 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n                ");
             
-            #line 223 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 266 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                 }
@@ -530,7 +681,7 @@ namespace T4DalGenerator.Templates.Tests
                     "    RemoveTestEntity(testEntity);\r\n                }\r\n            }\r\n        }\r\n" +
                     "\r\n        [Fact]\r\n        public void ");
             
-            #line 237 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 280 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -538,7 +689,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("_Update_InvalidID()\r\n        {\r\n            using (var client = _factory.CreateCl" +
                     "ient())\r\n            {\r\n                HRT.Interfaces.Entities.");
             
-            #line 241 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 284 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -546,7 +697,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" testEntity = CreateTestEntity();\r\n                try\r\n                {\r\n      " +
                     "        ");
             
-            #line 244 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 287 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                 foreach(var c in table.Columns)
                 {
@@ -561,21 +712,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 296 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = DateTime.Parse(\"");
             
-            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 296 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\");\r\n              ");
             
-            #line 254 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 297 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(string))
@@ -586,21 +737,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 259 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 302 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 259 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 302 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\";\r\n              ");
             
-            #line 260 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 303 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(bool))
@@ -611,21 +762,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 308 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 308 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
             this.Write(";              \r\n              ");
             
-            #line 266 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 309 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(testValsUpdateAfter[c.Name] != null)
@@ -636,21 +787,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              testEntity.");
             
-            #line 271 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 314 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 271 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 314 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsUpdateAfter[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write(";\r\n              ");
             
-            #line 272 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 315 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                     }
@@ -662,14 +813,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("               testEntity.");
             
-            #line 278 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 321 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
-            this.Write(" = Int64.MAxValue;\r\n               ");
+            this.Write(" = Int64.MaxValue;\r\n               ");
             
-            #line 279 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 322 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                 }
@@ -679,7 +830,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\r\n                    var reqDto = ");
             
-            #line 284 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 327 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -688,7 +839,7 @@ namespace T4DalGenerator.Templates.Tests
                     "ontentJson(reqDto);\r\n\r\n                    var respUpdate = client.PutAsync($\"/a" +
                     "pi/v1/");
             
-            #line 288 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 331 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -708,7 +859,7 @@ namespace T4DalGenerator.Templates.Tests
 
         protected bool RemoveTestEntity(HRT.Interfaces.Entities.");
             
-            #line 301 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 344 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -717,7 +868,7 @@ namespace T4DalGenerator.Templates.Tests
                     "    var dal = CreateDal();\r\n\r\n                return dal.Delete(\r\n              " +
                     "  ");
             
-            #line 308 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 351 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     for(int i = 0; i < pks.Count; ++i)
                     {
@@ -725,22 +876,22 @@ namespace T4DalGenerator.Templates.Tests
             
             #line default
             #line hidden
-            this.Write("                        ");
+            this.Write("                        entity.");
             
-            #line 312 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 355 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pks[i].Name));
             
             #line default
             #line hidden
             
-            #line 312 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 355 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n                ");
             
-            #line 313 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 356 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                     }
                 
@@ -750,7 +901,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(");\r\n            }\r\n            else\r\n            {\r\n                return false;" +
                     "\r\n            }\r\n        }\r\n\r\n        protected HRT.Interfaces.Entities.");
             
-            #line 323 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 366 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -758,14 +909,14 @@ namespace T4DalGenerator.Templates.Tests
             this.Write(" CreateTestEntity()\r\n        {\r\n            var entity = new HRT.Interfaces.Entit" +
                     "ies.");
             
-            #line 325 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 368 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("();\r\n            ");
             
-            #line 326 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 369 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                 foreach(var c in table.Columns)
                 {
@@ -780,21 +931,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              entity.");
             
-            #line 335 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 378 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = DateTime.Parse(\"");
             
-            #line 335 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 378 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\");\r\n              ");
             
-            #line 336 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 379 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(string))
@@ -805,21 +956,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              entity.");
             
-            #line 341 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 384 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 341 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 384 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write("\";\r\n              ");
             
-            #line 342 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 385 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(columnType == typeof(bool))
@@ -830,21 +981,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              entity.");
             
-            #line 347 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 390 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 347 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 390 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString().ToLower()));
             
             #line default
             #line hidden
             this.Write(";              \r\n              ");
             
-            #line 348 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 391 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                         else if(testValsInsert[c.Name] != null)
@@ -855,21 +1006,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("              entity.");
             
-            #line 353 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 396 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 353 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 396 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(testValsInsert[c.Name].ToString()));
             
             #line default
             #line hidden
             this.Write(";\r\n              ");
             
-            #line 354 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 397 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
 
                         }
                     }
@@ -881,14 +1032,14 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("\r\n            return entity;\r\n        }\r\n\r\n        protected HRT.Interfaces.Entit" +
                     "ies.");
             
-            #line 363 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 406 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" AddTestEntity()\r\n        {\r\n            HRT.Interfaces.Entities.");
             
-            #line 365 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 408 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -897,7 +1048,7 @@ namespace T4DalGenerator.Templates.Tests
                     "r dal = CreateDal();\r\n            result = dal.Insert(entity);\r\n\r\n            re" +
                     "turn result;\r\n        }\r\n\r\n        private HRT.Interfaces.I");
             
-            #line 375 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 418 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -905,14 +1056,14 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("Dal CreateDal()\r\n        {\r\n            var initParams = GetTestParams(\"DALInitPa" +
                     "rams\");\r\n\r\n            HRT.Interfaces.I");
             
-            #line 379 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 422 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Dal dal = new HRT.DAL.MSSQL.");
             
-            #line 379 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
+            #line 422 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default

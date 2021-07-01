@@ -17,16 +17,16 @@ namespace HRT.HiringTracker.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [ApiController]
     [UnhandledExceptionFilter]
-    public class PositionsController : BaseController
+    public class PositionSkillsController : BaseController
     {
-        private readonly Dal.IPositionDal _dalPosition;
-        private readonly ILogger<PositionsController> _logger;
+        private readonly Dal.IPositionSkillDal _dalPositionSkill;
+        private readonly ILogger<PositionSkillsController> _logger;
 
 
-        public PositionsController( Dal.IPositionDal dalPosition,
-                                    ILogger<PositionsController> logger)
+        public PositionSkillsController( Dal.IPositionSkillDal dalPositionSkill,
+                                    ILogger<PositionSkillsController> logger)
         {
-            _dalPosition = dalPosition; 
+            _dalPositionSkill = dalPositionSkill; 
             _logger = logger;
         }
 
@@ -37,13 +37,13 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
             IActionResult response = null;
 
-            var entities = _dalPosition.GetAll();
+            var entities = _dalPositionSkill.GetAll();
 
-            IList<DTO.Position> dtos = new List<DTO.Position>();
+            IList<DTO.PositionSkill> dtos = new List<DTO.PositionSkill>();
 
             foreach (var p in entities)
             {
-                var dto = PositionConvertor.Convert(p, this.Url);
+                var dto = PositionSkillConvertor.Convert(p, this.Url);
 
                 dtos.Add(dto);
             }
@@ -56,22 +56,22 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpGet("{id}"), ActionName("GetPosition")]
-        public IActionResult Get(System.Int64? id)
+        [HttpGet("{positionid}/{skillid}"), ActionName("GetPositionSkill")]
+        public IActionResult Get(System.Int64 positionid, System.Int64 skillid)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var entity = _dalPosition.Get(id);
+            var entity = _dalPositionSkill.Get(positionid, skillid);
             if (entity != null)
             {
-                var dto = PositionConvertor.Convert(entity, this.Url);
+                var dto = PositionSkillConvertor.Convert(entity, this.Url);
                 response = Ok(dto);
             }
             else
             {
-                response = StatusCode((int)HttpStatusCode.NotFound, $"Position was not found [ids:{id}]");
+                response = StatusCode((int)HttpStatusCode.NotFound, $"PositionSkill was not found [ids:{positionid}, {skillid}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -80,30 +80,30 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpDelete("{id}"), ActionName("DeletePosition")]
-        public IActionResult Delete(System.Int64? id)
+        [HttpDelete("{positionid}/{skillid}"), ActionName("DeletePositionSkill")]
+        public IActionResult Delete(System.Int64 positionid, System.Int64 skillid)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var existingEntity = _dalPosition.Get(id);
+            var existingEntity = _dalPositionSkill.Get(positionid, skillid);
 
             if (existingEntity != null)
             {
-                bool removed = _dalPosition.Delete(id);
+                bool removed = _dalPositionSkill.Delete(positionid, skillid);
                 if (removed)
                 {
                     response = Ok();
                 }
                 else
                 {
-                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete Position [ids:{id}]");
+                    response = StatusCode((int)HttpStatusCode.InternalServerError, $"Failed to delete PositionSkill [ids:{positionid}, {skillid}]");
                 }
             }
             else
             {
-                response = NotFound($"Position not found [ids:{id}]");
+                response = NotFound($"PositionSkill not found [ids:{positionid}, {skillid}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
@@ -112,18 +112,18 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         //[Authorize]
-        [HttpPost, ActionName("InsertPosition")]
-        public IActionResult Insert(DTO.Position dto)
+        [HttpPost, ActionName("InsertPositionSkill")]
+        public IActionResult Insert(DTO.PositionSkill dto)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var entity = PositionConvertor.Convert(dto);
+            var entity = PositionSkillConvertor.Convert(dto);
 
-            Position newEntity = _dalPosition.Insert(entity);
+            PositionSkill newEntity = _dalPositionSkill.Insert(entity);
 
-            response = Ok(PositionConvertor.Convert(newEntity, this.Url));
+            response = Ok(PositionSkillConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 
@@ -132,25 +132,25 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
 
         //[Authorize]
-        [HttpPut, ActionName("UpdatePosition")]
-        public IActionResult Update(DTO.Position dto)
+        [HttpPut, ActionName("UpdatePositionSkill")]
+        public IActionResult Update(DTO.PositionSkill dto)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
             IActionResult response = null;
 
-            var newEntity = PositionConvertor.Convert(dto);
+            var newEntity = PositionSkillConvertor.Convert(dto);
 
-            var existingEntity = _dalPosition.Get(newEntity.ID);
+            var existingEntity = _dalPositionSkill.Get(newEntity.PositionID, newEntity.SkillID);
             if (existingEntity != null)
             {
-                Position entity = _dalPosition.Update(newEntity);
+                PositionSkill entity = _dalPositionSkill.Update(newEntity);
 
-                response = Ok(PositionConvertor.Convert(entity, this.Url));
+                response = Ok(PositionSkillConvertor.Convert(entity, this.Url));
             }
             else
             {
-                response = NotFound($"Position not found [ids:{newEntity.ID}]");
+                response = NotFound($"PositionSkill not found [ids:{newEntity.PositionID}, {newEntity.SkillID}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");

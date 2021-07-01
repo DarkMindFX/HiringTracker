@@ -51,18 +51,34 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         [Fact]
         public void <#= table.Name #>_Get_Success()
         {
+            HRT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
             using (var client = _factory.CreateClient())
             {
-                long ID = 100002;
+                try
+                {
+<#
+            string keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+#>
+                var param<#= pks[i].Name #> = testEntity.<#= pks[i].Name #>;
+<#
+            }
+#>
+                    var respGet = client.GetAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= keys #>");
 
-                var respGet = client.GetAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/{ID}");
+                    Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
 
-                Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
+                    Position dto = ExtractContentJson<Position>(respGet.Result.Content);
 
-                <#= table.Name #> dto = ExtractContentJson<<#= table.Name #>>(respGet.Result.Content);
-
-                Assert.NotNull(dto);
-                Assert.NotNull(dto.Links);
+                    Assert.NotNull(dto);
+                    Assert.NotNull(dto.Links);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
             }
         }
 
@@ -71,9 +87,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                long ID = Int64.MaxValue;
+<#
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+#>
+                var param<#= pks[i].Name #> = Int64.MaxValue;
+<#
+            }
+#>
 
-                var respGet = client.GetAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/{ID}");
+                var respGet = client.GetAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= keys #>");
 
                 Assert.Equal(HttpStatusCode.NotFound, respGet.Result.StatusCode);
             }
@@ -87,9 +112,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                    long? ID = testEntity.ID;
+<#
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+#>
+                var param<#= pks[i].Name #> = testEntity.<#= pks[i].Name #>;
+<#
+            }
+#>
 
-                    var respDel = client.DeleteAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/{ID}");
+                    var respDel = client.DeleteAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= keys #>");
 
                     Assert.Equal(HttpStatusCode.OK, respDel.Result.StatusCode);
                 }
@@ -105,9 +139,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                long? ID = Int64.MaxValue;
+<#
+            keys = string.Empty;
+            for(int i = 0; i < pks.Count; ++i)
+            {
+                keys += "{param" + pks[i].Name + "}" + (i+1 < pks.Count ? "/" : string.Empty);
+#>
+                var param<#= pks[i].Name #> = Int64.MaxValue;
+<#
+            }
+#>
 
-                var respDel = client.DeleteAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/{ID}");
+                var respDel = client.DeleteAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= keys #>");
 
                 Assert.Equal(HttpStatusCode.NotFound, respDel.Result.StatusCode);
             }
@@ -169,7 +212,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 foreach(var c in table.Columns)
                 {
                     Type columnType = generator.GetColumnType(c);
-                    if(!c.IsIdentity && testValsUpdateAfter.ContainsKey(c.Name))
+                    if(!c.IsIdentity && !c.IsPK && testValsUpdateAfter.ContainsKey(c.Name))
                     {
                         if(columnType == typeof(DateTime))
                         {
@@ -275,7 +318,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                     else if(c.IsPK)
                     {
                #>
-               testEntity.<#= c.Name #> = Int64.MAxValue;
+               testEntity.<#= c.Name #> = Int64.MaxValue;
                <#
                     }
                 }
@@ -309,7 +352,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                     for(int i = 0; i < pks.Count; ++i)
                     {
                 #>
-                        <#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #>
+                        entity.<#= pks[i].Name #><#= i+1 < pks.Count ? "," : string.Empty #>
                 <#
                     }
                 #>);

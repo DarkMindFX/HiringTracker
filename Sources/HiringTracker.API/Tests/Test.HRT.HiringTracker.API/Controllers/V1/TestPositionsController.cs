@@ -1,14 +1,14 @@
-﻿using HRT.DAL.MSSQL;
+
+
+
 using HRT.DTO;
-using HRT.HiringTracker.API.Dal;
 using HRT.Utils.Convertors;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using Xunit;
+
 
 namespace Test.E2E.HiringTracker.API.Controllers.V1
 {
@@ -37,18 +37,25 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         [Fact]
         public void Position_Get_Success()
         {
+            HRT.Interfaces.Entities.Position testEntity = AddTestEntity();
             using (var client = _factory.CreateClient())
             {
-                long ID = 100002;
+                try
+                {
+                    var paramID = testEntity.ID;
+                    var respGet = client.GetAsync($"/api/v1/positions/{paramID}");
 
-                var respGet = client.GetAsync($"/api/v1/positions/{ID}");
+                    Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
 
-                Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
+                    Position dto = ExtractContentJson<Position>(respGet.Result.Content);
 
-                Position dto = ExtractContentJson<Position>(respGet.Result.Content);
-
-                Assert.NotNull(dto);
-                Assert.NotNull(dto.Links);
+                    Assert.NotNull(dto);
+                    Assert.NotNull(dto.Links);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
             }
         }
 
@@ -57,9 +64,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                long ID = Int64.MaxValue;
+                var paramID = Int64.MaxValue;
 
-                var respGet = client.GetAsync($"/api/v1/positions/{ID}");
+                var respGet = client.GetAsync($"/api/v1/positions/{paramID}");
 
                 Assert.Equal(HttpStatusCode.NotFound, respGet.Result.StatusCode);
             }
@@ -73,9 +80,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                    long? ID = testEntity.ID;
+                    var paramID = testEntity.ID;
 
-                    var respDel = client.DeleteAsync($"/api/v1/positions/{ID}");
+                    var respDel = client.DeleteAsync($"/api/v1/positions/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respDel.Result.StatusCode);
                 }
@@ -91,9 +98,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                long? ID = Int64.MaxValue;
+                var paramID = Int64.MaxValue;
 
-                var respDel = client.DeleteAsync($"/api/v1/positions/{ID}");
+                var respDel = client.DeleteAsync($"/api/v1/positions/{paramID}");
 
                 Assert.Equal(HttpStatusCode.NotFound, respDel.Result.StatusCode);
             }
@@ -119,7 +126,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                     Position respDto = ExtractContentJson<Position>(respInsert.Result.Content);
 
                     Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.DepartmentID, respDto.DepartmentID);
+                    Assert.Equal(reqDto.Title, respDto.Title);
+                    Assert.Equal(reqDto.ShortDesc, respDto.ShortDesc);
+                    Assert.Equal(reqDto.Description, respDto.Description);
                     Assert.Equal(reqDto.StatusID, respDto.StatusID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
 
                     respEntity = PositionConvertor.Convert(respDto);
                 }
@@ -138,15 +153,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Position testEntity = AddTestEntity();
                 try
                 {
-                    testEntity.Title = "Title 5FB8E6CCF3614DB4A693090F7C946159_UPD";
-                    testEntity.ShortDesc = "ShortDesc 5FB8E6CCF3614DB4A693090F7C946159_UPD";
+                    testEntity.DepartmentID = 2;
+                    testEntity.Title = "Title bb19ccb1d6854e22b844f397f512043b";
+                    testEntity.ShortDesc = "ShortDesc bb19ccb1d6854e22b844f397f512043b";
+                    testEntity.Description = "Description bb19ccb1d6854e22b844f397f512043b";
                     testEntity.StatusID = 2;
-                    testEntity.ModifiedByID = 100002;
-                    testEntity.ModifiedDate = DateTime.Parse("2021/01/01 13:00");
-                    testEntity.Description = "Description 5FB8E6CCF3614DB4A693090F7C946159_UPD";
-                    testEntity.DepartmentID = null;
+                    testEntity.CreatedDate = DateTime.Parse("3/21/2020 10:31:40 PM");
                     testEntity.CreatedByID = 100003;
-                    testEntity.CreatedDate = DateTime.Parse("2020/12/31 13:00");
+                    testEntity.ModifiedDate = DateTime.Parse("1/31/2023 8:18:40 AM");
+                    testEntity.ModifiedByID = 33020042;
 
                     var reqDto = PositionConvertor.Convert(testEntity, null);
 
@@ -159,7 +174,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                     Position respDto = ExtractContentJson<Position>(respUpdate.Result.Content);
 
                     Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.DepartmentID, respDto.DepartmentID);
+                    Assert.Equal(reqDto.Title, respDto.Title);
+                    Assert.Equal(reqDto.ShortDesc, respDto.ShortDesc);
+                    Assert.Equal(reqDto.Description, respDto.Description);
                     Assert.Equal(reqDto.StatusID, respDto.StatusID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
 
                 }
                 finally
@@ -178,15 +201,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                     testEntity.ID = Int64.MaxValue;
-                    testEntity.Title = "Title 5FB8E6CCF3614DB4A693090F7C946159_UPD";
-                    testEntity.ShortDesc = "ShortDesc 5FB8E6CCF3614DB4A693090F7C946159_UPD";
+                    testEntity.DepartmentID = 2;
+                    testEntity.Title = "Title bb19ccb1d6854e22b844f397f512043b";
+                    testEntity.ShortDesc = "ShortDesc bb19ccb1d6854e22b844f397f512043b";
+                    testEntity.Description = "Description bb19ccb1d6854e22b844f397f512043b";
                     testEntity.StatusID = 2;
-                    testEntity.ModifiedByID = 100002;
-                    testEntity.ModifiedDate = DateTime.Parse("2021/01/01 13:00");
-                    testEntity.Description = "Description 5FB8E6CCF3614DB4A693090F7C946159_UPD";
-                    testEntity.DepartmentID = null;
+                    testEntity.CreatedDate = DateTime.Parse("3/21/2020 10:31:40 PM");
                     testEntity.CreatedByID = 100003;
-                    testEntity.CreatedDate = DateTime.Parse("2020/12/31 13:00");
+                    testEntity.ModifiedDate = DateTime.Parse("1/31/2023 8:18:40 AM");
+                    testEntity.ModifiedByID = 33020042;
 
                     var reqDto = PositionConvertor.Convert(testEntity, null);
 
@@ -211,7 +234,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 var dal = CreateDal();
 
-                return dal.Delete(entity.ID);
+                return dal.Delete(
+                                        entity.ID
+                );
             }
             else
             {
@@ -222,16 +247,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Position CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Position();
-            entity.ID = null;
-            entity.Title = "Title 5FB8E6CCF3614DB4A693090F7C946159";
-            entity.ShortDesc = "ShortDesc 5FB8E6CCF3614DB4A693090F7C946159";
-            entity.StatusID = 1;
-            entity.ModifiedByID = 100001;
-            entity.ModifiedDate = DateTime.Parse("2021/01/01 12:00");
-            entity.Description = "Description 5FB8E6CCF3614DB4A693090F7C946159";
-            entity.DepartmentID = null;
-            entity.CreatedByID = 100002;
-            entity.CreatedDate = DateTime.Parse("2020/12/31 12:00");
+            entity.DepartmentID = 2;
+            entity.Title = "Title 25fd4bbb003841d89edebcf6e9c9eeea";
+            entity.ShortDesc = "ShortDesc 25fd4bbb003841d89edebcf6e9c9eeea";
+            entity.Description = "Description 25fd4bbb003841d89edebcf6e9c9eeea";
+            entity.StatusID = 2;
+            entity.CreatedDate = DateTime.Parse("6/27/2019 6:30:40 AM");
+            entity.CreatedByID = 100003;
+            entity.ModifiedDate = DateTime.Parse("5/6/2022 6:57:40 AM");
+            entity.ModifiedByID = 33020042;
 
             return entity;
         }

@@ -13,14 +13,18 @@ namespace T4DalGenerator
         public string Pluralize(string name)
         {
             string result = string.Empty;
-            if(!name.EndsWith("y"))
-            {
-                result = name + "s";
-            }
-            else
+            if(name.EndsWith("y"))
             {
                 var endIdx = name.LastIndexOf('y');
                 result = name.Substring(0, endIdx) + "ies";
+            }
+            else if (name.EndsWith("s"))
+            {
+                result = name + "es";
+            }
+            else
+            {
+                result = name + "s";
             }
 
             return result;

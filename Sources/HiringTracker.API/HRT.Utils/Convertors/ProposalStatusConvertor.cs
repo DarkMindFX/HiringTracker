@@ -23,10 +23,10 @@ namespace HRT.Utils.Convertors
 
                         if(url != null)
             {
-                dto.Links.Add(new DTO.Link(url.Action("GetProposalStatus", "proposalstatuss", new { id = dto.ID  }), "self", "GET"));
-                dto.Links.Add(new DTO.Link(url.Action("DeleteProposalStatus", "proposalstatuss", new { id = dto.ID  }), "delete_proposalstatus", "DELETE"));
-                dto.Links.Add(new DTO.Link(url.Action("InsertProposalStatus", "proposalstatuss"), "insert_proposalstatus", "POST"));
-                dto.Links.Add(new DTO.Link(url.Action("UpdateProposalStatus", "proposalstatuss"), "update_proposalstatus", "PUT"));
+                dto.Links.Add(new DTO.Link(url.Action("GetProposalStatus", "proposalstatuses", new { id = dto.ID  }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteProposalStatus", "proposalstatuses", new { id = dto.ID  }), "delete_proposalstatus", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("InsertProposalStatus", "proposalstatuses"), "insert_proposalstatus", "POST"));
+                dto.Links.Add(new DTO.Link(url.Action("UpdateProposalStatus", "proposalstatuses"), "update_proposalstatus", "PUT"));
             }
             return dto;
 
