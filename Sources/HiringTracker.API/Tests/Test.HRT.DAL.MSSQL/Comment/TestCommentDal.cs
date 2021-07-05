@@ -52,11 +52,11 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Text 25defb2b9d344940992d4ff559d951ec", entity.Text);
-                            Assert.AreEqual(DateTime.Parse("7/6/2019 6:19:12 AM"), entity.CreatedDate);
-                            Assert.AreEqual(33020042, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("3/30/2020 10:20:12 PM"), entity.ModifiedDate);
-                            Assert.AreEqual(33020042, entity.ModifiedByID);
+                          Assert.AreEqual("Text 01b337ac34df4e028f39fa4c5f5b5257", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("12/20/2021 5:16:33 PM"), entity.CreatedDate);
+                            Assert.AreEqual(100004, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("10/30/2019 8:31:34 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
                       }
 
         [Test]
@@ -105,11 +105,11 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCommentDal("DALInitParams");
 
             var entity = new Comment();
-                          entity.Text = "Text 25ad95c2177949629db48fddb3b90788";
-                            entity.CreatedDate = DateTime.Parse("11/5/2023 12:07:12 AM");
+                          entity.Text = "Text edbb9b1384a245e8b22746b645d804a1";
+                            entity.CreatedDate = DateTime.Parse("9/21/2021 4:41:34 AM");
                             entity.CreatedByID = 100002;
-                            entity.ModifiedDate = DateTime.Parse("3/25/2021 9:54:12 AM");
-                            entity.ModifiedByID = 33020042;
+                            entity.ModifiedDate = DateTime.Parse("6/11/2023 8:17:34 AM");
+                            entity.ModifiedByID = 100004;
                           
             entity = dal.Insert(entity);
 
@@ -118,11 +118,11 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Text 25ad95c2177949629db48fddb3b90788", entity.Text);
-                            Assert.AreEqual(DateTime.Parse("11/5/2023 12:07:12 AM"), entity.CreatedDate);
+                          Assert.AreEqual("Text edbb9b1384a245e8b22746b645d804a1", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("9/21/2021 4:41:34 AM"), entity.CreatedDate);
                             Assert.AreEqual(100002, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("3/25/2021 9:54:12 AM"), entity.ModifiedDate);
-                            Assert.AreEqual(33020042, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("6/11/2023 8:17:34 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
               
         }
 
@@ -136,11 +136,11 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Comment entity = dal.Get(paramID);
 
-                          entity.Text = "Text 80a074f257644a648ad0db9c4ca5b0ff";
-                            entity.CreatedDate = DateTime.Parse("9/20/2021 6:22:12 AM");
-                            entity.CreatedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("2/7/2019 4:09:12 PM");
-                            entity.ModifiedByID = 100001;
+                          entity.Text = "Text 8baf75ad35c24e14b919cce6c70a6cd7";
+                            entity.CreatedDate = DateTime.Parse("3/12/2019 6:06:34 AM");
+                            entity.CreatedByID = 100005;
+                            entity.ModifiedDate = DateTime.Parse("3/4/2020 8:20:34 AM");
+                            entity.ModifiedByID = 100003;
               
             entity = dal.Update(entity);
 
@@ -149,11 +149,11 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Text 80a074f257644a648ad0db9c4ca5b0ff", entity.Text);
-                            Assert.AreEqual(DateTime.Parse("9/20/2021 6:22:12 AM"), entity.CreatedDate);
-                            Assert.AreEqual(33020042, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("2/7/2019 4:09:12 PM"), entity.ModifiedDate);
-                            Assert.AreEqual(100001, entity.ModifiedByID);
+                          Assert.AreEqual("Text 8baf75ad35c24e14b919cce6c70a6cd7", entity.Text);
+                            Assert.AreEqual(DateTime.Parse("3/12/2019 6:06:34 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100005, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("3/4/2020 8:20:34 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100003, entity.ModifiedByID);
               
         }
 
@@ -163,11 +163,11 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCommentDal("DALInitParams");
 
             var entity = new Comment();
-                          entity.Text = "Text 80a074f257644a648ad0db9c4ca5b0ff";
-                            entity.CreatedDate = DateTime.Parse("9/20/2021 6:22:12 AM");
-                            entity.CreatedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("2/7/2019 4:09:12 PM");
-                            entity.ModifiedByID = 100001;
+                          entity.Text = "Text 8baf75ad35c24e14b919cce6c70a6cd7";
+                            entity.CreatedDate = DateTime.Parse("3/12/2019 6:06:34 AM");
+                            entity.CreatedByID = 100005;
+                            entity.ModifiedDate = DateTime.Parse("3/4/2020 8:20:34 AM");
+                            entity.ModifiedByID = 100003;
               
             try
             {

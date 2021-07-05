@@ -52,7 +52,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 2d05692fb7b942328dc955da1cbab41d", entity.Name);
+                          Assert.AreEqual("Name 73cd2ce7e647449f9d4011be1bc53b92", entity.Name);
                       }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalStatusDal("DALInitParams");
 
             var entity = new ProposalStatus();
-                          entity.Name = "Name 9fb8ea83912048e389a8c59376de7a2d";
+                          entity.Name = "Name 42b66d799e8a4a1588c63579625bd0a7";
                           
             entity = dal.Insert(entity);
 
@@ -110,7 +110,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 9fb8ea83912048e389a8c59376de7a2d", entity.Name);
+                          Assert.AreEqual("Name 42b66d799e8a4a1588c63579625bd0a7", entity.Name);
               
         }
 
@@ -124,7 +124,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             ProposalStatus entity = dal.Get(paramID);
 
-                          entity.Name = "Name e7400965c9fa498293688357a802f329";
+                          entity.Name = "Name 4f21f0d918134d5eb10eebbb77ec6e01";
               
             entity = dal.Update(entity);
 
@@ -133,7 +133,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name e7400965c9fa498293688357a802f329", entity.Name);
+                          Assert.AreEqual("Name 4f21f0d918134d5eb10eebbb77ec6e01", entity.Name);
               
         }
 
@@ -143,7 +143,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalStatusDal("DALInitParams");
 
             var entity = new ProposalStatus();
-                          entity.Name = "Name e7400965c9fa498293688357a802f329";
+                          entity.Name = "Name 4f21f0d918134d5eb10eebbb77ec6e01";
               
             try
             {

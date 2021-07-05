@@ -52,7 +52,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name c05c5367645d4b2f8e95cad6fda28352", entity.Name);
+                          Assert.AreEqual("Name 535730da9f1f4cc59188ba0c2d22f225", entity.Name);
                       }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareSkillDal("DALInitParams");
 
             var entity = new Skill();
-                          entity.Name = "Name f8193fbfb6c74721bc2be05e8ea94345";
+                          entity.Name = "Name 80096b7673874d889bca69afffd1c073";
                           
             entity = dal.Insert(entity);
 
@@ -110,7 +110,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name f8193fbfb6c74721bc2be05e8ea94345", entity.Name);
+                          Assert.AreEqual("Name 80096b7673874d889bca69afffd1c073", entity.Name);
               
         }
 
@@ -124,7 +124,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Skill entity = dal.Get(paramID);
 
-                          entity.Name = "Name d438754db8ca4e3ea3b159811435bab9";
+                          entity.Name = "Name 7491e01e15744ecd86af07da8e911600";
               
             entity = dal.Update(entity);
 
@@ -133,7 +133,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name d438754db8ca4e3ea3b159811435bab9", entity.Name);
+                          Assert.AreEqual("Name 7491e01e15744ecd86af07da8e911600", entity.Name);
               
         }
 
@@ -143,7 +143,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareSkillDal("DALInitParams");
 
             var entity = new Skill();
-                          entity.Name = "Name d438754db8ca4e3ea3b159811435bab9";
+                          entity.Name = "Name 7491e01e15744ecd86af07da8e911600";
               
             try
             {

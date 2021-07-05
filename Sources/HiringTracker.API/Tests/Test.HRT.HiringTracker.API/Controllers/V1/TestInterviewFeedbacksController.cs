@@ -152,13 +152,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewFeedback testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Comment = "Comment caa0f8b4afff4fda9d4190ae473c5dfa";
-                            testEntity.Rating = 697;
-                            testEntity.InterviewerID = 100001;
-                            testEntity.CreatedByID = 33020042;
-                            testEntity.CreatedDate = DateTime.Parse("10/29/2022 12:06:40 AM");
-                            testEntity.ModifiedByID = 33020042;
-                            testEntity.ModifiedDate = DateTime.Parse("3/17/2020 9:53:40 AM");
+                          testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
+                            testEntity.Rating = 119;
+                            testEntity.InterviewID = 100006;
+                            testEntity.InterviewerID = 100002;
+                            testEntity.CreatedByID = 100003;
+                            testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+                            testEntity.ModifiedByID = 100001;
+                            testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
               
                     var reqDto = InterviewFeedbackConvertor.Convert(testEntity, null);
 
@@ -196,14 +197,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewFeedback testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ID = 85049;
-                            testEntity.Comment = "Comment caa0f8b4afff4fda9d4190ae473c5dfa";
-                            testEntity.Rating = 697;
-                            testEntity.InterviewerID = 100001;
-                            testEntity.CreatedByID = 33020042;
-                            testEntity.CreatedDate = DateTime.Parse("10/29/2022 12:06:40 AM");
-                            testEntity.ModifiedByID = 33020042;
-                            testEntity.ModifiedDate = DateTime.Parse("3/17/2020 9:53:40 AM");
+                             testEntity.ID = Int64.MaxValue;
+                             testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
+                            testEntity.Rating = 119;
+                            testEntity.InterviewID = 100006;
+                            testEntity.InterviewerID = 100002;
+                            testEntity.CreatedByID = 100003;
+                            testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+                            testEntity.ModifiedByID = 100001;
+                            testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
               
                     var reqDto = InterviewFeedbackConvertor.Convert(testEntity, null);
 
@@ -241,14 +243,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.InterviewFeedback CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.InterviewFeedback();
-                          entity.ID = 517772;
-                            entity.Comment = "Comment 758a1a98c9f74cfaaf655fc0e3f4df75";
-                            entity.Rating = 518;
-                            entity.InterviewerID = 33000067;
-                            entity.CreatedByID = 33000067;
-                            entity.CreatedDate = DateTime.Parse("11/3/2021 12:32:40 PM");
-                            entity.ModifiedByID = 33000067;
-                            entity.ModifiedDate = DateTime.Parse("3/24/2019 10:19:40 PM");
+                          entity.Comment = "Comment 1cb7cddc5efe414abf403ec026c921ef";
+                            entity.Rating = 984;
+                            entity.InterviewID = 100005;
+                            entity.InterviewerID = 100004;
+                            entity.CreatedByID = 100003;
+                            entity.CreatedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
+                            entity.ModifiedByID = 100004;
+                            entity.ModifiedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
               
             return entity;
         }

@@ -1,15 +1,15 @@
 
 
 -- original values --
-DECLARE @InterviewID BIGINT = NULL
+DECLARE @InterviewID BIGINT = 100006
 DECLARE @UserID BIGINT = 100001
-DECLARE @RoleID BIGINT = 6
+DECLARE @RoleID BIGINT = 9
  
 -- updated values --
 
-DECLARE @updInterviewID BIGINT = NULL
+DECLARE @updInterviewID BIGINT = 100006
 DECLARE @updUserID BIGINT = 100001
-DECLARE @updRoleID BIGINT = 5
+DECLARE @updRoleID BIGINT = 1
  
 
 DECLARE @Fail AS BIT = 0

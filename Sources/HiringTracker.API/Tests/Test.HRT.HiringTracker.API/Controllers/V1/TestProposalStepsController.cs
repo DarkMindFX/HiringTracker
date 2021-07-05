@@ -147,9 +147,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalStep testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name c2fedd617cf44d199a4cef1b19f75c67";
-                            testEntity.ReqDueDate = true;              
-                            testEntity.RequiresRespInDays = 913;
+                          testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
+                            testEntity.ReqDueDate = false;              
+                            testEntity.RequiresRespInDays = 398;
               
                     var reqDto = ProposalStepConvertor.Convert(testEntity, null);
 
@@ -183,9 +183,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name c2fedd617cf44d199a4cef1b19f75c67";
-                            testEntity.ReqDueDate = true;              
-                            testEntity.RequiresRespInDays = 913;
+                             testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
+                            testEntity.ReqDueDate = false;              
+                            testEntity.RequiresRespInDays = 398;
               
                     var reqDto = ProposalStepConvertor.Convert(testEntity, null);
 
@@ -223,9 +223,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.ProposalStep CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.ProposalStep();
-                          entity.Name = "Name bebae022dd6e47f2aef82c9f50fa6b78";
+                          entity.Name = "Name 1843961bf2ae45bea9188d8e4e1d24a3";
                             entity.ReqDueDate = true;              
-                            entity.RequiresRespInDays = 913;
+                            entity.RequiresRespInDays = 875;
               
             return entity;
         }

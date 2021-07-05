@@ -44,29 +44,29 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramPositionID = (System.Int64)objIds[0];
-            var paramUserID = (System.Int64)objIds[1];
-            UserRolePosition entity = dal.Get(paramPositionID, paramUserID);
+                var paramPositionID = (System.Int64)objIds[0];
+                var paramUserID = (System.Int64)objIds[1];
+            UserRolePosition entity = dal.Get(paramPositionID,paramUserID);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.PositionID);
-            Assert.IsNotNull(entity.UserID);
-
-            Assert.AreEqual(100005, entity.PositionID);
-            Assert.AreEqual(33020042, entity.UserID);
-            Assert.AreEqual(5, entity.RoleID);
-        }
+                        Assert.IsNotNull(entity.PositionID);
+                        Assert.IsNotNull(entity.UserID);
+            
+                          Assert.AreEqual(100003, entity.PositionID);
+                            Assert.AreEqual(100004, entity.UserID);
+                            Assert.AreEqual(6, entity.RoleID);
+                      }
 
         [Test]
         public void UserRolePosition_GetDetails_InvalidId()
         {
-            var paramPositionID = Int64.MaxValue - 1;
-            var paramUserID = Int64.MaxValue - 1;
+                var paramPositionID = Int64.MaxValue - 1;
+                var paramUserID = Int64.MaxValue - 1;
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
-            UserRolePosition entity = dal.Get(paramPositionID, paramUserID);
+            UserRolePosition entity = dal.Get(paramPositionID,paramUserID);
 
             Assert.IsNull(entity);
         }
@@ -78,9 +78,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramPositionID = (System.Int64)objIds[0];
-            var paramUserID = (System.Int64)objIds[1];
-            bool removed = dal.Delete(paramPositionID, paramUserID);
+                var paramPositionID = (System.Int64)objIds[0];
+                var paramUserID = (System.Int64)objIds[1];
+            bool removed = dal.Delete(paramPositionID,paramUserID);
 
             TeardownCase(conn, caseName);
 
@@ -91,10 +91,10 @@ namespace Test.HRT.DAL.MSSQL
         public void UserRolePosition_Delete_InvalidId()
         {
             var dal = PrepareUserRolePositionDal("DALInitParams");
-            var paramPositionID = Int64.MaxValue - 1;
-            var paramUserID = Int64.MaxValue - 1;
-
-            bool removed = dal.Delete(paramPositionID, paramUserID);
+                var paramPositionID = Int64.MaxValue - 1;
+                var paramUserID = Int64.MaxValue - 1;
+   
+            bool removed = dal.Delete(paramPositionID,paramUserID);
             Assert.IsFalse(removed);
 
         }
@@ -108,22 +108,22 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
             var entity = new UserRolePosition();
-            entity.PositionID = 100006;
-            entity.UserID = 33020042;
-            entity.RoleID = 2;
-
+                          entity.PositionID = 100002;
+                            entity.UserID = 100004;
+                            entity.RoleID = 6;
+                          
             entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.PositionID);
-            Assert.IsNotNull(entity.UserID);
-
-            Assert.AreEqual(100006, entity.PositionID);
-            Assert.AreEqual(33020042, entity.UserID);
-            Assert.AreEqual(2, entity.RoleID);
-
+                        Assert.IsNotNull(entity.PositionID);
+                        Assert.IsNotNull(entity.UserID);
+            
+                          Assert.AreEqual(100002, entity.PositionID);
+                            Assert.AreEqual(100004, entity.UserID);
+                            Assert.AreEqual(6, entity.RoleID);
+              
         }
 
         [TestCase("UserRolePosition\\030.Update.Success")]
@@ -133,24 +133,24 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-            var paramPositionID = (System.Int64)objIds[0];
-            var paramUserID = (System.Int64)objIds[1];
-            UserRolePosition entity = dal.Get(paramPositionID, paramUserID);
+                var paramPositionID = (System.Int64)objIds[0];
+                var paramUserID = (System.Int64)objIds[1];
+            UserRolePosition entity = dal.Get(paramPositionID,paramUserID);
 
-            entity.RoleID = 7;
-
+                          entity.RoleID = 9;
+              
             entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-            Assert.IsNotNull(entity.PositionID);
-            Assert.IsNotNull(entity.UserID);
-
-            Assert.AreEqual(100006, entity.PositionID);
-            Assert.AreEqual(33020042, entity.UserID);
-            Assert.AreEqual(7, entity.RoleID);
-
+                        Assert.IsNotNull(entity.PositionID);
+                        Assert.IsNotNull(entity.UserID);
+            
+                          Assert.AreEqual(100007, entity.PositionID);
+                            Assert.AreEqual(100005, entity.UserID);
+                            Assert.AreEqual(9, entity.RoleID);
+              
         }
 
         [Test]
@@ -159,10 +159,10 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRolePositionDal("DALInitParams");
 
             var entity = new UserRolePosition();
-            entity.PositionID = 100006;
-            entity.UserID = 100002;
-            entity.RoleID = 7;
-
+                          entity.PositionID = 100007;
+                            entity.UserID = 100005;
+                            entity.RoleID = 9;
+              
             try
             {
                 entity = dal.Update(entity);

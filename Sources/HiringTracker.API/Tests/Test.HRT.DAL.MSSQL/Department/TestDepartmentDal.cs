@@ -52,10 +52,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 920424c250c54fb7a296edac15de7fcf", entity.Name);
-                            Assert.AreEqual("UUID 920424c250c54fb7a296edac15de7fcf", entity.UUID);
-                            Assert.AreEqual(10, entity.ParentID);
-                            Assert.AreEqual(33000067, entity.ManagerID);
+                          Assert.AreEqual("Name b57b2831cd134149b7a88662be52da5e", entity.Name);
+                            Assert.AreEqual("UUID b57b2831cd134149b7a88662be52da5e", entity.UUID);
+                            Assert.AreEqual(100002, entity.ManagerID);
                       }
 
         [Test]
@@ -104,10 +103,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareDepartmentDal("DALInitParams");
 
             var entity = new Department();
-                          entity.Name = "Name 93fe3f52bdd74b128b9df16c8f34a4c1";
-                            entity.UUID = "UUID 93fe3f52bdd74b128b9df16c8f34a4c1";
-                            entity.ParentID = 3;
-                            entity.ManagerID = 33020042;
+                          entity.Name = "Name d0d3b122513d487c98c61d1e50cac9f7";
+                            entity.UUID = "UUID d0d3b122513d487c98c61d1e50cac9f7";
+                            entity.ManagerID = 100005;
                           
             entity = dal.Insert(entity);
 
@@ -116,10 +114,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 93fe3f52bdd74b128b9df16c8f34a4c1", entity.Name);
-                            Assert.AreEqual("UUID 93fe3f52bdd74b128b9df16c8f34a4c1", entity.UUID);
-                            Assert.AreEqual(3, entity.ParentID);
-                            Assert.AreEqual(33020042, entity.ManagerID);
+                          Assert.AreEqual("Name d0d3b122513d487c98c61d1e50cac9f7", entity.Name);
+                            Assert.AreEqual("UUID d0d3b122513d487c98c61d1e50cac9f7", entity.UUID);
+                            Assert.AreEqual(100005, entity.ManagerID);
               
         }
 
@@ -133,10 +130,9 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Department entity = dal.Get(paramID);
 
-                          entity.Name = "Name f73b44dc9b8d44818752e9c422ec3cf9";
-                            entity.UUID = "UUID f73b44dc9b8d44818752e9c422ec3cf9";
-                            entity.ParentID = 3;
-                            entity.ManagerID = 100002;
+                          entity.Name = "Name 3496de309b884a9ab2af83eca50259ee";
+                            entity.UUID = "UUID 3496de309b884a9ab2af83eca50259ee";
+                            entity.ManagerID = 100004;
               
             entity = dal.Update(entity);
 
@@ -145,10 +141,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name f73b44dc9b8d44818752e9c422ec3cf9", entity.Name);
-                            Assert.AreEqual("UUID f73b44dc9b8d44818752e9c422ec3cf9", entity.UUID);
-                            Assert.AreEqual(3, entity.ParentID);
-                            Assert.AreEqual(100002, entity.ManagerID);
+                          Assert.AreEqual("Name 3496de309b884a9ab2af83eca50259ee", entity.Name);
+                            Assert.AreEqual("UUID 3496de309b884a9ab2af83eca50259ee", entity.UUID);
+                            Assert.AreEqual(100004, entity.ManagerID);
               
         }
 
@@ -158,10 +153,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareDepartmentDal("DALInitParams");
 
             var entity = new Department();
-                          entity.Name = "Name f73b44dc9b8d44818752e9c422ec3cf9";
-                            entity.UUID = "UUID f73b44dc9b8d44818752e9c422ec3cf9";
-                            entity.ParentID = 3;
-                            entity.ManagerID = 100002;
+                          entity.Name = "Name 3496de309b884a9ab2af83eca50259ee";
+                            entity.UUID = "UUID 3496de309b884a9ab2af83eca50259ee";
+                            entity.ManagerID = 100004;
               
             try
             {

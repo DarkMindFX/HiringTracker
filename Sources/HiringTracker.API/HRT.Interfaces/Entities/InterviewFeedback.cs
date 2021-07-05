@@ -10,7 +10,7 @@ namespace HRT.Interfaces.Entities
 {
     public class InterviewFeedback 
     {
-				public System.Int64 ID { get; set; }
+				public System.Int64? ID { get; set; }
 
 				public System.String Comment { get; set; }
 

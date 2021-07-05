@@ -52,8 +52,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(488704, entity.ID);
-                            Assert.AreEqual("Name 332cef211218429ca496f7e286482d46", entity.Name);
+                          Assert.AreEqual(789372, entity.ID);
+                            Assert.AreEqual("Name 90509afc721a4571bd22f97043cf2959", entity.Name);
                       }
 
         [Test]
@@ -102,8 +102,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareSkillProficiencyDal("DALInitParams");
 
             var entity = new SkillProficiency();
-                          entity.ID = 488704;
-                            entity.Name = "Name 17cdd39a123a46f9952230db4818e1e5";
+                          entity.ID = 789372;
+                            entity.Name = "Name 61d8f121bdb4425288727b3748b8b33d";
                           
             entity = dal.Insert(entity);
 
@@ -112,8 +112,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(488704, entity.ID);
-                            Assert.AreEqual("Name 17cdd39a123a46f9952230db4818e1e5", entity.Name);
+                          Assert.AreEqual(789372, entity.ID);
+                            Assert.AreEqual("Name 61d8f121bdb4425288727b3748b8b33d", entity.Name);
               
         }
 
@@ -127,7 +127,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64)objIds[0];
             SkillProficiency entity = dal.Get(paramID);
 
-                          entity.Name = "Name 0a73fd4353934ecb81a8f2dc0f505d4c";
+                          entity.Name = "Name 51b1abc53115471fb5bcb49bbb6b128e";
               
             entity = dal.Update(entity);
 
@@ -136,8 +136,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(488704, entity.ID);
-                            Assert.AreEqual("Name 0a73fd4353934ecb81a8f2dc0f505d4c", entity.Name);
+                          Assert.AreEqual(789372, entity.ID);
+                            Assert.AreEqual("Name 51b1abc53115471fb5bcb49bbb6b128e", entity.Name);
               
         }
 
@@ -147,8 +147,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareSkillProficiencyDal("DALInitParams");
 
             var entity = new SkillProficiency();
-                          entity.ID = 488704;
-                            entity.Name = "Name 0a73fd4353934ecb81a8f2dc0f505d4c";
+                          entity.ID = 789372;
+                            entity.Name = "Name 51b1abc53115471fb5bcb49bbb6b128e";
               
             try
             {

@@ -179,8 +179,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.UserRoleSystem testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.UserID = 33000067;
-                            testEntity.RoleID = 7;
+                            testEntity.UserID = 100001;
+                            testEntity.RoleID = 8;
               
                     var reqDto = UserRoleSystemConvertor.Convert(testEntity, null);
 
@@ -220,7 +220,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             var entity = new HRT.Interfaces.Entities.UserRoleSystem();
                           entity.UserID = 100003;
-                            entity.RoleID = 8;
+                            entity.RoleID = 5;
               
             return entity;
         }

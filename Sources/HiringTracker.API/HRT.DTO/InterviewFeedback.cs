@@ -7,7 +7,7 @@ namespace HRT.DTO
     public class InterviewFeedback : HateosDto
     {
 				[JsonPropertyName("ID")]
-		public System.Int64 ID { get; set; }
+		public System.Int64? ID { get; set; }
 
 				[JsonPropertyName("Comment")]
 		public System.String Comment { get; set; }

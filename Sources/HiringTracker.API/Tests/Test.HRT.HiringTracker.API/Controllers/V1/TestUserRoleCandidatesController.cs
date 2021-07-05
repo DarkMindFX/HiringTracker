@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.UserRoleCandidate testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.RoleID = 9;
+                          testEntity.RoleID = 1;
               
                     var reqDto = UserRoleCandidateConvertor.Convert(testEntity, null);
 
@@ -182,9 +182,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.UserRoleCandidate testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.CandidateID = 110084;
-                            testEntity.UserID = 100001;
-                            testEntity.RoleID = 9;
+                            testEntity.CandidateID = 100005;
+                            testEntity.UserID = 100003;
+                            testEntity.RoleID = 1;
               
                     var reqDto = UserRoleCandidateConvertor.Convert(testEntity, null);
 
@@ -223,9 +223,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.UserRoleCandidate CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.UserRoleCandidate();
-                          entity.CandidateID = 100007;
+                          entity.CandidateID = 100003;
                             entity.UserID = 100002;
-                            entity.RoleID = 2;
+                            entity.RoleID = 6;
               
             return entity;
         }

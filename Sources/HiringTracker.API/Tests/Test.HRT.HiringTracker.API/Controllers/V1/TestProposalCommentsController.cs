@@ -179,8 +179,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalComment testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ProposalID = 100003;
-                            testEntity.CommentID = 100008;
+                            testEntity.ProposalID = 100006;
+                            testEntity.CommentID = 100009;
               
                     var reqDto = ProposalCommentConvertor.Convert(testEntity, null);
 
@@ -219,8 +219,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.ProposalComment CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.ProposalComment();
-                          entity.ProposalID = 100005;
-                            entity.CommentID = 100008;
+                          entity.ProposalID = 100007;
+                            entity.CommentID = 100005;
               
             return entity;
         }

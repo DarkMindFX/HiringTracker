@@ -52,8 +52,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(748707, entity.ID);
-                            Assert.AreEqual("Name 1ad92fc49f774121bff25d485d21281c", entity.Name);
+                          Assert.AreEqual(326774, entity.ID);
+                            Assert.AreEqual("Name bd963d0cf52f49099b589a34cdf0d41a", entity.Name);
                       }
 
         [Test]
@@ -102,8 +102,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             var entity = new InterviewType();
-                          entity.ID = 748707;
-                            entity.Name = "Name a138e4741ff74e7db9ae3d3790e73912";
+                          entity.ID = 326774;
+                            entity.Name = "Name 37f02d6fc0294f759e2f161db54c55c0";
                           
             entity = dal.Insert(entity);
 
@@ -112,8 +112,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(748707, entity.ID);
-                            Assert.AreEqual("Name a138e4741ff74e7db9ae3d3790e73912", entity.Name);
+                          Assert.AreEqual(326774, entity.ID);
+                            Assert.AreEqual("Name 37f02d6fc0294f759e2f161db54c55c0", entity.Name);
               
         }
 
@@ -127,7 +127,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64)objIds[0];
             InterviewType entity = dal.Get(paramID);
 
-                          entity.Name = "Name 9e092deae34c41d0bb0d84aed8cd6225";
+                          entity.Name = "Name bc22105fdb624279811c0e58bd8d6b09";
               
             entity = dal.Update(entity);
 
@@ -136,8 +136,8 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(748707, entity.ID);
-                            Assert.AreEqual("Name 9e092deae34c41d0bb0d84aed8cd6225", entity.Name);
+                          Assert.AreEqual(326774, entity.ID);
+                            Assert.AreEqual("Name bc22105fdb624279811c0e58bd8d6b09", entity.Name);
               
         }
 
@@ -147,8 +147,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             var entity = new InterviewType();
-                          entity.ID = 748707;
-                            entity.Name = "Name 9e092deae34c41d0bb0d84aed8cd6225";
+                          entity.ID = 326774;
+                            entity.Name = "Name bc22105fdb624279811c0e58bd8d6b09";
               
             try
             {

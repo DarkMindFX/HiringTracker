@@ -54,8 +54,9 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.InterviewID);
                         Assert.IsNotNull(entity.UserID);
             
-                          Assert.AreEqual(100001, entity.UserID);
-                            Assert.AreEqual(5, entity.RoleID);
+                          Assert.AreEqual(100006, entity.InterviewID);
+                            Assert.AreEqual(100005, entity.UserID);
+                            Assert.AreEqual(2, entity.RoleID);
                       }
 
         [Test]
@@ -107,8 +108,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewRoleDal("DALInitParams");
 
             var entity = new InterviewRole();
-                          entity.UserID = 100002;
-                            entity.RoleID = 9;
+                          entity.InterviewID = 100006;
+                            entity.UserID = 100001;
+                            entity.RoleID = 3;
                           
             entity = dal.Insert(entity);
 
@@ -118,8 +120,9 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.InterviewID);
                         Assert.IsNotNull(entity.UserID);
             
-                          Assert.AreEqual(100002, entity.UserID);
-                            Assert.AreEqual(9, entity.RoleID);
+                          Assert.AreEqual(100006, entity.InterviewID);
+                            Assert.AreEqual(100001, entity.UserID);
+                            Assert.AreEqual(3, entity.RoleID);
               
         }
 
@@ -134,7 +137,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramUserID = (System.Int64)objIds[1];
             InterviewRole entity = dal.Get(paramInterviewID,paramUserID);
 
-                          entity.RoleID = 5;
+                          entity.RoleID = 1;
               
             entity = dal.Update(entity);
 
@@ -144,8 +147,9 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.InterviewID);
                         Assert.IsNotNull(entity.UserID);
             
-                          Assert.AreEqual(100001, entity.UserID);
-                            Assert.AreEqual(5, entity.RoleID);
+                          Assert.AreEqual(100006, entity.InterviewID);
+                            Assert.AreEqual(100001, entity.UserID);
+                            Assert.AreEqual(1, entity.RoleID);
               
         }
 
@@ -155,8 +159,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewRoleDal("DALInitParams");
 
             var entity = new InterviewRole();
-                          entity.UserID = 100001;
-                            entity.RoleID = 5;
+                          entity.InterviewID = 100006;
+                            entity.UserID = 100001;
+                            entity.RoleID = 1;
               
             try
             {

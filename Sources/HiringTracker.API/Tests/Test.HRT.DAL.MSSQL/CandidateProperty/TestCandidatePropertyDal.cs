@@ -52,9 +52,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name ddd7213b9da947e4b3b56e06e17f314d", entity.Name);
-                            Assert.AreEqual("Value ddd7213b9da947e4b3b56e06e17f314d", entity.Value);
-                            Assert.AreEqual(110125, entity.CandidateID);
+                          Assert.AreEqual("Name 3ecfa5fab0a148c29bdc2e3384c0eb56", entity.Name);
+                            Assert.AreEqual("Value 3ecfa5fab0a148c29bdc2e3384c0eb56", entity.Value);
+                            Assert.AreEqual(100009, entity.CandidateID);
                       }
 
         [Test]
@@ -103,9 +103,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidatePropertyDal("DALInitParams");
 
             var entity = new CandidateProperty();
-                          entity.Name = "Name d2d7fef8621544f597409d464f728ee5";
-                            entity.Value = "Value d2d7fef8621544f597409d464f728ee5";
-                            entity.CandidateID = 100006;
+                          entity.Name = "Name 9adfdf84550a4945aeaaca8b894fd36d";
+                            entity.Value = "Value 9adfdf84550a4945aeaaca8b894fd36d";
+                            entity.CandidateID = 100005;
                           
             entity = dal.Insert(entity);
 
@@ -114,9 +114,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name d2d7fef8621544f597409d464f728ee5", entity.Name);
-                            Assert.AreEqual("Value d2d7fef8621544f597409d464f728ee5", entity.Value);
-                            Assert.AreEqual(100006, entity.CandidateID);
+                          Assert.AreEqual("Name 9adfdf84550a4945aeaaca8b894fd36d", entity.Name);
+                            Assert.AreEqual("Value 9adfdf84550a4945aeaaca8b894fd36d", entity.Value);
+                            Assert.AreEqual(100005, entity.CandidateID);
               
         }
 
@@ -130,9 +130,9 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             CandidateProperty entity = dal.Get(paramID);
 
-                          entity.Name = "Name c7653d3c4725408f8065efa8b8f1a4e4";
-                            entity.Value = "Value c7653d3c4725408f8065efa8b8f1a4e4";
-                            entity.CandidateID = 100001;
+                          entity.Name = "Name afd740f712c34083bbd38a38a4d2ba16";
+                            entity.Value = "Value afd740f712c34083bbd38a38a4d2ba16";
+                            entity.CandidateID = 100007;
               
             entity = dal.Update(entity);
 
@@ -141,9 +141,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name c7653d3c4725408f8065efa8b8f1a4e4", entity.Name);
-                            Assert.AreEqual("Value c7653d3c4725408f8065efa8b8f1a4e4", entity.Value);
-                            Assert.AreEqual(100001, entity.CandidateID);
+                          Assert.AreEqual("Name afd740f712c34083bbd38a38a4d2ba16", entity.Name);
+                            Assert.AreEqual("Value afd740f712c34083bbd38a38a4d2ba16", entity.Value);
+                            Assert.AreEqual(100007, entity.CandidateID);
               
         }
 
@@ -153,9 +153,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidatePropertyDal("DALInitParams");
 
             var entity = new CandidateProperty();
-                          entity.Name = "Name c7653d3c4725408f8065efa8b8f1a4e4";
-                            entity.Value = "Value c7653d3c4725408f8065efa8b8f1a4e4";
-                            entity.CandidateID = 100001;
+                          entity.Name = "Name afd740f712c34083bbd38a38a4d2ba16";
+                            entity.Value = "Value afd740f712c34083bbd38a38a4d2ba16";
+                            entity.CandidateID = 100007;
               
             try
             {

@@ -151,13 +151,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.User testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Login = "Login f573c67023144d569962450895d8f890";
-                            testEntity.FirstName = "FirstName f573c67023144d569962450895d8f890";
-                            testEntity.LastName = "LastName f573c67023144d569962450895d8f890";
-                            testEntity.Email = "Email f573c67023144d569962450895d8f890";
-                            testEntity.Description = "Description f573c67023144d569962450895d8f890";
-                            testEntity.PwdHash = "PwdHash f573c67023144d569962450895d8f890";
-                            testEntity.Salt = "Salt f573c67023144d569962450895d8f890";
+                          testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
               
                     var reqDto = UserConvertor.Convert(testEntity, null);
 
@@ -195,13 +195,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Login = "Login f573c67023144d569962450895d8f890";
-                            testEntity.FirstName = "FirstName f573c67023144d569962450895d8f890";
-                            testEntity.LastName = "LastName f573c67023144d569962450895d8f890";
-                            testEntity.Email = "Email f573c67023144d569962450895d8f890";
-                            testEntity.Description = "Description f573c67023144d569962450895d8f890";
-                            testEntity.PwdHash = "PwdHash f573c67023144d569962450895d8f890";
-                            testEntity.Salt = "Salt f573c67023144d569962450895d8f890";
+                             testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
+                            testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
               
                     var reqDto = UserConvertor.Convert(testEntity, null);
 
@@ -239,13 +239,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.User CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.User();
-                          entity.Login = "Login 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.FirstName = "FirstName 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.LastName = "LastName 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.Email = "Email 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.Description = "Description 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.PwdHash = "PwdHash 4c0573ba7e69490aba6f2f5d5c6098fd";
-                            entity.Salt = "Salt 4c0573ba7e69490aba6f2f5d5c6098fd";
+                          entity.Login = "Login 84d9880834da4522aaad3c7905cb5230";
+                            entity.FirstName = "FirstName 84d9880834da4522aaad3c7905cb5230";
+                            entity.LastName = "LastName 84d9880834da4522aaad3c7905cb5230";
+                            entity.Email = "Email 84d9880834da4522aaad3c7905cb5230";
+                            entity.Description = "Description 84d9880834da4522aaad3c7905cb5230";
+                            entity.PwdHash = "PwdHash 84d9880834da4522aaad3c7905cb5230";
+                            entity.Salt = "Salt 84d9880834da4522aaad3c7905cb5230";
               
             return entity;
         }

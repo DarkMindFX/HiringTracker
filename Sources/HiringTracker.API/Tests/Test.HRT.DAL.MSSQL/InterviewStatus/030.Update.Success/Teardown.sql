@@ -2,12 +2,12 @@
 
 -- original values --
 DECLARE @ID BIGINT = NULL
-DECLARE @Name NVARCHAR(50) = 'Name 0a8ffbd2cacf4ce2b9ba3e967733ce13'
+DECLARE @Name NVARCHAR(50) = 'Name 341ecb0d2c0b4ecaaa628c91a8a12074'
  
 -- updated values --
 
 DECLARE @updID BIGINT = NULL
-DECLARE @updName NVARCHAR(50) = 'Name 028267c1211e42e0b426a6461a667568'
+DECLARE @updName NVARCHAR(50) = 'Name 7e82b630cc75460d80cd25ce2cffbf8e'
  
 
 DECLARE @Fail AS BIT = 0

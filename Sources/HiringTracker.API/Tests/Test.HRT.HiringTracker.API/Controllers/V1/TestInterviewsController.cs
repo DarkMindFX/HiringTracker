@@ -153,15 +153,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Interview testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.ProposalID = 100001;
-                            testEntity.InterviewTypeID = 3;
-                            testEntity.StartTime = DateTime.Parse("1/26/2020 6:16:39 AM");
-                            testEntity.EndTime = DateTime.Parse("1/26/2020 6:16:39 AM");
-                            testEntity.InterviewStatusID = 2;
-                            testEntity.CreatedByID = 100001;
-                            testEntity.CretedDate = DateTime.Parse("6/2/2019 5:52:39 AM");
-                            testEntity.ModifiedByID = 100001;
-                            testEntity.ModifiedDate = DateTime.Parse("7/5/2023 1:27:39 PM");
+                          testEntity.ProposalID = 100005;
+                            testEntity.InterviewTypeID = 5;
+                            testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                            testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                            testEntity.InterviewStatusID = 5;
+                            testEntity.CreatedByID = 100002;
+                            testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
+                            testEntity.ModifiedByID = 100002;
+                            testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
               
                     var reqDto = InterviewConvertor.Convert(testEntity, null);
 
@@ -201,15 +201,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.ProposalID = 100001;
-                            testEntity.InterviewTypeID = 3;
-                            testEntity.StartTime = DateTime.Parse("1/26/2020 6:16:39 AM");
-                            testEntity.EndTime = DateTime.Parse("1/26/2020 6:16:39 AM");
-                            testEntity.InterviewStatusID = 2;
-                            testEntity.CreatedByID = 100001;
-                            testEntity.CretedDate = DateTime.Parse("6/2/2019 5:52:39 AM");
-                            testEntity.ModifiedByID = 100001;
-                            testEntity.ModifiedDate = DateTime.Parse("7/5/2023 1:27:39 PM");
+                             testEntity.ProposalID = 100005;
+                            testEntity.InterviewTypeID = 5;
+                            testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                            testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                            testEntity.InterviewStatusID = 5;
+                            testEntity.CreatedByID = 100002;
+                            testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
+                            testEntity.ModifiedByID = 100002;
+                            testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
               
                     var reqDto = InterviewConvertor.Convert(testEntity, null);
 
@@ -247,15 +247,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Interview CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Interview();
-                          entity.ProposalID = 100005;
-                            entity.InterviewTypeID = 3;
-                            entity.StartTime = DateTime.Parse("2/8/2021 10:51:39 PM");
-                            entity.EndTime = DateTime.Parse("2/8/2021 10:51:39 PM");
+                          entity.ProposalID = 100004;
+                            entity.InterviewTypeID = 2;
+                            entity.StartTime = DateTime.Parse("6/4/2021 11:36:36 PM");
+                            entity.EndTime = DateTime.Parse("6/4/2021 11:36:36 PM");
                             entity.InterviewStatusID = 1;
                             entity.CreatedByID = 100001;
-                            entity.CretedDate = DateTime.Parse("10/22/2019 10:04:39 PM");
-                            entity.ModifiedByID = 33000067;
-                            entity.ModifiedDate = DateTime.Parse("7/12/2021 1:40:39 AM");
+                            entity.CretedDate = DateTime.Parse("7/12/2020 12:59:36 PM");
+                            entity.ModifiedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("5/22/2023 1:26:36 PM");
               
             return entity;
         }

@@ -145,7 +145,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.SkillProficiency testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 0b263564154940bbb9df3495e2c6465d";
+                          testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
               
                     var reqDto = SkillProficiencyConvertor.Convert(testEntity, null);
 
@@ -176,8 +176,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.SkillProficiency testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ID = 480410;
-                            testEntity.Name = "Name 0b263564154940bbb9df3495e2c6465d";
+                            testEntity.ID = 10324;
+                            testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
               
                     var reqDto = SkillProficiencyConvertor.Convert(testEntity, null);
 
@@ -215,8 +215,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.SkillProficiency CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.SkillProficiency();
-                          entity.ID = 480410;
-                            entity.Name = "Name 8e37d614f80f412688468521e7888fa9";
+                          entity.ID = 10324;
+                            entity.Name = "Name b2238e24feaf447cbca5e71c6a46ad8c";
               
             return entity;
         }

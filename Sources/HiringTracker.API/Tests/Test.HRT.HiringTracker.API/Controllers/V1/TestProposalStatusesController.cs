@@ -145,7 +145,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalStatus testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 197d0a5a95b244a19222e81352d713e1";
+                          testEntity.Name = "Name 0b04beb46a044a1aaaa814d6b9d97692";
               
                     var reqDto = ProposalStatusConvertor.Convert(testEntity, null);
 
@@ -177,7 +177,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 197d0a5a95b244a19222e81352d713e1";
+                             testEntity.Name = "Name 0b04beb46a044a1aaaa814d6b9d97692";
               
                     var reqDto = ProposalStatusConvertor.Convert(testEntity, null);
 
@@ -215,7 +215,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.ProposalStatus CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.ProposalStatus();
-                          entity.Name = "Name 7e0961a571614eb7a8ebf3cfaef8b582";
+                          entity.Name = "Name 7f57c05fa1e34ff6a380ea33fe003104";
               
             return entity;
         }

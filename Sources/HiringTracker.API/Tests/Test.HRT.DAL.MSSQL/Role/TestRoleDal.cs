@@ -52,7 +52,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 3696bce3a07243c7906c176821c2e9de", entity.Name);
+                          Assert.AreEqual("Name 989805dc65024114a472b7c81cae8f55", entity.Name);
                       }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareRoleDal("DALInitParams");
 
             var entity = new Role();
-                          entity.Name = "Name a527c31abdac4bce94b8375e59734f10";
+                          entity.Name = "Name 30248f7564d94e138fbfd63a2c11b6d5";
                           
             entity = dal.Insert(entity);
 
@@ -110,7 +110,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name a527c31abdac4bce94b8375e59734f10", entity.Name);
+                          Assert.AreEqual("Name 30248f7564d94e138fbfd63a2c11b6d5", entity.Name);
               
         }
 
@@ -124,7 +124,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Role entity = dal.Get(paramID);
 
-                          entity.Name = "Name fb41ef7b16024cff9046562125ac8631";
+                          entity.Name = "Name 94c7fe77bcb042f59f2c311e3f9239a8";
               
             entity = dal.Update(entity);
 
@@ -133,7 +133,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name fb41ef7b16024cff9046562125ac8631", entity.Name);
+                          Assert.AreEqual("Name 94c7fe77bcb042f59f2c311e3f9239a8", entity.Name);
               
         }
 
@@ -143,7 +143,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareRoleDal("DALInitParams");
 
             var entity = new Role();
-                          entity.Name = "Name fb41ef7b16024cff9046562125ac8631";
+                          entity.Name = "Name 94c7fe77bcb042f59f2c311e3f9239a8";
               
             try
             {

@@ -1,13 +1,13 @@
 
 
 -- original values --
-DECLARE @ProposalID BIGINT = 100006
-DECLARE @CommentID BIGINT = 100002
+DECLARE @ProposalID BIGINT = 100007
+DECLARE @CommentID BIGINT = 100007
  
 -- updated values --
 
-DECLARE @updProposalID BIGINT = 100006
-DECLARE @updCommentID BIGINT = 100002
+DECLARE @updProposalID BIGINT = 100007
+DECLARE @updCommentID BIGINT = 100007
  
 
 DECLARE @Fail AS BIT = 0

@@ -156,18 +156,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Proposal testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.PositionID = 100005;
-                            testEntity.CandidateID = 110084;
-                            testEntity.Proposed = DateTime.Parse("3/2/2024 12:08:40 AM");
-                            testEntity.CurrentStepID = 4;
-                            testEntity.StepSetDate = DateTime.Parse("3/2/2024 12:08:40 AM");
-                            testEntity.NextStepID = 10;
-                            testEntity.DueDate = DateTime.Parse("7/20/2021 9:55:40 AM");
-                            testEntity.StatusID = 4;
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("3/8/2019 5:56:40 AM");
-                            testEntity.ModifiedByID = 100003;
-                            testEntity.ModifiedDate = DateTime.Parse("1/15/2022 6:22:40 AM");
+                          testEntity.PositionID = 100004;
+                            testEntity.CandidateID = 100005;
+                            testEntity.Proposed = DateTime.Parse("4/8/2021 10:08:37 PM");
+                            testEntity.CurrentStepID = 1;
+                            testEntity.StepSetDate = DateTime.Parse("2/18/2024 7:55:37 AM");
+                            testEntity.NextStepID = 7;
+                            testEntity.DueDate = DateTime.Parse("7/7/2021 8:22:37 AM");
+                            testEntity.StatusID = 23;
+                            testEntity.CreatedByID = 100004;
+                            testEntity.CreatedDate = DateTime.Parse("10/6/2021 3:56:37 AM");
+                            testEntity.ModifiedByID = 100002;
+                            testEntity.ModifiedDate = DateTime.Parse("2/23/2019 1:43:37 PM");
               
                     var reqDto = ProposalConvertor.Convert(testEntity, null);
 
@@ -210,18 +210,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.PositionID = 100005;
-                            testEntity.CandidateID = 110084;
-                            testEntity.Proposed = DateTime.Parse("3/2/2024 12:08:40 AM");
-                            testEntity.CurrentStepID = 4;
-                            testEntity.StepSetDate = DateTime.Parse("3/2/2024 12:08:40 AM");
-                            testEntity.NextStepID = 10;
-                            testEntity.DueDate = DateTime.Parse("7/20/2021 9:55:40 AM");
-                            testEntity.StatusID = 4;
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("3/8/2019 5:56:40 AM");
-                            testEntity.ModifiedByID = 100003;
-                            testEntity.ModifiedDate = DateTime.Parse("1/15/2022 6:22:40 AM");
+                             testEntity.PositionID = 100004;
+                            testEntity.CandidateID = 100005;
+                            testEntity.Proposed = DateTime.Parse("4/8/2021 10:08:37 PM");
+                            testEntity.CurrentStepID = 1;
+                            testEntity.StepSetDate = DateTime.Parse("2/18/2024 7:55:37 AM");
+                            testEntity.NextStepID = 7;
+                            testEntity.DueDate = DateTime.Parse("7/7/2021 8:22:37 AM");
+                            testEntity.StatusID = 23;
+                            testEntity.CreatedByID = 100004;
+                            testEntity.CreatedDate = DateTime.Parse("10/6/2021 3:56:37 AM");
+                            testEntity.ModifiedByID = 100002;
+                            testEntity.ModifiedDate = DateTime.Parse("2/23/2019 1:43:37 PM");
               
                     var reqDto = ProposalConvertor.Convert(testEntity, null);
 
@@ -259,18 +259,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Proposal CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Proposal();
-                          entity.PositionID = 100006;
+                          entity.PositionID = 100001;
                             entity.CandidateID = 100002;
-                            entity.Proposed = DateTime.Parse("1/28/2020 4:33:40 PM");
-                            entity.CurrentStepID = 4;
-                            entity.StepSetDate = DateTime.Parse("12/9/2022 2:20:40 AM");
-                            entity.NextStepID = 6;
-                            entity.DueDate = DateTime.Parse("12/9/2022 2:20:40 AM");
-                            entity.StatusID = 4;
-                            entity.CreatedByID = 100002;
-                            entity.CreatedDate = DateTime.Parse("3/8/2023 12:34:40 PM");
-                            entity.ModifiedByID = 100003;
-                            entity.ModifiedDate = DateTime.Parse("7/26/2020 10:20:40 PM");
+                            entity.Proposed = DateTime.Parse("7/20/2019 6:33:37 PM");
+                            entity.CurrentStepID = 8;
+                            entity.StepSetDate = DateTime.Parse("5/31/2022 4:20:37 AM");
+                            entity.NextStepID = 9;
+                            entity.DueDate = DateTime.Parse("10/19/2019 2:06:37 PM");
+                            entity.StatusID = 2;
+                            entity.CreatedByID = 100004;
+                            entity.CreatedDate = DateTime.Parse("8/28/2022 2:33:37 PM");
+                            entity.ModifiedByID = 100002;
+                            entity.ModifiedDate = DateTime.Parse("1/17/2020 12:20:37 AM");
               
             return entity;
         }

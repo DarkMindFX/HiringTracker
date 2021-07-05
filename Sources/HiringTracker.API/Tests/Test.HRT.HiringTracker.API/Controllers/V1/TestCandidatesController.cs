@@ -154,16 +154,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Candidate testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.FirstName = "FirstName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.MiddleName = "MiddleName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.LastName = "LastName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.Email = "Email dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.Phone = "Phone dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.CVLink = "CVLink dd94ab632102434ab73a646cd1fb2ce0";
+                          testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
                             testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("12/4/2022 1:42:39 PM");
-                            testEntity.ModifiedByID = 100002;
-                            testEntity.ModifiedDate = DateTime.Parse("8/30/2023 5:43:39 AM");
+                            testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
+                            testEntity.ModifiedByID = 100003;
+                            testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
               
                     var reqDto = CandidateConvertor.Convert(testEntity, null);
 
@@ -204,16 +204,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.FirstName = "FirstName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.MiddleName = "MiddleName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.LastName = "LastName dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.Email = "Email dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.Phone = "Phone dd94ab632102434ab73a646cd1fb2ce0";
-                            testEntity.CVLink = "CVLink dd94ab632102434ab73a646cd1fb2ce0";
+                             testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
+                            testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
                             testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("12/4/2022 1:42:39 PM");
-                            testEntity.ModifiedByID = 100002;
-                            testEntity.ModifiedDate = DateTime.Parse("8/30/2023 5:43:39 AM");
+                            testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
+                            testEntity.ModifiedByID = 100003;
+                            testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
               
                     var reqDto = CandidateConvertor.Convert(testEntity, null);
 
@@ -251,16 +251,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Candidate CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Candidate();
-                          entity.FirstName = "FirstName bee98cb1d9ee4b13b02f5c4f804ff2e8";
-                            entity.MiddleName = "MiddleName bee98cb1d9ee4b13b02f5c4f804ff2e8";
-                            entity.LastName = "LastName bee98cb1d9ee4b13b02f5c4f804ff2e8";
-                            entity.Email = "Email bee98cb1d9ee4b13b02f5c4f804ff2e8";
-                            entity.Phone = "Phone bee98cb1d9ee4b13b02f5c4f804ff2e8";
-                            entity.CVLink = "CVLink bee98cb1d9ee4b13b02f5c4f804ff2e8";
+                          entity.FirstName = "FirstName 5808bc09063145e386ab1ee36f418fba";
+                            entity.MiddleName = "MiddleName 5808bc09063145e386ab1ee36f418fba";
+                            entity.LastName = "LastName 5808bc09063145e386ab1ee36f418fba";
+                            entity.Email = "Email 5808bc09063145e386ab1ee36f418fba";
+                            entity.Phone = "Phone 5808bc09063145e386ab1ee36f418fba";
+                            entity.CVLink = "CVLink 5808bc09063145e386ab1ee36f418fba";
                             entity.CreatedByID = 100002;
-                            entity.CreatedDate = DateTime.Parse("8/10/2021 2:56:39 PM");
+                            entity.CreatedDate = DateTime.Parse("7/20/2020 11:54:36 AM");
                             entity.ModifiedByID = 100001;
-                            entity.ModifiedDate = DateTime.Parse("9/24/2019 4:44:39 PM");
+                            entity.ModifiedDate = DateTime.Parse("5/30/2019 5:43:36 AM");
               
             return entity;
         }

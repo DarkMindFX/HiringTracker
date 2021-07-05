@@ -52,15 +52,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(10, entity.DepartmentID);
-                            Assert.AreEqual("Title 56c5cef7f2e64fc5b4c66e697101e256", entity.Title);
-                            Assert.AreEqual("ShortDesc 56c5cef7f2e64fc5b4c66e697101e256", entity.ShortDesc);
-                            Assert.AreEqual("Description 56c5cef7f2e64fc5b4c66e697101e256", entity.Description);
-                            Assert.AreEqual(4, entity.StatusID);
-                            Assert.AreEqual(DateTime.Parse("2/27/2020 1:34:12 PM"), entity.CreatedDate);
-                            Assert.AreEqual(100001, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("5/21/2021 11:22:12 AM"), entity.ModifiedDate);
-                            Assert.AreEqual(100001, entity.ModifiedByID);
+                          Assert.AreEqual("Title 0f2cccdbb2dc4b8bb1527608550db423", entity.Title);
+                            Assert.AreEqual("ShortDesc 0f2cccdbb2dc4b8bb1527608550db423", entity.ShortDesc);
+                            Assert.AreEqual("Description 0f2cccdbb2dc4b8bb1527608550db423", entity.Description);
+                            Assert.AreEqual(1, entity.StatusID);
+                            Assert.AreEqual(DateTime.Parse("9/7/2023 1:22:34 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100004, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("8/9/2019 6:25:34 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
                       }
 
         [Test]
@@ -109,15 +108,14 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionDal("DALInitParams");
 
             var entity = new Position();
-                          entity.DepartmentID = 10;
-                            entity.Title = "Title c61812b2a18b4e60b7fc0c4136950496";
-                            entity.ShortDesc = "ShortDesc c61812b2a18b4e60b7fc0c4136950496";
-                            entity.Description = "Description c61812b2a18b4e60b7fc0c4136950496";
+                          entity.Title = "Title 5d492528cac149f0bed22d62eac46c79";
+                            entity.ShortDesc = "ShortDesc 5d492528cac149f0bed22d62eac46c79";
+                            entity.Description = "Description 5d492528cac149f0bed22d62eac46c79";
                             entity.StatusID = 2;
-                            entity.CreatedDate = DateTime.Parse("3/3/2024 8:50:12 AM");
-                            entity.CreatedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("7/22/2021 6:37:12 PM");
-                            entity.ModifiedByID = 100003;
+                            entity.CreatedDate = DateTime.Parse("4/2/2021 7:02:34 AM");
+                            entity.CreatedByID = 100005;
+                            entity.ModifiedDate = DateTime.Parse("11/19/2018 12:22:34 PM");
+                            entity.ModifiedByID = 100004;
                           
             entity = dal.Insert(entity);
 
@@ -126,15 +124,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(10, entity.DepartmentID);
-                            Assert.AreEqual("Title c61812b2a18b4e60b7fc0c4136950496", entity.Title);
-                            Assert.AreEqual("ShortDesc c61812b2a18b4e60b7fc0c4136950496", entity.ShortDesc);
-                            Assert.AreEqual("Description c61812b2a18b4e60b7fc0c4136950496", entity.Description);
+                          Assert.AreEqual("Title 5d492528cac149f0bed22d62eac46c79", entity.Title);
+                            Assert.AreEqual("ShortDesc 5d492528cac149f0bed22d62eac46c79", entity.ShortDesc);
+                            Assert.AreEqual("Description 5d492528cac149f0bed22d62eac46c79", entity.Description);
                             Assert.AreEqual(2, entity.StatusID);
-                            Assert.AreEqual(DateTime.Parse("3/3/2024 8:50:12 AM"), entity.CreatedDate);
-                            Assert.AreEqual(33020042, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("7/22/2021 6:37:12 PM"), entity.ModifiedDate);
-                            Assert.AreEqual(100003, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("4/2/2021 7:02:34 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100005, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("11/19/2018 12:22:34 PM"), entity.ModifiedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
               
         }
 
@@ -148,15 +145,14 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Position entity = dal.Get(paramID);
 
-                          entity.DepartmentID = 2;
-                            entity.Title = "Title 52d3cbd93ac648099693dbc6284f7495";
-                            entity.ShortDesc = "ShortDesc 52d3cbd93ac648099693dbc6284f7495";
-                            entity.Description = "Description 52d3cbd93ac648099693dbc6284f7495";
-                            entity.StatusID = 2;
-                            entity.CreatedDate = DateTime.Parse("3/9/2019 2:37:12 PM");
-                            entity.CreatedByID = 100001;
-                            entity.ModifiedDate = DateTime.Parse("3/9/2019 2:37:12 PM");
-                            entity.ModifiedByID = 33000067;
+                          entity.Title = "Title 1ebfe71c84df476995524cc630436869";
+                            entity.ShortDesc = "ShortDesc 1ebfe71c84df476995524cc630436869";
+                            entity.Description = "Description 1ebfe71c84df476995524cc630436869";
+                            entity.StatusID = 5;
+                            entity.CreatedDate = DateTime.Parse("9/23/2022 12:24:34 AM");
+                            entity.CreatedByID = 100003;
+                            entity.ModifiedDate = DateTime.Parse("9/23/2022 12:24:34 AM");
+                            entity.ModifiedByID = 100001;
               
             entity = dal.Update(entity);
 
@@ -165,15 +161,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(2, entity.DepartmentID);
-                            Assert.AreEqual("Title 52d3cbd93ac648099693dbc6284f7495", entity.Title);
-                            Assert.AreEqual("ShortDesc 52d3cbd93ac648099693dbc6284f7495", entity.ShortDesc);
-                            Assert.AreEqual("Description 52d3cbd93ac648099693dbc6284f7495", entity.Description);
-                            Assert.AreEqual(2, entity.StatusID);
-                            Assert.AreEqual(DateTime.Parse("3/9/2019 2:37:12 PM"), entity.CreatedDate);
-                            Assert.AreEqual(100001, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("3/9/2019 2:37:12 PM"), entity.ModifiedDate);
-                            Assert.AreEqual(33000067, entity.ModifiedByID);
+                          Assert.AreEqual("Title 1ebfe71c84df476995524cc630436869", entity.Title);
+                            Assert.AreEqual("ShortDesc 1ebfe71c84df476995524cc630436869", entity.ShortDesc);
+                            Assert.AreEqual("Description 1ebfe71c84df476995524cc630436869", entity.Description);
+                            Assert.AreEqual(5, entity.StatusID);
+                            Assert.AreEqual(DateTime.Parse("9/23/2022 12:24:34 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100003, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("9/23/2022 12:24:34 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(100001, entity.ModifiedByID);
               
         }
 
@@ -183,15 +178,14 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionDal("DALInitParams");
 
             var entity = new Position();
-                          entity.DepartmentID = 2;
-                            entity.Title = "Title 52d3cbd93ac648099693dbc6284f7495";
-                            entity.ShortDesc = "ShortDesc 52d3cbd93ac648099693dbc6284f7495";
-                            entity.Description = "Description 52d3cbd93ac648099693dbc6284f7495";
-                            entity.StatusID = 2;
-                            entity.CreatedDate = DateTime.Parse("3/9/2019 2:37:12 PM");
-                            entity.CreatedByID = 100001;
-                            entity.ModifiedDate = DateTime.Parse("3/9/2019 2:37:12 PM");
-                            entity.ModifiedByID = 33000067;
+                          entity.Title = "Title 1ebfe71c84df476995524cc630436869";
+                            entity.ShortDesc = "ShortDesc 1ebfe71c84df476995524cc630436869";
+                            entity.Description = "Description 1ebfe71c84df476995524cc630436869";
+                            entity.StatusID = 5;
+                            entity.CreatedDate = DateTime.Parse("9/23/2022 12:24:34 AM");
+                            entity.CreatedByID = 100003;
+                            entity.ModifiedDate = DateTime.Parse("9/23/2022 12:24:34 AM");
+                            entity.ModifiedByID = 100001;
               
             try
             {

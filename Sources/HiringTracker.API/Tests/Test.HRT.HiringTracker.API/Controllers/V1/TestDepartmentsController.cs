@@ -148,10 +148,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Department testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name e24c910184cd4803a52c122cf3d3dc74";
-                            testEntity.UUID = "UUID e24c910184cd4803a52c122cf3d3dc74";
-                            testEntity.ParentID = 3;
-                            testEntity.ManagerID = 33020042;
+                          testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                            testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                            testEntity.ManagerID = 100002;
               
                     var reqDto = DepartmentConvertor.Convert(testEntity, null);
 
@@ -186,10 +185,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name e24c910184cd4803a52c122cf3d3dc74";
-                            testEntity.UUID = "UUID e24c910184cd4803a52c122cf3d3dc74";
-                            testEntity.ParentID = 3;
-                            testEntity.ManagerID = 33020042;
+                             testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                            testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                            testEntity.ManagerID = 100002;
               
                     var reqDto = DepartmentConvertor.Convert(testEntity, null);
 
@@ -227,10 +225,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Department CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Department();
-                          entity.Name = "Name ded8fec1842c4a65bbabd870d316757f";
-                            entity.UUID = "UUID ded8fec1842c4a65bbabd870d316757f";
-                            entity.ParentID = 10;
-                            entity.ManagerID = 100003;
+                          entity.Name = "Name 06212d80104249e8b628d49fec6af92a";
+                            entity.UUID = "UUID 06212d80104249e8b628d49fec6af92a";
+                            entity.ManagerID = 100001;
               
             return entity;
         }

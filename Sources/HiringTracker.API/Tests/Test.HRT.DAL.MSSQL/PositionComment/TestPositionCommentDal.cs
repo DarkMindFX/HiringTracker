@@ -54,8 +54,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.PositionID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(100008, entity.PositionID);
-                            Assert.AreEqual(100008, entity.CommentID);
+                          Assert.AreEqual(100005, entity.PositionID);
+                            Assert.AreEqual(100003, entity.CommentID);
                       }
 
         [Test]
@@ -107,8 +107,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionCommentDal("DALInitParams");
 
             var entity = new PositionComment();
-                          entity.PositionID = 110142;
-                            entity.CommentID = 100009;
+                          entity.PositionID = 100001;
+                            entity.CommentID = 100003;
                           
             entity = dal.Insert(entity);
 
@@ -118,8 +118,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.PositionID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(110142, entity.PositionID);
-                            Assert.AreEqual(100009, entity.CommentID);
+                          Assert.AreEqual(100001, entity.PositionID);
+                            Assert.AreEqual(100003, entity.CommentID);
               
         }
 
@@ -143,8 +143,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.PositionID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(110142, entity.PositionID);
-                            Assert.AreEqual(100007, entity.CommentID);
+                          Assert.AreEqual(100001, entity.PositionID);
+                            Assert.AreEqual(100002, entity.CommentID);
               
         }
 
@@ -154,8 +154,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionCommentDal("DALInitParams");
 
             var entity = new PositionComment();
-                          entity.PositionID = 110142;
-                            entity.CommentID = 100007;
+                          entity.PositionID = 100001;
+                            entity.CommentID = 100002;
               
             try
             {

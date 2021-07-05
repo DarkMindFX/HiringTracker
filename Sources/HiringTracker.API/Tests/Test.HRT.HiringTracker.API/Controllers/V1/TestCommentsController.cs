@@ -149,10 +149,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Comment testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Text = "Text a61b66609acd444ead197f2ab4393863";
-                            testEntity.CreatedDate = DateTime.Parse("10/31/2018 12:58:39 PM");
-                            testEntity.CreatedByID = 33020042;
-                            testEntity.ModifiedDate = DateTime.Parse("4/20/2020 9:00:39 PM");
+                          testEntity.Text = "Text 58b30bca67d84b5ca56a8e1a167c1bc5";
+                            testEntity.CreatedDate = DateTime.Parse("3/4/2019 2:59:36 PM");
+                            testEntity.CreatedByID = 100003;
+                            testEntity.ModifiedDate = DateTime.Parse("4/6/2023 10:34:36 PM");
                             testEntity.ModifiedByID = 100002;
               
                     var reqDto = CommentConvertor.Convert(testEntity, null);
@@ -189,10 +189,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Text = "Text a61b66609acd444ead197f2ab4393863";
-                            testEntity.CreatedDate = DateTime.Parse("10/31/2018 12:58:39 PM");
-                            testEntity.CreatedByID = 33020042;
-                            testEntity.ModifiedDate = DateTime.Parse("4/20/2020 9:00:39 PM");
+                             testEntity.Text = "Text 58b30bca67d84b5ca56a8e1a167c1bc5";
+                            testEntity.CreatedDate = DateTime.Parse("3/4/2019 2:59:36 PM");
+                            testEntity.CreatedByID = 100003;
+                            testEntity.ModifiedDate = DateTime.Parse("4/6/2023 10:34:36 PM");
                             testEntity.ModifiedByID = 100002;
               
                     var reqDto = CommentConvertor.Convert(testEntity, null);
@@ -231,11 +231,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Comment CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Comment();
-                          entity.Text = "Text 5f934a659fd942ac9f36c825f1d423b5";
-                            entity.CreatedDate = DateTime.Parse("10/6/2021 4:24:39 PM");
-                            entity.CreatedByID = 33000067;
-                            entity.ModifiedDate = DateTime.Parse("8/23/2019 7:58:39 AM");
-                            entity.ModifiedByID = 33020042;
+                          entity.Text = "Text eda3ad6e55e047c984dd2e9dc2111114";
+                            entity.CreatedDate = DateTime.Parse("4/7/2022 10:21:36 PM");
+                            entity.CreatedByID = 100003;
+                            entity.ModifiedDate = DateTime.Parse("4/7/2022 10:21:36 PM");
+                            entity.ModifiedByID = 100003;
               
             return entity;
         }

@@ -44,7 +44,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewFeedbackDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+                var paramID = (System.Int64?)objIds[0];
             InterviewFeedback entity = dal.Get(paramID);
 
             TeardownCase(conn, caseName);
@@ -52,14 +52,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(461326, entity.ID);
-                            Assert.AreEqual("Comment 3c0f667406db4d21a5ff61ec0dfb89e3", entity.Comment);
-                            Assert.AreEqual(461, entity.Rating);
-                            Assert.AreEqual(33020042, entity.InterviewerID);
+                          Assert.AreEqual("Comment 60243b2d2fd8489393b81146b4cd0b6f", entity.Comment);
+                            Assert.AreEqual(509, entity.Rating);
+                            Assert.AreEqual(100007, entity.InterviewID);
+                            Assert.AreEqual(100002, entity.InterviewerID);
                             Assert.AreEqual(100002, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("11/19/2019 7:24:12 AM"), entity.CreatedDate);
-                            Assert.AreEqual(100003, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("3/27/2023 10:58:12 PM"), entity.ModifiedDate);
+                            Assert.AreEqual(DateTime.Parse("4/5/2020 9:58:25 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100001, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("4/5/2020 9:58:25 AM"), entity.ModifiedDate);
                       }
 
         [Test]
@@ -80,7 +80,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewFeedbackDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+                var paramID = (System.Int64?)objIds[0];
             bool removed = dal.Delete(paramID);
 
             TeardownCase(conn, caseName);
@@ -108,14 +108,14 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewFeedbackDal("DALInitParams");
 
             var entity = new InterviewFeedback();
-                          entity.ID = 611660;
-                            entity.Comment = "Comment 7281f9683887404a9fc613378986e788";
-                            entity.Rating = 612;
-                            entity.InterviewerID = 33000067;
-                            entity.CreatedByID = 100003;
-                            entity.CreatedDate = DateTime.Parse("9/21/2019 12:47:12 PM");
-                            entity.ModifiedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("8/1/2022 10:34:12 PM");
+                          entity.Comment = "Comment c08e7247b206418c8b4c262404b20bae";
+                            entity.Rating = 317;
+                            entity.InterviewID = 100006;
+                            entity.InterviewerID = 100002;
+                            entity.CreatedByID = 100005;
+                            entity.CreatedDate = DateTime.Parse("10/1/2020 6:25:25 AM");
+                            entity.ModifiedByID = 100004;
+                            entity.ModifiedDate = DateTime.Parse("8/12/2023 4:12:25 PM");
                           
             entity = dal.Insert(entity);
 
@@ -124,14 +124,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(611660, entity.ID);
-                            Assert.AreEqual("Comment 7281f9683887404a9fc613378986e788", entity.Comment);
-                            Assert.AreEqual(612, entity.Rating);
-                            Assert.AreEqual(33000067, entity.InterviewerID);
-                            Assert.AreEqual(100003, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("9/21/2019 12:47:12 PM"), entity.CreatedDate);
-                            Assert.AreEqual(33020042, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("8/1/2022 10:34:12 PM"), entity.ModifiedDate);
+                          Assert.AreEqual("Comment c08e7247b206418c8b4c262404b20bae", entity.Comment);
+                            Assert.AreEqual(317, entity.Rating);
+                            Assert.AreEqual(100006, entity.InterviewID);
+                            Assert.AreEqual(100002, entity.InterviewerID);
+                            Assert.AreEqual(100005, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("10/1/2020 6:25:25 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("8/12/2023 4:12:25 PM"), entity.ModifiedDate);
               
         }
 
@@ -142,16 +142,17 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewFeedbackDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+                var paramID = (System.Int64?)objIds[0];
             InterviewFeedback entity = dal.Get(paramID);
 
-                          entity.Comment = "Comment 76f0915144fe4c099ee495d102aae0e8";
-                            entity.Rating = 746;
-                            entity.InterviewerID = 100001;
-                            entity.CreatedByID = 33000067;
-                            entity.CreatedDate = DateTime.Parse("1/29/2023 4:22:12 AM");
-                            entity.ModifiedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("6/17/2020 2:08:12 PM");
+                          entity.Comment = "Comment 06075afbffe1452d85f11fb3d55fff67";
+                            entity.Rating = 451;
+                            entity.InterviewID = 100006;
+                            entity.InterviewerID = 100002;
+                            entity.CreatedByID = 100005;
+                            entity.CreatedDate = DateTime.Parse("6/28/2021 7:46:25 AM");
+                            entity.ModifiedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("6/28/2021 7:46:25 AM");
               
             entity = dal.Update(entity);
 
@@ -160,14 +161,14 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual(701361, entity.ID);
-                            Assert.AreEqual("Comment 76f0915144fe4c099ee495d102aae0e8", entity.Comment);
-                            Assert.AreEqual(746, entity.Rating);
-                            Assert.AreEqual(100001, entity.InterviewerID);
-                            Assert.AreEqual(33000067, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("1/29/2023 4:22:12 AM"), entity.CreatedDate);
-                            Assert.AreEqual(33020042, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("6/17/2020 2:08:12 PM"), entity.ModifiedDate);
+                          Assert.AreEqual("Comment 06075afbffe1452d85f11fb3d55fff67", entity.Comment);
+                            Assert.AreEqual(451, entity.Rating);
+                            Assert.AreEqual(100006, entity.InterviewID);
+                            Assert.AreEqual(100002, entity.InterviewerID);
+                            Assert.AreEqual(100005, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("6/28/2021 7:46:25 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100001, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("6/28/2021 7:46:25 AM"), entity.ModifiedDate);
               
         }
 
@@ -177,14 +178,14 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewFeedbackDal("DALInitParams");
 
             var entity = new InterviewFeedback();
-                          entity.ID = 701361;
-                            entity.Comment = "Comment 76f0915144fe4c099ee495d102aae0e8";
-                            entity.Rating = 746;
-                            entity.InterviewerID = 100001;
-                            entity.CreatedByID = 33000067;
-                            entity.CreatedDate = DateTime.Parse("1/29/2023 4:22:12 AM");
-                            entity.ModifiedByID = 33020042;
-                            entity.ModifiedDate = DateTime.Parse("6/17/2020 2:08:12 PM");
+                          entity.Comment = "Comment 06075afbffe1452d85f11fb3d55fff67";
+                            entity.Rating = 451;
+                            entity.InterviewID = 100006;
+                            entity.InterviewerID = 100002;
+                            entity.CreatedByID = 100005;
+                            entity.CreatedDate = DateTime.Parse("6/28/2021 7:46:25 AM");
+                            entity.ModifiedByID = 100001;
+                            entity.ModifiedDate = DateTime.Parse("6/28/2021 7:46:25 AM");
               
             try
             {

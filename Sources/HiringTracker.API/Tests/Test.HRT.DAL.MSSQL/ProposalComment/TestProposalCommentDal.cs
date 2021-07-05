@@ -54,8 +54,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.ProposalID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(100007, entity.ProposalID);
-                            Assert.AreEqual(100002, entity.CommentID);
+                          Assert.AreEqual(100006, entity.ProposalID);
+                            Assert.AreEqual(100004, entity.CommentID);
                       }
 
         [Test]
@@ -107,8 +107,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalCommentDal("DALInitParams");
 
             var entity = new ProposalComment();
-                          entity.ProposalID = 100007;
-                            entity.CommentID = 100003;
+                          entity.ProposalID = 100003;
+                            entity.CommentID = 100009;
                           
             entity = dal.Insert(entity);
 
@@ -118,8 +118,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.ProposalID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(100007, entity.ProposalID);
-                            Assert.AreEqual(100003, entity.CommentID);
+                          Assert.AreEqual(100003, entity.ProposalID);
+                            Assert.AreEqual(100009, entity.CommentID);
               
         }
 
@@ -143,8 +143,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.ProposalID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(100006, entity.ProposalID);
-                            Assert.AreEqual(100002, entity.CommentID);
+                          Assert.AreEqual(100007, entity.ProposalID);
+                            Assert.AreEqual(100007, entity.CommentID);
               
         }
 
@@ -154,8 +154,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalCommentDal("DALInitParams");
 
             var entity = new ProposalComment();
-                          entity.ProposalID = 100006;
-                            entity.CommentID = 100002;
+                          entity.ProposalID = 100007;
+                            entity.CommentID = 100007;
               
             try
             {

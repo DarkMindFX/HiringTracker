@@ -52,9 +52,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 7612fbbe6ccd419f8519c3de274485d1", entity.Name);
+                          Assert.AreEqual("Name cec36ff822884c6ab8b3435c1e765507", entity.Name);
                             Assert.AreEqual(false, entity.ReqDueDate);
-                            Assert.AreEqual(91, entity.RequiresRespInDays);
+                            Assert.AreEqual(504, entity.RequiresRespInDays);
                       }
 
         [Test]
@@ -103,9 +103,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalStepDal("DALInitParams");
 
             var entity = new ProposalStep();
-                          entity.Name = "Name b606c3b4301d43a8a949530ede75300d";
+                          entity.Name = "Name 68fdcfe45dc5487f9a4149725bddd83f";
                             entity.ReqDueDate = false;              
-                            entity.RequiresRespInDays = 91;
+                            entity.RequiresRespInDays = 504;
                           
             entity = dal.Insert(entity);
 
@@ -114,9 +114,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name b606c3b4301d43a8a949530ede75300d", entity.Name);
+                          Assert.AreEqual("Name 68fdcfe45dc5487f9a4149725bddd83f", entity.Name);
                             Assert.AreEqual(false, entity.ReqDueDate);
-                            Assert.AreEqual(91, entity.RequiresRespInDays);
+                            Assert.AreEqual(504, entity.RequiresRespInDays);
               
         }
 
@@ -130,9 +130,9 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             ProposalStep entity = dal.Get(paramID);
 
-                          entity.Name = "Name c086262856184f52961e03f4dfa66b7f";
+                          entity.Name = "Name bdf696d8afbc4e39b2334acb9fd65a0b";
                             entity.ReqDueDate = false;              
-                            entity.RequiresRespInDays = 91;
+                            entity.RequiresRespInDays = 504;
               
             entity = dal.Update(entity);
 
@@ -141,9 +141,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name c086262856184f52961e03f4dfa66b7f", entity.Name);
+                          Assert.AreEqual("Name bdf696d8afbc4e39b2334acb9fd65a0b", entity.Name);
                             Assert.AreEqual(false, entity.ReqDueDate);
-                            Assert.AreEqual(91, entity.RequiresRespInDays);
+                            Assert.AreEqual(504, entity.RequiresRespInDays);
               
         }
 
@@ -153,9 +153,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareProposalStepDal("DALInitParams");
 
             var entity = new ProposalStep();
-                          entity.Name = "Name c086262856184f52961e03f4dfa66b7f";
+                          entity.Name = "Name bdf696d8afbc4e39b2334acb9fd65a0b";
                             entity.ReqDueDate = false;              
-                            entity.RequiresRespInDays = 91;
+                            entity.RequiresRespInDays = 504;
               
             try
             {

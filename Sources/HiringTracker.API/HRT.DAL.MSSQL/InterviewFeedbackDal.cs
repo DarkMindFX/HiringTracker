@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public InterviewFeedback Get(System.Int64 ID)
+        public InterviewFeedback Get(System.Int64? ID)
         {
             InterviewFeedback result = default(InterviewFeedback);
 
@@ -55,7 +55,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public bool Delete(System.Int64 ID)
+        public bool Delete(System.Int64? ID)
         {
             bool result = false;
 
@@ -141,7 +141,7 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewFeedback();
 
-                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64)row["ID"] : default(System.Int64);
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
                     entity.Comment = !DBNull.Value.Equals(row["Comment"]) ? (System.String)row["Comment"] : default(System.String);
                     entity.Rating = !DBNull.Value.Equals(row["Rating"]) ? (System.Int32)row["Rating"] : default(System.Int32);
                     entity.InterviewID = !DBNull.Value.Equals(row["InterviewID"]) ? (System.Int64)row["InterviewID"] : default(System.Int64);

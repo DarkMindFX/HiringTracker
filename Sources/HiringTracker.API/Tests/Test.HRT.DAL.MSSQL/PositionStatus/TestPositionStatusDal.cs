@@ -52,7 +52,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 2944b4bdcff74fb18aed50b0c4785ea8", entity.Name);
+                          Assert.AreEqual("Name 9313cdf4ea9d431aa180b75afe2df762", entity.Name);
                       }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionStatusDal("DALInitParams");
 
             var entity = new PositionStatus();
-                          entity.Name = "Name 2f34f6abdcec4dd38801e2fc4a3b6cf5";
+                          entity.Name = "Name 36fc8cbcb4064b94b7569523875fee7c";
                           
             entity = dal.Insert(entity);
 
@@ -110,7 +110,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 2f34f6abdcec4dd38801e2fc4a3b6cf5", entity.Name);
+                          Assert.AreEqual("Name 36fc8cbcb4064b94b7569523875fee7c", entity.Name);
               
         }
 
@@ -124,7 +124,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             PositionStatus entity = dal.Get(paramID);
 
-                          entity.Name = "Name 2952041c57754af7b77d6bfca6522793";
+                          entity.Name = "Name 430886020ac848699d2a3d59a2df5f7b";
               
             entity = dal.Update(entity);
 
@@ -133,7 +133,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 2952041c57754af7b77d6bfca6522793", entity.Name);
+                          Assert.AreEqual("Name 430886020ac848699d2a3d59a2df5f7b", entity.Name);
               
         }
 
@@ -143,7 +143,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionStatusDal("DALInitParams");
 
             var entity = new PositionStatus();
-                          entity.Name = "Name 2952041c57754af7b77d6bfca6522793";
+                          entity.Name = "Name 430886020ac848699d2a3d59a2df5f7b";
               
             try
             {

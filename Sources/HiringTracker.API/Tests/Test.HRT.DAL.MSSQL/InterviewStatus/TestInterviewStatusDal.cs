@@ -52,7 +52,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name cbc05c2e921140298951118f23b0cad1", entity.Name);
+                          Assert.AreEqual("Name 5eb1c149eefd47debeb7c479f138d881", entity.Name);
                       }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewStatusDal("DALInitParams");
 
             var entity = new InterviewStatus();
-                          entity.Name = "Name 619444045b3e4a56bcef4d9e2a81816b";
+                          entity.Name = "Name 28e5da9df76b40ab9c248af1136e35ff";
                           
             entity = dal.Insert(entity);
 
@@ -110,7 +110,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 619444045b3e4a56bcef4d9e2a81816b", entity.Name);
+                          Assert.AreEqual("Name 28e5da9df76b40ab9c248af1136e35ff", entity.Name);
               
         }
 
@@ -124,7 +124,7 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             InterviewStatus entity = dal.Get(paramID);
 
-                          entity.Name = "Name 028267c1211e42e0b426a6461a667568";
+                          entity.Name = "Name 7e82b630cc75460d80cd25ce2cffbf8e";
               
             entity = dal.Update(entity);
 
@@ -133,7 +133,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("Name 028267c1211e42e0b426a6461a667568", entity.Name);
+                          Assert.AreEqual("Name 7e82b630cc75460d80cd25ce2cffbf8e", entity.Name);
               
         }
 
@@ -143,7 +143,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewStatusDal("DALInitParams");
 
             var entity = new InterviewStatus();
-                          entity.Name = "Name 028267c1211e42e0b426a6461a667568";
+                          entity.Name = "Name 7e82b630cc75460d80cd25ce2cffbf8e";
               
             try
             {

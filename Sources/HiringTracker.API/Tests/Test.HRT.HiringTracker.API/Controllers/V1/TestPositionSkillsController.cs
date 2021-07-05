@@ -42,8 +42,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                    var paramPositionID = testEntity.PositionID;
-                    var paramSkillID = testEntity.SkillID;
+                var paramPositionID = testEntity.PositionID;
+                var paramSkillID = testEntity.SkillID;
                     var respGet = client.GetAsync($"/api/v1/positionskills/{paramPositionID}/{paramSkillID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -82,8 +82,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                    var paramPositionID = testEntity.PositionID;
-                    var paramSkillID = testEntity.SkillID;
+                var paramPositionID = testEntity.PositionID;
+                var paramSkillID = testEntity.SkillID;
 
                     var respDel = client.DeleteAsync($"/api/v1/positionskills/{paramPositionID}/{paramSkillID}");
 
@@ -129,11 +129,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionSkill respDto = ExtractContentJson<PositionSkill>(respInsert.Result.Content);
 
-                    Assert.NotNull(respDto.PositionID);
-                    Assert.NotNull(respDto.SkillID);
-                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
-                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
-
+                                    Assert.NotNull(respDto.PositionID);
+                                    Assert.NotNull(respDto.SkillID);
+                                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
+                                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
+                
                     respEntity = PositionSkillConvertor.Convert(respDto);
                 }
                 finally
@@ -151,9 +151,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionSkill testEntity = AddTestEntity();
                 try
                 {
-                    testEntity.IsMandatory = false;
-                    testEntity.SkillProficiencyID = 4;
-
+                          testEntity.IsMandatory = false;              
+                            testEntity.SkillProficiencyID = 4;
+              
                     var reqDto = PositionSkillConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -164,11 +164,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionSkill respDto = ExtractContentJson<PositionSkill>(respUpdate.Result.Content);
 
-                    Assert.NotNull(respDto.PositionID);
-                    Assert.NotNull(respDto.SkillID);
-                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
-                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
-
+                                     Assert.NotNull(respDto.PositionID);
+                                    Assert.NotNull(respDto.SkillID);
+                                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
+                                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
+                
                 }
                 finally
                 {
@@ -185,11 +185,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionSkill testEntity = CreateTestEntity();
                 try
                 {
-                    testEntity.PositionID = 100005;
-                    testEntity.SkillID = 17;
-                    testEntity.IsMandatory = false;
-                    testEntity.SkillProficiencyID = 4;
-
+                            testEntity.PositionID = 100006;
+                            testEntity.SkillID = 2;
+                            testEntity.IsMandatory = false;              
+                            testEntity.SkillProficiencyID = 4;
+              
                     var reqDto = PositionSkillConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -227,11 +227,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.PositionSkill CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.PositionSkill();
-            entity.PositionID = 100007;
-            entity.SkillID = 10;
-            entity.IsMandatory = false;
-            entity.SkillProficiencyID = 1;
-
+                          entity.PositionID = 100004;
+                            entity.SkillID = 16;
+                            entity.IsMandatory = true;              
+                            entity.SkillProficiencyID = 2;
+              
             return entity;
         }
 

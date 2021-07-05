@@ -52,16 +52,16 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("FirstName 650cf135595f4253b0db2b1677150d4b", entity.FirstName);
-                            Assert.AreEqual("MiddleName 650cf135595f4253b0db2b1677150d4b", entity.MiddleName);
-                            Assert.AreEqual("LastName 650cf135595f4253b0db2b1677150d4b", entity.LastName);
-                            Assert.AreEqual("Email 650cf135595f4253b0db2b1677150d4b", entity.Email);
-                            Assert.AreEqual("Phone 650cf135595f4253b0db2b1677150d4b", entity.Phone);
-                            Assert.AreEqual("CVLink 650cf135595f4253b0db2b1677150d4b", entity.CVLink);
+                          Assert.AreEqual("FirstName b536006398f14919b98887b9a7761a33", entity.FirstName);
+                            Assert.AreEqual("MiddleName b536006398f14919b98887b9a7761a33", entity.MiddleName);
+                            Assert.AreEqual("LastName b536006398f14919b98887b9a7761a33", entity.LastName);
+                            Assert.AreEqual("Email b536006398f14919b98887b9a7761a33", entity.Email);
+                            Assert.AreEqual("Phone b536006398f14919b98887b9a7761a33", entity.Phone);
+                            Assert.AreEqual("CVLink b536006398f14919b98887b9a7761a33", entity.CVLink);
                             Assert.AreEqual(100002, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("11/26/2020 6:13:11 PM"), entity.CreatedDate);
-                            Assert.AreEqual(100002, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("8/16/2022 9:49:11 PM"), entity.ModifiedDate);
+                            Assert.AreEqual(DateTime.Parse("3/21/2023 6:11:32 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100005, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("2/2/2021 12:25:32 PM"), entity.ModifiedDate);
                       }
 
         [Test]
@@ -110,16 +110,16 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateDal("DALInitParams");
 
             var entity = new Candidate();
-                          entity.FirstName = "FirstName bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.MiddleName = "MiddleName bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.LastName = "LastName bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.Email = "Email bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.Phone = "Phone bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.CVLink = "CVLink bdbedca22f9d4aebb1680b9ff061aee8";
-                            entity.CreatedByID = 33000067;
-                            entity.CreatedDate = DateTime.Parse("6/6/2020 10:24:11 AM");
-                            entity.ModifiedByID = 100003;
-                            entity.ModifiedDate = DateTime.Parse("1/11/2024 12:11:11 PM");
+                          entity.FirstName = "FirstName a2c578eb2e164e91b3599edce3eb165f";
+                            entity.MiddleName = "MiddleName a2c578eb2e164e91b3599edce3eb165f";
+                            entity.LastName = "LastName a2c578eb2e164e91b3599edce3eb165f";
+                            entity.Email = "Email a2c578eb2e164e91b3599edce3eb165f";
+                            entity.Phone = "Phone a2c578eb2e164e91b3599edce3eb165f";
+                            entity.CVLink = "CVLink a2c578eb2e164e91b3599edce3eb165f";
+                            entity.CreatedByID = 100005;
+                            entity.CreatedDate = DateTime.Parse("2/23/2023 3:12:32 AM");
+                            entity.ModifiedByID = 100004;
+                            entity.ModifiedDate = DateTime.Parse("10/9/2020 11:12:32 PM");
                           
             entity = dal.Insert(entity);
 
@@ -128,16 +128,16 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("FirstName bdbedca22f9d4aebb1680b9ff061aee8", entity.FirstName);
-                            Assert.AreEqual("MiddleName bdbedca22f9d4aebb1680b9ff061aee8", entity.MiddleName);
-                            Assert.AreEqual("LastName bdbedca22f9d4aebb1680b9ff061aee8", entity.LastName);
-                            Assert.AreEqual("Email bdbedca22f9d4aebb1680b9ff061aee8", entity.Email);
-                            Assert.AreEqual("Phone bdbedca22f9d4aebb1680b9ff061aee8", entity.Phone);
-                            Assert.AreEqual("CVLink bdbedca22f9d4aebb1680b9ff061aee8", entity.CVLink);
-                            Assert.AreEqual(33000067, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("6/6/2020 10:24:11 AM"), entity.CreatedDate);
-                            Assert.AreEqual(100003, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("1/11/2024 12:11:11 PM"), entity.ModifiedDate);
+                          Assert.AreEqual("FirstName a2c578eb2e164e91b3599edce3eb165f", entity.FirstName);
+                            Assert.AreEqual("MiddleName a2c578eb2e164e91b3599edce3eb165f", entity.MiddleName);
+                            Assert.AreEqual("LastName a2c578eb2e164e91b3599edce3eb165f", entity.LastName);
+                            Assert.AreEqual("Email a2c578eb2e164e91b3599edce3eb165f", entity.Email);
+                            Assert.AreEqual("Phone a2c578eb2e164e91b3599edce3eb165f", entity.Phone);
+                            Assert.AreEqual("CVLink a2c578eb2e164e91b3599edce3eb165f", entity.CVLink);
+                            Assert.AreEqual(100005, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("2/23/2023 3:12:32 AM"), entity.CreatedDate);
+                            Assert.AreEqual(100004, entity.ModifiedByID);
+                            Assert.AreEqual(DateTime.Parse("10/9/2020 11:12:32 PM"), entity.ModifiedDate);
               
         }
 
@@ -151,16 +151,16 @@ namespace Test.HRT.DAL.MSSQL
                 var paramID = (System.Int64?)objIds[0];
             Candidate entity = dal.Get(paramID);
 
-                          entity.FirstName = "FirstName 93d527c0eb04498cac8e3907077beac9";
-                            entity.MiddleName = "MiddleName 93d527c0eb04498cac8e3907077beac9";
-                            entity.LastName = "LastName 93d527c0eb04498cac8e3907077beac9";
-                            entity.Email = "Email 93d527c0eb04498cac8e3907077beac9";
-                            entity.Phone = "Phone 93d527c0eb04498cac8e3907077beac9";
-                            entity.CVLink = "CVLink 93d527c0eb04498cac8e3907077beac9";
-                            entity.CreatedByID = 100001;
-                            entity.CreatedDate = DateTime.Parse("3/20/2023 7:51:11 AM");
+                          entity.FirstName = "FirstName c0133fc9adce44d695bb73c682b17142";
+                            entity.MiddleName = "MiddleName c0133fc9adce44d695bb73c682b17142";
+                            entity.LastName = "LastName c0133fc9adce44d695bb73c682b17142";
+                            entity.Email = "Email c0133fc9adce44d695bb73c682b17142";
+                            entity.Phone = "Phone c0133fc9adce44d695bb73c682b17142";
+                            entity.CVLink = "CVLink c0133fc9adce44d695bb73c682b17142";
+                            entity.CreatedByID = 100004;
+                            entity.CreatedDate = DateTime.Parse("10/8/2021 11:25:32 PM");
                             entity.ModifiedByID = 100003;
-                            entity.ModifiedDate = DateTime.Parse("12/15/2023 9:12:11 AM");
+                            entity.ModifiedDate = DateTime.Parse("4/6/2022 5:13:32 AM");
               
             entity = dal.Update(entity);
 
@@ -169,16 +169,16 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity);
                         Assert.IsNotNull(entity.ID);
             
-                          Assert.AreEqual("FirstName 93d527c0eb04498cac8e3907077beac9", entity.FirstName);
-                            Assert.AreEqual("MiddleName 93d527c0eb04498cac8e3907077beac9", entity.MiddleName);
-                            Assert.AreEqual("LastName 93d527c0eb04498cac8e3907077beac9", entity.LastName);
-                            Assert.AreEqual("Email 93d527c0eb04498cac8e3907077beac9", entity.Email);
-                            Assert.AreEqual("Phone 93d527c0eb04498cac8e3907077beac9", entity.Phone);
-                            Assert.AreEqual("CVLink 93d527c0eb04498cac8e3907077beac9", entity.CVLink);
-                            Assert.AreEqual(100001, entity.CreatedByID);
-                            Assert.AreEqual(DateTime.Parse("3/20/2023 7:51:11 AM"), entity.CreatedDate);
+                          Assert.AreEqual("FirstName c0133fc9adce44d695bb73c682b17142", entity.FirstName);
+                            Assert.AreEqual("MiddleName c0133fc9adce44d695bb73c682b17142", entity.MiddleName);
+                            Assert.AreEqual("LastName c0133fc9adce44d695bb73c682b17142", entity.LastName);
+                            Assert.AreEqual("Email c0133fc9adce44d695bb73c682b17142", entity.Email);
+                            Assert.AreEqual("Phone c0133fc9adce44d695bb73c682b17142", entity.Phone);
+                            Assert.AreEqual("CVLink c0133fc9adce44d695bb73c682b17142", entity.CVLink);
+                            Assert.AreEqual(100004, entity.CreatedByID);
+                            Assert.AreEqual(DateTime.Parse("10/8/2021 11:25:32 PM"), entity.CreatedDate);
                             Assert.AreEqual(100003, entity.ModifiedByID);
-                            Assert.AreEqual(DateTime.Parse("12/15/2023 9:12:11 AM"), entity.ModifiedDate);
+                            Assert.AreEqual(DateTime.Parse("4/6/2022 5:13:32 AM"), entity.ModifiedDate);
               
         }
 
@@ -188,16 +188,16 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateDal("DALInitParams");
 
             var entity = new Candidate();
-                          entity.FirstName = "FirstName 93d527c0eb04498cac8e3907077beac9";
-                            entity.MiddleName = "MiddleName 93d527c0eb04498cac8e3907077beac9";
-                            entity.LastName = "LastName 93d527c0eb04498cac8e3907077beac9";
-                            entity.Email = "Email 93d527c0eb04498cac8e3907077beac9";
-                            entity.Phone = "Phone 93d527c0eb04498cac8e3907077beac9";
-                            entity.CVLink = "CVLink 93d527c0eb04498cac8e3907077beac9";
-                            entity.CreatedByID = 100001;
-                            entity.CreatedDate = DateTime.Parse("3/20/2023 7:51:11 AM");
+                          entity.FirstName = "FirstName c0133fc9adce44d695bb73c682b17142";
+                            entity.MiddleName = "MiddleName c0133fc9adce44d695bb73c682b17142";
+                            entity.LastName = "LastName c0133fc9adce44d695bb73c682b17142";
+                            entity.Email = "Email c0133fc9adce44d695bb73c682b17142";
+                            entity.Phone = "Phone c0133fc9adce44d695bb73c682b17142";
+                            entity.CVLink = "CVLink c0133fc9adce44d695bb73c682b17142";
+                            entity.CreatedByID = 100004;
+                            entity.CreatedDate = DateTime.Parse("10/8/2021 11:25:32 PM");
                             entity.ModifiedByID = 100003;
-                            entity.ModifiedDate = DateTime.Parse("12/15/2023 9:12:11 AM");
+                            entity.ModifiedDate = DateTime.Parse("4/6/2022 5:13:32 AM");
               
             try
             {

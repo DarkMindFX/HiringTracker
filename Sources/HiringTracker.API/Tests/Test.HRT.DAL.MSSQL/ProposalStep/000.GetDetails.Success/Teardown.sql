@@ -1,9 +1,9 @@
 
 
 DECLARE @ID BIGINT = NULL
-DECLARE @Name NVARCHAR(50) = 'Name 7612fbbe6ccd419f8519c3de274485d1'
+DECLARE @Name NVARCHAR(50) = 'Name cec36ff822884c6ab8b3435c1e765507'
 DECLARE @ReqDueDate BIT = 0
-DECLARE @RequiresRespInDays INT = 91
+DECLARE @RequiresRespInDays INT = 504
  
 
 DELETE FROM [ProposalStep]

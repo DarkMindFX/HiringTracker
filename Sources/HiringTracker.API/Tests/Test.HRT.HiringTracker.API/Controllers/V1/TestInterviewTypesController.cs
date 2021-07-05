@@ -145,7 +145,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewType testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 1b5cb397549548ffa0d3e4776741f8c8";
+                          testEntity.Name = "Name 2799f547b13c4f658ee3bd2a04292a97";
               
                     var reqDto = InterviewTypeConvertor.Convert(testEntity, null);
 
@@ -176,8 +176,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewType testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ID = 369934;
-                            testEntity.Name = "Name 1b5cb397549548ffa0d3e4776741f8c8";
+                            testEntity.ID = 927304;
+                            testEntity.Name = "Name 2799f547b13c4f658ee3bd2a04292a97";
               
                     var reqDto = InterviewTypeConvertor.Convert(testEntity, null);
 
@@ -215,8 +215,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.InterviewType CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.InterviewType();
-                          entity.ID = 369934;
-                            entity.Name = "Name 9c2bd0449fb34fd2bbbce09c3409f040";
+                          entity.ID = 927304;
+                            entity.Name = "Name e759b34db0b146358929103a1d8ab409";
               
             return entity;
         }

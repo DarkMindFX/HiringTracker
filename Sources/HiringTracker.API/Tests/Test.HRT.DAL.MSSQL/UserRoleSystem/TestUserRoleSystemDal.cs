@@ -54,8 +54,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.UserID);
                         Assert.IsNotNull(entity.RoleID);
             
-                          Assert.AreEqual(100002, entity.UserID);
-                            Assert.AreEqual(4, entity.RoleID);
+                          Assert.AreEqual(100004, entity.UserID);
+                            Assert.AreEqual(9, entity.RoleID);
                       }
 
         [Test]
@@ -108,7 +108,7 @@ namespace Test.HRT.DAL.MSSQL
 
             var entity = new UserRoleSystem();
                           entity.UserID = 100001;
-                            entity.RoleID = 9;
+                            entity.RoleID = 6;
                           
             entity = dal.Insert(entity);
 
@@ -119,7 +119,7 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.RoleID);
             
                           Assert.AreEqual(100001, entity.UserID);
-                            Assert.AreEqual(9, entity.RoleID);
+                            Assert.AreEqual(6, entity.RoleID);
               
         }
 
@@ -143,8 +143,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.UserID);
                         Assert.IsNotNull(entity.RoleID);
             
-                          Assert.AreEqual(100003, entity.UserID);
-                            Assert.AreEqual(4, entity.RoleID);
+                          Assert.AreEqual(100004, entity.UserID);
+                            Assert.AreEqual(9, entity.RoleID);
               
         }
 
@@ -154,8 +154,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareUserRoleSystemDal("DALInitParams");
 
             var entity = new UserRoleSystem();
-                          entity.UserID = 100003;
-                            entity.RoleID = 4;
+                          entity.UserID = 100004;
+                            entity.RoleID = 9;
               
             try
             {

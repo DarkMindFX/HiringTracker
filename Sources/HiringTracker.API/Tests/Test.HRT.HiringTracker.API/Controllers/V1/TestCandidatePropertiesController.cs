@@ -147,9 +147,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.CandidateProperty testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 5d01f60429c44d25937d67b05996208a";
-                            testEntity.Value = "Value 5d01f60429c44d25937d67b05996208a";
-                            testEntity.CandidateID = 100005;
+                          testEntity.Name = "Name f338e664b90642a389fc81f1aad6af77";
+                            testEntity.Value = "Value f338e664b90642a389fc81f1aad6af77";
+                            testEntity.CandidateID = 100007;
               
                     var reqDto = CandidatePropertyConvertor.Convert(testEntity, null);
 
@@ -183,9 +183,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 5d01f60429c44d25937d67b05996208a";
-                            testEntity.Value = "Value 5d01f60429c44d25937d67b05996208a";
-                            testEntity.CandidateID = 100005;
+                             testEntity.Name = "Name f338e664b90642a389fc81f1aad6af77";
+                            testEntity.Value = "Value f338e664b90642a389fc81f1aad6af77";
+                            testEntity.CandidateID = 100007;
               
                     var reqDto = CandidatePropertyConvertor.Convert(testEntity, null);
 
@@ -223,9 +223,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.CandidateProperty CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.CandidateProperty();
-                          entity.Name = "Name 63e3abd9466c400cbbcb9e85ee7d0923";
-                            entity.Value = "Value 63e3abd9466c400cbbcb9e85ee7d0923";
-                            entity.CandidateID = 110084;
+                          entity.Name = "Name f50296d1c9134e2e85bd12f9ad9624d8";
+                            entity.Value = "Value f50296d1c9134e2e85bd12f9ad9624d8";
+                            entity.CandidateID = 100006;
               
             return entity;
         }

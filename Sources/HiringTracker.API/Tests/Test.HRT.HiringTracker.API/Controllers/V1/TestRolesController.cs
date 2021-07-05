@@ -145,7 +145,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Role testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 9dee9ee3469f43979867ae08f644b378";
+                          testEntity.Name = "Name 90256dcf5d0a4a85919945732c302bbf";
               
                     var reqDto = RoleConvertor.Convert(testEntity, null);
 
@@ -177,7 +177,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                              testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 9dee9ee3469f43979867ae08f644b378";
+                             testEntity.Name = "Name 90256dcf5d0a4a85919945732c302bbf";
               
                     var reqDto = RoleConvertor.Convert(testEntity, null);
 
@@ -215,7 +215,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Role CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Role();
-                          entity.Name = "Name e426a3c325104778a9d56bc371333920";
+                          entity.Name = "Name a7ad5c2b4fc74f049716e71a45ad7f35";
               
             return entity;
         }

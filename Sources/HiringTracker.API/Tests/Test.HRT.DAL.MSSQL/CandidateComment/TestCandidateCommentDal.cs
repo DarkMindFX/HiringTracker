@@ -54,8 +54,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.CandidateID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(100001, entity.CandidateID);
-                            Assert.AreEqual(100007, entity.CommentID);
+                          Assert.AreEqual(100009, entity.CandidateID);
+                            Assert.AreEqual(100008, entity.CommentID);
                       }
 
         [Test]
@@ -107,8 +107,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateCommentDal("DALInitParams");
 
             var entity = new CandidateComment();
-                          entity.CandidateID = 110084;
-                            entity.CommentID = 100008;
+                          entity.CandidateID = 100008;
+                            entity.CommentID = 100001;
                           
             entity = dal.Insert(entity);
 
@@ -118,8 +118,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.CandidateID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(110084, entity.CandidateID);
-                            Assert.AreEqual(100008, entity.CommentID);
+                          Assert.AreEqual(100008, entity.CandidateID);
+                            Assert.AreEqual(100001, entity.CommentID);
               
         }
 
@@ -143,8 +143,8 @@ namespace Test.HRT.DAL.MSSQL
                         Assert.IsNotNull(entity.CandidateID);
                         Assert.IsNotNull(entity.CommentID);
             
-                          Assert.AreEqual(110118, entity.CandidateID);
-                            Assert.AreEqual(100004, entity.CommentID);
+                          Assert.AreEqual(100004, entity.CandidateID);
+                            Assert.AreEqual(100003, entity.CommentID);
               
         }
 
@@ -154,8 +154,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareCandidateCommentDal("DALInitParams");
 
             var entity = new CandidateComment();
-                          entity.CandidateID = 110118;
-                            entity.CommentID = 100004;
+                          entity.CandidateID = 100004;
+                            entity.CommentID = 100003;
               
             try
             {

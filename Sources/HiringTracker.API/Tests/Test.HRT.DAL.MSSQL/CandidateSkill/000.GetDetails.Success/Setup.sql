@@ -1,8 +1,8 @@
 
 
-DECLARE @CandidateID BIGINT = 100002
-DECLARE @SkillID BIGINT = 7
-DECLARE @SkillProficiencyID BIGINT = 4
+DECLARE @CandidateID BIGINT = 100007
+DECLARE @SkillID BIGINT = 9
+DECLARE @SkillProficiencyID BIGINT = 2
  
 
 

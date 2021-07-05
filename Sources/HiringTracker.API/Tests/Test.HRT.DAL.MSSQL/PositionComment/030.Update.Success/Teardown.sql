@@ -1,13 +1,13 @@
 
 
 -- original values --
-DECLARE @PositionID BIGINT = 110142
-DECLARE @CommentID BIGINT = 100007
+DECLARE @PositionID BIGINT = 100001
+DECLARE @CommentID BIGINT = 100002
  
 -- updated values --
 
-DECLARE @updPositionID BIGINT = 110142
-DECLARE @updCommentID BIGINT = 100007
+DECLARE @updPositionID BIGINT = 100001
+DECLARE @updCommentID BIGINT = 100002
  
 
 DECLARE @Fail AS BIT = 0

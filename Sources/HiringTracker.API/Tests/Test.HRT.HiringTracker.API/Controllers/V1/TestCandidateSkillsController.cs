@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.CandidateSkill testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.SkillProficiencyID = 3;
+                          testEntity.SkillProficiencyID = 801046;
               
                     var reqDto = CandidateSkillConvertor.Convert(testEntity, null);
 
@@ -182,9 +182,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.CandidateSkill testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.CandidateID = 110125;
-                            testEntity.SkillID = 12;
-                            testEntity.SkillProficiencyID = 3;
+                            testEntity.CandidateID = 100003;
+                            testEntity.SkillID = 6;
+                            testEntity.SkillProficiencyID = 801046;
               
                     var reqDto = CandidateSkillConvertor.Convert(testEntity, null);
 
@@ -223,9 +223,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.CandidateSkill CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.CandidateSkill();
-                          entity.CandidateID = 110125;
-                            entity.SkillID = 2;
-                            entity.SkillProficiencyID = 1;
+                          entity.CandidateID = 100006;
+                            entity.SkillID = 5;
+                            entity.SkillProficiencyID = 3;
               
             return entity;
         }

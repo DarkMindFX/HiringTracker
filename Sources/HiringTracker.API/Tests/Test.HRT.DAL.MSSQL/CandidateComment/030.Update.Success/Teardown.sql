@@ -1,13 +1,13 @@
 
 
 -- original values --
-DECLARE @CandidateID BIGINT = 110118
-DECLARE @CommentID BIGINT = 100004
+DECLARE @CandidateID BIGINT = 100004
+DECLARE @CommentID BIGINT = 100003
  
 -- updated values --
 
-DECLARE @updCandidateID BIGINT = 110118
-DECLARE @updCommentID BIGINT = 100004
+DECLARE @updCandidateID BIGINT = 100004
+DECLARE @updCommentID BIGINT = 100003
  
 
 DECLARE @Fail AS BIT = 0
