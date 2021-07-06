@@ -17,13 +17,17 @@ namespace HRT.HiringTracker.API.Dal
 
         public User Get(System.Int64? ID)
         {
-            return _dalImpl.Get(            ID);
+            return _dalImpl.Get(ID);
         }
 
         public bool Delete(System.Int64? ID)
         {
-            return _dalImpl.Delete(            ID);
+            return _dalImpl.Delete(ID);
         }
 
-            }
+        public User GetByLogin(string Login)
+        {
+            return _dalImpl.GetByLogin(Login);
+        }
+    }
 }

@@ -14,29 +14,23 @@ namespace HRT.Utils.Convertors
         {
             var dto = new DTO.User()
             {
-        		        ID = entity.ID,
+                ID = entity.ID,
 
-				        Login = entity.Login,
+                Login = entity.Login,
 
-				        FirstName = entity.FirstName,
+                FirstName = entity.FirstName,
 
-				        LastName = entity.LastName,
+                LastName = entity.LastName,
 
-				        Email = entity.Email,
+                Email = entity.Email,
 
-				        Description = entity.Description,
-
-				        PwdHash = entity.PwdHash,
-
-				        Salt = entity.Salt,
-
-				
+                Description = entity.Description
             };
 
-                        if(url != null)
+            if (url != null)
             {
-                dto.Links.Add(new DTO.Link(url.Action("GetUser", "users", new { id = dto.ID  }), "self", "GET"));
-                dto.Links.Add(new DTO.Link(url.Action("DeleteUser", "users", new { id = dto.ID  }), "delete_user", "DELETE"));
+                dto.Links.Add(new DTO.Link(url.Action("GetUser", "users", new { id = dto.ID }), "self", "GET"));
+                dto.Links.Add(new DTO.Link(url.Action("DeleteUser", "users", new { id = dto.ID }), "delete_user", "DELETE"));
                 dto.Links.Add(new DTO.Link(url.Action("InsertUser", "users"), "insert_user", "POST"));
                 dto.Links.Add(new DTO.Link(url.Action("UpdateUser", "users"), "update_user", "PUT"));
             }
@@ -48,25 +42,18 @@ namespace HRT.Utils.Convertors
         {
             var entity = new Interfaces.Entities.User()
             {
-                
-        		        ID = dto.ID,
 
-				        Login = dto.Login,
+                ID = dto.ID,
 
-				        FirstName = dto.FirstName,
+                Login = dto.Login,
 
-				        LastName = dto.LastName,
+                FirstName = dto.FirstName,
 
-				        Email = dto.Email,
+                LastName = dto.LastName,
 
-				        Description = dto.Description,
+                Email = dto.Email,
 
-				        PwdHash = dto.PwdHash,
-
-				        Salt = dto.Salt,
-
-				
-     
+                Description = dto.Description
             };
 
             return entity;

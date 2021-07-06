@@ -42,7 +42,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/users/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -80,7 +80,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/users/{paramID}");
 
@@ -116,6 +116,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 try
                 {
                     var reqDto = UserConvertor.Convert(testEntity, null);
+                    reqDto.Password = "TestPassword b424c4c5819a44509cc54630e7c4e5da";
 
                     var content = CreateContentJson(reqDto);
 
@@ -125,16 +126,69 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     User respDto = ExtractContentJson<User>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Login, respDto.Login);
-                                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
-                                    Assert.Equal(reqDto.LastName, respDto.LastName);
-                                    Assert.Equal(reqDto.Email, respDto.Email);
-                                    Assert.Equal(reqDto.Description, respDto.Description);
-                                    Assert.Equal(reqDto.PwdHash, respDto.PwdHash);
-                                    Assert.Equal(reqDto.Salt, respDto.Salt);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Login, respDto.Login);
+                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
+                    Assert.Equal(reqDto.LastName, respDto.LastName);
+                    Assert.Equal(reqDto.Email, respDto.Email);
+                    Assert.Equal(reqDto.Description, respDto.Description);
+
                     respEntity = UserConvertor.Convert(respDto);
+                }
+                finally
+                {
+                    RemoveTestEntity(respEntity);
+                }
+            }
+        }
+
+        [Fact]
+        public void User_Login_Success()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                HRT.Interfaces.Entities.User testEntity = CreateTestEntity();
+                HRT.Interfaces.Entities.User respEntity = null;
+                try
+                {
+                    var reqDto = UserConvertor.Convert(testEntity, null);
+                    reqDto.Password = "TestPassword b424c4c5819a44509cc54630e7c4e5da";
+                    
+                    var content = CreateContentJson(reqDto);
+
+                    // inserting new user
+                    var respInsert = client.PostAsync($"/api/v1/users/", content);
+
+                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+
+                    User respDto = ExtractContentJson<User>(respInsert.Result.Content);
+
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Login, respDto.Login);
+                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
+                    Assert.Equal(reqDto.LastName, respDto.LastName);
+                    Assert.Equal(reqDto.Email, respDto.Email);
+                    Assert.Equal(reqDto.Description, respDto.Description);
+
+                    respEntity = UserConvertor.Convert(respDto);
+
+                    // sending login
+                    var dtoLogin = new HRT.DTO.LoginRequest()
+                    {
+                        Login = testEntity.Login,
+                        Password = reqDto.Password
+                    };
+                    content = CreateContentJson(dtoLogin);
+
+                    var respLogin = client.PostAsync($"/api/v1/users/login/", content);
+
+                    Assert.Equal(HttpStatusCode.OK, respLogin.Result.StatusCode);
+                    var dtoResponse = ExtractContentJson<LoginResponse>(respLogin.Result.Content);
+
+                    Assert.NotNull(dtoResponse.User);
+                    Assert.NotNull(dtoResponse.User.ID);
+                    Assert.NotNull(dtoResponse.Token);
+                    Assert.True(dtoResponse.Expires >= DateTime.UtcNow);
                 }
                 finally
                 {
@@ -151,14 +205,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.User testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
-              
+                    testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
+
                     var reqDto = UserConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -169,15 +223,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     User respDto = ExtractContentJson<User>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Login, respDto.Login);
-                                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
-                                    Assert.Equal(reqDto.LastName, respDto.LastName);
-                                    Assert.Equal(reqDto.Email, respDto.Email);
-                                    Assert.Equal(reqDto.Description, respDto.Description);
-                                    Assert.Equal(reqDto.PwdHash, respDto.PwdHash);
-                                    Assert.Equal(reqDto.Salt, respDto.Salt);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Login, respDto.Login);
+                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
+                    Assert.Equal(reqDto.LastName, respDto.LastName);
+                    Assert.Equal(reqDto.Email, respDto.Email);
+                    Assert.Equal(reqDto.Description, respDto.Description);
                 }
                 finally
                 {
@@ -194,15 +245,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.User testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
-                            testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
-              
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.Login = "Login b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.FirstName = "FirstName b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.LastName = "LastName b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Email = "Email b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Description = "Description b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.PwdHash = "PwdHash b424c4c5819a44509cc54630e7c4e5da";
+                    testEntity.Salt = "Salt b424c4c5819a44509cc54630e7c4e5da";
+
                     var reqDto = UserConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -239,14 +290,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.User CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.User();
-                          entity.Login = "Login 84d9880834da4522aaad3c7905cb5230";
-                            entity.FirstName = "FirstName 84d9880834da4522aaad3c7905cb5230";
-                            entity.LastName = "LastName 84d9880834da4522aaad3c7905cb5230";
-                            entity.Email = "Email 84d9880834da4522aaad3c7905cb5230";
-                            entity.Description = "Description 84d9880834da4522aaad3c7905cb5230";
-                            entity.PwdHash = "PwdHash 84d9880834da4522aaad3c7905cb5230";
-                            entity.Salt = "Salt 84d9880834da4522aaad3c7905cb5230";
-              
+            entity.Login = "Login 84d9880834da4522aaad3c7905cb5230";
+            entity.FirstName = "FirstName 84d9880834da4522aaad3c7905cb5230";
+            entity.LastName = "LastName 84d9880834da4522aaad3c7905cb5230";
+            entity.Email = "Email 84d9880834da4522aaad3c7905cb5230";
+            entity.Description = "Description 84d9880834da4522aaad3c7905cb5230";
+            entity.PwdHash = "PwdHash 84d9880834da4522aaad3c7905cb5230";
+            entity.Salt = "Salt 84d9880834da4522aaad3c7905cb5230";
+
             return entity;
         }
 

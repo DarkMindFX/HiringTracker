@@ -13,8 +13,10 @@ namespace HRT.Interfaces
     {
         User Get(System.Int64? ID);
 
+        User GetByLogin(string Login);
+
         bool Delete(System.Int64? ID);
 
-            }
+    }
 }
 
