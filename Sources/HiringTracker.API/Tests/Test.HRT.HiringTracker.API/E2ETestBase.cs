@@ -40,6 +40,25 @@ namespace Test.E2E.HiringTracker.API
             this._factory = factory;
         }
 
+        protected HRT.DTO.LoginResponse Login(string login, string password)
+        {
+            using (var client = _factory.CreateClient())
+            {
+                var dtoLogin = new HRT.DTO.LoginRequest()
+                {
+                    Login = login,
+                    Password = password
+                };
+                var content = CreateContentJson(dtoLogin);
+
+                var respLogin = client.PostAsync($"/api/v1/users/login/", content);
+
+                var dtoResponse = ExtractContentJson<HRT.DTO.LoginResponse>(respLogin.Result.Content);
+
+                return dtoResponse;
+            }
+        }
+
         protected HttpContent CreateContentJson(object data)
         {
             var content = JsonSerializer.Serialize(data);
