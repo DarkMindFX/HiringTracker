@@ -8,6 +8,7 @@ using System.Net;
 using HRT.HiringTracker.API.Filters;
 using HRT.Interfaces.Entities;
 using HRT.Utils.Convertors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +31,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _logger = logger;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -55,7 +56,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("{candidateid}/{commentid}"), ActionName("GetCandidateComment")]
         public IActionResult Get(System.Int64 candidateid, System.Int64 commentid)
         {
@@ -79,7 +80,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{candidateid}/{commentid}"), ActionName("DeleteCandidateComment")]
         public IActionResult Delete(System.Int64 candidateid, System.Int64 commentid)
         {
@@ -111,7 +112,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost, ActionName("InsertCandidateComment")]
         public IActionResult Insert(DTO.CandidateComment dto)
         {
@@ -131,7 +132,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
 
-        //[Authorize]
+        [Authorize]
         [HttpPut, ActionName("UpdateCandidateComment")]
         public IActionResult Update(DTO.CandidateComment dto)
         {

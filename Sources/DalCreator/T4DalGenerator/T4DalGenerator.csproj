@@ -133,10 +133,10 @@
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
 	</Compile>
-	<Compile Update="Templates\Tests\TestDalTemplate.cs">
+	<Compile Update="Templates\Tests\TestControllerTemplate.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
-	  <DependentUpon>TestDalTemplate.tt</DependentUpon>
+	  <DependentUpon>TestControllerTemplate.tt</DependentUpon>
 	</Compile>
 	<Compile Update="Templates\Tests\GetDetailsSetupTemplate.cs">
 	  <DesignTime>True</DesignTime>
@@ -241,12 +241,12 @@
 	  <LastGenOutput>InsertTeardownTemplate.cs</LastGenOutput>
 	</None>
 	<None Update="Templates\Tests\TestControllerTemplate.tt">
-	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
+	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	</None>
 	<None Update="Templates\Tests\TestDalTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
-	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
+	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>
 	</None>
 	<None Update="Templates\Tests\GetDetailsSetupTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>

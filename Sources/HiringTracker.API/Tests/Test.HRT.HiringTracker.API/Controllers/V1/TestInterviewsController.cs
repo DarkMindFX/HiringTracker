@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestInterviewsController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("InterviewsControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/interviews");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/interviews/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -80,7 +89,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/interviews/{paramID}");
 
@@ -125,17 +134,17 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Interview respDto = ExtractContentJson<Interview>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.ProposalID, respDto.ProposalID);
-                                    Assert.Equal(reqDto.InterviewTypeID, respDto.InterviewTypeID);
-                                    Assert.Equal(reqDto.StartTime, respDto.StartTime);
-                                    Assert.Equal(reqDto.EndTime, respDto.EndTime);
-                                    Assert.Equal(reqDto.InterviewStatusID, respDto.InterviewStatusID);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CretedDate, respDto.CretedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.ProposalID, respDto.ProposalID);
+                    Assert.Equal(reqDto.InterviewTypeID, respDto.InterviewTypeID);
+                    Assert.Equal(reqDto.StartTime, respDto.StartTime);
+                    Assert.Equal(reqDto.EndTime, respDto.EndTime);
+                    Assert.Equal(reqDto.InterviewStatusID, respDto.InterviewStatusID);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CretedDate, respDto.CretedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                     respEntity = InterviewConvertor.Convert(respDto);
                 }
                 finally
@@ -153,16 +162,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Interview testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.ProposalID = 100005;
-                            testEntity.InterviewTypeID = 5;
-                            testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
-                            testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
-                            testEntity.InterviewStatusID = 5;
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
-                            testEntity.ModifiedByID = 100002;
-                            testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
-              
+                    testEntity.ProposalID = 100005;
+                    testEntity.InterviewTypeID = 5;
+                    testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                    testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                    testEntity.InterviewStatusID = 5;
+                    testEntity.CreatedByID = 100002;
+                    testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
+                    testEntity.ModifiedByID = 100002;
+                    testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
+
                     var reqDto = InterviewConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -173,17 +182,17 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Interview respDto = ExtractContentJson<Interview>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.ProposalID, respDto.ProposalID);
-                                    Assert.Equal(reqDto.InterviewTypeID, respDto.InterviewTypeID);
-                                    Assert.Equal(reqDto.StartTime, respDto.StartTime);
-                                    Assert.Equal(reqDto.EndTime, respDto.EndTime);
-                                    Assert.Equal(reqDto.InterviewStatusID, respDto.InterviewStatusID);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CretedDate, respDto.CretedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.ProposalID, respDto.ProposalID);
+                    Assert.Equal(reqDto.InterviewTypeID, respDto.InterviewTypeID);
+                    Assert.Equal(reqDto.StartTime, respDto.StartTime);
+                    Assert.Equal(reqDto.EndTime, respDto.EndTime);
+                    Assert.Equal(reqDto.InterviewStatusID, respDto.InterviewStatusID);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CretedDate, respDto.CretedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                 }
                 finally
                 {
@@ -200,17 +209,17 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Interview testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.ProposalID = 100005;
-                            testEntity.InterviewTypeID = 5;
-                            testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
-                            testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
-                            testEntity.InterviewStatusID = 5;
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
-                            testEntity.ModifiedByID = 100002;
-                            testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
-              
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.ProposalID = 100005;
+                    testEntity.InterviewTypeID = 5;
+                    testEntity.StartTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                    testEntity.EndTime = DateTime.Parse("2/1/2022 12:38:36 PM");
+                    testEntity.InterviewStatusID = 5;
+                    testEntity.CreatedByID = 100002;
+                    testEntity.CretedDate = DateTime.Parse("1/21/2024 11:47:36 AM");
+                    testEntity.ModifiedByID = 100002;
+                    testEntity.ModifiedDate = DateTime.Parse("6/9/2021 12:14:36 PM");
+
                     var reqDto = InterviewConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -247,16 +256,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Interview CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Interview();
-                          entity.ProposalID = 100004;
-                            entity.InterviewTypeID = 2;
-                            entity.StartTime = DateTime.Parse("6/4/2021 11:36:36 PM");
-                            entity.EndTime = DateTime.Parse("6/4/2021 11:36:36 PM");
-                            entity.InterviewStatusID = 1;
-                            entity.CreatedByID = 100001;
-                            entity.CretedDate = DateTime.Parse("7/12/2020 12:59:36 PM");
-                            entity.ModifiedByID = 100001;
-                            entity.ModifiedDate = DateTime.Parse("5/22/2023 1:26:36 PM");
-              
+            entity.ProposalID = 100004;
+            entity.InterviewTypeID = 2;
+            entity.StartTime = DateTime.Parse("6/4/2021 11:36:36 PM");
+            entity.EndTime = DateTime.Parse("6/4/2021 11:36:36 PM");
+            entity.InterviewStatusID = 1;
+            entity.CreatedByID = 100001;
+            entity.CretedDate = DateTime.Parse("7/12/2020 12:59:36 PM");
+            entity.ModifiedByID = 100001;
+            entity.ModifiedDate = DateTime.Parse("5/22/2023 1:26:36 PM");
+
             return entity;
         }
 

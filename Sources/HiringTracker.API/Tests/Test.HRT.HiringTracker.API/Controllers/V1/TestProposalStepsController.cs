@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestProposalStepsController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("ProposalStepsControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/proposalsteps");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/proposalsteps/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/proposalsteps/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/proposalsteps/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/proposalsteps/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalStep respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = ProposalStepConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,11 +150,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     ProposalStep respDto = ExtractContentJson<ProposalStep>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                                    Assert.Equal(reqDto.ReqDueDate, respDto.ReqDueDate);
-                                    Assert.Equal(reqDto.RequiresRespInDays, respDto.RequiresRespInDays);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+                    Assert.Equal(reqDto.ReqDueDate, respDto.ReqDueDate);
+                    Assert.Equal(reqDto.RequiresRespInDays, respDto.RequiresRespInDays);
+
                     respEntity = ProposalStepConvertor.Convert(respDto);
                 }
                 finally
@@ -147,10 +172,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalStep testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
-                            testEntity.ReqDueDate = false;              
-                            testEntity.RequiresRespInDays = 398;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
+                    testEntity.ReqDueDate = false;
+                    testEntity.RequiresRespInDays = 398;
+
                     var reqDto = ProposalStepConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -161,11 +190,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     ProposalStep respDto = ExtractContentJson<ProposalStep>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                                    Assert.Equal(reqDto.ReqDueDate, respDto.ReqDueDate);
-                                    Assert.Equal(reqDto.RequiresRespInDays, respDto.RequiresRespInDays);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+                    Assert.Equal(reqDto.ReqDueDate, respDto.ReqDueDate);
+                    Assert.Equal(reqDto.RequiresRespInDays, respDto.RequiresRespInDays);
+
                 }
                 finally
                 {
@@ -182,11 +211,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalStep testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
-                            testEntity.ReqDueDate = false;              
-                            testEntity.RequiresRespInDays = 398;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.Name = "Name 4091cff2d89e420fae27a4e0901246da";
+                    testEntity.ReqDueDate = false;
+                    testEntity.RequiresRespInDays = 398;
+
                     var reqDto = ProposalStepConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -223,10 +256,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.ProposalStep CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.ProposalStep();
-                          entity.Name = "Name 1843961bf2ae45bea9188d8e4e1d24a3";
-                            entity.ReqDueDate = true;              
-                            entity.RequiresRespInDays = 875;
-              
+            entity.Name = "Name 1843961bf2ae45bea9188d8e4e1d24a3";
+            entity.ReqDueDate = true;
+            entity.RequiresRespInDays = 875;
+
             return entity;
         }
 

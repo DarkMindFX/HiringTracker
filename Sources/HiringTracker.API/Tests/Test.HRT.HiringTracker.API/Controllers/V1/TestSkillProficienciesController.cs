@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestSkillProficienciesController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("SkillProficienciesControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/skillproficiencies");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/skillproficiencies/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/skillproficiencies/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/skillproficiencies/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/skillproficiencies/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.SkillProficiency respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = SkillProficiencyConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,9 +150,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     SkillProficiency respDto = ExtractContentJson<SkillProficiency>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+
                     respEntity = SkillProficiencyConvertor.Convert(respDto);
                 }
                 finally
@@ -145,8 +170,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.SkillProficiency testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
+
                     var reqDto = SkillProficiencyConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -157,9 +186,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     SkillProficiency respDto = ExtractContentJson<SkillProficiency>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+
                 }
                 finally
                 {
@@ -176,9 +205,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.SkillProficiency testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ID = 10324;
-                            testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = 10324;
+                    testEntity.Name = "Name c6bb80e17d174063bd57cbf8bca392bd";
+
                     var reqDto = SkillProficiencyConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -215,9 +248,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.SkillProficiency CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.SkillProficiency();
-                          entity.ID = 10324;
-                            entity.Name = "Name b2238e24feaf447cbca5e71c6a46ad8c";
-              
+            entity.ID = 10324;
+            entity.Name = "Name b2238e24feaf447cbca5e71c6a46ad8c";
+
             return entity;
         }
 

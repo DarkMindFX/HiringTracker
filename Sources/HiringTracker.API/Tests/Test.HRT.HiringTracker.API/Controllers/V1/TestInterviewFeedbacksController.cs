@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestInterviewFeedbacksController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("InterviewFeedbacksControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/interviewfeedbacks");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/interviewfeedbacks/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/interviewfeedbacks/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/interviewfeedbacks/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/interviewfeedbacks/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewFeedback respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = InterviewFeedbackConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,16 +150,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     InterviewFeedback respDto = ExtractContentJson<InterviewFeedback>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Comment, respDto.Comment);
-                                    Assert.Equal(reqDto.Rating, respDto.Rating);
-                                    Assert.Equal(reqDto.InterviewID, respDto.InterviewID);
-                                    Assert.Equal(reqDto.InterviewerID, respDto.InterviewerID);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Comment, respDto.Comment);
+                    Assert.Equal(reqDto.Rating, respDto.Rating);
+                    Assert.Equal(reqDto.InterviewID, respDto.InterviewID);
+                    Assert.Equal(reqDto.InterviewerID, respDto.InterviewerID);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                     respEntity = InterviewFeedbackConvertor.Convert(respDto);
                 }
                 finally
@@ -152,15 +177,19 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewFeedback testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
-                            testEntity.Rating = 119;
-                            testEntity.InterviewID = 100006;
-                            testEntity.InterviewerID = 100002;
-                            testEntity.CreatedByID = 100003;
-                            testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
-                            testEntity.ModifiedByID = 100001;
-                            testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
+                    testEntity.Rating = 119;
+                    testEntity.InterviewID = 100006;
+                    testEntity.InterviewerID = 100002;
+                    testEntity.CreatedByID = 100003;
+                    testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+                    testEntity.ModifiedByID = 100001;
+                    testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+
                     var reqDto = InterviewFeedbackConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -171,16 +200,16 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     InterviewFeedback respDto = ExtractContentJson<InterviewFeedback>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Comment, respDto.Comment);
-                                    Assert.Equal(reqDto.Rating, respDto.Rating);
-                                    Assert.Equal(reqDto.InterviewID, respDto.InterviewID);
-                                    Assert.Equal(reqDto.InterviewerID, respDto.InterviewerID);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Comment, respDto.Comment);
+                    Assert.Equal(reqDto.Rating, respDto.Rating);
+                    Assert.Equal(reqDto.InterviewID, respDto.InterviewID);
+                    Assert.Equal(reqDto.InterviewerID, respDto.InterviewerID);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                 }
                 finally
                 {
@@ -197,16 +226,20 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewFeedback testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
-                            testEntity.Rating = 119;
-                            testEntity.InterviewID = 100006;
-                            testEntity.InterviewerID = 100002;
-                            testEntity.CreatedByID = 100003;
-                            testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
-                            testEntity.ModifiedByID = 100001;
-                            testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.Comment = "Comment 0b2c4944c8964df984821267db4fe84e";
+                    testEntity.Rating = 119;
+                    testEntity.InterviewID = 100006;
+                    testEntity.InterviewerID = 100002;
+                    testEntity.CreatedByID = 100003;
+                    testEntity.CreatedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+                    testEntity.ModifiedByID = 100001;
+                    testEntity.ModifiedDate = DateTime.Parse("9/1/2019 2:35:27 PM");
+
                     var reqDto = InterviewFeedbackConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -243,15 +276,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.InterviewFeedback CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.InterviewFeedback();
-                          entity.Comment = "Comment 1cb7cddc5efe414abf403ec026c921ef";
-                            entity.Rating = 984;
-                            entity.InterviewID = 100005;
-                            entity.InterviewerID = 100004;
-                            entity.CreatedByID = 100003;
-                            entity.CreatedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
-                            entity.ModifiedByID = 100004;
-                            entity.ModifiedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
-              
+            entity.Comment = "Comment 1cb7cddc5efe414abf403ec026c921ef";
+            entity.Rating = 984;
+            entity.InterviewID = 100005;
+            entity.InterviewerID = 100004;
+            entity.CreatedByID = 100003;
+            entity.CreatedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
+            entity.ModifiedByID = 100004;
+            entity.ModifiedDate = DateTime.Parse("12/6/2018 10:34:27 PM");
+
             return entity;
         }
 

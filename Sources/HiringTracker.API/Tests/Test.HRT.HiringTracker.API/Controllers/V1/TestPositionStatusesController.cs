@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestPositionStatusesController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("PositionStatusesControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/positionstatuses");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/positionstatuses/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/positionstatuses/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/positionstatuses/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/positionstatuses/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionStatus respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = PositionStatusConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,9 +150,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionStatus respDto = ExtractContentJson<PositionStatus>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+
                     respEntity = PositionStatusConvertor.Convert(respDto);
                 }
                 finally
@@ -145,8 +170,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionStatus testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 85bdd572e0dd495194a400bb4a72c429";
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.Name = "Name 85bdd572e0dd495194a400bb4a72c429";
+
                     var reqDto = PositionStatusConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -157,9 +186,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionStatus respDto = ExtractContentJson<PositionStatus>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+
                 }
                 finally
                 {
@@ -176,9 +205,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionStatus testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 85bdd572e0dd495194a400bb4a72c429";
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.Name = "Name 85bdd572e0dd495194a400bb4a72c429";
+
                     var reqDto = PositionStatusConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -215,8 +248,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.PositionStatus CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.PositionStatus();
-                          entity.Name = "Name 8e16a93687694665a94ab84359a878e9";
-              
+            entity.Name = "Name 8e16a93687694665a94ab84359a878e9";
+
             return entity;
         }
 

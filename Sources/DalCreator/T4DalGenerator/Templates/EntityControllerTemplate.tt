@@ -18,6 +18,7 @@ using HRT.Interfaces.Entities;
 using HRT.Utils.Convertors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 <# var pks = generator.GetPKColumns(table); #>
 

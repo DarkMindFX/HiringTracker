@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestPositionSkillsController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("PositionSkillsControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/positionskills");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,8 +47,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramPositionID = testEntity.PositionID;
-                var paramSkillID = testEntity.SkillID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramPositionID = testEntity.PositionID;
+                    var paramSkillID = testEntity.SkillID;
                     var respGet = client.GetAsync($"/api/v1/positionskills/{paramPositionID}/{paramSkillID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -65,6 +74,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramPositionID = Int64.MaxValue;
                 var paramSkillID = Int64.MaxValue;
 
@@ -82,8 +95,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramPositionID = testEntity.PositionID;
-                var paramSkillID = testEntity.SkillID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramPositionID = testEntity.PositionID;
+                    var paramSkillID = testEntity.SkillID;
 
                     var respDel = client.DeleteAsync($"/api/v1/positionskills/{paramPositionID}/{paramSkillID}");
 
@@ -101,6 +118,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramPositionID = Int64.MaxValue;
                 var paramSkillID = Int64.MaxValue;
 
@@ -119,6 +140,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionSkill respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = PositionSkillConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -129,11 +154,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionSkill respDto = ExtractContentJson<PositionSkill>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.PositionID);
-                                    Assert.NotNull(respDto.SkillID);
-                                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
-                                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
-                
+                    Assert.NotNull(respDto.PositionID);
+                    Assert.NotNull(respDto.SkillID);
+                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
+                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
+
                     respEntity = PositionSkillConvertor.Convert(respDto);
                 }
                 finally
@@ -151,9 +176,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionSkill testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.IsMandatory = false;              
-                            testEntity.SkillProficiencyID = 4;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.IsMandatory = false;
+                    testEntity.SkillProficiencyID = 4;
+
                     var reqDto = PositionSkillConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -164,11 +193,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     PositionSkill respDto = ExtractContentJson<PositionSkill>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.PositionID);
-                                    Assert.NotNull(respDto.SkillID);
-                                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
-                                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
-                
+                    Assert.NotNull(respDto.PositionID);
+                    Assert.NotNull(respDto.SkillID);
+                    Assert.Equal(reqDto.IsMandatory, respDto.IsMandatory);
+                    Assert.Equal(reqDto.SkillProficiencyID, respDto.SkillProficiencyID);
+
                 }
                 finally
                 {
@@ -185,11 +214,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.PositionSkill testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.PositionID = 100006;
-                            testEntity.SkillID = 2;
-                            testEntity.IsMandatory = false;              
-                            testEntity.SkillProficiencyID = 4;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.PositionID = 100006;
+                    testEntity.SkillID = 2;
+                    testEntity.IsMandatory = false;
+                    testEntity.SkillProficiencyID = 4;
+
                     var reqDto = PositionSkillConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -227,11 +260,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.PositionSkill CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.PositionSkill();
-                          entity.PositionID = 100004;
-                            entity.SkillID = 16;
-                            entity.IsMandatory = true;              
-                            entity.SkillProficiencyID = 2;
-              
+            entity.PositionID = 100004;
+            entity.SkillID = 16;
+            entity.IsMandatory = true;
+            entity.SkillProficiencyID = 2;
+
             return entity;
         }
 

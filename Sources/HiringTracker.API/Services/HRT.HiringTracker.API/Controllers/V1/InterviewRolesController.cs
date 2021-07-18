@@ -8,6 +8,7 @@ using System.Net;
 using HRT.HiringTracker.API.Filters;
 using HRT.Interfaces.Entities;
 using HRT.Utils.Convertors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +31,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _logger = logger;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -55,7 +56,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("{interviewid}/{userid}"), ActionName("GetInterviewRole")]
         public IActionResult Get(System.Int64 interviewid, System.Int64 userid)
         {
@@ -79,7 +80,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{interviewid}/{userid}"), ActionName("DeleteInterviewRole")]
         public IActionResult Delete(System.Int64 interviewid, System.Int64 userid)
         {
@@ -111,7 +112,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost, ActionName("InsertInterviewRole")]
         public IActionResult Insert(DTO.InterviewRole dto)
         {
@@ -131,7 +132,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
 
-        //[Authorize]
+        [Authorize]
         [HttpPut, ActionName("UpdateInterviewRole")]
         public IActionResult Update(DTO.InterviewRole dto)
         {

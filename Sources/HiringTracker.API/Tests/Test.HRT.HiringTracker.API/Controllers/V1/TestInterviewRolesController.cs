@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestInterviewRolesController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("InterviewRolesControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -42,8 +43,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramInterviewID = testEntity.InterviewID;
-                var paramUserID = testEntity.UserID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramInterviewID = testEntity.InterviewID;
+                    var paramUserID = testEntity.UserID;
                     var respGet = client.GetAsync($"/api/v1/interviewroles/{paramInterviewID}/{paramUserID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -65,6 +70,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramInterviewID = Int64.MaxValue;
                 var paramUserID = Int64.MaxValue;
 
@@ -82,8 +91,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramInterviewID = testEntity.InterviewID;
-                var paramUserID = testEntity.UserID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramInterviewID = testEntity.InterviewID;
+                    var paramUserID = testEntity.UserID;
 
                     var respDel = client.DeleteAsync($"/api/v1/interviewroles/{paramInterviewID}/{paramUserID}");
 
@@ -101,6 +114,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramInterviewID = Int64.MaxValue;
                 var paramUserID = Int64.MaxValue;
 
@@ -119,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewRole respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = InterviewRoleConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -129,10 +150,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     InterviewRole respDto = ExtractContentJson<InterviewRole>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.InterviewID);
-                                    Assert.NotNull(respDto.UserID);
-                                    Assert.Equal(reqDto.RoleID, respDto.RoleID);
-                
+                    Assert.NotNull(respDto.InterviewID);
+                    Assert.NotNull(respDto.UserID);
+                    Assert.Equal(reqDto.RoleID, respDto.RoleID);
+
                     respEntity = InterviewRoleConvertor.Convert(respDto);
                 }
                 finally
@@ -150,8 +171,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewRole testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.RoleID = 4;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.RoleID = 4;
+
                     var reqDto = InterviewRoleConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -162,10 +187,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     InterviewRole respDto = ExtractContentJson<InterviewRole>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.InterviewID);
-                                    Assert.NotNull(respDto.UserID);
-                                    Assert.Equal(reqDto.RoleID, respDto.RoleID);
-                
+                    Assert.NotNull(respDto.InterviewID);
+                    Assert.NotNull(respDto.UserID);
+                    Assert.Equal(reqDto.RoleID, respDto.RoleID);
+
                 }
                 finally
                 {
@@ -182,10 +207,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.InterviewRole testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.InterviewID = 100007;
-                            testEntity.UserID = 100003;
-                            testEntity.RoleID = 4;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.InterviewID = 100007;
+                    testEntity.UserID = 100003;
+                    testEntity.RoleID = 4;
+
                     var reqDto = InterviewRoleConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -223,10 +252,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.InterviewRole CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.InterviewRole();
-                          entity.InterviewID = 100005;
-                            entity.UserID = 100004;
-                            entity.RoleID = 7;
-              
+            entity.InterviewID = 100005;
+            entity.UserID = 100004;
+            entity.RoleID = 7;
+
             return entity;
         }
 

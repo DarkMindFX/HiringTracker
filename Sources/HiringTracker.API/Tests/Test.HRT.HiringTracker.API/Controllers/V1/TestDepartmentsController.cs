@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestDepartmentsController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("DepartmentsControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/departments");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/departments/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/departments/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/departments/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/departments/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Department respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = DepartmentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,12 +150,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Department respDto = ExtractContentJson<Department>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                                    Assert.Equal(reqDto.UUID, respDto.UUID);
-                                    Assert.Equal(reqDto.ParentID, respDto.ParentID);
-                                    Assert.Equal(reqDto.ManagerID, respDto.ManagerID);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+                    Assert.Equal(reqDto.UUID, respDto.UUID);
+                    Assert.Equal(reqDto.ParentID, respDto.ParentID);
+                    Assert.Equal(reqDto.ManagerID, respDto.ManagerID);
+
                     respEntity = DepartmentConvertor.Convert(respDto);
                 }
                 finally
@@ -148,10 +173,14 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Department testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
-                            testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
-                            testEntity.ManagerID = 100002;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                    testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                    testEntity.ManagerID = 100002;
+
                     var reqDto = DepartmentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -162,12 +191,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Department respDto = ExtractContentJson<Department>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.Name, respDto.Name);
-                                    Assert.Equal(reqDto.UUID, respDto.UUID);
-                                    Assert.Equal(reqDto.ParentID, respDto.ParentID);
-                                    Assert.Equal(reqDto.ManagerID, respDto.ManagerID);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.Name, respDto.Name);
+                    Assert.Equal(reqDto.UUID, respDto.UUID);
+                    Assert.Equal(reqDto.ParentID, respDto.ParentID);
+                    Assert.Equal(reqDto.ManagerID, respDto.ManagerID);
+
                 }
                 finally
                 {
@@ -184,11 +213,15 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Department testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
-                            testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
-                            testEntity.ManagerID = 100002;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.Name = "Name 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                    testEntity.UUID = "UUID 9d8dbd7914e24e4abe6d061e3e9b8c91";
+                    testEntity.ManagerID = 100002;
+
                     var reqDto = DepartmentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -225,10 +258,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Department CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Department();
-                          entity.Name = "Name 06212d80104249e8b628d49fec6af92a";
-                            entity.UUID = "UUID 06212d80104249e8b628d49fec6af92a";
-                            entity.ManagerID = 100001;
-              
+            entity.Name = "Name 06212d80104249e8b628d49fec6af92a";
+            entity.UUID = "UUID 06212d80104249e8b628d49fec6af92a";
+            entity.ManagerID = 100001;
+
             return entity;
         }
 

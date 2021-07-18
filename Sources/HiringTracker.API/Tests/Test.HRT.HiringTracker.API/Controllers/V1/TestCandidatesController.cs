@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestCandidatesController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("CandidatesControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/candidates");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,7 +47,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
                     var respGet = client.GetAsync($"/api/v1/candidates/{paramID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -64,6 +73,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respGet = client.GetAsync($"/api/v1/candidates/{paramID}");
@@ -80,7 +93,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramID = testEntity.ID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramID = testEntity.ID;
 
                     var respDel = client.DeleteAsync($"/api/v1/candidates/{paramID}");
 
@@ -98,6 +115,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramID = Int64.MaxValue;
 
                 var respDel = client.DeleteAsync($"/api/v1/candidates/{paramID}");
@@ -115,6 +136,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Candidate respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = CandidateConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -125,18 +150,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Candidate respDto = ExtractContentJson<Candidate>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
-                                    Assert.Equal(reqDto.MiddleName, respDto.MiddleName);
-                                    Assert.Equal(reqDto.LastName, respDto.LastName);
-                                    Assert.Equal(reqDto.Email, respDto.Email);
-                                    Assert.Equal(reqDto.Phone, respDto.Phone);
-                                    Assert.Equal(reqDto.CVLink, respDto.CVLink);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
+                    Assert.Equal(reqDto.MiddleName, respDto.MiddleName);
+                    Assert.Equal(reqDto.LastName, respDto.LastName);
+                    Assert.Equal(reqDto.Email, respDto.Email);
+                    Assert.Equal(reqDto.Phone, respDto.Phone);
+                    Assert.Equal(reqDto.CVLink, respDto.CVLink);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                     respEntity = CandidateConvertor.Convert(respDto);
                 }
                 finally
@@ -154,17 +179,21 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Candidate testEntity = AddTestEntity();
                 try
                 {
-                          testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
-                            testEntity.ModifiedByID = 100003;
-                            testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.CreatedByID = 100002;
+                    testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
+                    testEntity.ModifiedByID = 100003;
+                    testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
+
                     var reqDto = CandidateConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -175,18 +204,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     Candidate respDto = ExtractContentJson<Candidate>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ID);
-                                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
-                                    Assert.Equal(reqDto.MiddleName, respDto.MiddleName);
-                                    Assert.Equal(reqDto.LastName, respDto.LastName);
-                                    Assert.Equal(reqDto.Email, respDto.Email);
-                                    Assert.Equal(reqDto.Phone, respDto.Phone);
-                                    Assert.Equal(reqDto.CVLink, respDto.CVLink);
-                                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
-                                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
-                                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
-                                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
-                
+                    Assert.NotNull(respDto.ID);
+                    Assert.Equal(reqDto.FirstName, respDto.FirstName);
+                    Assert.Equal(reqDto.MiddleName, respDto.MiddleName);
+                    Assert.Equal(reqDto.LastName, respDto.LastName);
+                    Assert.Equal(reqDto.Email, respDto.Email);
+                    Assert.Equal(reqDto.Phone, respDto.Phone);
+                    Assert.Equal(reqDto.CVLink, respDto.CVLink);
+                    Assert.Equal(reqDto.CreatedByID, respDto.CreatedByID);
+                    Assert.Equal(reqDto.CreatedDate, respDto.CreatedDate);
+                    Assert.Equal(reqDto.ModifiedByID, respDto.ModifiedByID);
+                    Assert.Equal(reqDto.ModifiedDate, respDto.ModifiedDate);
+
                 }
                 finally
                 {
@@ -203,18 +232,22 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.Candidate testEntity = CreateTestEntity();
                 try
                 {
-                             testEntity.ID = Int64.MaxValue;
-                             testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
-                            testEntity.CreatedByID = 100002;
-                            testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
-                            testEntity.ModifiedByID = 100003;
-                            testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ID = Int64.MaxValue;
+                    testEntity.FirstName = "FirstName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.MiddleName = "MiddleName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.LastName = "LastName 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.Email = "Email 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.Phone = "Phone 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.CVLink = "CVLink 39884d612bb24869b1904a3c4a9a9e31";
+                    testEntity.CreatedByID = 100002;
+                    testEntity.CreatedDate = DateTime.Parse("3/13/2022 12:31:36 PM");
+                    testEntity.ModifiedByID = 100003;
+                    testEntity.ModifiedDate = DateTime.Parse("12/8/2022 1:52:36 PM");
+
                     var reqDto = CandidateConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -251,17 +284,17 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.Candidate CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.Candidate();
-                          entity.FirstName = "FirstName 5808bc09063145e386ab1ee36f418fba";
-                            entity.MiddleName = "MiddleName 5808bc09063145e386ab1ee36f418fba";
-                            entity.LastName = "LastName 5808bc09063145e386ab1ee36f418fba";
-                            entity.Email = "Email 5808bc09063145e386ab1ee36f418fba";
-                            entity.Phone = "Phone 5808bc09063145e386ab1ee36f418fba";
-                            entity.CVLink = "CVLink 5808bc09063145e386ab1ee36f418fba";
-                            entity.CreatedByID = 100002;
-                            entity.CreatedDate = DateTime.Parse("7/20/2020 11:54:36 AM");
-                            entity.ModifiedByID = 100001;
-                            entity.ModifiedDate = DateTime.Parse("5/30/2019 5:43:36 AM");
-              
+            entity.FirstName = "FirstName 5808bc09063145e386ab1ee36f418fba";
+            entity.MiddleName = "MiddleName 5808bc09063145e386ab1ee36f418fba";
+            entity.LastName = "LastName 5808bc09063145e386ab1ee36f418fba";
+            entity.Email = "Email 5808bc09063145e386ab1ee36f418fba";
+            entity.Phone = "Phone 5808bc09063145e386ab1ee36f418fba";
+            entity.CVLink = "CVLink 5808bc09063145e386ab1ee36f418fba";
+            entity.CreatedByID = 100002;
+            entity.CreatedDate = DateTime.Parse("7/20/2020 11:54:36 AM");
+            entity.ModifiedByID = 100001;
+            entity.ModifiedDate = DateTime.Parse("5/30/2019 5:43:36 AM");
+
             return entity;
         }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http.Headers;
 using Xunit;
 
 
@@ -16,7 +17,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
     {
         public TestProposalCommentsController(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("ProposalCommentsControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -24,6 +25,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/proposalcomments");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -42,8 +47,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramProposalID = testEntity.ProposalID;
-                var paramCommentID = testEntity.CommentID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramProposalID = testEntity.ProposalID;
+                    var paramCommentID = testEntity.CommentID;
                     var respGet = client.GetAsync($"/api/v1/proposalcomments/{paramProposalID}/{paramCommentID}");
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
@@ -65,6 +74,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramProposalID = Int64.MaxValue;
                 var paramCommentID = Int64.MaxValue;
 
@@ -82,8 +95,12 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 try
                 {
-                var paramProposalID = testEntity.ProposalID;
-                var paramCommentID = testEntity.CommentID;
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var paramProposalID = testEntity.ProposalID;
+                    var paramCommentID = testEntity.CommentID;
 
                     var respDel = client.DeleteAsync($"/api/v1/proposalcomments/{paramProposalID}/{paramCommentID}");
 
@@ -101,6 +118,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var paramProposalID = Int64.MaxValue;
                 var paramCommentID = Int64.MaxValue;
 
@@ -119,6 +140,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalComment respEntity = null;
                 try
                 {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = ProposalCommentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -129,9 +154,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     ProposalComment respDto = ExtractContentJson<ProposalComment>(respInsert.Result.Content);
 
-                                    Assert.NotNull(respDto.ProposalID);
-                                    Assert.NotNull(respDto.CommentID);
-                
+                    Assert.NotNull(respDto.ProposalID);
+                    Assert.NotNull(respDto.CommentID);
+
                     respEntity = ProposalCommentConvertor.Convert(respDto);
                 }
                 finally
@@ -149,7 +174,10 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalComment testEntity = AddTestEntity();
                 try
                 {
-            
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                     var reqDto = ProposalCommentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -160,9 +188,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     ProposalComment respDto = ExtractContentJson<ProposalComment>(respUpdate.Result.Content);
 
-                                     Assert.NotNull(respDto.ProposalID);
-                                    Assert.NotNull(respDto.CommentID);
-                
+                    Assert.NotNull(respDto.ProposalID);
+                    Assert.NotNull(respDto.CommentID);
+
                 }
                 finally
                 {
@@ -179,9 +207,13 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
                 HRT.Interfaces.Entities.ProposalComment testEntity = CreateTestEntity();
                 try
                 {
-                            testEntity.ProposalID = 100006;
-                            testEntity.CommentID = 100009;
-              
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    testEntity.ProposalID = 100006;
+                    testEntity.CommentID = 100009;
+
                     var reqDto = ProposalCommentConvertor.Convert(testEntity, null);
 
                     var content = CreateContentJson(reqDto);
@@ -219,9 +251,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         protected HRT.Interfaces.Entities.ProposalComment CreateTestEntity()
         {
             var entity = new HRT.Interfaces.Entities.ProposalComment();
-                          entity.ProposalID = 100007;
-                            entity.CommentID = 100005;
-              
+            entity.ProposalID = 100007;
+            entity.CommentID = 100005;
+
             return entity;
         }
 
