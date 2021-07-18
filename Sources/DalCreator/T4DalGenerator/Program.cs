@@ -34,6 +34,8 @@ namespace T4DalGenerator
             Generate<ConvertorsGenerator>(tables, settings, timestamp);
             Generate<EntityControllerGenerator>(tables, settings, timestamp);
             Generate<ControllerTestGenerator>(tables, settings, timestamp);
+            Generate<JsDtosGenerator>(tables, settings, timestamp);
+            Generate<JsClientDalGenerator>(tables, settings, timestamp);
         }
 
         private static IList<string> Generate<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator

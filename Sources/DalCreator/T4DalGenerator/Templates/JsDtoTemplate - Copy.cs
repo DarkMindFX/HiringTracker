@@ -18,9 +18,9 @@ namespace T4DalGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class EntityTemplate : EntityTemplateBase
+    public partial class JsDtoTemplate : JsDtoTemplateBase
     {
 #line hidden
         /// <summary>
@@ -29,18 +29,16 @@ namespace T4DalGenerator.Templates
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing Sys" +
-                    "tem.Text;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace HRT.Interfaces.Entities\r\n{" +
-                    "\r\n    public class ");
+            this.Write("\r\nconst HateosDto = require(\'./HateosDto\')\r\n\r\nclass ");
             
-            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 13 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write(" \r\n    {\r\n\t\t");
+            this.Write("Dto extends HateosDto {\r\n\t\t");
             
-            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 14 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
  
 			foreach(var c in table.Columns) 
 			{
@@ -48,34 +46,55 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("\t\tpublic ");
+            this.Write("\r\n\t\tget ");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.DbTypeToType(c)));
+            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
             #line hidden
-            this.Write(" ");
+            this.Write("() { return this.");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
-            this.Write(" { get; set; }\r\n\r\n\t\t");
+            this.Write("; }\r\n\t\tset ");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("(val) { this.");
+            
+            #line 20 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = val; }\r\n\r\n\t\t");
+            
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
 
 			}
 		
             
             #line default
             #line hidden
-            this.Write("\t\t\r\n    }\r\n}\r\n");
+            this.Write("\t\t\r\n}\r\n\r\nmodule.exports = ");
+            
+            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto;");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsDtoTemplate.tt"
 
 private global::DataModel.DataTable _tableField;
 
@@ -184,7 +203,7 @@ if ((generatorValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class EntityTemplateBase
+    public class JsDtoTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
