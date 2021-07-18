@@ -57,9 +57,27 @@ class <#= modelHelper.Pluralize(table.Name) #>Dal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.delete(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>/${id}`);
+            let res = await inst.delete(`/<#=modelHelper.Pluralize(table.Name).ToLower()#><#
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+    #>/${<#=pk.Name.ToLower()#>}<#}#>`);
 
             return res;        
+        }
+        catch(error) {
+            return error.response;
+        }
+    }
+
+    async get<#= modelHelper.Pluralize(table.Name) #>()
+    {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.get(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>`);
+
+            return res;
         }
         catch(error) {
             return error.response;
@@ -74,7 +92,11 @@ class <#= modelHelper.Pluralize(table.Name) #>Dal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>/${id}`);
+            let res = await inst.get(`/<#=modelHelper.Pluralize(table.Name).ToLower()#><#
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+    #>/${<#=pk.Name.ToLower()#>}<#}#>`);
 
             return res;
         }

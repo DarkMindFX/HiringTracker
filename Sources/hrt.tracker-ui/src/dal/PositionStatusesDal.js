@@ -6,20 +6,18 @@ const constants = require('../constants');
 
 const DalBase = require('./DalBase');
 
-const { LoginRequest } = require('hrt.dto')
 
-
-class UsersDal extends DalBase {
+class PositionStatusesDal extends DalBase {
 
     constructor() {
         super();
     }
 
-    async insertUser(newUser) {
+    async insertPositionStatus(newPositionStatus) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/users`, newUser);
+            let res = await inst.put(`/positionstatuses`, newPositionStatus);
 
             return res;
         }
@@ -29,11 +27,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async updateUser(updatedUser) {
+    async updatePositionStatus(updatedPositionStatus) {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/users`, updatedUser);
+            let res = await inst.post(`/positionstatuses`, updatedPositionStatus);
 
             return res;
         }
@@ -42,11 +40,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async deleteUser(id) {
+    async deletePositionStatus(id) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.delete(`/users/${id}`);
+            let res = await inst.delete(`/positionstatuses/${id}`);
 
             return res;        
         }
@@ -55,12 +53,12 @@ class UsersDal extends DalBase {
         }
     }
 
-    async getUsers()
+    async getPositionStatuses()
     {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/users`);
+            let res = await inst.get(`/positionstatuses`);
 
             return res;
         }
@@ -69,28 +67,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async getUser(id) {
+    async getPositionStatus(id) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/users/${id}`);
-
-            return res;
-        }
-        catch(error) {
-            return error.response;
-        }
-    }
-	
-	async login(login, password) {
-        const loginDto = new LoginRequest();
-        loginDto.Login = login;
-        loginDto.Password = password;
-
-        let inst = this.Instance;
-       
-        try {
-            let res = await inst.post(`/users/login`, loginDto);
+            let res = await inst.get(`/positionstatuses/${id}`);
 
             return res;
         }
@@ -100,4 +81,4 @@ class UsersDal extends DalBase {
     }
 }
 
-module.exports = UsersDal;
+module.exports = PositionStatusesDal;

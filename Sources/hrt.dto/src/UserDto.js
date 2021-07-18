@@ -1,28 +1,35 @@
 
+
 const HateosDto = require('./HateosDto')
 
 class UserDto extends HateosDto {
+		
+		get id() { return this.ID; }
+		set id(val) { this.ID = val; }
 
-    get UserID() { return this._userId; }
-    set UserID(val) { this._userId = val; }
+		
+		get login() { return this.Login; }
+		set login(val) { this.Login = val; }
 
-    get Login() { return this._login; }
-    set Login(val) { this._login = val; }
+		
+		get firstname() { return this.FirstName; }
+		set firstname(val) { this.FirstName = val; }
 
-    get FirstName() { return this._fname; }
-    set FirstName(val) { this._fname = val; }
+		
+		get lastname() { return this.LastName; }
+		set lastname(val) { this.LastName = val; }
 
-    get LastName() { return this._lname; }
-    set LastName(val) { this._lname = val; }
+		
+		get email() { return this.Email; }
+		set email(val) { this.Email = val; }
 
-    get Email() { return this._email; }
-    set Email(val) { this._email = val; }
+		
+		get description() { return this.Description; }
+		set description(val) { this.Description = val; }
 
-    get Description() { return this._desc; }
-    set Description(val) { this._desc = val; }
-
-    get Pwd() { return this._pwd; }
-    set Pwd(val) { this._pwd = val; }
+		
+		get password() { return this.Password; }
+		set password(val) { this.Password = val; }
 }
 
 module.exports = UserDto;

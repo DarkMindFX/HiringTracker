@@ -7,10 +7,14 @@ import { Button } from '@material-ui/core';
 import constants from "../constants";
 
 const PositionsDal = require('../dal/PositionsDal')
+const PositionStatusesDal = require('../dal/PositionStatusesDal')
+const UsersDal = require('../dal/UsersDal')
 
 class PositionsPage extends React.Component {
 
     _columns = null;
+    _positionStatuses = null;
+    _users = null;
 
     constructor(props) {
         super(props);
@@ -23,6 +27,9 @@ class PositionsPage extends React.Component {
         this._initColumns();
 
         this.onRowClick = this.onRowClick.bind(this);
+        this._getPositionStatuses = this._getPositionStatuses.bind(this);
+        this._getUsers = this._getUsers.bind(this);
+        this._getRecords = this._getRecords.bind(this);
     }
 
 
@@ -31,6 +38,10 @@ class PositionsPage extends React.Component {
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
         console.log('Token: ', token);
         if(token != null) {
+
+
+            this._getPositionStatuses();
+            this._getUsers();
 
             let dalPos = new PositionsDal();
             let obj = this;
@@ -92,7 +103,7 @@ class PositionsPage extends React.Component {
             { field: 'ShortDesc', headerName: 'Summary', width: 350 },
             { field: 'Status', headerName: 'Status', width: 150 },
             { field: 'CreatedDate', headerName: 'Created On', width: 250 },
-            { field: 'CreatedBy', headerName: 'Create By', width: 250 },
+            { field: 'CreatedBy', headerName: 'Created By', width: 250 },
         ]        
     }
 
@@ -102,19 +113,46 @@ class PositionsPage extends React.Component {
         let ps = this.state.positions;
 
         for(let p in ps) {
+
+            let userCreated = this._users[ps[p].CreatedByID];
+
             let r = {
-                id:  ps[p]._positionId,
-                Title: ps[p]._title,
-                ShortDesc: ps[p]._shortDesc,                
-                Status: ps[p]._status._name,
-                CreatedDate: ps[p]._createdDate,
-                CreatedBy: ps[p]._createdBy._fname + ' ' + ps[p]._createdBy._lname
+                id:  ps[p].ID,
+                Title: ps[p].Title,
+                ShortDesc: ps[p].ShortDesc,                
+                Status: this._positionStatuses[ ps[p].StatusID ].Name,
+                CreatedDate: ps[p].CreatedDate,
+                CreatedBy: userCreated.FirstName + ' ' + userCreated.LastName
             };
 
             rows.push(r);
         }
 
         return rows;
+    }
+
+    async _getPositionStatuses() {
+        this._positionStatuses = {};
+        let statusesDal = new PositionStatusesDal();
+        let statuses = await statusesDal.getPositionStatuses();
+
+        for(let s in statuses.data)
+        {
+             this._positionStatuses[statuses.data[s].ID] = statuses.data[s];           
+        }
+
+    }
+
+    async _getUsers() {
+        this._users = {};
+        let usersDal = new UsersDal();
+        let users = await usersDal.getUsers();
+
+        for(let s in users.data)
+        {
+             this._users[users.data[s].ID] = users.data[s];             
+        }
+
     }
 };
 

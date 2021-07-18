@@ -6,20 +6,18 @@ const constants = require('../constants');
 
 const DalBase = require('./DalBase');
 
-const { LoginRequest } = require('hrt.dto')
 
-
-class UsersDal extends DalBase {
+class CandidateSkillsDal extends DalBase {
 
     constructor() {
         super();
     }
 
-    async insertUser(newUser) {
+    async insertCandidateSkill(newCandidateSkill) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/users`, newUser);
+            let res = await inst.put(`/candidateskills`, newCandidateSkill);
 
             return res;
         }
@@ -29,11 +27,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async updateUser(updatedUser) {
+    async updateCandidateSkill(updatedCandidateSkill) {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/users`, updatedUser);
+            let res = await inst.post(`/candidateskills`, updatedCandidateSkill);
 
             return res;
         }
@@ -42,11 +40,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async deleteUser(id) {
+    async deleteCandidateSkill(candidateid,skillid) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.delete(`/users/${id}`);
+            let res = await inst.delete(`/candidateskills/${candidateid}/${skillid}`);
 
             return res;        
         }
@@ -55,12 +53,12 @@ class UsersDal extends DalBase {
         }
     }
 
-    async getUsers()
+    async getCandidateSkills()
     {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/users`);
+            let res = await inst.get(`/candidateskills`);
 
             return res;
         }
@@ -69,28 +67,11 @@ class UsersDal extends DalBase {
         }
     }
 
-    async getUser(id) {
+    async getCandidateSkill(candidateid,skillid) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/users/${id}`);
-
-            return res;
-        }
-        catch(error) {
-            return error.response;
-        }
-    }
-	
-	async login(login, password) {
-        const loginDto = new LoginRequest();
-        loginDto.Login = login;
-        loginDto.Password = password;
-
-        let inst = this.Instance;
-       
-        try {
-            let res = await inst.post(`/users/login`, loginDto);
+            let res = await inst.get(`/candidateskills/${candidateid}/${skillid}`);
 
             return res;
         }
@@ -100,4 +81,4 @@ class UsersDal extends DalBase {
     }
 }
 
-module.exports = UsersDal;
+module.exports = CandidateSkillsDal;

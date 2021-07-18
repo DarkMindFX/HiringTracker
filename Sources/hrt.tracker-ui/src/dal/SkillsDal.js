@@ -1,102 +1,83 @@
 
 
-const axios = require('axios')
+
+const axios = require('axios');
 const constants = require('../constants');
 
 const DalBase = require('./DalBase');
+
 
 class SkillsDal extends DalBase {
 
     constructor() {
         super();
-        this._skills = null;  // list of skills available
-        this._profs = null;   // list of skill proficiencies   
     }
 
-    async loadSkills() {
+    async insertSkill(newSkill) {
         let inst = this.Instance;
 
-        let res = await inst.get(`/skills`);
+        try {
+            let res = await inst.put(`/skills`, newSkill);
 
-        this._skills = {};
-        res.data.forEach(r => {
-            this._skills[r._skillId] = {
-                SkillID: r._skillId,
-                Name: r._name
-            }
-        });
-    }
-
-    async loadProficiences() {
-        let inst = this.Instance;
-
-        let res = await inst.get(`/skillproficiencies`);
-
-        this._profs = {};
-        res.data.forEach(r => {
-            this._profs[r._id] = {
-                ProficiencyID : r._id,
-                Name: r._name
-            }
-        });
-    }
-
-    async getSkills() {
-
-        if(!this._skills) {
-            await this.loadSkills();
+            return res;
         }
+        catch(error) {
+            console.log(error.response);
+            return error.response;
+        }
+    }
 
-        return Object.values(this._skills);
+    async updateSkill(updatedSkill) {
+        let inst = this.Instance;
+        
+        try {
+            let res = await inst.post(`/skills`, updatedSkill);
+
+            return res;
+        }
+        catch(error) {
+            return error.response;
+        }
+    }
+
+    async deleteSkill(id) {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.delete(`/skills/${id}`);
+
+            return res;        
+        }
+        catch(error) {
+            return error.response;
+        }
+    }
+
+    async getSkills()
+    {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.get(`/skills`);
+
+            return res;
+        }
+        catch(error) {
+            return error.response;
+        }
     }
 
     async getSkill(id) {
+        let inst = this.Instance;
 
-        if(!this._skills) {
-            await this.loadSkills();
+        try {
+            let res = await inst.get(`/skills/${id}`);
+
+            return res;
         }
-
-        return this._skills[id];
-    }
-
-    async getSkillByName(name) {
-
-        if(!this._skills) {
-            await this.loadSkills();
+        catch(error) {
+            return error.response;
         }
-
-        let result = Object.values(this._skills).find( s => s.Name == name)
-
-        return result;
-    }
-
-    async getProficiencyByName(name) {
-        
-        if(!this._profs) {
-            await this.loadProficiences();
-        }
-
-        let result = Object.values(this._profs).find( s => s.Name == name)
-
-        return result;
-    }
-
-    async getProficiencies()
-    {
-        if(!this._profs) {
-            await this.loadProficiences();
-        }
-
-        return Object.values(this._profs);
-    }
-
-    async getProficiency(id)
-    {
-        if(!this._profs) {
-            await this.loadProficiences();
-        }
-
-        return this._profs[id];
     }
 }
 

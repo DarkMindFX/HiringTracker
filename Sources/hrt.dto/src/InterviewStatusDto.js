@@ -2,7 +2,7 @@
 
 const HateosDto = require('./HateosDto')
 
-class PositionStatusDto extends HateosDto {
+class InterviewStatusDto extends HateosDto {
 		
 		get id() { return this.ID; }
 		set id(val) { this.ID = val; }
@@ -14,4 +14,4 @@ class PositionStatusDto extends HateosDto {
 				
 }
 
-module.exports = PositionStatusDto;
+module.exports = InterviewStatusDto;

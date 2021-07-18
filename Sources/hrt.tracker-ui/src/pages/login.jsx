@@ -57,19 +57,27 @@ class LoginPage extends React.Component {
 
             let updatedState = this.state;
             if(res.status == constants.HTTP_OK) {
-                console.log('Login SUCCESS', res.data._token)
+                console.log('Login SUCCESS', res.data.Token)
                 updatedState.showError = false;
                 updatedState.error = null;
 
                 localStorage.clear();
-                localStorage.setItem(constants.SESSION_TOKEN_KEY, res.data._token);
+                localStorage.setItem(constants.SESSION_TOKEN_KEY, res.data.Token);
 
                 obj.props.history.push(this.state.ret);
 
             }
+            else if(res.status == constants.HTTP_NotFound) {
+                updatedState.showError = true;
+                updatedState.error = "User with given login not found";
+            }
+            else if(res.status == constants.HTTP_Forbidden) {
+                updatedState.showError = true;
+                updatedState.error = "Invalid login/password combination";
+            }
             else {
                 updatedState.showError = true;
-                updatedState.error = res.data._message;
+                updatedState.error = "Error occured when trying to login";
             }
 
             this.setState(updatedState);

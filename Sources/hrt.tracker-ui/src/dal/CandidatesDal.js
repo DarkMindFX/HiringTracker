@@ -1,45 +1,37 @@
 
-const axios = require('axios')
+
+
+const axios = require('axios');
 const constants = require('../constants');
+
 const DalBase = require('./DalBase');
+
 
 class CandidatesDal extends DalBase {
 
     constructor() {
-        super();        
+        super();
     }
 
-    async getCandidates() {
+    async insertCandidate(newCandidate) {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/candidates`);
+            let res = await inst.put(`/candidates`, newCandidate);
 
             return res;
         }
         catch(error) {
+            console.log(error.response);
             return error.response;
         }
     }
 
-    async addCandidate(candidateUpsertDto) {
+    async updateCandidate(updatedCandidate) {
         let inst = this.Instance;
-
+        
         try {
-            let res = await inst.put(`/candidates`, candidateUpsertDto);
-
-            return res;
-        }
-        catch(error) {
-            return error.response;
-        }
-    }
-
-    async updateCandidate(candidateUpsertDto) {
-        let inst = this.Instance;
-
-        try {
-            let res = await inst.post(`/candidates`, candidateUpsertDto);
+            let res = await inst.post(`/candidates`, updatedCandidate);
 
             return res;
         }
@@ -54,18 +46,19 @@ class CandidatesDal extends DalBase {
         try {
             let res = await inst.delete(`/candidates/${id}`);
 
-            return res;
+            return res;        
         }
         catch(error) {
             return error.response;
         }
     }
 
-    async getCandidateSkills(id) {
+    async getCandidates()
+    {
         let inst = this.Instance;
 
         try {
-            let res = await inst.get(`/candidates/${id}/skills`);
+            let res = await inst.get(`/candidates`);
 
             return res;
         }

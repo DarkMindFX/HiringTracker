@@ -2,30 +2,14 @@
 
 const HateosDto = require('./HateosDto')
 
-class PositionDto extends HateosDto {
+class CommentDto extends HateosDto {
 		
 		get id() { return this.ID; }
 		set id(val) { this.ID = val; }
 
 		
-		get departmentid() { return this.DepartmentID; }
-		set departmentid(val) { this.DepartmentID = val; }
-
-		
-		get title() { return this.Title; }
-		set title(val) { this.Title = val; }
-
-		
-		get shortdesc() { return this.ShortDesc; }
-		set shortdesc(val) { this.ShortDesc = val; }
-
-		
-		get description() { return this.Description; }
-		set description(val) { this.Description = val; }
-
-		
-		get statusid() { return this.StatusID; }
-		set statusid(val) { this.StatusID = val; }
+		get text() { return this.Text; }
+		set text(val) { this.Text = val; }
 
 		
 		get createddate() { return this.CreatedDate; }
@@ -46,4 +30,4 @@ class PositionDto extends HateosDto {
 				
 }
 
-module.exports = PositionDto;
+module.exports = CommentDto;

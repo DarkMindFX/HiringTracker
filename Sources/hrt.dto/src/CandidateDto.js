@@ -1,42 +1,53 @@
 
+
 const HateosDto = require('./HateosDto')
 
 class CandidateDto extends HateosDto {
+		
+		get id() { return this.ID; }
+		set id(val) { this.ID = val; }
 
-    get CandidateID() { return this._candidateId; }
-    set CandidateID(val) { this._candidateId = val; }
+		
+		get firstname() { return this.FirstName; }
+		set firstname(val) { this.FirstName = val; }
 
-    get FirstName() { return this._fname; }
-    set FirstName(val) { this._fname = val; }
+		
+		get middlename() { return this.MiddleName; }
+		set middlename(val) { this.MiddleName = val; }
 
-    get MiddleName() { return this._mname; }
-    set MiddleName(val) { this._mname = val; }
+		
+		get lastname() { return this.LastName; }
+		set lastname(val) { this.LastName = val; }
 
-    get LastName() { return this._lname; }
-    set LastName(val) { this._lname = val; }
+		
+		get email() { return this.Email; }
+		set email(val) { this.Email = val; }
 
-    get Email() { return this._email; }
-    set Email(val) { this._email = val; }
+		
+		get phone() { return this.Phone; }
+		set phone(val) { this.Phone = val; }
 
-    get Phone() { return this._phone; }
-    set Phone(val) { this._phone = val; }
+		
+		get cvlink() { return this.CVLink; }
+		set cvlink(val) { this.CVLink = val; }
 
-    get CVLink() { return this._cvlink; }
-    set CVLink(val) { this._cvlink = val; }
+		
+		get createdbyid() { return this.CreatedByID; }
+		set createdbyid(val) { this.CreatedByID = val; }
 
-    get CreatedDate() { return this._createdDate; }
-    set CreatedDate(val) { this._createdDate = val; }
+		
+		get createddate() { return this.CreatedDate; }
+		set createddate(val) { this.CreatedDate = val; }
 
-    // UserDto
-    get CreatedBy() { return this._createdBy; }
-    set CreatedBy(val) { this._createdBy = val; }
+		
+		get modifiedbyid() { return this.ModifiedByID; }
+		set modifiedbyid(val) { this.ModifiedByID = val; }
 
-    get ModifiedDate() { return this._modifiedDate; }
-    set ModifiedDate(val) { this._modifiedDate = val; }
+		
+		get modifieddate() { return this.ModifiedDate; }
+		set modifieddate(val) { this.ModifiedDate = val; }
 
-    // UserDto
-    get ModifiedBy() { return this._modifiedBy; }
-    set ModifiedBy(val) { this._modifiedBy = val; }
+				
 }
 
 module.exports = CandidateDto;

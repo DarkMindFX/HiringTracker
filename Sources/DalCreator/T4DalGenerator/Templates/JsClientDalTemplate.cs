@@ -144,17 +144,57 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("/${id}`);\r\n\r\n            return res;        \r\n        }\r\n        catch(error) {\r\n" +
-                    "            return error.response;\r\n        }\r\n    }\r\n\r\n    async get");
             
-            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 60 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+    
+            
+            #line default
+            #line hidden
+            this.Write("/${");
+            
+            #line 64 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 64 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("`);\r\n\r\n            return res;        \r\n        }\r\n        catch(error) {\r\n      " +
+                    "      return error.response;\r\n        }\r\n    }\r\n\r\n    async get");
+            
+            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
+            
+            #line default
+            #line hidden
+            this.Write("()\r\n    {\r\n        let inst = this.Instance;\r\n\r\n        try {\r\n            let re" +
+                    "s = await inst.get(`/");
+            
+            #line 78 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("`);\r\n\r\n            return res;\r\n        }\r\n        catch(error) {\r\n            re" +
+                    "turn error.response;\r\n        }\r\n    }\r\n\r\n    async get");
+            
+            #line 87 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 87 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
 
         for(int i = 0; i < pks.Count; ++i)
         {
@@ -164,13 +204,13 @@ namespace T4DalGenerator.Templates
             #line default
             #line hidden
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower() + (i + 1 < pks.Count ? "," : string.Empty)));
             
             #line default
             #line hidden
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
 }
             
             #line default
@@ -178,15 +218,39 @@ namespace T4DalGenerator.Templates
             this.Write(") {\r\n        let inst = this.Instance;\r\n\r\n        try {\r\n            let res = aw" +
                     "ait inst.get(`/");
             
-            #line 77 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 95 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
-            this.Write("/${id}`);\r\n\r\n            return res;\r\n        }\r\n        catch(error) {\r\n        " +
-                    "    return error.response;\r\n        }\r\n    }\r\n}\r\n\r\nmodule.exports = ");
             
-            #line 87 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            #line 95 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+
+        for(int i = 0; i < pks.Count; ++i)
+        {
+            var pk = pks[i];
+    
+            
+            #line default
+            #line hidden
+            this.Write("/${");
+            
+            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("`);\r\n\r\n            return res;\r\n        }\r\n        catch(error) {\r\n            re" +
+                    "turn error.response;\r\n        }\r\n    }\r\n}\r\n\r\nmodule.exports = ");
+            
+            #line 109 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
             
             #line default

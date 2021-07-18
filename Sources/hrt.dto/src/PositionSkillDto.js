@@ -1,16 +1,25 @@
 
+
 const HateosDto = require('./HateosDto')
 
 class PositionSkillDto extends HateosDto {
+		
+		get positionid() { return this.PositionID; }
+		set positionid(val) { this.PositionID = val; }
 
-    get Skill() { return this._skill; }
-    set Skill(val) { this._skill = val; }
+		
+		get skillid() { return this.SkillID; }
+		set skillid(val) { this.SkillID = val; }
 
-    get Proficiency() { return this._proficiency; }
-    set Proficiency(val) { this._proficiency = val; }
+		
+		get ismandatory() { return this.IsMandatory; }
+		set ismandatory(val) { this.IsMandatory = val; }
 
-    get IsMandatory() { return this._isMandatory; }
-    set IsMandatory(val) { this._isMandatory = val; }
+		
+		get skillproficiencyid() { return this.SkillProficiencyID; }
+		set skillproficiencyid(val) { this.SkillProficiencyID = val; }
+
+				
 }
 
 module.exports = PositionSkillDto;
