@@ -36,33 +36,33 @@ class PositionsPage extends React.Component {
     componentDidMount() {
 
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
-        console.log('Token: ', token);
+
         if(token != null) {
+            this._getPositionStatuses().then( () => {
+                this._getUsers().then( () => {
 
+                    let dalPos = new PositionsDal();
+                    let obj = this;
 
-            this._getPositionStatuses();
-            this._getUsers();
-
-            let dalPos = new PositionsDal();
-            let obj = this;
-
-            dalPos.getPositions().then( function(ps) {
-                let updatedState = obj.state;
-                
-                if(ps.status == constants.HTTP_OK) {
-                    updatedState.positions = ps.data;
-                    updatedState.showError = false;
-                    updatedState.error = null;
-                }
-                else if(ps.status == constants.HTTP_Unauthorized) {
-                    console.log('Unauth - need to login')
-                    obj.props.history.push("/login?ret=/positions");
-                }
-                else {
-                    updatedState.showError = true;
-                    updatedState.error = ps.data._message;
-                }
-                obj.setState(updatedState)
+                    dalPos.getPositions().then( function(ps) {
+                        let updatedState = obj.state;
+                        
+                        if(ps.status == constants.HTTP_OK) {
+                            updatedState.positions = ps.data;
+                            updatedState.showError = false;
+                            updatedState.error = null;
+                        }
+                        else if(ps.status == constants.HTTP_Unauthorized) {
+                            console.log('Unauth - need to login')
+                            obj.props.history.push("/login?ret=/positions");
+                        }
+                        else {
+                            updatedState.showError = true;
+                            updatedState.error = ps.data._message;
+                        }
+                        obj.setState(updatedState)
+                    });
+                });
             });
         }
         else {
@@ -140,7 +140,6 @@ class PositionsPage extends React.Component {
         {
              this._positionStatuses[statuses.data[s].ID] = statuses.data[s];           
         }
-
     }
 
     async _getUsers() {

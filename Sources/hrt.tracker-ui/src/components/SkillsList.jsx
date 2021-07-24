@@ -2,6 +2,7 @@
 import React from 'react';
 import SkillItem from '../components/SkillItem'
 import { Button } from '@material-ui/core';
+const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -15,6 +16,8 @@ class SkillsList extends React.Component {
             canEdit: props.canEdit ? props.canEdit : false,
             showMustHave: props.showMustHave ? props.showMustHave : false,
             skills: props.skills, 
+            dictSkills : props.dictSkills,
+            dictProficiencies: props.dictProficiencies,
             onSkillChanged: props.onSkillChanged,
             onSkillDeleted: props.onSkillDeleted,
             onSkillAdded: props.onSkillAdded
@@ -27,6 +30,8 @@ class SkillsList extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if(props.canEdit !== state.canEdit ||
             props.skills !== state.skills ||
+            props.dictSkills != state.dictSkills ||
+            props.dictProficiencies != state.dictProficiencies ||
             props.onSkillChanged != state.onSkillChanged || 
             props.onSkillDeleted != state.onSkillDeleted ||
             props.onSkillAdded != state.onSkillAdded)
@@ -34,6 +39,8 @@ class SkillsList extends React.Component {
             let updatedState = {
                 canEdit: props.canEdit,
                 skills: props.skills,
+                dictSkills : props.dictSkills,
+                dictProficiencies: props.dictProficiencies,
                 onSkillChanged: props.onSkillChanged,
                 onSkillDeleted: props.onSkillDeleted,
                 onSkillAdded: props.onSkillAdded
@@ -86,7 +93,6 @@ class SkillsList extends React.Component {
 
     render() 
     {
-        //console.log('Render: ', this.state.skills);
         return (
             <div>
                 {
@@ -95,14 +101,16 @@ class SkillsList extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <SkillItem  key={skill.id}
-                                                id={skill.id} 
-                                                skillID={skill.SkillID}
-                                                proficiencyID={skill.ProficiencyID}
-                                                mustHave={skill.IsMandatory}
-                                                showMustHave={this.state.showMustHave}
-                                                canEdit={this.state.canEdit}
-                                                onSkillChanged={this.onSkillChanged}
+                                        <SkillItem  key={ skill.id }
+                                                id={ skill.id } 
+                                                skillID={ skill.SkillID }
+                                                proficiencyID={ skill.ProficiencyID }
+                                                dictSkills = { this.state.dictSkills }
+                                                dictProficiencies = { this.state.dictProficiencies }
+                                                mustHave={ skill.IsMandatory }
+                                                showMustHave={ this.state.showMustHave }
+                                                canEdit={ this.state.canEdit }
+                                                onSkillChanged={ this.onSkillChanged }
                                          />
                                     </td>
                                     <td>                                        

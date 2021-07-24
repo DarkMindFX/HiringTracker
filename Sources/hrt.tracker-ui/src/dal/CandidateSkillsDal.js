@@ -53,6 +53,20 @@ class CandidateSkillsDal extends DalBase {
         }
     }
 
+    async getCandidateSkillsByCandidate(id)
+    {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.delete(`/candidateskills/bycandidate/${id}`);
+
+            return res;        
+        }
+        catch(error) {
+            return error.response;
+        }        
+    }
+
     async getCandidateSkills()
     {
         let inst = this.Instance;

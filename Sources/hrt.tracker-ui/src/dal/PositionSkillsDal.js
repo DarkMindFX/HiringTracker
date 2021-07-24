@@ -79,6 +79,20 @@ class PositionSkillsDal extends DalBase {
             return error.response;
         }
     }
+
+    async getPositionSkillsByPosition(positionid)
+    {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.get(`/positionskills/byposition/${positionid}`);
+
+            return res;        
+        }
+        catch(error) {
+            return error.response;
+        }        
+    }
 }
 
 module.exports = PositionSkillsDal;

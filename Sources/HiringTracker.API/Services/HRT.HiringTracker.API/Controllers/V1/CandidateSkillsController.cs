@@ -81,6 +81,58 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpGet("/bycandidate/{candidateid}"), ActionName("GetCandidateSkillByCandidateID")]
+        public IActionResult GetByCandidateID(System.Int64 candidateid)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entities = _dalCandidateSkill.GetByCandidateID(candidateid);
+            if (entities != null)
+            {
+                var dto = new List<DTO.CandidateSkill>();
+                dto.AddRange(entities.Select(e => { return CandidateSkillConvertor.Convert(e, this.Url); }));
+                
+                response = Ok(dto);
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.NotFound, $"CandidateSkills were not found [candidateid:{candidateid}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpGet("/byskill/{skillid}"), ActionName("GetCandidateSkillBySkillID")]
+        public IActionResult GetBySkillID(System.Int64 skillid)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entities = _dalCandidateSkill.GetBySkillID(skillid);
+            if (entities != null)
+            {
+                var dto = new List<DTO.CandidateSkill>();
+                dto.AddRange(entities.Select(e => { return CandidateSkillConvertor.Convert(e, this.Url); }));
+
+                response = Ok(dto);
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.NotFound, $"CandidateSkills were not found [skillid:{skillid}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
         [HttpDelete("{candidateid}/{skillid}"), ActionName("DeleteCandidateSkill")]
         public IActionResult Delete(System.Int64 candidateid, System.Int64 skillid)
         {

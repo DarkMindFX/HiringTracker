@@ -81,6 +81,68 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpGet("byposition/{positionid}"), ActionName("GetPositionSkillsByPositionID")]
+        public IActionResult GetByPositionID(System.Int64 positionid)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entities = _dalPositionSkill.GetByPositionID(positionid);
+            if (entities != null)
+            {
+                IList<DTO.PositionSkill> dtos = new List<DTO.PositionSkill>();
+
+                foreach (var p in entities)
+                {
+                    var dto = PositionSkillConvertor.Convert(p, this.Url);
+
+                    dtos.Add(dto);
+                }
+                response = Ok(dtos);
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.NotFound, $"PositionSkills were not found [positionid:{positionid}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpGet("byskill/{skillid}"), ActionName("GetPositionSkillsBySkillID")]
+        public IActionResult GetBySkillID(System.Int64 skillid)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var entities = _dalPositionSkill.GetBySkillID(skillid);
+            if (entities != null)
+            {
+                IList<DTO.PositionSkill> dtos = new List<DTO.PositionSkill>();
+
+                foreach (var p in entities)
+                {
+                    var dto = PositionSkillConvertor.Convert(p, this.Url);
+
+                    dtos.Add(dto);
+                }
+                response = Ok(dtos);
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.NotFound, $"PositionSkills were not found [skillid:{skillid}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
         [HttpDelete("{positionid}/{skillid}"), ActionName("DeletePositionSkill")]
         public IActionResult Delete(System.Int64 positionid, System.Int64 skillid)
         {

@@ -7,7 +7,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
+const constants = require('../constants');
 const SkillsDal = require('../dal/SkillsDal');
+const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
 
 class SkillItem extends React.Component {
 
@@ -18,6 +20,8 @@ class SkillItem extends React.Component {
             id: props.id,
             skillID: props.skillID,
             proficiencyID: props.proficiencyID,
+            dictSkills : props.dictSkills,
+            dictProficiencies: props.dictProficiencies,
             canEdit: props.canEdit ?  props.canEdit : false,
             mustHave: props.mustHave ? props.mustHave : false,
             showMustHave: props.showMustHave ? props.showMustHave : false,
@@ -36,20 +40,7 @@ class SkillItem extends React.Component {
 
     componentDidMount() {
 
-        let dal = new SkillsDal();
-        let obj = this;
-
-        dal.getSkills().then( (skills) => {
-
-            obj._setSkills(skills);
-
-            dal.getProficiencies().then( (profs) => {
-
-                obj._setProficiences(profs);
-                
-                obj._update();
-            } )
-        });
+        this._update();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -75,30 +66,29 @@ class SkillItem extends React.Component {
 
     onSkillChanged(event) {
 
-        let dal = new SkillsDal();
-        let obj = this;
+        let newSkillID = parseInt(event.target.value);
 
-        dal.getSkillByName(event.target.value).then( newSkill => {
-            obj._setSkill(newSkill); 
-            obj._notifySkillDataChanged(this.state.id, 
-                                        newSkill.SkillID,
+        let newSkill = this.state.dictSkills[newSkillID];
+
+        this._setSkill(newSkill); 
+        this._notifySkillDataChanged(this.state.id, 
+                                        newSkill.ID,
                                         this.state.proficiencyID,
-                                        this.state.mustHave);           
-        })
+                                        this.state.mustHave);
     }
 
     onProficiencyChanged(event) {
 
-        let dal = new SkillsDal();
-        let obj = this;
+        let newProfID = parseInt(event.target.value);
 
-        dal.getProficiencyByName(event.target.value).then( newProf => {
-            obj._setProficiency(newProf);
-            obj._notifySkillDataChanged(this.state.id, 
+        let newProf = this.state.dictProficiencies[newProfID];
+
+        this._setProficiency(newProf);
+        this._notifySkillDataChanged(this.state.id, 
                 this.state.skillID,
                 newProf.ProficiencyID,
                 this.state.mustHave);
-        })        
+                
     }
 
     onMustHaveChanged(event) {
@@ -128,15 +118,14 @@ class SkillItem extends React.Component {
             width: "100%"
         }
          
-        let key = 1;
-
-        let itemsSkills = this.state.skills.map( (skill) => (
-            <MenuItem id={skill.SkillID} key={skill.SkillID} value={skill.Name}>{skill.Name}</MenuItem>
+        let itemsSkills = Object.values( this.state.dictSkills ).map( (skill) => (
+            <MenuItem id={skill.id} key={skill.ID} value={skill.ID}>{skill.Name}</MenuItem>
         ));
 
-        let itemsProficiences = this.state.profs.map( (prof) => (
-            <MenuItem id={prof.ProfID} key={prof.ProfID} value={prof.Name}>{prof.Name}</MenuItem>            
+        let itemsProficiences = Object.values( this.state.dictProficiencies ).map( (prof) => (
+            <MenuItem id={prof.id} key={prof.ID} value={prof.ID}>{prof.Name}</MenuItem>            
         ) )
+
 
         return (
             <div>
@@ -145,7 +134,7 @@ class SkillItem extends React.Component {
                     <Select
                         minWidth={300}                   
                         key="cbSkill"                     
-                        value={this.state.skill ? this.state.skill.Name : ""}
+                        value={this.state.skill ? this.state.skill.ID : ""}
                         onChange={ (event) => this.onSkillChanged(event) }>
                         {
                             itemsSkills                            
@@ -155,7 +144,7 @@ class SkillItem extends React.Component {
                     <FormControl style={{minWidth: 250}}>
                     <Select 
                         key="cbProficiency"                       
-                        value={this.state.proficiency ? this.state.proficiency.Name : ""}
+                        value={this.state.proficiency ? this.state.proficiency.ID : ""}
                         onChange={ (event) => this.onProficiencyChanged(event) }
                         >
                         {
@@ -177,7 +166,7 @@ class SkillItem extends React.Component {
                         <tbody>
                             <tr>
                                 <td>
-                                    { this.state.skill ? this.state.skill.Name : "" } - { this.state.proficiency ? this.state.proficiency.Name : "" }
+                                    { this.state.skill ? this.state.SkillName : "" } - { this.state.proficiency ? this.state.ProficiencyName : "" }
                                 </td>
                                 <td>
                                     <div style={styleMustHave}>
@@ -197,17 +186,19 @@ class SkillItem extends React.Component {
         let dal = new SkillsDal();
         let obj = this;
 
-        dal.getSkill(this.state.skillID).then( (skill) => {
+        dal.getSkill(this.state.skillID).then( (skillResp) => {
 
-            if(!skill) return;
+            if(skillResp.status != constants.HTTP_OK) return;
             
-            obj._setSkill(skill);
+            obj._setSkill(skillResp.data);
 
-            dal.getProficiency(this.state.proficiencyID).then( (prof) => {
+            let dalSkillProficiences = new SkillProficienciesDal();
 
-                if(!prof) return;
+            dalSkillProficiences.getSkillProficiency(this.state.proficiencyID).then( (profResp) => {
 
-                obj._setProficiency(prof);
+                if(profResp.status != constants.HTTP_OK) return;
+
+                obj._setProficiency(profResp.data);
             } )
         } )
     }
@@ -222,29 +213,12 @@ class SkillItem extends React.Component {
             );
         }
     }
-    
-
-    _setSkills(skills) {
-        let updatedState = this.state;
-            
-        updatedState.skills = skills          
-        
-        this.setState(updatedState);
-    }
 
     _setSkill(skill) {
         let updatedState = this.state;
 
-        updatedState.skillID = skill.SkillID;
+        updatedState.skillID = skill.ID;
         updatedState.skill = skill;
-        
-        this.setState(updatedState);
-    }
-
-    _setProficiences(profs) {
-        let updatedState = this.state;
-
-        updatedState.profs = profs;
         
         this.setState(updatedState);
     }
@@ -252,7 +226,7 @@ class SkillItem extends React.Component {
     _setProficiency(prof) {
         let updatedState = this.state;
 
-        updatedState.proficiencyID = prof.ProficiencyID;
+        updatedState.proficiencyID = prof.ID;
         updatedState.proficiency = prof;
         
         this.setState(updatedState);

@@ -8,10 +8,12 @@ import { Button } from '@material-ui/core';
 import constants from "../constants";
 
 const CandidatesDal = require('../dal/CandidatesDal')
+const UsersDal = require('../dal/UsersDal')
 
 class CandidatesPage extends React.Component {
 
     _columns = null;
+    _users = null;
 
     constructor(props) {
         super(props);
@@ -24,6 +26,7 @@ class CandidatesPage extends React.Component {
         this._initColumns();
 
         this.onRowClick = this.onRowClick.bind(this);
+        this._getUsers = this._getUsers.bind(this);
     }
 
     onRowClick(event) {
@@ -38,6 +41,9 @@ class CandidatesPage extends React.Component {
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
         console.log('Token: ', token);
         if(token != null) {
+
+            this._getUsers();
+
             let dalCands = new CandidatesDal();
             let obj = this;
 
@@ -93,7 +99,7 @@ class CandidatesPage extends React.Component {
             { field: 'Email', headerName: 'Email', width: 150 },
             { field: 'Phone', headerName: 'Phone', width: 150 },
             { field: 'CreatedDate', headerName: 'Created On', width: 250 },
-            { field: 'CreatedBy', headerName: 'Create By', width: 250 }
+            { field: 'CreatedBy', headerName: 'Created By', width: 250 }
         ]        
     }
 
@@ -103,21 +109,36 @@ class CandidatesPage extends React.Component {
         let cs = this.state.candidates;
 
         for(let c in cs) {
+
+            let userCreated = this._users[cs[c].CreatedByID];
+
             let r = {
-                id: cs[c]._candidateId,
-                FirstName: cs[c]._fname,
-                MiddleName: cs[c]._mname,
-                LastName: cs[c]._lname,
-                Email: cs[c]._email,
-                Phone: cs[c]._phone,
-                CreatedDate: cs[c]._createdDate,
-                CreatedBy: cs[c]._createdBy._fname + ' ' + cs[c]._createdBy._lname
+                id: cs[c].ID,
+                FirstName: cs[c].FirstName,
+                MiddleName: cs[c].MiddleName,
+                LastName: cs[c].LastName,
+                Email: cs[c].Email,
+                Phone: cs[c].Phone,
+                CreatedDate: cs[c].CreatedDate,
+                CreatedBy: userCreated.FirstName + ' ' + userCreated.LastName
             };
 
             records.push(r);
         }
 
         return records;
+    }
+
+    async _getUsers() {
+        this._users = {};
+        let usersDal = new UsersDal();
+        let users = await usersDal.getUsers();
+
+        for(let s in users.data)
+        {
+             this._users[users.data[s].ID] = users.data[s];             
+        }
+
     }
 }
 

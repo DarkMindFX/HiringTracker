@@ -15,6 +15,7 @@ import constants from "../constants";
 const { v4: uuidv4 } = require('uuid');
 
 const CandidatesDal = require("../dal/CandidatesDal")
+const CandidateSkillsDal = require("../dal/CandidateSkillsDal")
 const { CandidateDto, CandidateUpsertDto, CandidateSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
 
 class CandidatePage extends React.Component {
@@ -58,6 +59,7 @@ class CandidatePage extends React.Component {
 
             if(this.state.id) {
                 let dalCand = new CandidatesDal();
+                let dalCandSkills = new CandidateSkillsDal();
                 let obj = this;
 
                 dalCand.getCandidate(this.state.id).then( (resCand) => {
@@ -71,7 +73,7 @@ class CandidatePage extends React.Component {
 
                         obj.setState(updatedState); 
 
-                        dalCand.getCandidateSkills(obj.state.id).then( (resSkills) => {
+                        dalCandSkills.getCandidateSkills(obj.state.id).then( (resSkills) => {
                             let updatedState = obj.state;
 
                             if(resSkills.status == constants.HTTP_OK) {   

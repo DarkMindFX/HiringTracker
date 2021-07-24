@@ -11,12 +11,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
 
 const PositionsDal = require('../dal/PositionsDal');
+const PositionSkillsDal = require('../dal/PositionSkillsDal');
+const SkillsDal = require('../dal/SkillsDal');
+const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
 const { PositionDto, PositionUpsertDto, PositionStatusDto, PositionSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');
 
 class PositionPage extends React.Component {
+
+    _skills = null;
+    _proficiences = null;
 
     constructor(props) {
         super(props);
@@ -46,57 +52,49 @@ class PositionPage extends React.Component {
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
+        this._getSkills = this._getSkills.bind(this);
+        this._getSkillProficiencies = this._getSkillProficiencies.bind(this);
     }
-
-    onStatusChanged(event) {
-
-        let updatedState = this.state;        
-
-        let newStatusId = parseInt(event.target.value);
-       
-        updatedState.position._status._statusId = newStatusId;
-        updatedState.position._status._name = constants.POSITION_STATUSES.find( s => { return s.statusID == newStatusId } ).name;
-
-        console.log(updatedState);
-
-        this.setState(updatedState);
-    }    
 
     componentDidMount() {
 
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
-        console.log('Token: ', token);
         if(token != null) {
 
             if(this.state.id) {
+
                 let dalPos = new PositionsDal();
                 let obj = this;
 
-                dalPos.getPosition(this.state.id).then( (resPos) => {
+                dalPos.getPosition(this.state.id).then( async (resPos) => {
                     let updatedState = obj.state;
 
                     if(resPos.status == constants.HTTP_OK) {
 
+                        await obj._getSkills();
+                        await obj._getSkillProficiencies();
+    
                         updatedState.position = resPos.data;
                         updatedState.showError = false;
                         updatedState.error = null;
 
                         obj.setState(updatedState); 
 
-                        dalPos.getPositionSkills(obj.state.id).then( (resSkills) => {
+                        let dalPosSkills = new PositionSkillsDal();
 
-                            let updatedState = obj.state;
+                        dalPosSkills.getPositionSkillsByPosition(obj.state.id).then( (resSkills) => {
+
+                            let updatedState = obj.state;                            
 
                             if(resSkills.status == constants.HTTP_OK) {   
                                 const skills = resSkills.data;                     
-                                updatedState.position._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                                updatedState.position.Skills = skills.map(s => { s.id = uuidv4(); return s; });
                                 updatedState.showError = false;
                                 updatedState.error = null;
-                                
                             } 
                             else {
                                 updatedState.showError = true;
-                                updatedState.error = resPos.data._message;
+                                updatedState.error = resPos.data.Message;
                             }
 
                             obj.setState(updatedState);
@@ -110,7 +108,7 @@ class PositionPage extends React.Component {
                     }
                     else {
                         updatedState.showError = true;
-                        updatedState.error = resPos.data._message;                    
+                        updatedState.error = resPos.data.Message;                    
                     }
 
                     obj.setState(updatedState);
@@ -126,18 +124,28 @@ class PositionPage extends React.Component {
         }
     }
 
+    onStatusChanged(event) {
+
+        let updatedState = this.state;        
+
+        let newStatusId = parseInt(event.target.value);
+       
+        updatedState.position.StatusID = newStatusId;
+        updatedState.position.StatusName = constants.POSITION_STATUSES.find( s => { return s.statusID == newStatusId } ).name;
+
+        this.setState(updatedState);
+    }    
+
     onSkillChanged(updatedSkill) {
 
         let updatedState = this.state;
 
-        let skill = updatedState.position._skills.find( s => { return s.id == updatedSkill.id; } );
+        let skill = updatedState.position.Skills.find( s => { return s.id == updatedSkill.id; } );
 
         if(skill != null) {
-            skill._skill._skillId = updatedSkill.SkillID;
-            skill._skill._name = "";
-            skill._proficiency._id = updatedSkill.ProficiencyID;
-            skill._proficiency._name = "";
-            skill._isMandatory = updatedSkill.IsMandatory;
+            skill.SkillID = updatedSkill.SkillID;
+            skill.ProficiencyID = updatedSkill.ProficiencyID;
+            skill.IsMandatory = updatedSkill.IsMandatory;
 
             this.setState(updatedState);
         }        
@@ -147,15 +155,12 @@ class PositionPage extends React.Component {
         let updatedState = this.state;
         let newSkillRec = {
             id: newSkill.id,
-            _skill: {
-                _skillId: newSkill.SkillID
-            },
-            _proficiency: {
-                _id: newSkill.ProficiencyID
-            },
-            _isMandatory: newSkill.IsMandatory
+            PositionID: this.id,
+            SkillID: newSkill.SkillID,
+            ProficiencyID: newSkill.ProficiencyID,
+            IsMandatory: newSkill.IsMandatory
         }
-        updatedState.position._skills.push(newSkillRec)
+        updatedState.position.Skills.push(newSkillRec)
 
         this.setState(updatedState);
 
@@ -163,9 +168,9 @@ class PositionPage extends React.Component {
 
     onSkillDeleted(id) {
         let updatedState = this.state;
-        let idx = updatedState.position._skills.findIndex( s => { return s.id == id; } );
+        let idx = updatedState.position.Skills.findIndex( s => { return s.id == id; } );
         if(idx >= 0) {
-            updatedState.position._skills.splice(idx, 1);
+            updatedState.position.Skills.splice(idx, 1);
             this.setState(updatedState);
         }
     }
@@ -174,7 +179,7 @@ class PositionPage extends React.Component {
         const newTitle = event.target.value;
 
         let updatedState = this.state;
-        updatedState.position._title = newTitle;
+        updatedState.position.Title = newTitle;
         this.setState(updatedState);
     }
 
@@ -182,7 +187,7 @@ class PositionPage extends React.Component {
         const newShortDesc = event.target.value;
 
         let updatedState = this.state;
-        updatedState.position._shortDesc = newShortDesc;
+        updatedState.position.ShortDesc = newShortDesc;
         this.setState(updatedState);
     }
 
@@ -190,12 +195,13 @@ class PositionPage extends React.Component {
         const newDesc = event.target.value;
 
         let updatedState = this.state;
-        updatedState.position._desc = newDesc;
+        updatedState.position.Description = newDesc;
         this.setState(updatedState);
     }
 
     onSaveClicked() {
 
+        /*
         const req = new PositionUpsertDto();
         req.Position = new PositionDto();
         req.Position.PositionID = this.state.id;
@@ -207,7 +213,7 @@ class PositionPage extends React.Component {
 
         req.Skills = [];
 
-        this.state.position._skills.forEach( s => {
+        this.state.position.Skills.forEach( s => {
 
             const sp = new PositionSkillDto();
             sp.Skill = new SkillDto();
@@ -270,6 +276,7 @@ class PositionPage extends React.Component {
                                     .then( (res) => { upsertThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });        
         }
+        */
     }
 
     onDeleteClicked() {
@@ -352,7 +359,7 @@ class PositionPage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Position Title" 
-                                            value={this.state.position._title}
+                                            value={this.state.position.Title}
                                             onChange={ (event) => { this.onTitleChanged(event) } }
                                             />
                                 
@@ -365,7 +372,7 @@ class PositionPage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Short Description" 
-                                            value={this.state.position._shortDesc}
+                                            value={this.state.position.ShortDesc}
                                             onChange={ (event) => { this.onShortDescChanged(event) } }
                                             /></td>
                         </tr>
@@ -375,7 +382,7 @@ class PositionPage extends React.Component {
                                                 fullWidth
                                                 select 
                                                 label="Status" 
-                                                value={ this.state.position._status ? this.state.position._status._statusId : Object.keys(constants.POSITION_STATUSES)[0] }
+                                                value={ this.state.position.StatusID ? this.state.position.StatusID : Object.keys(constants.POSITION_STATUSES)[0] }
                                                 onChange={ (event) => this.onStatusChanged(event) }>
                                         {
                                             constants.POSITION_STATUSES.map( (status) => (
@@ -397,21 +404,25 @@ class PositionPage extends React.Component {
                                             variant="filled" 
                                             multiline 
                                             fullWidth
-                                            defaultValue={this.state.position._desc}
+                                            defaultValue={this.state.position.Description}
                                             onChange={ (event) => { this.onDescChanged(event) } }
                                             rows="10"/>
                             </td>
                         </tr>
                         <tr>
                             <td colSpan={4}>
+                                
                                 <SkillsList id="positionSkills"
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
                                     showMustHave = { true }
+                                    dictSkills = { this._skills }
+                                    dictProficiencies = { this._proficiences }
                                     onSkillAdded = { this.onSkillAdded }
                                     onSkillChanged = { this.onSkillChanged }
                                     onSkillDeleted = { this.onSkillDeleted }
-                                 />
+                                />
+                                
                             </td>
                         </tr>
                     </tbody>
@@ -439,28 +450,58 @@ class PositionPage extends React.Component {
     }
 
     _createEmptyPositionObj() {
-        let pos = {
-            _title: "",
-            _shortDesc: "",
-            _desc: "",
-            _status: { _statusId: 1,  _name: "Draft"},
-            _skills: []
-        }
+        let pos = new PositionDto();
+        pos.Skills = [];
 
         return pos;
+    }
+
+    async _getSkills()
+    {
+        if(this._skills == null)
+        {            
+            let dalSkills = new SkillsDal();
+            let resp = await dalSkills.getSkills();
+
+            this._skills = {};
+
+            for(let s in resp.data)
+            {
+                this._skills[ resp.data[s].ID ] = resp.data[s];
+            }
+        }
+    }
+
+    async _getSkillProficiencies()
+    {
+        if(this._proficiences == null)
+        {            
+            let dalSkillProficiences = new SkillProficienciesDal();
+            let resp = await dalSkillProficiences.getSkillProficiencies();
+                
+            this._proficiences = {};
+
+            for(let s in resp.data)
+            {
+                this._proficiences[ resp.data[s].ID ] = resp.data[s];
+            }
+        }
     }
 
     _getPositionSkills() {
         let skills = [];
 
-        if( this.state.position._skills ) {
+        if(this.state.position.Skills ) {    
+
+            let obj = this;
             
-            this.state.position._skills.forEach( s => {
+            this.state.position.Skills.forEach( s => {
+
                 let skill = {
                     id: s.id,
-                    SkillID: s._skill._skillId, 
-                    ProficiencyID: s._proficiency._id, 
-                    IsMandatory: s._isMandatory
+                    SkillID: s.SkillID, 
+                    ProficiencyID: s.SkillProficiencyID, 
+                    IsMandatory: s.IsMandatory
                 };
                 skills.push(skill);
             })
