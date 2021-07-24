@@ -37,5 +37,10 @@ namespace HRT.HiringTracker.API.Dal
         {
             return _dalImpl.GetBySkillProficiencyID(SkillProficiencyID);
         }
+
+        public void SetPositionSkills(long PositionID, IList<PositionSkill> Skills)
+        {
+            _dalImpl.SetPositionSkills(PositionID, Skills);
+        }
     }
 }

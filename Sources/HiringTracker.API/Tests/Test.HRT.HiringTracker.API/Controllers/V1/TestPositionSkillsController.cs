@@ -238,7 +238,88 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             }
         }
 
+        [Fact]
+        public void PositionSkill_UpsertSkills_Success()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                HRT.Interfaces.Entities.Position testEntity = AddTestPositionEntity();
+                try
+                {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var dtos = new List<HRT.DTO.PositionSkill>();
+                    dtos.Add(new HRT.DTO.PositionSkill() { PositionID = (long)testEntity.ID, IsMandatory = true, SkillID = 1, SkillProficiencyID = 1 });
+                    dtos.Add(new HRT.DTO.PositionSkill() { PositionID = (long)testEntity.ID, IsMandatory = false, SkillID = 2, SkillProficiencyID = 2 });
+                    dtos.Add(new HRT.DTO.PositionSkill() { PositionID = (long)testEntity.ID, IsMandatory = true, SkillID = 3, SkillProficiencyID = 3 });
+
+                    var content = CreateContentJson(dtos);
+
+                    var respUpdate = client.PostAsync($"/api/v1/positionskills/byposition/{testEntity.ID}", content);
+
+                    Assert.Equal(HttpStatusCode.OK, respUpdate.Result.StatusCode);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
+            }
+        }
+
+        [Fact]
+        public void PositionSkill_UpsertSkills_InvalidPositionID()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                long positionID = Int64.MaxValue - 1;
+
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                var dtos = new List<HRT.DTO.PositionSkill>();
+                dtos.Add(new HRT.DTO.PositionSkill() { PositionID = positionID, IsMandatory = true, SkillID = 1, SkillProficiencyID = 1 });
+                dtos.Add(new HRT.DTO.PositionSkill() { PositionID = positionID, IsMandatory = false, SkillID = 2, SkillProficiencyID = 2 });
+                dtos.Add(new HRT.DTO.PositionSkill() { PositionID = positionID, IsMandatory = true, SkillID = 3, SkillProficiencyID = 3 });
+
+                var content = CreateContentJson(dtos);
+
+                var respUpdate = client.PostAsync($"/api/v1/positionskills/byposition/{positionID}", content);
+
+                Assert.Equal(HttpStatusCode.NotFound, respUpdate.Result.StatusCode);
+            }
+        }
+
         #region Support methods
+
+        protected HRT.Interfaces.Entities.Position CreateTestPositionEntity()
+        {
+            var entity = new HRT.Interfaces.Entities.Position();
+            entity.Title = "Title c032aeeb21d542d297a145020a28d1f5";
+            entity.ShortDesc = "ShortDesc c032aeeb21d542d297a145020a28d1f5";
+            entity.Description = "Description c032aeeb21d542d297a145020a28d1f5";
+            entity.StatusID = 2;
+            entity.CreatedDate = DateTime.Parse("8/19/2022 1:17:37 PM");
+            entity.CreatedByID = 100005;
+            entity.ModifiedDate = DateTime.Parse("4/5/2020 9:18:37 AM");
+            entity.ModifiedByID = 100003;
+
+            return entity;
+        }
+
+        protected HRT.Interfaces.Entities.Position AddTestPositionEntity()
+        {
+            HRT.Interfaces.Entities.Position result = null;
+
+            var entity = CreateTestPositionEntity();
+
+            var dal = CreatePositionDal();
+            result = dal.Insert(entity);
+
+            return result;
+        }
 
         protected bool RemoveTestEntity(HRT.Interfaces.Entities.PositionSkill entity)
         {
@@ -246,10 +327,22 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 var dal = CreateDal();
 
-                return dal.Delete(
-                                        entity.PositionID,
-                                        entity.SkillID
-                );
+                return dal.Delete(entity.PositionID,
+                                        entity.SkillID);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected bool RemoveTestEntity(HRT.Interfaces.Entities.Position entity)
+        {
+            if (entity != null)
+            {
+                var dal = CreatePositionDal();
+
+                return dal.Delete(entity.ID);
             }
             else
             {
@@ -285,6 +378,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             var initParams = GetTestParams("DALInitParams");
 
             HRT.Interfaces.IPositionSkillDal dal = new HRT.DAL.MSSQL.PositionSkillDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = (string)initParams.Settings["ConnectionString"];
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
+        private HRT.Interfaces.IPositionDal CreatePositionDal()
+        {
+            var initParams = GetTestParams("DALInitParams");
+
+            HRT.Interfaces.IPositionDal dal = new HRT.DAL.MSSQL.PositionDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = (string)initParams.Settings["ConnectionString"];
             dal.Init(dalInitParams);

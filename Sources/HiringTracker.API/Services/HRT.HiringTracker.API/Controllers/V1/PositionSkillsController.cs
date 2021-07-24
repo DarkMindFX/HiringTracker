@@ -21,13 +21,16 @@ namespace HRT.HiringTracker.API.Controllers.V1
     public class PositionSkillsController : BaseController
     {
         private readonly Dal.IPositionSkillDal _dalPositionSkill;
+        private readonly Dal.IPositionDal _dalPosition;
         private readonly ILogger<PositionSkillsController> _logger;
 
 
-        public PositionSkillsController( Dal.IPositionSkillDal dalPositionSkill,
-                                    ILogger<PositionSkillsController> logger)
+        public PositionSkillsController(    Dal.IPositionSkillDal dalPositionSkill,
+                                            Dal.IPositionDal dalPosition,
+                                            ILogger<PositionSkillsController> logger)
         {
-            _dalPositionSkill = dalPositionSkill; 
+            _dalPositionSkill = dalPositionSkill;
+            _dalPosition = dalPosition;
             _logger = logger;
         }
 
@@ -214,6 +217,35 @@ namespace HRT.HiringTracker.API.Controllers.V1
             else
             {
                 response = NotFound($"PositionSkill not found [ids:{newEntity.PositionID}, {newEntity.SkillID}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpPost("byposition/{positionid}"), ActionName("UpsetPositionSkills")]
+        public IActionResult UpsertPositionSkills(System.Int64 positionid, IList<DTO.PositionSkill> skills)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var position = _dalPosition.Get(positionid);
+            if (position != null)
+            {
+
+                var entities = new List<PositionSkill>();
+                entities.AddRange(skills.Select(s => PositionSkillConvertor.Convert(s)));
+
+                _dalPositionSkill.SetPositionSkills(positionid, entities);
+
+                response = Ok();
+            }
+            else
+            {
+                response = NotFound($"Position was not found: [positionid:{positionid}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");

@@ -265,9 +265,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 var dal = CreateDal();
 
-                return dal.Delete(
-                                        entity.ID
-                );
+                return dal.Delete(entity.ID);
             }
             else
             {
