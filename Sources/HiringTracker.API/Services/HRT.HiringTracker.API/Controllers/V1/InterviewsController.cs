@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             Interview newEntity = _dalInterview.Insert(entity);
 
-            response = Ok(InterviewConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, InterviewConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

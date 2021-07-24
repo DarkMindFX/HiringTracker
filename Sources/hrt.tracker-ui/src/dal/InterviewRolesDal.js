@@ -17,7 +17,7 @@ class InterviewRolesDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/interviewroles`, newInterviewRole);
+            let res = await inst.post(`/interviewroles`, newInterviewRole);
 
             return res;
         }
@@ -31,7 +31,7 @@ class InterviewRolesDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/interviewroles`, updatedInterviewRole);
+            let res = await inst.put(`/interviewroles`, updatedInterviewRole);
 
             return res;
         }

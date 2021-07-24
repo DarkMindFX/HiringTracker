@@ -43,20 +43,21 @@ class SkillItem extends React.Component {
         this._update();
     }
 
+    /*
     static getDerivedStateFromProps(props, state) {
-        if( props.canEdit !== state.canEdit ||
-            props.skillID !== state.skillID ||
+        if( props.canEdit != state.canEdit ||
+            props.skillID != state.skillID ||
             props.dictSkills != state.dictSkills ||
             props.dictProficiencies != state.dictProficiencies ||
-            props.proficiencyID !== state.proficiencyID ||
-            props.mustHave !== state.mustHave )
+            props.proficiencyID != state.proficiencyID ||
+            props.mustHave != state.mustHave )
         {
             let updatedState = {
                 canEdit:  props.canEdit,
                 skillID:  props.skillID,
-                dictSkills : props.dictSkills,
-                dictProficiencies: props.dictProficiencies,
                 proficiencyID:  props.proficiencyID,
+                dictSkills : props.dictSkills,
+                dictProficiencies: props.dictProficiencies,                
                 mustHave:  props.mustHave
             }    
 
@@ -66,7 +67,7 @@ class SkillItem extends React.Component {
         {
             return null;
         }
-    }
+    }*/
 
     onSkillChanged(event) {
 
@@ -90,7 +91,7 @@ class SkillItem extends React.Component {
         this._setProficiency(newProf);
         this._notifySkillDataChanged(this.state.id, 
                                         this.state.skillID,
-                                        newProf.ProficiencyID,
+                                        newProf.ID,
                                         this.state.mustHave);
                 
     }
@@ -201,10 +202,9 @@ class SkillItem extends React.Component {
             dalSkillProficiences.getSkillProficiency(this.state.proficiencyID).then( (profResp) => {
 
                 if(profResp.status != constants.HTTP_OK) return;
-
                 obj._setProficiency(profResp.data);
-            } )
-        } )
+            })
+        })
     }
 
     _notifySkillDataChanged(id, skillID, proficiencyID, mustHave) {

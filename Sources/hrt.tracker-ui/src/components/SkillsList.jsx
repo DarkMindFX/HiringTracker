@@ -61,8 +61,8 @@ class SkillsList extends React.Component {
 
         let newSkill = {
             id: uuidv4(),
-            SkillID: null,
-            ProficiencyID: null,
+            SkillID: 1, // Object.values(updatedState.dictSkills)[0].ID,
+            SkillProficiencyID: 1, //Object.values(updatedState.dictProficiencies)[0].ID,
             IsMandatory: false
         }
 
@@ -70,7 +70,6 @@ class SkillsList extends React.Component {
     }
 
     onDeleteSkill(id) {
-        console.log('Deleting: ' + id);
         
         let skillIdx = this.state.skills.findIndex( s => s.id == id );
         if(skillIdx >= 0) {
@@ -84,7 +83,7 @@ class SkillsList extends React.Component {
         let updatedSkill = updatedState.skills.find( s => s.id == id );
         if(updatedSkill != null) {
             updatedSkill.SkillID = skillID;
-            updatedSkill.ProficiencyID = profID;
+            updatedSkill.SkillProficiencyID = profID;
             updatedSkill.IsMandatory = isMandatory;
 
             this.state.onSkillChanged(updatedSkill);
@@ -104,7 +103,7 @@ class SkillsList extends React.Component {
                                         <SkillItem  key={ skill.id }
                                                 id={ skill.id } 
                                                 skillID={ skill.SkillID }
-                                                proficiencyID={ skill.ProficiencyID }
+                                                proficiencyID={ skill.SkillProficiencyID }
                                                 dictSkills = { this.state.dictSkills }
                                                 dictProficiencies = { this.state.dictProficiencies }
                                                 mustHave={ skill.IsMandatory }

@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             CandidateProperty newEntity = _dalCandidateProperty.Insert(entity);
 
-            response = Ok(CandidatePropertyConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, CandidatePropertyConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

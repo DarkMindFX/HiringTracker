@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             Department newEntity = _dalDepartment.Insert(entity);
 
-            response = Ok(DepartmentConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, DepartmentConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

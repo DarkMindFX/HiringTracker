@@ -17,7 +17,7 @@ class CandidatePropertiesDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/candidateproperties`, newCandidateProperty);
+            let res = await inst.post(`/candidateproperties`, newCandidateProperty);
 
             return res;
         }
@@ -31,7 +31,7 @@ class CandidatePropertiesDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/candidateproperties`, updatedCandidateProperty);
+            let res = await inst.put(`/candidateproperties`, updatedCandidateProperty);
 
             return res;
         }

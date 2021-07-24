@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             CandidateComment newEntity = _dalCandidateComment.Insert(entity);
 
-            response = Ok(CandidateCommentConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, CandidateCommentConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

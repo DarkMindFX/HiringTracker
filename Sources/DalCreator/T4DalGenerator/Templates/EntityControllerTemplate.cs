@@ -596,7 +596,8 @@ using Microsoft.AspNetCore.Authorization;
             
             #line default
             #line hidden
-            this.Write(".Insert(entity);\r\n\r\n            response = Ok(");
+            this.Write(".Insert(entity);\r\n\r\n            response =StatusCode((int)HttpStatusCode.Created," +
+                    " ");
             
             #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));

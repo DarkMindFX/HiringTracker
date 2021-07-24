@@ -173,7 +173,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             <#= table.Name #> newEntity = _dal<#= table.Name #>.Insert(entity);
 
-            response = Ok(<#= table.Name #>Convertor.Convert(newEntity, this.Url));
+            response =StatusCode((int)HttpStatusCode.Created, <#= table.Name #>Convertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

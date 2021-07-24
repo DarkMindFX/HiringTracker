@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             Skill newEntity = _dalSkill.Insert(entity);
 
-            response = Ok(SkillConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, SkillConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

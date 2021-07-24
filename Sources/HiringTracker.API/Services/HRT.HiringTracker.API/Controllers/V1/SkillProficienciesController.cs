@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             SkillProficiency newEntity = _dalSkillProficiency.Insert(entity);
 
-            response = Ok(SkillProficiencyConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, SkillProficiencyConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

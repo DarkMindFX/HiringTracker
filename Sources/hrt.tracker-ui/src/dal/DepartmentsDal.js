@@ -17,7 +17,7 @@ class DepartmentsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/departments`, newDepartment);
+            let res = await inst.post(`/departments`, newDepartment);
 
             return res;
         }
@@ -31,7 +31,7 @@ class DepartmentsDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/departments`, updatedDepartment);
+            let res = await inst.put(`/departments`, updatedDepartment);
 
             return res;
         }

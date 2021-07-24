@@ -14,7 +14,7 @@ const PositionsDal = require('../dal/PositionsDal');
 const PositionSkillsDal = require('../dal/PositionSkillsDal');
 const SkillsDal = require('../dal/SkillsDal');
 const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
-const { PositionDto, PositionUpsertDto, PositionStatusDto, PositionSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
+const { PositionDto, PositionStatusDto, PositionSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');
@@ -147,11 +147,13 @@ class PositionPage extends React.Component {
 
         if(skill != null) {
             skill.SkillID = updatedSkill.SkillID;
-            skill.ProficiencyID = updatedSkill.ProficiencyID;
+            skill.SkillProficiencyID = updatedSkill.SkillProficiencyID;
             skill.IsMandatory = updatedSkill.IsMandatory;
 
             this.setState(updatedState);
-        }        
+        }  
+        
+        console.log("onSkillChanged", this.state.position.Skills);
     }   
 
     onSkillAdded(newSkill) {
@@ -160,7 +162,7 @@ class PositionPage extends React.Component {
             id: newSkill.id,
             PositionID: this.id,
             SkillID: newSkill.SkillID,
-            ProficiencyID: newSkill.ProficiencyID,
+            SkillProficiencyID: newSkill.SkillProficiencyID,
             IsMandatory: newSkill.IsMandatory
         }
         updatedState.position.Skills.push(newSkillRec)
@@ -205,47 +207,41 @@ class PositionPage extends React.Component {
     onSaveClicked() {
 
         console.log("Saving position: ", this.state.position);
+        
 
-        /*
-        const req = new PositionUpsertDto();
-        req.Position = new PositionDto();
-        req.Position.PositionID = this.state.id;
-        req.Position.Title = this.state.position._title;
-        req.Position.ShortDesc = this.state.position._shortDesc;
-        req.Position.Desc = this.state.position._desc;
-        req.Position.Status = new PositionStatusDto();
-        req.Position.Status.StatusID = this.state.position._status._statusId;
+        let reqPosition = new PositionDto();
+        reqPosition.PositionID = this.state.id;
+        reqPosition.Title = this.state.position.Title;
+        reqPosition.ShortDesc = this.state.position.ShortDesc;
+        reqPosition.Description = this.state.position.Description;
+        reqPosition.StatusID = this.state.position.StatusID;
 
-        req.Skills = [];
+        let reqPositionSkills = this.state.position.Skills.map( ps => { 
+            var dto = new PositionSkillDto();
+            dto.SkillID = ps.SkillID;
+            dto.SkillProficiencyID = ps.SkillProficiencyID;
+            dto.IsMandatory = ps.IsMandatory;
+            return dto;
+        });
+        
 
-        this.state.position.Skills.forEach( s => {
-
-            const sp = new PositionSkillDto();
-            sp.Skill = new SkillDto();
-            sp.Skill.SkillID = s._skill._skillId;
-            sp.Proficiency = new SkillProficiencyDto();
-            sp.Proficiency.ProficiencyID = s._proficiency._id
-            sp.IsMandatory = s._isMandatory;
-
-            req.Skills.push(sp);
-
-        } );
-
+        console.log("Saving Position: ", reqPosition);   
+        console.log("Saving Skills: ", reqPositionSkills);         
+        
         let dalPos = new PositionsDal();
         let result = null;
 
         let obj = this;
-        
 
-        function upsertThen(result) {
+        function upsertPositionThen(result) {
             const updatedState = obj.state;
 
             if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
                 if(result.status == constants.HTTP_Created) {
-                    updatedState.id = parseInt(result._positionId);
-                    updatedState.success = `Position was created. Position ID: ${updatedState.id}`;
+                    updatedState.id = result.data.ID;
+                    updatedState.success = `Position was created. ID: ${updatedState.id}`;
                 }
                 else {
                     updatedState.success = `Position was updated`;                
@@ -254,7 +250,32 @@ class PositionPage extends React.Component {
             else {
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
-                updatedState.error = result.data._message;          
+                updatedState.error = result.data.Message;          
+            }
+
+            obj.setState(updatedState);
+
+            /*
+            let dalPositionSkills = new PositionSkillsDal();
+            dalPositionSkills.setPositionSkills(updatedState.id, reqPositionSkills)
+                             .then( (res) => { upsertSkillsThen(res) } )
+                             .catch( (res) => { upsertCatch(res) } );*/
+        }
+        
+
+        function upsertSkillsThen(result) {
+            const updatedState = obj.state;
+
+            console.log("upsertSkillsThen", result);
+
+            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+            }
+            else {
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = result.data.Message;          
             }
 
             obj.setState(updatedState);
@@ -269,19 +290,17 @@ class PositionPage extends React.Component {
             obj.setState(updatedState);
         }
 
-        console.log("Upserting: ", req);
-
         if(this.state.id != null) {
-            dalPos.updatePosition(req)
-                                    .then( (res) => { upsertThen(res); } )
+            dalPos.updatePosition(reqPosition)
+                                    .then( (res) => { upsertPositionThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });
         }
         else {
-            dalPos.addPosition(req)
-                                    .then( (res) => { upsertThen(res); } )
+            dalPos.insertPosition(reqPosition)
+                                    .then( (res) => { upsertPositionThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });        
         }
-        */
+        
     }
 
     onDeleteClicked() {
@@ -309,7 +328,7 @@ class PositionPage extends React.Component {
                 const updatedState = obj.state;
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
-                updatedState.error = res.data._message; 
+                updatedState.error = res.data.Message; 
                 updatedState.showDeleteConfirm = false;
                 obj.setState(updatedState);               
             }
@@ -457,6 +476,7 @@ class PositionPage extends React.Component {
     _createEmptyPositionObj() {
         let pos = new PositionDto();
         pos.Skills = [];
+        pos.StatusID = 1;
 
         return pos;
     }
@@ -505,7 +525,7 @@ class PositionPage extends React.Component {
                 let skill = {
                     id: s.id,
                     SkillID: s.SkillID, 
-                    ProficiencyID: s.SkillProficiencyID, 
+                    SkillProficiencyID: s.SkillProficiencyID, 
                     IsMandatory: s.IsMandatory
                 };
                 skills.push(skill);

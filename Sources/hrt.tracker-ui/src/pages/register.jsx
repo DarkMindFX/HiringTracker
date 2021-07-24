@@ -39,7 +39,7 @@ class RegisterPage extends React.Component {
         const dal = new UsersDal();
         dal.registerUser(this.state.user).then( (res) => {
             let updatedState = this.state;
-            if(res.status == constants.HTTP_OK) {
+            if(res.status == constants.HTTP_Created) {
                 
                 updatedState.showSuccess = true;
                 updatedState.showError = false;

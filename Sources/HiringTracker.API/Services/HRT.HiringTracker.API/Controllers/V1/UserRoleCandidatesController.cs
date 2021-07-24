@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             UserRoleCandidate newEntity = _dalUserRoleCandidate.Insert(entity);
 
-            response = Ok(UserRoleCandidateConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, UserRoleCandidateConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

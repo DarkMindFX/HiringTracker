@@ -60,7 +60,7 @@ namespace T4DalGenerator.Templates
             #line default
             #line hidden
             this.Write(") {\r\n        let inst = this.Instance;\r\n\r\n        try {\r\n            let res = aw" +
-                    "ait inst.put(`/");
+                    "ait inst.post(`/");
             
             #line 29 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
@@ -91,7 +91,7 @@ namespace T4DalGenerator.Templates
             #line default
             #line hidden
             this.Write(") {\r\n        let inst = this.Instance;\r\n        \r\n        try {\r\n            let " +
-                    "res = await inst.post(`/");
+                    "res = await inst.put(`/");
             
             #line 43 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsClientDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));

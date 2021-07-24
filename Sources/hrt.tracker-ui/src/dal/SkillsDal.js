@@ -17,7 +17,7 @@ class SkillsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/skills`, newSkill);
+            let res = await inst.post(`/skills`, newSkill);
 
             return res;
         }
@@ -31,7 +31,7 @@ class SkillsDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/skills`, updatedSkill);
+            let res = await inst.put(`/skills`, updatedSkill);
 
             return res;
         }

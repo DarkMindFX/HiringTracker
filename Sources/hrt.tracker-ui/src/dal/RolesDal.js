@@ -17,7 +17,7 @@ class RolesDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/roles`, newRole);
+            let res = await inst.post(`/roles`, newRole);
 
             return res;
         }
@@ -31,7 +31,7 @@ class RolesDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/roles`, updatedRole);
+            let res = await inst.put(`/roles`, updatedRole);
 
             return res;
         }

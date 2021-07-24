@@ -17,7 +17,7 @@ class PositionStatusesDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/positionstatuses`, newPositionStatus);
+            let res = await inst.post(`/positionstatuses`, newPositionStatus);
 
             return res;
         }
@@ -31,7 +31,7 @@ class PositionStatusesDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/positionstatuses`, updatedPositionStatus);
+            let res = await inst.put(`/positionstatuses`, updatedPositionStatus);
 
             return res;
         }

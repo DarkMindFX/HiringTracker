@@ -17,7 +17,7 @@ class PositionSkillsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/positionskills`, newPositionSkill);
+            let res = await inst.post(`/positionskills`, newPositionSkill);
 
             return res;
         }
@@ -31,11 +31,25 @@ class PositionSkillsDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/positionskills`, updatedPositionSkill);
+            let res = await inst.put(`/positionskills`, updatedPositionSkill);
 
             return res;
         }
         catch(error) {
+            return error.response;
+        }
+    }
+
+    async setPositionSkills(positionid, positionSkills) {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.post(`/positionskills/byposition/${positionid}`, positionSkills);
+
+            return res;
+        }
+        catch(error) {
+            console.log(error.response);
             return error.response;
         }
     }

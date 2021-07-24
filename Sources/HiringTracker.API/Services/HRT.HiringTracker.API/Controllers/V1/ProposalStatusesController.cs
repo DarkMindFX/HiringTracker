@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             ProposalStatus newEntity = _dalProposalStatus.Insert(entity);
 
-            response = Ok(ProposalStatusConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, ProposalStatusConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

@@ -17,7 +17,7 @@ class CandidateSkillsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/candidateskills`, newCandidateSkill);
+            let res = await inst.post(`/candidateskills`, newCandidateSkill);
 
             return res;
         }

@@ -19,7 +19,7 @@ class UsersDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/users`, newUser);
+            let res = await inst.post(`/users`, newUser);
 
             return res;
         }
@@ -33,7 +33,7 @@ class UsersDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/users`, updatedUser);
+            let res = await inst.put(`/users`, updatedUser);
 
             return res;
         }

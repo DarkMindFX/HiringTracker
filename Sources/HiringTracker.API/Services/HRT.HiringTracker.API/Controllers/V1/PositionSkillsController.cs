@@ -189,7 +189,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             PositionSkill newEntity = _dalPositionSkill.Insert(entity);
 
-            response = Ok(PositionSkillConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, PositionSkillConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

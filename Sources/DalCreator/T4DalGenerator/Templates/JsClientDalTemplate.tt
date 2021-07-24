@@ -26,7 +26,7 @@ class <#= modelHelper.Pluralize(table.Name) #>Dal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>`, new<#= table.Name #>);
+            let res = await inst.post(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>`, new<#= table.Name #>);
 
             return res;
         }
@@ -40,7 +40,7 @@ class <#= modelHelper.Pluralize(table.Name) #>Dal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>`, updated<#= table.Name #>);
+            let res = await inst.put(`/<#=modelHelper.Pluralize(table.Name).ToLower()#>`, updated<#= table.Name #>);
 
             return res;
         }

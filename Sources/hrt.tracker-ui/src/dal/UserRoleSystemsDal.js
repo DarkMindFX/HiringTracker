@@ -17,7 +17,7 @@ class UserRoleSystemsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/userrolesystems`, newUserRoleSystem);
+            let res = await inst.post(`/userrolesystems`, newUserRoleSystem);
 
             return res;
         }
@@ -31,7 +31,7 @@ class UserRoleSystemsDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/userrolesystems`, updatedUserRoleSystem);
+            let res = await inst.put(`/userrolesystems`, updatedUserRoleSystem);
 
             return res;
         }

@@ -176,7 +176,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             CandidateSkill newEntity = _dalCandidateSkill.Insert(entity);
 
-            response = Ok(CandidateSkillConvertor.Convert(newEntity, this.Url));
+            response = StatusCode((int)HttpStatusCode.Created, CandidateSkillConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 

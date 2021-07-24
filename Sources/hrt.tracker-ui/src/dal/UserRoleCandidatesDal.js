@@ -17,7 +17,7 @@ class UserRoleCandidatesDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.put(`/userrolecandidates`, newUserRoleCandidate);
+            let res = await inst.post(`/userrolecandidates`, newUserRoleCandidate);
 
             return res;
         }
@@ -31,7 +31,7 @@ class UserRoleCandidatesDal extends DalBase {
         let inst = this.Instance;
         
         try {
-            let res = await inst.post(`/userrolecandidates`, updatedUserRoleCandidate);
+            let res = await inst.put(`/userrolecandidates`, updatedUserRoleCandidate);
 
             return res;
         }
