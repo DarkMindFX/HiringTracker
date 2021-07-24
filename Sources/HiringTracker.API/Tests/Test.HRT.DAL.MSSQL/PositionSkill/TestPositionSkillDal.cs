@@ -44,30 +44,30 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramPositionID = (System.Int64)objIds[0];
-                var paramSkillID = (System.Int64)objIds[1];
-            PositionSkill entity = dal.Get(paramPositionID,paramSkillID);
+            var paramPositionID = (System.Int64)objIds[0];
+            var paramSkillID = (System.Int64)objIds[1];
+            PositionSkill entity = dal.Get(paramPositionID, paramSkillID);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.PositionID);
-                        Assert.IsNotNull(entity.SkillID);
-            
-                          Assert.AreEqual(100006, entity.PositionID);
-                            Assert.AreEqual(19, entity.SkillID);
-                            Assert.AreEqual(false, entity.IsMandatory);
-                            Assert.AreEqual(801046, entity.SkillProficiencyID);
-                      }
+            Assert.IsNotNull(entity.PositionID);
+            Assert.IsNotNull(entity.SkillID);
+
+            Assert.AreEqual(100006, entity.PositionID);
+            Assert.AreEqual(19, entity.SkillID);
+            Assert.AreEqual(false, entity.IsMandatory);
+            Assert.AreEqual(801046, entity.SkillProficiencyID);
+        }
 
         [Test]
         public void PositionSkill_GetDetails_InvalidId()
         {
-                var paramPositionID = Int64.MaxValue - 1;
-                var paramSkillID = Int64.MaxValue - 1;
+            var paramPositionID = Int64.MaxValue - 1;
+            var paramSkillID = Int64.MaxValue - 1;
             var dal = PreparePositionSkillDal("DALInitParams");
 
-            PositionSkill entity = dal.Get(paramPositionID,paramSkillID);
+            PositionSkill entity = dal.Get(paramPositionID, paramSkillID);
 
             Assert.IsNull(entity);
         }
@@ -79,9 +79,9 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramPositionID = (System.Int64)objIds[0];
-                var paramSkillID = (System.Int64)objIds[1];
-            bool removed = dal.Delete(paramPositionID,paramSkillID);
+            var paramPositionID = (System.Int64)objIds[0];
+            var paramSkillID = (System.Int64)objIds[1];
+            bool removed = dal.Delete(paramPositionID, paramSkillID);
 
             TeardownCase(conn, caseName);
 
@@ -92,10 +92,10 @@ namespace Test.HRT.DAL.MSSQL
         public void PositionSkill_Delete_InvalidId()
         {
             var dal = PreparePositionSkillDal("DALInitParams");
-                var paramPositionID = Int64.MaxValue - 1;
-                var paramSkillID = Int64.MaxValue - 1;
-   
-            bool removed = dal.Delete(paramPositionID,paramSkillID);
+            var paramPositionID = Int64.MaxValue - 1;
+            var paramSkillID = Int64.MaxValue - 1;
+
+            bool removed = dal.Delete(paramPositionID, paramSkillID);
             Assert.IsFalse(removed);
 
         }
@@ -109,24 +109,24 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionSkillDal("DALInitParams");
 
             var entity = new PositionSkill();
-                          entity.PositionID = 100009;
-                            entity.SkillID = 14;
-                            entity.IsMandatory = false;              
-                            entity.SkillProficiencyID = 801046;
-                          
+            entity.PositionID = 100009;
+            entity.SkillID = 14;
+            entity.IsMandatory = false;
+            entity.SkillProficiencyID = 801046;
+
             entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.PositionID);
-                        Assert.IsNotNull(entity.SkillID);
-            
-                          Assert.AreEqual(100009, entity.PositionID);
-                            Assert.AreEqual(14, entity.SkillID);
-                            Assert.AreEqual(false, entity.IsMandatory);
-                            Assert.AreEqual(801046, entity.SkillProficiencyID);
-              
+            Assert.IsNotNull(entity.PositionID);
+            Assert.IsNotNull(entity.SkillID);
+
+            Assert.AreEqual(100009, entity.PositionID);
+            Assert.AreEqual(14, entity.SkillID);
+            Assert.AreEqual(false, entity.IsMandatory);
+            Assert.AreEqual(801046, entity.SkillProficiencyID);
+
         }
 
         [TestCase("PositionSkill\\030.Update.Success")]
@@ -136,26 +136,26 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionSkillDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramPositionID = (System.Int64)objIds[0];
-                var paramSkillID = (System.Int64)objIds[1];
-            PositionSkill entity = dal.Get(paramPositionID,paramSkillID);
+            var paramPositionID = (System.Int64)objIds[0];
+            var paramSkillID = (System.Int64)objIds[1];
+            PositionSkill entity = dal.Get(paramPositionID, paramSkillID);
 
-                          entity.IsMandatory = true;              
-                            entity.SkillProficiencyID = 2;
-              
+            entity.IsMandatory = true;
+            entity.SkillProficiencyID = 2;
+
             entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.PositionID);
-                        Assert.IsNotNull(entity.SkillID);
-            
-                          Assert.AreEqual(100005, entity.PositionID);
-                            Assert.AreEqual(3, entity.SkillID);
-                            Assert.AreEqual(true, entity.IsMandatory);
-                            Assert.AreEqual(2, entity.SkillProficiencyID);
-              
+            Assert.IsNotNull(entity.PositionID);
+            Assert.IsNotNull(entity.SkillID);
+
+            Assert.AreEqual(100005, entity.PositionID);
+            Assert.AreEqual(3, entity.SkillID);
+            Assert.AreEqual(true, entity.IsMandatory);
+            Assert.AreEqual(2, entity.SkillProficiencyID);
+
         }
 
         [Test]
@@ -164,11 +164,11 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PreparePositionSkillDal("DALInitParams");
 
             var entity = new PositionSkill();
-                          entity.PositionID = 100005;
-                            entity.SkillID = 3;
-                            entity.IsMandatory = true;              
-                            entity.SkillProficiencyID = 2;
-              
+            entity.PositionID = 100005;
+            entity.SkillID = 3;
+            entity.IsMandatory = true;
+            entity.SkillProficiencyID = 2;
+
             try
             {
                 entity = dal.Update(entity);
@@ -178,6 +178,35 @@ namespace Test.HRT.DAL.MSSQL
             catch (Exception ex)
             {
                 Assert.Pass("Success - exception thrown as expected");
+            }
+        }
+
+        [TestCase("PositionSkill\\040.SetPositionSkills.Success")]
+        public void PositionSkill_SetSkills_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            try
+            {
+                var dal = PreparePositionSkillDal("DALInitParams");
+
+                IList<object> objIds = SetupCase(conn, caseName);
+                var paramPositionID = (System.Int64)objIds[0];
+
+                var skills = new List<PositionSkill>();
+                skills.Add(new PositionSkill() { SkillID = 1, SkillProficiencyID = 1, IsMandatory = false });
+                skills.Add(new PositionSkill() { SkillID = 2, SkillProficiencyID = 2, IsMandatory = true });
+                skills.Add(new PositionSkill() { SkillID = 3, SkillProficiencyID = 3, IsMandatory = false });
+
+                dal.SetPositionSkills(paramPositionID, skills);
+
+                var retSkills = dal.GetByPositionID(paramPositionID);
+
+                Assert.IsNotNull(retSkills);
+                Assert.AreEqual(3, retSkills.Count);
+            }
+            finally
+            {
+                TeardownCase(conn, caseName);
             }
         }
 

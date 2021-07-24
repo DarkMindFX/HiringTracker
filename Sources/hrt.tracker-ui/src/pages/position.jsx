@@ -61,62 +61,65 @@ class PositionPage extends React.Component {
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
         if(token != null) {
 
-            if(this.state.id) {
+            let dalPos = new PositionsDal();
+            let obj = this;
 
-                let dalPos = new PositionsDal();
-                let obj = this;
+            obj._getSkills().then( () => {
 
-                dalPos.getPosition(this.state.id).then( async (resPos) => {
-                    let updatedState = obj.state;
+                obj._getSkillProficiencies().then( () => {
 
-                    if(resPos.status == constants.HTTP_OK) {
+                    if(obj.state.id) {
 
-                        await obj._getSkills();
-                        await obj._getSkillProficiencies();
-    
-                        updatedState.position = resPos.data;
-                        updatedState.showError = false;
-                        updatedState.error = null;
+                        dalPos.getPosition(obj.state.id).then( async (resPos) => {
+                            let updatedState = obj.state;
 
-                        obj.setState(updatedState); 
-
-                        let dalPosSkills = new PositionSkillsDal();
-
-                        dalPosSkills.getPositionSkillsByPosition(obj.state.id).then( (resSkills) => {
-
-                            let updatedState = obj.state;                            
-
-                            if(resSkills.status == constants.HTTP_OK) {   
-                                const skills = resSkills.data;                     
-                                updatedState.position.Skills = skills.map(s => { s.id = uuidv4(); return s; });
+                            if(resPos.status == constants.HTTP_OK) {
+           
+                                updatedState.position = resPos.data;
                                 updatedState.showError = false;
                                 updatedState.error = null;
-                            } 
+
+                                obj.setState(updatedState); 
+
+                                let dalPosSkills = new PositionSkillsDal();
+
+                                dalPosSkills.getPositionSkillsByPosition(obj.state.id).then( (resSkills) => {
+
+                                    let updatedState = obj.state;                            
+
+                                    if(resSkills.status == constants.HTTP_OK) {   
+                                        const skills = resSkills.data;                     
+                                        updatedState.position.Skills = skills.map(s => { s.id = uuidv4(); return s; });
+                                        updatedState.showError = false;
+                                        updatedState.error = null;
+                                    } 
+                                    else {
+                                        updatedState.showError = true;
+                                        updatedState.error = resPos.data.Message;
+                                    }
+
+                                    obj.setState(updatedState);
+
+                                }).catch( (err) => {
+                                    console.log('Error when getting position skills:', err);
+                                })
+                            }
+                            else if(resPos.status == constants.HTTP_Unauthorized) {
+                                obj.props.history.push("/login?ret=/positions");
+                            }
                             else {
                                 updatedState.showError = true;
-                                updatedState.error = resPos.data.Message;
+                                updatedState.error = resPos.data.Message;                    
                             }
 
                             obj.setState(updatedState);
 
                         }).catch( (err) => {
-                            console.log('Error when getting position skills:', err);
+                            console.log('Error when getting position:', err);
                         })
                     }
-                    else if(resPos.status == constants.HTTP_Unauthorized) {
-                        obj.props.history.push("/login?ret=/positions");
-                    }
-                    else {
-                        updatedState.showError = true;
-                        updatedState.error = resPos.data.Message;                    
-                    }
-
-                    obj.setState(updatedState);
-
-                }).catch( (err) => {
-                    console.log('Error when getting position:', err);
-                })
-            }
+                });
+            });
         }
         else {
             console.log('No token - need to login')
@@ -200,6 +203,8 @@ class PositionPage extends React.Component {
     }
 
     onSaveClicked() {
+
+        console.log("Saving position: ", this.state.position);
 
         /*
         const req = new PositionUpsertDto();

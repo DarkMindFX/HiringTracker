@@ -46,12 +46,16 @@ class SkillItem extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if( props.canEdit !== state.canEdit ||
             props.skillID !== state.skillID ||
+            props.dictSkills != state.dictSkills ||
+            props.dictProficiencies != state.dictProficiencies ||
             props.proficiencyID !== state.proficiencyID ||
             props.mustHave !== state.mustHave )
         {
             let updatedState = {
                 canEdit:  props.canEdit,
                 skillID:  props.skillID,
+                dictSkills : props.dictSkills,
+                dictProficiencies: props.dictProficiencies,
                 proficiencyID:  props.proficiencyID,
                 mustHave:  props.mustHave
             }    
@@ -85,9 +89,9 @@ class SkillItem extends React.Component {
 
         this._setProficiency(newProf);
         this._notifySkillDataChanged(this.state.id, 
-                this.state.skillID,
-                newProf.ProficiencyID,
-                this.state.mustHave);
+                                        this.state.skillID,
+                                        newProf.ProficiencyID,
+                                        this.state.mustHave);
                 
     }
 
