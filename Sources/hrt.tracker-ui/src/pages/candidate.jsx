@@ -11,14 +11,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
 import Proposal from "../components/Proposal";
-import constants from "../constants";
-const { v4: uuidv4 } = require('uuid');
+import { HTTP_OK, HTTP_Unauthorized } from "../constants";
 
 const CandidatesDal = require("../dal/CandidatesDal")
 const CandidateSkillsDal = require("../dal/CandidateSkillsDal")
-const { CandidateDto, CandidateUpsertDto, CandidateSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
+const SkillsDal = require('../dal/SkillsDal');
+const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
+const { CandidateDto, CandidateSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
+
+const constants = require('../constants');
+const { v4: uuidv4 } = require('uuid');
 
 class CandidatePage extends React.Component {
+
+    _skills = null;
+    _proficiences = null;
 
     constructor(props) {
         super(props);
@@ -54,56 +61,69 @@ class CandidatePage extends React.Component {
 
     componentDidMount(event) {
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
-        console.log('Token: ', token);
+
         if(token != null) {
 
-            if(this.state.id) {
-                let dalCand = new CandidatesDal();
-                let dalCandSkills = new CandidateSkillsDal();
-                let obj = this;
+            let obj = this;
 
-                dalCand.getCandidate(this.state.id).then( (resCand) => {
-                    let updatedState = obj.state;
+            obj._getSkills().then( () => {
 
-                    if(resCand.status == constants.HTTP_OK) {
-                        updatedState.candidate = resCand.data;
+                obj._getSkillProficiencies().then( () => {
 
-                        updatedState.showError = false;
-                        updatedState.error = null;
+                    if(this.state.id) {
+                        let dalCand = new CandidatesDal();
+                        let dalCandSkills = new CandidateSkillsDal();
+                        let obj = this;
 
-                        obj.setState(updatedState); 
-
-                        dalCandSkills.getCandidateSkills(obj.state.id).then( (resSkills) => {
+                        dalCand.getCandidate(this.state.id).then( (resCand) => {
                             let updatedState = obj.state;
 
-                            if(resSkills.status == constants.HTTP_OK) {   
-                                const skills = resSkills.data;                     
-                                updatedState.candidate._skills = skills.map(s => { s.id = uuidv4(); return s; });
+                            if(resCand.status == constants.HTTP_OK) {
+                                updatedState.candidate = resCand.data;
+
                                 updatedState.showError = false;
                                 updatedState.error = null;
-                                
-                            } 
+
+                                obj.setState(updatedState); 
+
+                                dalCandSkills.getCandidateSkillsByCandidate(obj.state.id).then( (resSkills) => {
+                                    let updatedState = obj.state;
+
+                                    console.log(resSkills);
+
+                                    if(resSkills.status == constants.HTTP_OK) {   
+                                        const skills = resSkills.data;                     
+                                        updatedState.candidate.Skills = skills.map(s => { s.id = uuidv4(); return s; });
+                                        updatedState.showError = false;
+                                        updatedState.error = null;
+                                        
+                                    } 
+                                    else {
+                                        updatedState.showError = true;
+                                        updatedState.error = resCand.data.Message;
+                                    }
+
+                                    obj.setState(updatedState);
+                                }).catch( (err) => {
+                                    console.log('Error when getting candidate skills:', err);
+                                });
+                            }
+                            else if(resCand.status == constants.HTTP_Unauthorized) {
+                                this._redirectToLogin();
+                            }
                             else {
                                 updatedState.showError = true;
-                                updatedState.error = resCand.data._message;
+                                updatedState.error = resCand.data.Message;                    
                             }
-
-                            obj.setState(updatedState);
                         });
                     }
-                    else if(resCand.status == constants.HTTP_Unauthorized) {
-                        obj.props.history.push("/login?ret=/positions");
-                    }
-                    else {
-                        updatedState.showError = true;
-                        updatedState.error = resCand.data._message;                    
-                    }
+
                 });
-            }
+            });
         }
         else {
             console.log('No token - need to login')
-            this.props.history.push(`/login?ret=/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
+            this._redirectToLogin();
         }
     }
 
@@ -124,7 +144,7 @@ class CandidatePage extends React.Component {
     onFirstNameChanged(event) {
         const newFName = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._fname = newFName;
+        updatedState.candidate.FirstName = newFName;
 
         this.setState(updatedState);
     }
@@ -132,7 +152,7 @@ class CandidatePage extends React.Component {
     onMiddleNameChanged(event) {
         const newMName = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._mname = newMName;
+        updatedState.candidate.MiddleName = newMName;
 
         this.setState(updatedState);
     }
@@ -140,7 +160,7 @@ class CandidatePage extends React.Component {
     onLastNameChanged(event) {
         const newLName = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._lname = newLName;
+        updatedState.candidate.LastName = newLName;
 
         this.setState(updatedState);
     }
@@ -148,7 +168,7 @@ class CandidatePage extends React.Component {
     onPhoneChanged(event) {
         const newPhone = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._phone = newPhone;
+        updatedState.candidate.Phone = newPhone;
 
         this.setState(updatedState);
     }
@@ -156,7 +176,7 @@ class CandidatePage extends React.Component {
     onEmailChanged(event) {
         const newEmail = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._email = newEmail;
+        updatedState.candidate.Email = newEmail;
 
         this.setState(updatedState);
     }
@@ -164,7 +184,7 @@ class CandidatePage extends React.Component {
     onCVLinkChanged(event) {
         const newCVLink = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate._cvlink = newCVLink;
+        updatedState.candidate.CVLink = newCVLink;
 
         this.setState(updatedState);
     }
@@ -173,92 +193,109 @@ class CandidatePage extends React.Component {
 
         let updatedState = this.state;
 
-        let skill = updatedState.candidate._skills.find( s => { return s.id == updatedSkill.id; } );
+        let skill = updatedState.candidate.Skills.find( s => { return s.id == updatedSkill.id; } );
 
         if(skill != null) {
-            skill._skill._skillId = updatedSkill.SkillID;
-            skill._skill._name = "";
-            skill._proficiency._id = updatedSkill.ProficiencyID;
-            skill._proficiency._name = "";
+            skill.SkillID = updatedSkill.SkillID;
+            skill.SkillProficiencyID = updatedSkill.SkillProficiencyID;
 
             this.setState(updatedState);
-        }        
+        }   
     }   
 
     onSkillAdded(newSkill) {
         let updatedState = this.state;
-        let newSkillRec = {
-            id: newSkill.id,
-            _skill: {
-                _skillId: newSkill.SkillID
-            },
-            _proficiency: {
-                _id: newSkill.ProficiencyID
-            }
-        }
-        updatedState.candidate._skills.push(newSkillRec)
+        let newSkillRec = new CandidateSkillDto();
+         
+        newSkillRec.id = newSkill.id;
+        newSkillRec.CandidateID = this.id;
+        newSkillRec.SkillID = newSkill.SkillID;
+        newSkillRec.SkillProficiencyID = newSkill.SkillProficiencyID;
+        
+        updatedState.candidate.Skills.push(newSkillRec)
 
         this.setState(updatedState);
-
     }
 
     onSkillDeleted(id) {
         let updatedState = this.state;
-        let idx = updatedState.candidate._skills.findIndex( s => { return s.id == id; } );
+        let idx = updatedState.candidate.Skills.findIndex( s => { return s.id == id; } );
         if(idx >= 0) {
-            updatedState.candidate._skills.splice(idx, 1);
+            updatedState.candidate.Skills.splice(idx, 1);
             this.setState(updatedState);
         }
     }
 
     onSaveClicked() {
-        const req = new CandidateUpsertDto();
-        req.Candidate = new CandidateDto();
-        req.Candidate.CandidateID = this.state.id;
-        req.Candidate.FirstName = this.state.candidate._fname;
-        req.Candidate.MiddleName = this.state.candidate._mname;
-        req.Candidate.LastName = this.state.candidate._lname;
-        req.Candidate.Email = this.state.candidate._email;
-        req.Candidate.Phone = this.state.candidate._phone;
-        req.Candidate.CVLink = this.state.candidate._cvlink;
 
-        req.Skills = [];
+        const reqCandidate = new CandidateDto();
+        reqCandidate.ID = this.state.id;
+        reqCandidate.FirstName = this.state.candidate.FirstName;
+        reqCandidate.MiddleName = this.state.candidate.MiddleName;
+        reqCandidate.LastName = this.state.candidate.LastName;
+        reqCandidate.Email = this.state.candidate.Email;
+        reqCandidate.Phone = this.state.candidate.Phone;
+        reqCandidate.CVLink = this.state.candidate.CVLink;
 
-        this.state.candidate._skills.forEach( s => {
-
-            const sp = new CandidateSkillDto();
-            sp.Skill = new SkillDto();
-            sp.Skill.SkillID = s._skill._skillId;
-            sp.Proficiency = new SkillProficiencyDto();
-            sp.Proficiency.ProficiencyID = s._proficiency._id
-            sp.IsMandatory = s._isMandatory;
-
-            req.Skills.push(sp);
-
+        let reqCandidateSkills = this.state.candidate.Skills.map( ps => { 
+            var dto = new CandidateSkillDto();
+            dto.SkillID = ps.SkillID;
+            dto.SkillProficiencyID = ps.SkillProficiencyID;
+            return dto;
         });
+
+        console.log("Saving Candidate: ", reqCandidate);   
+        console.log("Saving Skills: ", reqCandidateSkills); 
 
         let dalCand = new CandidatesDal();
 
         let obj = this;
 
-        function upsertThen(result) {
+        function upsertCandidateThen(result) {
             const updatedState = obj.state;
 
             if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
                 if(result.status == constants.HTTP_Created) {
-                    updatedState.id = parseInt(result._candidateId);
-                    updatedState.success = `Candidate was created. Candidate ID: ${updatedState.id}`;
+                    updatedState.id = result.data.ID;
+                    updatedState.success = `Candidate was created. ID: ${updatedState.id}`;
                 }
                 else {
                     updatedState.success = `Candidate was updated`;                
                 }
+
+                obj.setState(updatedState);
+            
+                let dalCandidateSkills = new CandidateSkillsDal();
+                dalCandidateSkills.setCandidateSkills(obj.state.id ? obj.state.id : result.data.ID, reqCandidateSkills)
+                                .then( (res) => { upsertSkillsThen(res) } )
+                                .catch( (res) => { upsertCatch(res) } );
             }
             else {
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
-                updatedState.error = result.data._message;          
+                updatedState.error = result.data.Message;  
+                
+                obj.setState(updatedState);
+            }
+
+            
+        }        
+
+        function upsertSkillsThen(result) {
+            const updatedState = obj.state;
+
+            console.log("upsertSkillsThen", result);
+
+            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+            }
+            else {
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = result.data.Message;          
             }
 
             obj.setState(updatedState);
@@ -273,19 +310,16 @@ class CandidatePage extends React.Component {
             obj.setState(updatedState);
         }
 
-        console.log("Upserting: ", req);
-
         if(this.state.id != null) {
-            dalCand.updateCandidate(req)
-                                    .then( (res) => { upsertThen(res); } )
+            dalCand.updateCandidate(reqCandidate)
+                                    .then( (res) => { upsertCandidateThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });
         }
         else {
-            dalCand.addCandidate(req)
-                                    .then( (res) => { upsertThen(res); } )
+            dalCand.insertCandidate(reqCandidate)
+                                    .then( (res) => { upsertCandidateThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });        
         }
-
     }
 
     onDeleteClicked() {
@@ -306,13 +340,13 @@ class CandidatePage extends React.Component {
 
         dalCand.deleteCandidate(this.state.id).then( (res) => {
             if(res.status == constants.HTTP_OK) {
-                obj.props.history.push("/login?ret=/candidates");                
+                obj.props.history.push("/candidates");                
             }
             else {
                 const updatedState = obj.state;
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
-                updatedState.error = res.data._message; 
+                updatedState.error = res.data.Message; 
                 updatedState.showDeleteConfirm = false;
                 obj.setState(updatedState);               
             }
@@ -378,7 +412,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="First Name" 
-                                            value={this.state.candidate._fname}
+                                            value={this.state.candidate.FirstName}
                                             onChange={ (event) => { this.onFirstNameChanged(event) } }
                                             />
                                 
@@ -391,7 +425,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Middle Name" 
-                                            value={this.state.candidate._mname}
+                                            value={this.state.candidate.MiddleName}
                                             onChange={ (event) => { this.onMiddleNameChanged(event) } }
                                             />
                             </td>
@@ -403,7 +437,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Last Name" 
-                                            value={this.state.candidate._lname}
+                                            value={this.state.candidate.LastName}
                                             onChange={ (event) => { this.onLastNameChanged(event) } }
                                             />
                             </td>
@@ -415,7 +449,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Email" 
-                                            value={this.state.candidate._email}
+                                            value={this.state.candidate.Email}
                                             onChange={ (event) => { this.onEmailChanged(event) } }
                                             />
                             </td>
@@ -427,7 +461,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Phone" 
-                                            value={this.state.candidate._phone}
+                                            value={this.state.candidate.Phone}
                                             onChange={ (event) => { this.onPhoneChanged(event) } }
                                             />
                             </td>
@@ -439,7 +473,7 @@ class CandidatePage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Link to CV" 
-                                            value={this.state.candidate._cvlink}
+                                            value={this.state.candidate.CVLink}
                                             onChange={ (event) => { this.onCVLinkChanged(event) } }
                                             />
                             </td>
@@ -451,6 +485,8 @@ class CandidatePage extends React.Component {
                                     skills={ skills }
                                     canEdit={ this.state.canEdit }
                                     showMustHave = { false }
+                                    dictSkills = { this._skills }
+                                    dictProficiencies = { this._proficiences }
                                     onSkillAdded = { this.onSkillAdded }
                                     onSkillChanged = { this.onSkillChanged }
                                     onSkillDeleted = { this.onSkillDeleted }
@@ -495,35 +531,82 @@ class CandidatePage extends React.Component {
     }
 
     _createEmptyCandidateObj() {
-        let cand = {
-            _fname: "",
-            _lname: "",
-            _mname: "",
-            _phone: "",
-            _email: "",
-            _cvlink: "",
-            _skills: []
-        }
+        let cand = new CandidateDto();
+        cand.Skills = [];
 
         return cand;
+    }
+
+    async _getSkills()
+    {
+        if(this._skills == null)
+        {            
+            let dalSkills = new SkillsDal();
+            let resp = await dalSkills.getSkills();
+
+            if(resp.status == HTTP_OK)
+            {
+                this._skills = {};
+
+                for(let s in resp.data)
+                {
+                    this._skills[ resp.data[s].ID ] = resp.data[s];
+                }
+            }
+            else if(resp.status == HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
+            }
+        }
+    }
+
+    async _getSkillProficiencies()
+    {
+        if(this._proficiences == null)
+        {            
+            let dalSkillProficiences = new SkillProficienciesDal();
+            let resp = await dalSkillProficiences.getSkillProficiencies();
+               
+            if(resp.status == HTTP_OK)
+            {
+                this._proficiences = {};
+
+                for(let s in resp.data)
+                {
+                    this._proficiences[ resp.data[s].ID ] = resp.data[s];
+                }
+            }
+            else if(resp.status == HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
+            }
+        }
     }
 
     _getCandidateSkills() {
         let skills = [];
 
-        if( this.state.candidate._skills ) {
+        if(this.state.candidate.Skills ) {    
+
+            let obj = this;
             
-            this.state.candidate._skills.forEach( s => {
+            this.state.candidate.Skills.forEach( s => {
+
                 let skill = {
                     id: s.id,
-                    SkillID: s._skill._skillId, 
-                    ProficiencyID: s._proficiency._id
+                    SkillID: s.SkillID, 
+                    SkillProficiencyID: s.SkillProficiencyID, 
                 };
                 skills.push(skill);
             })
         }  
       
         return skills;
+    }
+
+    _redirectToLogin()
+    {
+        this.props.history.push(`/login?ret=/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))        
     }
 }
 

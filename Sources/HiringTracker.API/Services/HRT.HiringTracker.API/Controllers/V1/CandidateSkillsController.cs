@@ -84,7 +84,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpGet("/bycandidate/{candidateid}"), ActionName("GetCandidateSkillByCandidateID")]
+        [HttpGet("bycandidate/{candidateid}"), ActionName("GetCandidateSkillByCandidateID")]
         public IActionResult GetByCandidateID(System.Int64 candidateid)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
@@ -110,7 +110,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpGet("/byskill/{skillid}"), ActionName("GetCandidateSkillBySkillID")]
+        [HttpGet("byskill/{skillid}"), ActionName("GetCandidateSkillBySkillID")]
         public IActionResult GetBySkillID(System.Int64 skillid)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");

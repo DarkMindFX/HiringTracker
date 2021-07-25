@@ -14,7 +14,7 @@ const PositionsDal = require('../dal/PositionsDal');
 const PositionSkillsDal = require('../dal/PositionSkillsDal');
 const SkillsDal = require('../dal/SkillsDal');
 const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
-const { PositionDto, PositionStatusDto, PositionSkillDto, SkillDto, SkillProficiencyDto } = require('hrt.dto')
+const { PositionDto, PositionSkillDto } = require('hrt.dto')
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');
@@ -158,14 +158,15 @@ class PositionPage extends React.Component {
 
     onSkillAdded(newSkill) {
         let updatedState = this.state;
-        let newSkillRec = {
-            id: newSkill.id,
-            PositionID: this.id,
-            SkillID: newSkill.SkillID,
-            SkillProficiencyID: newSkill.SkillProficiencyID,
-            IsMandatory: newSkill.IsMandatory
-        }
-        updatedState.position.Skills.push(newSkillRec)
+        let newSkillRec = new PositionSkillDto();
+         
+        newSkillRec.id = newSkill.id;
+        newSkillRec.PositionID = this.state.id;
+        newSkillRec.SkillID = newSkill.SkillID;
+        newSkillRec.SkillProficiencyID = newSkill.SkillProficiencyID;
+        newSkillRec.IsMandatory = newSkill.IsMandatory;
+        
+        updatedState.position.Skills.push(newSkillRec);
 
         this.setState(updatedState);
 
@@ -208,8 +209,7 @@ class PositionPage extends React.Component {
 
         console.log("Saving position: ", this.state.position);
         
-
-        let reqPosition = new PositionDto();
+        const reqPosition = new PositionDto();
         reqPosition.ID = this.state.id;
         reqPosition.Title = this.state.position.Title;
         reqPosition.ShortDesc = this.state.position.ShortDesc;
@@ -222,14 +222,12 @@ class PositionPage extends React.Component {
             dto.SkillProficiencyID = ps.SkillProficiencyID;
             dto.IsMandatory = ps.IsMandatory;
             return dto;
-        });
-        
+        });        
 
         console.log("Saving Position: ", reqPosition);   
         console.log("Saving Skills: ", reqPositionSkills);         
         
         let dalPos = new PositionsDal();
-        let result = null;
 
         let obj = this;
 
@@ -263,8 +261,7 @@ class PositionPage extends React.Component {
             }
 
             
-        }
-        
+        }        
 
         function upsertSkillsThen(result) {
             const updatedState = obj.state;
@@ -325,7 +322,7 @@ class PositionPage extends React.Component {
 
         dalPos.deletePosition(this.state.id).then( (res) => {
             if(res.status == constants.HTTP_OK) {
-                obj.props.history.push("/login?ret=/positions");                
+                obj.props.history.push("/positions");                
             }
             else {
                 const updatedState = obj.state;
@@ -491,11 +488,19 @@ class PositionPage extends React.Component {
             let dalSkills = new SkillsDal();
             let resp = await dalSkills.getSkills();
 
-            this._skills = {};
-
-            for(let s in resp.data)
+            if(resp.status == HTTP_OK)
             {
-                this._skills[ resp.data[s].ID ] = resp.data[s];
+                this._skills = {};
+
+                for(let s in resp.data)
+                {
+                    this._skills[ resp.data[s].ID ] = resp.data[s];
+                }
+
+            }
+            else if(resp.status == HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
             }
         }
     }
@@ -507,11 +512,18 @@ class PositionPage extends React.Component {
             let dalSkillProficiences = new SkillProficienciesDal();
             let resp = await dalSkillProficiences.getSkillProficiencies();
                 
-            this._proficiences = {};
-
-            for(let s in resp.data)
+            if(resp.status == HTTP_OK)
             {
-                this._proficiences[ resp.data[s].ID ] = resp.data[s];
+                this._proficiences = {};
+
+                for(let s in resp.data)
+                {
+                    this._proficiences[ resp.data[s].ID ] = resp.data[s];
+                }
+            }
+            else if(resp.status == HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
             }
         }
     }
@@ -536,6 +548,11 @@ class PositionPage extends React.Component {
         }  
       
         return skills;
+    }
+
+    _redirectToLogin()
+    {
+        this.props.history.push(`/login?ret=/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))        
     }
 }
 

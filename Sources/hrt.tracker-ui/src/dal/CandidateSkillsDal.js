@@ -40,6 +40,20 @@ class CandidateSkillsDal extends DalBase {
         }
     }
 
+    async setCandidateSkills(candidateid, candidateSkills) {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.post(`/candidateskills/bycandidate/${candidateid}`, candidateSkills);
+
+            return res;
+        }
+        catch(error) {
+            console.log(error.response);
+            return error.response;
+        }
+    }
+
     async deleteCandidateSkill(candidateid,skillid) {
         let inst = this.Instance;
 
@@ -58,7 +72,7 @@ class CandidateSkillsDal extends DalBase {
         let inst = this.Instance;
 
         try {
-            let res = await inst.delete(`/candidateskills/bycandidate/${id}`);
+            let res = await inst.get(`/candidateskills/bycandidate/${id}`);
 
             return res;        
         }

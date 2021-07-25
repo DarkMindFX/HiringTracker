@@ -121,7 +121,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             IActionResult response = null;
 
             var entity = PositionConvertor.Convert(dto);
-            entity.CreatedDate = DateTime.Now;
+            entity.CreatedDate = DateTime.UtcNow;
             entity.CreatedByID = (long)base.CurrentUser.ID;
 
             Position newEntity = _dalPosition.Insert(entity);
@@ -149,7 +149,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             {
                 newEntity.CreatedByID = existingEntity.CreatedByID;
                 newEntity.CreatedDate = existingEntity.CreatedDate;
-                newEntity.ModifiedDate = DateTime.Now;
+                newEntity.ModifiedDate = DateTime.UtcNow;
                 newEntity.ModifiedByID = (long)base.CurrentUser.ID;
                 Position entity = _dalPosition.Update(newEntity);
 

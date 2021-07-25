@@ -121,6 +121,8 @@ namespace HRT.HiringTracker.API.Controllers.V1
             IActionResult response = null;
 
             var entity = CandidateConvertor.Convert(dto);
+            entity.CreatedByID = (long)this.CurrentUser.ID;
+            entity.CreatedDate = DateTime.UtcNow;
 
             Candidate newEntity = _dalCandidate.Insert(entity);
 
@@ -145,6 +147,11 @@ namespace HRT.HiringTracker.API.Controllers.V1
             var existingEntity = _dalCandidate.Get(newEntity.ID);
             if (existingEntity != null)
             {
+                newEntity.CreatedByID = existingEntity.CreatedByID;
+                newEntity.CreatedDate = existingEntity.CreatedDate;
+                newEntity.ModifiedByID = (long)this.CurrentUser.ID;
+                newEntity.ModifiedDate = DateTime.UtcNow;
+
                 Candidate entity = _dalCandidate.Update(newEntity);
 
                 response = Ok(CandidateConvertor.Convert(entity, this.Url));
