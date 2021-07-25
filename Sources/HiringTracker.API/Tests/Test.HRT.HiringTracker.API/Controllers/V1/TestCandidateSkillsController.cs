@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/candidateskills/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     CandidateSkill respDto = ExtractContentJson<CandidateSkill>(respInsert.Result.Content);
 
@@ -179,7 +179,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
 
-                    testEntity.SkillProficiencyID = 801046;
+                    testEntity.SkillProficiencyID = 2;
 
                     var reqDto = CandidateSkillConvertor.Convert(testEntity, null);
 
@@ -217,7 +217,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     testEntity.CandidateID = 100003;
                     testEntity.SkillID = 6;
-                    testEntity.SkillProficiencyID = 801046;
+                    testEntity.SkillProficiencyID = 4;
 
                     var reqDto = CandidateSkillConvertor.Convert(testEntity, null);
 
@@ -234,7 +234,104 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             }
         }
 
+        [Fact]
+        public void CandidateSkill_UpsertSkills_Success()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                HRT.Interfaces.Entities.Candidate testEntity = AddTestCandidateEntity();
+                try
+                {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var dtos = new List<HRT.DTO.CandidateSkill>();
+                    dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = (long)testEntity.ID, SkillID = 1, SkillProficiencyID = 1 });
+                    dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = (long)testEntity.ID, SkillID = 2, SkillProficiencyID = 2 });
+                    dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = (long)testEntity.ID, SkillID = 3, SkillProficiencyID = 3 });
+
+                    var content = CreateContentJson(dtos);
+
+                    var respUpdate = client.PostAsync($"/api/v1/candidateskills/bycandidate/{testEntity.ID}", content);
+
+                    Assert.Equal(HttpStatusCode.OK, respUpdate.Result.StatusCode);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
+            }
+        }
+
+        [Fact]
+        public void CandidateSkill_UpsertSkills_InvalidCandidateID()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                long candidateID = Int64.MaxValue - 1;
+
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                var dtos = new List<HRT.DTO.CandidateSkill>();
+                dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = candidateID, SkillID = 1, SkillProficiencyID = 1 });
+                dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = candidateID, SkillID = 2, SkillProficiencyID = 2 });
+                dtos.Add(new HRT.DTO.CandidateSkill() { CandidateID = candidateID, SkillID = 3, SkillProficiencyID = 3 });
+
+                var content = CreateContentJson(dtos);
+
+                var respUpdate = client.PostAsync($"/api/v1/candidateskills/bycandidate/{candidateID}", content);
+
+                Assert.Equal(HttpStatusCode.NotFound, respUpdate.Result.StatusCode);
+            }
+        }
+
         #region Support methods
+
+        protected HRT.Interfaces.Entities.Candidate CreateCandidateTestEntity()
+        {
+            var entity = new HRT.Interfaces.Entities.Candidate();
+            entity.FirstName = "FirstName 5808bc09063145e386ab1ee36f418fba";
+            entity.MiddleName = "MiddleName 5808bc09063145e386ab1ee36f418fba";
+            entity.LastName = "LastName 5808bc09063145e386ab1ee36f418fba";
+            entity.Email = "Email 5808bc09063145e386ab1ee36f418fba";
+            entity.Phone = "Phone 5808bc09063145e386ab1ee36f418fba";
+            entity.CVLink = "CVLink 5808bc09063145e386ab1ee36f418fba";
+            entity.CreatedByID = 100002;
+            entity.CreatedDate = DateTime.Parse("7/20/2020 11:54:36 AM");
+            entity.ModifiedByID = 100001;
+            entity.ModifiedDate = DateTime.Parse("5/30/2019 5:43:36 AM");
+
+            return entity;
+        }
+
+        protected HRT.Interfaces.Entities.Candidate AddTestCandidateEntity()
+        {
+            HRT.Interfaces.Entities.Candidate result = null;
+
+            var entity = CreateCandidateTestEntity();
+
+            var dal = CreateCandidateDal();
+            result = dal.Insert(entity);
+
+            return result;
+        }
+
+        protected bool RemoveTestEntity(HRT.Interfaces.Entities.Candidate entity)
+        {
+            if (entity != null)
+            {
+                var dal = CreateCandidateDal();
+
+                return dal.Delete(entity.ID);
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         protected bool RemoveTestEntity(HRT.Interfaces.Entities.CandidateSkill entity)
         {
@@ -242,10 +339,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             {
                 var dal = CreateDal();
 
-                return dal.Delete(
-                                        entity.CandidateID,
-                                        entity.SkillID
-                );
+                return dal.Delete(      entity.CandidateID,
+                                        entity.SkillID      );
             }
             else
             {
@@ -280,6 +375,18 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             var initParams = GetTestParams("DALInitParams");
 
             HRT.Interfaces.ICandidateSkillDal dal = new HRT.DAL.MSSQL.CandidateSkillDal();
+            var dalInitParams = dal.CreateInitParams();
+            dalInitParams.Parameters["ConnectionString"] = (string)initParams.Settings["ConnectionString"];
+            dal.Init(dalInitParams);
+
+            return dal;
+        }
+
+        private HRT.Interfaces.ICandidateDal CreateCandidateDal()
+        {
+            var initParams = GetTestParams("DALInitParams");
+
+            HRT.Interfaces.ICandidateDal dal = new HRT.DAL.MSSQL.CandidateDal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = (string)initParams.Settings["ConnectionString"];
             dal.Init(dalInitParams);

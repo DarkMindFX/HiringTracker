@@ -21,13 +21,16 @@ namespace HRT.HiringTracker.API.Controllers.V1
     public class CandidateSkillsController : BaseController
     {
         private readonly Dal.ICandidateSkillDal _dalCandidateSkill;
+        private readonly Dal.ICandidateDal _dalCandidate;
         private readonly ILogger<CandidateSkillsController> _logger;
 
 
-        public CandidateSkillsController( Dal.ICandidateSkillDal dalCandidateSkill,
+        public CandidateSkillsController(   Dal.ICandidateSkillDal dalCandidateSkill,
+                                            Dal.ICandidateDal dalCandidate,
                                     ILogger<CandidateSkillsController> logger)
         {
-            _dalCandidateSkill = dalCandidateSkill; 
+            _dalCandidateSkill = dalCandidateSkill;
+            _dalCandidate = dalCandidate;
             _logger = logger;
         }
 
@@ -204,6 +207,35 @@ namespace HRT.HiringTracker.API.Controllers.V1
             else
             {
                 response = NotFound($"CandidateSkill not found [ids:{newEntity.CandidateID}, {newEntity.SkillID}]");
+            }
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpPost("bycandidate/{candidateid}"), ActionName("UpsetCandidateSkills")]
+        public IActionResult UpsertCandidateSkills(System.Int64 candidateid, IList<DTO.CandidateSkill> skills)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+
+            IActionResult response = null;
+
+            var candidate = _dalCandidate.Get(candidateid);
+            if (candidate != null)
+            {
+
+                var entities = new List<CandidateSkill>();
+                entities.AddRange(skills.Select(s => CandidateSkillConvertor.Convert(s)));
+
+                _dalCandidateSkill.SetCandidateSkills(candidateid, entities);
+
+                response = Ok();
+            }
+            else
+            {
+                response = NotFound($"Candidate was not found: [candidateid:{candidateid}]");
             }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");

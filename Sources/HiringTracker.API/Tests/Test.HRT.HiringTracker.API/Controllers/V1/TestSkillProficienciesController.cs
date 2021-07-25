@@ -146,7 +146,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/skillproficiencies/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     SkillProficiency respDto = ExtractContentJson<SkillProficiency>(respInsert.Result.Content);
 

@@ -55,9 +55,9 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity.SkillID);
 
             Assert.AreEqual(100006, entity.PositionID);
-            Assert.AreEqual(19, entity.SkillID);
+            Assert.AreEqual(18, entity.SkillID);
             Assert.AreEqual(false, entity.IsMandatory);
-            Assert.AreEqual(801046, entity.SkillProficiencyID);
+            Assert.AreEqual(4, entity.SkillProficiencyID);
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Test.HRT.DAL.MSSQL
             entity.PositionID = 100009;
             entity.SkillID = 14;
             entity.IsMandatory = false;
-            entity.SkillProficiencyID = 801046;
+            entity.SkillProficiencyID = 3;
 
             entity = dal.Insert(entity);
 
@@ -125,7 +125,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.AreEqual(100009, entity.PositionID);
             Assert.AreEqual(14, entity.SkillID);
             Assert.AreEqual(false, entity.IsMandatory);
-            Assert.AreEqual(801046, entity.SkillProficiencyID);
+            Assert.AreEqual(3, entity.SkillProficiencyID);
 
         }
 
@@ -152,7 +152,7 @@ namespace Test.HRT.DAL.MSSQL
             Assert.IsNotNull(entity.SkillID);
 
             Assert.AreEqual(100005, entity.PositionID);
-            Assert.AreEqual(3, entity.SkillID);
+            Assert.AreEqual(13, entity.SkillID);
             Assert.AreEqual(true, entity.IsMandatory);
             Assert.AreEqual(2, entity.SkillProficiencyID);
 

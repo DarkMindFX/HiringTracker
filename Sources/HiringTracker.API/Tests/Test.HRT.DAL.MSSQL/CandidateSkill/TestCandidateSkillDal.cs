@@ -175,6 +175,35 @@ namespace Test.HRT.DAL.MSSQL
             }
         }
 
+        [TestCase("CandidateSkill\\040.SetCandidateSkills.Success")]
+        public void CandidateSkill_SetSkills_Success(string caseName)
+        {
+            SqlConnection conn = OpenConnection("DALInitParams");
+            try
+            {
+                var dal = PrepareCandidateSkillDal("DALInitParams");
+
+                IList<object> objIds = SetupCase(conn, caseName);
+                var paramCandidateID = (System.Int64)objIds[0];
+
+                var skills = new List<CandidateSkill>();
+                skills.Add(new CandidateSkill() { SkillID = 1, SkillProficiencyID = 1 });
+                skills.Add(new CandidateSkill() { SkillID = 2, SkillProficiencyID = 2 });
+                skills.Add(new CandidateSkill() { SkillID = 3, SkillProficiencyID = 3 });
+
+                dal.SetCandidateSkills(paramCandidateID, skills);
+
+                var retSkills = dal.GetByCandidateID(paramCandidateID);
+
+                Assert.IsNotNull(retSkills);
+                Assert.AreEqual(3, retSkills.Count);
+            }
+            finally
+            {
+                TeardownCase(conn, caseName);
+            }
+        }
+
         protected ICandidateSkillDal PrepareCandidateSkillDal(string configName)
         {
             IConfiguration config = GetConfiguration();

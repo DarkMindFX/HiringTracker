@@ -2,14 +2,14 @@
 
 -- original values --
 DECLARE @PositionID BIGINT = 100005
-DECLARE @SkillID BIGINT = 3
+DECLARE @SkillID BIGINT = 13
 DECLARE @IsMandatory BIT = 1
-DECLARE @SkillProficiencyID BIGINT = 801046
+DECLARE @SkillProficiencyID BIGINT = 4
  
 -- updated values --
 
 DECLARE @updPositionID BIGINT = 100005
-DECLARE @updSkillID BIGINT = 3
+DECLARE @updSkillID BIGINT = 13
 DECLARE @updIsMandatory BIT = 1
 DECLARE @updSkillProficiencyID BIGINT = 2
  

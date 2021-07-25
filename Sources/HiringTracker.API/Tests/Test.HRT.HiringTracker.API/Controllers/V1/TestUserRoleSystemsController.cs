@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/userrolesystems/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     UserRoleSystem respDto = ExtractContentJson<UserRoleSystem>(respInsert.Result.Content);
 

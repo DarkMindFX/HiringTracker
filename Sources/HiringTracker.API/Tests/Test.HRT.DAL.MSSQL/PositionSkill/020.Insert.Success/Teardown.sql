@@ -3,7 +3,7 @@
 DECLARE @PositionID BIGINT = 100009
 DECLARE @SkillID BIGINT = 14
 DECLARE @IsMandatory BIT = 0
-DECLARE @SkillProficiencyID BIGINT = 801046
+DECLARE @SkillProficiencyID BIGINT = 3
  
 DECLARE @Fail AS BIT = 0
 

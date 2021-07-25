@@ -1,9 +1,9 @@
 
 
 DECLARE @PositionID BIGINT = 100006
-DECLARE @SkillID BIGINT = 19
+DECLARE @SkillID BIGINT = 18
 DECLARE @IsMandatory BIT = 0
-DECLARE @SkillProficiencyID BIGINT = 801046
+DECLARE @SkillProficiencyID BIGINT = 4
  
 
 

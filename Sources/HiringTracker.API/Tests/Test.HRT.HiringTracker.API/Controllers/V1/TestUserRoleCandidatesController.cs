@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/userrolecandidates/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     UserRoleCandidate respDto = ExtractContentJson<UserRoleCandidate>(respInsert.Result.Content);
 

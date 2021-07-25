@@ -150,7 +150,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/candidatecomments/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     CandidateComment respDto = ExtractContentJson<CandidateComment>(respInsert.Result.Content);
 
@@ -253,7 +253,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             var entity = new HRT.Interfaces.Entities.CandidateComment();
             entity.CandidateID = 100003;
-            entity.CommentID = 100001;
+            entity.CommentID = 100002;
 
             return entity;
         }
