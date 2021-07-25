@@ -210,7 +210,7 @@ class PositionPage extends React.Component {
         
 
         let reqPosition = new PositionDto();
-        reqPosition.PositionID = this.state.id;
+        reqPosition.ID = this.state.id;
         reqPosition.Title = this.state.position.Title;
         reqPosition.ShortDesc = this.state.position.ShortDesc;
         reqPosition.Description = this.state.position.Description;
@@ -246,20 +246,23 @@ class PositionPage extends React.Component {
                 else {
                     updatedState.success = `Position was updated`;                
                 }
+
+                obj.setState(updatedState);
+            
+                let dalPositionSkills = new PositionSkillsDal();
+                dalPositionSkills.setPositionSkills(obj.state.id ? obj.state.id : result.data.ID, reqPositionSkills)
+                                .then( (res) => { upsertSkillsThen(res) } )
+                                .catch( (res) => { upsertCatch(res) } );
             }
             else {
                 updatedState.showSuccess = false;
                 updatedState.showError = true;
-                updatedState.error = result.data.Message;          
+                updatedState.error = result.data.Message;  
+                
+                obj.setState(updatedState);
             }
 
-            obj.setState(updatedState);
-
-            /*
-            let dalPositionSkills = new PositionSkillsDal();
-            dalPositionSkills.setPositionSkills(updatedState.id, reqPositionSkills)
-                             .then( (res) => { upsertSkillsThen(res) } )
-                             .catch( (res) => { upsertCatch(res) } );*/
+            
         }
         
 

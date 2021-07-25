@@ -147,6 +147,8 @@ namespace HRT.HiringTracker.API.Controllers.V1
             var existingEntity = _dalPosition.Get(newEntity.ID);
             if (existingEntity != null)
             {
+                newEntity.CreatedByID = existingEntity.CreatedByID;
+                newEntity.CreatedDate = existingEntity.CreatedDate;
                 newEntity.ModifiedDate = DateTime.Now;
                 newEntity.ModifiedByID = (long)base.CurrentUser.ID;
                 Position entity = _dalPosition.Update(newEntity);
