@@ -174,6 +174,40 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         }
 
         [Fact]
+        public void Proposal_Insert_AlreadyProposed()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                HRT.Interfaces.Entities.Proposal testEntity = AddTestEntity();
+
+                try
+                {
+                    var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                    var reqDto = ProposalConvertor.Convert(testEntity, null);
+
+                    var content = CreateContentJson(reqDto);
+
+                    var respInsert = client.PostAsync($"/api/v1/proposals/", content);
+
+                    Assert.Equal(HttpStatusCode.Conflict, respInsert.Result.StatusCode);
+
+                    Error respDto = ExtractContentJson<Error>(respInsert.Result.Content);
+
+                    Assert.NotNull(respDto);
+                    Assert.NotNull(respDto.Message);
+                    Assert.Equal((int)HttpStatusCode.Conflict, respDto.Code);
+                }
+                finally
+                {
+                    RemoveTestEntity(testEntity);
+                }
+            }
+        }
+
+        [Fact]
         public void Proposal_Update_Success()
         {
             using (var client = _factory.CreateClient())

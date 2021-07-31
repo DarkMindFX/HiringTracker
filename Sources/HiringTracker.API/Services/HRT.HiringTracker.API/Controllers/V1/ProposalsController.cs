@@ -120,11 +120,32 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             IActionResult response = null;
 
-            var entity = ProposalConvertor.Convert(dto);
+            Proposal existProposal = null;
+            var candidateProposals = _dalProposal.GetByCandidateID(dto.CandidateID);
+            if(candidateProposals != null && candidateProposals.Count > 0)
+            {
+                existProposal = candidateProposals.FirstOrDefault(predicate => predicate.PositionID == dto.PositionID);                
+            }
 
-            Proposal newEntity = _dalProposal.Insert(entity);
+            if (existProposal == null)
+            {
+                var entity = ProposalConvertor.Convert(dto);
+                entity.CreatedByID = (long)this.CurrentUser.ID;
+                entity.CreatedDate = DateTime.UtcNow;
+                entity.StepSetDate = DateTime.UtcNow;
 
-            response = StatusCode((int)HttpStatusCode.Created, ProposalConvertor.Convert(newEntity, this.Url));
+                Proposal newEntity = _dalProposal.Insert(entity);
+
+                response = StatusCode((int)HttpStatusCode.Created, ProposalConvertor.Convert(newEntity, this.Url));
+            }
+            else
+            {
+                response = StatusCode((int)HttpStatusCode.Conflict, new DTO.Error()
+                {
+                    Code = (int)HttpStatusCode.Conflict,
+                    Message = "Candidate already proposed to this position"
+                });
+            }
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 
@@ -146,6 +167,14 @@ namespace HRT.HiringTracker.API.Controllers.V1
             if (existingEntity != null)
             {
                 Proposal entity = _dalProposal.Update(newEntity);
+                entity.CreatedByID = existingEntity.CreatedByID;
+                entity.CreatedDate = existingEntity.CreatedDate;
+                entity.ModifiedByID = (long)this.CurrentUser.ID;
+                entity.ModifiedDate = DateTime.UtcNow;
+                if (existingEntity.NextStepID != entity.NextStepID)
+                {
+                    entity.StepSetDate = DateTime.UtcNow;
+                }
 
                 response = Ok(ProposalConvertor.Convert(entity, this.Url));
             }

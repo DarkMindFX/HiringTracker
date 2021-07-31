@@ -26,19 +26,7 @@ namespace HRT.HiringTracker.API
 {
     public class Startup
     {
-        #region Service Config
-        class ServiceConfig
-        {
-            [JsonPropertyName("DALType")]
-            public string DALType { get; set; }
-
-
-            [JsonPropertyName("DALInitParams")]
-            public Dictionary<string, string> DALInitParams { get; set; }
-        }
-
-        #endregion
-
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -235,8 +223,9 @@ namespace HRT.HiringTracker.API
             services.AddSingleton<IUserRoleSystemDal>(dalUserRoleSystemDal);
             services.AddSingleton<Dal.IUserRoleSystemDal, Dal.UserRoleSystemDal>();
 
-
-
+            /** Connection Tester for health endpoint **/
+            var dalConnTest = InitDal<IConnectionTestDal>(serviceCfg);
+            services.AddSingleton<IConnectionTestDal>(dalConnTest);
         }
 
         private TDal InitDal<TDal>(ServiceConfig serviceCfg) where TDal : IInitializable

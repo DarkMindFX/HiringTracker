@@ -7,6 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import constants from "../constants";
 
+const PageHelper = require("../helpers/PageHelper");
 const CandidatesDal = require('../dal/CandidatesDal')
 const UsersDal = require('../dal/UsersDal')
 
@@ -14,9 +15,12 @@ class CandidatesPage extends React.Component {
 
     _columns = null;
     _users = null;
+    _pageHelper = null;
 
     constructor(props) {
         super(props);
+
+        this._pageHelper = new PageHelper(this.props);
 
         this.state = { 
             candidates: [],
@@ -27,6 +31,7 @@ class CandidatesPage extends React.Component {
 
         this.onRowClick = this.onRowClick.bind(this);
         this._getUsers = this._getUsers.bind(this);
+        this._redirectToLogin = this._redirectToLogin.bind(this);
     }
 
     onRowClick(event) {
@@ -42,34 +47,35 @@ class CandidatesPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
 
-            this._getUsers();
+            this._getUsers().then( ()=> {
 
-            let dalCands = new CandidatesDal();
-            let obj = this;
+                let dalCands = new CandidatesDal();
+                let obj = this;
 
-            dalCands.getCandidates().then( function(cs) {
-                let updatedState = obj.state;
+                dalCands.getCandidates().then( function(cs) {
+                    let updatedState = obj.state;
 
-                if(cs.status == constants.HTTP_OK){
-                    updatedState.candidates = cs.data;
-                    updatedState.showError = false;
-                    updatedState.error = null;
-                }
-                else if(cs.status == constants.HTTP_Unauthorized) {
-                    console.log('Unauth - need to login')
-                    obj.props.history.push("/login?ret=/candidates");
-                }
-                else {
-                    updatedState.showError = true;
-                    updatedState.error = cs.data._message;
-                }
-                obj.setState(updatedState) 
+                    if(cs.status == constants.HTTP_OK){
+                        updatedState.candidates = cs.data;
+                        updatedState.showError = false;
+                        updatedState.error = null;
+                    }
+                    else if(cs.status == constants.HTTP_Unauthorized) {
+                        console.log('Unauth - need to login')
+                        obj._redirectToLogin();
+                    }
+                    else {
+                        updatedState.showError = true;
+                        updatedState.error = cs.data.Message;
+                    }
+                    obj.setState(updatedState) 
 
-            })
+                });
+            });
         }
         else {
             console.log('No token - need to login')
-            this.props.history.push(`/login?ret=/candidates`)            
+            this._redirectToLogin();           
         }
     }
 
@@ -139,6 +145,11 @@ class CandidatesPage extends React.Component {
              this._users[users.data[s].ID] = users.data[s];             
         }
 
+    }
+
+    _redirectToLogin()
+    {        
+        this._pageHelper.redirectToLogin(`/candidates`);
     }
 }
 

@@ -7,8 +7,22 @@ namespace HRT.DTO
 {
     public class HealthResponse
     {
+        [JsonPropertyName("Timestamp")]
+        public DateTime Timestamp
+        {
+            get;
+            set;
+        }
+
         [JsonPropertyName("Message")]
         public string Message
+        {
+            get;
+            set;
+        }
+
+        [JsonPropertyName("Diagnostics")]
+        public Dictionary<string, object> Diagnostics
         {
             get;
             set;

@@ -11,7 +11,5 @@ namespace HRT.Interfaces
         TEntity Insert(TEntity entity);
 
         TEntity Update(TEntity entity);
-
-
     }
 }

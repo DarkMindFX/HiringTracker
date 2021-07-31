@@ -4,9 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HRT.HiringTracker.API.Filters;
+using HRT.HiringTracker.API.Helpers;
+using HRT.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HRT.HiringTracker.API.Controllers.V1
 {
@@ -17,21 +20,39 @@ namespace HRT.HiringTracker.API.Controllers.V1
     public class HealthController : ControllerBase
     {
         private readonly ILogger<HealthController> _logger;
+        private readonly IConnectionTestDal _dalConnTest;
 
-        public HealthController(ILogger<HealthController> logger)
+        public HealthController(ILogger<HealthController> logger,
+                                    IConnectionTestDal dalConnTest)
         {
             _logger = logger;
+            _dalConnTest = dalConnTest;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
             var dto = new DTO.HealthResponse();
-            dto.Message = "HRT.HiringTracker.API OK";
+            dto.Timestamp = DateTime.UtcNow;
+            dto.Message = "HRT.HiringTracker.API health details";
 
-            IActionResult response = StatusCode((int)HttpStatusCode.OK, dto);
+            dto.Diagnostics = new Dictionary<string, object>();
+            dto.Diagnostics["HRT.HiringTracker.API"] = "OK";
+
+            bool canConnectDal = CanConnectDal();
+            dto.Diagnostics["DAL"] = canConnectDal ? "OK" : "FAIL";
+
+            IActionResult response = StatusCode(canConnectDal ? (int)HttpStatusCode.OK : (int)HttpStatusCode.PreconditionFailed, dto);
 
             return response;
         }
+
+        #region Support methods
+        public bool CanConnectDal()
+        {
+            var testResult = _dalConnTest.TestConnection();
+            return testResult.Success;
+        }
+        #endregion
     }
 }

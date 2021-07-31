@@ -13,7 +13,9 @@ import SkillsList from '../components/SkillsList';
 import Proposal from "../components/Proposal";
 import { HTTP_OK, HTTP_Unauthorized } from "../constants";
 
+const PageHelper = require("../helpers/PageHelper"); 
 const CandidatesDal = require("../dal/CandidatesDal")
+const ProposalsDal = require("../dal/ProposalsDal")
 const CandidateSkillsDal = require("../dal/CandidateSkillsDal")
 const SkillsDal = require('../dal/SkillsDal');
 const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
@@ -26,9 +28,12 @@ class CandidatePage extends React.Component {
 
     _skills = null;
     _proficiences = null;
+    _pageHelper = null;
 
     constructor(props) {
         super(props);
+
+        this._pageHelper = new PageHelper(this.props);
 
         this.state = {
             operation: this.props.match.params.operation,
@@ -89,8 +94,6 @@ class CandidatePage extends React.Component {
                                 dalCandSkills.getCandidateSkillsByCandidate(obj.state.id).then( (resSkills) => {
                                     let updatedState = obj.state;
 
-                                    console.log(resSkills);
-
                                     if(resSkills.status == constants.HTTP_OK) {   
                                         const skills = resSkills.data;                     
                                         updatedState.candidate.Skills = skills.map(s => { s.id = uuidv4(); return s; });
@@ -99,8 +102,9 @@ class CandidatePage extends React.Component {
                                         
                                     } 
                                     else {
+                                        var error = JSON.parse(resSkills.data.response);
                                         updatedState.showError = true;
-                                        updatedState.error = resCand.data.Message;
+                                        updatedState.error = error.Message;
                                     }
 
                                     obj.setState(updatedState);
@@ -112,8 +116,9 @@ class CandidatePage extends React.Component {
                                 this._redirectToLogin();
                             }
                             else {
+                                var error = JSON.parse(resCand.data.response);
                                 updatedState.showError = true;
-                                updatedState.error = resCand.data.Message;                    
+                                updatedState.error = error.Message;                     
                             }
                         });
                     }
@@ -134,11 +139,54 @@ class CandidatePage extends React.Component {
         this.setState(updatedState);
     }
 
-    onProposeCompleted()
+    onProposeCompleted(proposal)
     {
-        let updatedState = this.state;
-        updatedState.showProposalDialog = false;
-        this.setState(updatedState);        
+        if(proposal)
+        {
+            let updatedState = this.state;
+            updatedState.showProposalDialog = false;
+
+            var dalProposals = new ProposalsDal();
+
+            if(proposal.ID == null)
+            {
+                dalProposals.insertProposal( proposal ).then( (resp) => {
+
+                    if(resp.status == constants.HTTP_Created)
+                    {
+                        updatedState.showSuccess = true;
+                        updatedState.success = `Candidate proposed to the position: Proposal ID ${resp.data.ID}`;                                     
+                    }
+                    else
+                    {
+                        var error = JSON.parse(resp.data.response);
+                        updatedState.showError = true;
+                        updatedState.error = error.Message;                     
+                    }
+
+                    this.setState(updatedState);
+                });
+            }
+            else
+            {
+                dalProposals.updateProposal( proposal ).then( (resp) => {
+
+                    if(resp.status == constants.HTTP_OK)
+                    {
+                        updatedState.showSuccess = true;
+                        updatedState.success = `Candidate proposal updated: Proposal ID ${resp.data.ID}`;                                     
+                    }
+                    else
+                    {
+                        var error = JSON.parse(resp.data.response);
+                        updatedState.showError = true;
+                        updatedState.error = error.Message;                     
+                    }
+
+                    this.setState(updatedState);
+                });                
+            }
+        }   
     }
 
     onFirstNameChanged(event) {
@@ -176,7 +224,7 @@ class CandidatePage extends React.Component {
     onEmailChanged(event) {
         const newEmail = event.target.value;
         let updatedState = this.state;
-        updatedState.candidate.Email = newEmail;
+        updatedState.candidate.Email = newEmail; 
 
         this.setState(updatedState);
     }
@@ -401,7 +449,6 @@ class CandidatePage extends React.Component {
                             <td colSpan={2}>
                                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                                 <Alert severity="success" style={styleSuccess}>Success! {this.state.success}</Alert>
-                                
                             </td>
                         </tr>                    
                         <tr>                            
@@ -500,7 +547,7 @@ class CandidatePage extends React.Component {
                     <DialogTitle id="form-dialog-title">Position / Candidate Assignment</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Choose position to which candidate should be assigned
+                            Choose position to which candidate should be proposed
                         </DialogContentText>  
                         <Proposal 
                             CandidateID={ this.state.id }
@@ -606,7 +653,7 @@ class CandidatePage extends React.Component {
 
     _redirectToLogin()
     {
-        this.props.history.push(`/login?ret=/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))        
+        this._pageHelper.redirectToLogin(`/candidate/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
     }
 }
 

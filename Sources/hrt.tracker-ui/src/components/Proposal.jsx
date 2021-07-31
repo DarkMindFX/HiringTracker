@@ -4,16 +4,15 @@ import DateFnsUtils from '@date-io/date-fns';
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker  } from '@material-ui/pickers';
-import FormControl from '@material-ui/core/FormControl';
-import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import constants from "../constants";
 
-const UtilsDal = require('../dal/UtilsDal')
-const CandidatesDal = require('../dal/CandidatesDal')
-const PositionsDal = require('../dal/PositionsDal')
 
+const CandidatesDal = require('../dal/CandidatesDal');
+const PositionsDal = require('../dal/PositionsDal');
+const ProposalStepsDal = require('../dal/ProposalStepsDal');
+const ProposalStatusesDal = require('../dal/ProposalStatusesDal');
+const ProposalDto = require("hrt.dto/src/ProposalDto");
 
 
 class Proposal extends React.Component
@@ -40,8 +39,8 @@ class Proposal extends React.Component
 
         if(!props.ProposalID)
         {
-            updatedState.proposal._candidateId = props.CandidateID;
-            updatedState.proposal._positionId = props.PositionID;            
+            updatedState.proposal.CandidateID = props.CandidateID;
+            updatedState.proposal.PositionID = props.PositionID;            
         }
 
         console.log("Initial state", updatedState);
@@ -62,7 +61,7 @@ class Proposal extends React.Component
 
         let newCandId = parseInt(event.target.value);
 
-        updatedState.proposal._candidateId = newCandId;
+        updatedState.proposal.CandidateID = newCandId;
         this.setState(updatedState);
     }
 
@@ -72,7 +71,7 @@ class Proposal extends React.Component
 
         let newPosId = parseInt(event.target.value);
 
-        updatedState.proposal._positionId = newPosId;
+        updatedState.proposal.CandidateID = newPosId;
 
         this.setState(updatedState);
     }
@@ -83,7 +82,7 @@ class Proposal extends React.Component
 
         let newStatusId = parseInt(event.target.value);
 
-        updatedState.proposal._statusId = newStatusId;
+        updatedState.proposal.StatusID = newStatusId;
         this.setState(updatedState);      
     }
   
@@ -93,7 +92,7 @@ class Proposal extends React.Component
 
         let newCurrStepId = parseInt(event.target.value);
 
-        updatedState.proposal._currentStepId = newCurrStepId;
+        updatedState.proposal.CurrentStepID = newCurrStepId;
         this.setState(updatedState);       
     }
 
@@ -103,20 +102,20 @@ class Proposal extends React.Component
 
         let newNextStepId = parseInt(event.target.value);
 
-        updatedState.proposal._nextStepId = newNextStepId;
+        updatedState.proposal.NextStepId = newNextStepId;
         this.setState(updatedState);         
     }
 
     onDueDateChanged(date)
     {    
         let updatedState = this.state;
-        updatedState.proposal._dueDate = date;
+        updatedState.proposal.DueDate = date;
         this.setState(updatedState);
     }
 
-    onProposeClicked()
+    onConfirmClicked()
     {
-         this.state.onCompleted();
+         this.state.onCompleted(this.state.proposal);
     }
 
     onCancelClicked()
@@ -127,8 +126,9 @@ class Proposal extends React.Component
     componentDidMount() {
         let obj = this;
         var dalPos = new PositionsDal();
-        var dalUtils = new UtilsDal();
+        var dalSteps = new ProposalStepsDal();
         var dalCandidates = new CandidatesDal();
+        var dalStatuses = new ProposalStatusesDal();
 
         // populating positions
         dalPos.getPositions().then( function(ps) {
@@ -136,9 +136,9 @@ class Proposal extends React.Component
             
             if(ps.status == constants.HTTP_OK) {
                 updatedState.positions = ps.data;
-                if(!updatedState.proposal._positionId && ps.data.length > 0) {
+                if(!updatedState.proposal.PositionID && ps.data.length > 0) {
                     
-                    updatedState.proposal._positionId = ps.data[0]._positionId;
+                    updatedState.proposal.PositionID = ps.data[0].ID;
                 }
                 obj.setState(updatedState);
                 
@@ -152,29 +152,29 @@ class Proposal extends React.Component
             
             if(cs.status == constants.HTTP_OK) {
                 updatedState.candidates = cs.data;
-                if(!updatedState.proposal._candidateId && cs.data.length > 0) {
+                if(!updatedState.proposal.CandidateID && cs.data.length > 0) {
                     
-                    updatedState.proposal._candidateId = cs.data[0]._candidateId;
+                    updatedState.proposal.CandidateID = cs.data[0].ID;
                 }
                 obj.setState(updatedState);
-                
             }
-            
         });
 
         
         // populating steps
-        dalUtils.getPositionCandidateStepsAsTable().then( function(pcs) {
+        dalSteps.getProposalSteps().then( function(pcs) {
             let updatedState = obj.state;
 
-            updatedState.steps = pcs;
-            if(updatedState.proposal._currentStepId == 0 && Object.values(pcs).length > 0)
-            {
-                updatedState.proposal._currentStepId = Object.values(pcs)[0].StepID;               
-            }
-            if(updatedState.proposal._nextStepId == 0 && Object.values(pcs).length > 0)
-            {
-                updatedState.proposal._nextStepId = Object.values(pcs)[1].StepID;               
+            if(pcs.status == constants.HTTP_OK) {
+                updatedState.steps = pcs.data;
+                if(updatedState.proposal.CurrentStepID == 0 && pcs.data.length > 0)
+                {
+                    updatedState.proposal.CurrentStepID = pcs.data[0].ID;               
+                }
+                if(updatedState.proposal.NextStepId == 0 && pcs.data[0].length > 0)
+                {
+                    updatedState.proposal.NextStepId = pcs.data[1].ID;               
+                }
             }
             
             obj.setState(updatedState)
@@ -182,13 +182,15 @@ class Proposal extends React.Component
 
         
         // populating statuses
-        dalUtils.getPositionCandidateStatusesAsTable().then( function(pcs) {
+        dalStatuses.getProposalStatuses().then( function(pcs) {
             let updatedState = obj.state;
 
-            updatedState.statuses = pcs;
-            if(!updatedState.proposal._statusId)
-            {
-                updatedState.proposal._statusId = Object.values(pcs)[0].StatusID;               
+            if(pcs.status == constants.HTTP_OK) {
+                updatedState.statuses = pcs.data;
+                if(!updatedState.proposal.StatusID)
+                {
+                    updatedState.proposal.StatusID = pcs.data[0].ID;               
+                }
             }
             
             obj.setState(updatedState)
@@ -208,7 +210,7 @@ class Proposal extends React.Component
 
         return (
             <div>
-                <div key={"divEdit" + this.state.SkillID} style={styleEdit}>
+                <div key={"divEdit" + this.state.ID} style={styleEdit}>
                         <table>
                             <tbody>
                             <tr>
@@ -216,13 +218,13 @@ class Proposal extends React.Component
                                 <td>
                                 <Select
                                     key="cbCandidate"                     
-                                    value={this.state.proposal._candidateId ? this.state.proposal._candidateId : ""}
+                                    value={this.state.proposal.CandidateID ? this.state.proposal.CandidateID : ""}
                                     onChange = { (event) => this.onCandidateChanged(event) }
                                    >   
                                         {
                                             this.state.candidates.map( (p) => (
-                                                <option id={p._candidateId} key={p._candidateId} value={p._candidateId}>
-                                                    {p._fname + " " + p._lname}
+                                                <option id={p.ID} key={p.ID} value={p.ID}>
+                                                    {p.FirstName + " " + p.LastName}
                                                 </option>
                                             ))
                                         }                                   
@@ -234,13 +236,13 @@ class Proposal extends React.Component
                                 <td>
                                 <Select
                                     key="cbPosition"                     
-                                    value={this.state.proposal._positionId ? this.state.proposal._positionId : ""}
+                                    value={this.state.proposal.PositionID ? this.state.proposal.PositionID : ""}
                                     onChange = { (event) => this.onPositionChanged(event) }
                                    >           
                                         {
                                             this.state.positions.map( (p) => (
-                                                <option id={p._positionId} key={p._positionId} value={p._positionId}>
-                                                    {p._title}
+                                                <option id={p.ID} key={p.ID} value={p.ID}>
+                                                    {p.Title}
                                                 </option>
                                             ))
                                         }                         
@@ -252,11 +254,11 @@ class Proposal extends React.Component
                                     Proposed
                                 </td>
                                 <td>
-                                    { (this.state.proposal._proposed.getMonth() + 1) + "/" 
-                                        + this.state.proposal._proposed.getDate() + "/" 
-                                        + this.state.proposal._proposed.getFullYear() + " " 
-                                        + this.state.proposal._proposed.getHours() + ":"
-                                        + this.state.proposal._proposed.getMinutes() } 
+                                    { (this.state.proposal.Proposed.getMonth() + 1) + "/" 
+                                        + this.state.proposal.Proposed.getDate() + "/" 
+                                        + this.state.proposal.Proposed.getFullYear() + " " 
+                                        + this.state.proposal.Proposed.getHours() + ":"
+                                    + this.state.proposal.Proposed.getMinutes() } 
                                 </td>
                             </tr>
                             <tr>
@@ -264,12 +266,12 @@ class Proposal extends React.Component
                                 <td>
                                 <Select                   
                                     key="cbStatus"                     
-                                    value={this.state.proposal._statusId}
+                                    value={this.state.proposal.StatusID}
                                     onChange = { (event) => this.onStatusChanged(event) }
                                    >   
                                         {
                                             Object.values(this.state.statuses).map( (p) => (
-                                                <option id={p.StatusID} key={p.StatusID} value={p.StatusID}>
+                                                <option id={p.ID} key={p.ID} value={p.ID}>
                                                     {p.Name}
                                                 </option>
                                             ))
@@ -282,12 +284,12 @@ class Proposal extends React.Component
                                 <td>
                                 <Select                  
                                     key="cbCurrentStep"                     
-                                    value={this.state.proposal._currentStepId}
+                                    value={this.state.proposal.CurrentStepId}
                                     onChange = { (event) => this.onCurrentStepChanged(event) }
                                    >   
                                         {
                                             Object.values(this.state.steps).map( (p) => (
-                                                <option id={p.StepID} key={p.StepID} value={p.StepID}>
+                                                <option id={p.ID} key={p.ID} value={p.ID}>
                                                     {p.Name}
                                                 </option>
                                             ))
@@ -307,7 +309,7 @@ class Proposal extends React.Component
                                         format="MM/dd/yyyy"
                                         margin="normal"
                                         id="date-picker-inline"
-                                        value={ this.state.proposal._dueDate }
+                                        value={ this.state.proposal.DueDate }
                                         onChange={ (date) => this.onDueDateChanged(date)}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
@@ -321,12 +323,12 @@ class Proposal extends React.Component
                                 <td>
                                 <Select
                                     key="cbNextStep"                     
-                                    value={this.state.proposal._nextStepId}
+                                    value={this.state.proposal.NextStepID}
                                     onChange = { (event) => this.onNextStepChanged(event) }
                                    >   
                                         {
                                             Object.values(this.state.steps).map( (p) => (
-                                                <option id={p.StepID} key={p.StepID} value={p.StepID}>
+                                                <option id={p.ID} key={p.ID} value={p.ID}>
                                                     {p.Name}
                                                 </option>
                                             ))
@@ -337,7 +339,7 @@ class Proposal extends React.Component
                             <tr>
                             <td colspan="2">
                                 <Button variant="contained" color="primary"
-                                        onClick={ () => this.onProposeClicked() }>Propose</Button>
+                                        onClick={ () => this.onConfirmClicked() }>Confirm</Button>
 
                                 <Button variant="contained" 
                                         onClick={ () => this.onCancelClicked() }>Cancel</Button>
@@ -352,19 +354,12 @@ class Proposal extends React.Component
 
     _createEmptyProposalObj()
     {
-        let proposal = {}
+        let proposal = new ProposalDto();
 
         var now = new Date();
 
-
-        proposal._proposalId = null;
-        proposal._positionId = null;
-        proposal._candidateId = null;
-        proposal._statusId = 0;
-        proposal._currentStepId = 0;
-        proposal._nextStepId = 0;
-        proposal._proposed = now;
-        proposal._dueDate = null;
+        proposal.Proposed = now;
+        proposal.DueDate = now;
         
         return proposal;
         
