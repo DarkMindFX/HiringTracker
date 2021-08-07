@@ -78,9 +78,22 @@ foreach(var fk in fks)
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            obj._getUsers().then( () => {
-                obj._getCandidates().then( () => {} );
-            });
+<#
+var promisesDals = string.Empty;
+foreach(var fk in fks)
+{
+    promisesDals += "\t\t\tobj._get" + modelHelper.Pluralize(fk) +  "().then( () => {\r\n";
+}
+
+promisesDals += "\t\t\tobj._get" + modelHelper.Pluralize(table.Name) + "().then( () => {} );\r\n\t\t\t";
+
+foreach(var fk in fks)
+{
+    promisesDals += "});";
+}
+
+#>
+            <#= promisesDals #>
         }
         else {
             console.log('No token - need to login')

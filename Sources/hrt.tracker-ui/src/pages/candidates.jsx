@@ -1,5 +1,7 @@
 
 
+
+
 import React from "react";
 import { Link, withRouter } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
@@ -8,8 +10,9 @@ import { Button } from '@material-ui/core';
 import constants from "../constants";
 
 const PageHelper = require("../helpers/PageHelper");
-const CandidatesDal = require('../dal/CandidatesDal')
-const UsersDal = require('../dal/UsersDal')
+const CandidatesDal = require('../dal/CandidatesDal');
+const UsersDal = require('../dal/UsersDal');
+
 
 class CandidatesPage extends React.Component {
 
@@ -27,7 +30,7 @@ class CandidatesPage extends React.Component {
             error: null
         };
         this._initColumns();
-        
+       
         this._getUsers = this._getUsers.bind(this);
         this._getCandidates = this._getCandidates.bind(this);
         this._redirectToLogin = this._redirectToLogin.bind(this);
@@ -48,9 +51,9 @@ class CandidatesPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            obj._getUsers().then( () => {
-                obj._getCandidates().then( () => {} );
-            });
+            			obj._getUsers().then( () => {
+			obj._getCandidates().then( () => {} );
+			});
         }
         else {
             console.log('No token - need to login')
@@ -77,14 +80,18 @@ class CandidatesPage extends React.Component {
 
     _initColumns() {
         this._columns = [
-            { field: 'ID', headerName: 'ID', width: 100 },
-            { field: 'FirstName', headerName: 'First Name', width: 250 },
-            { field: 'MiddleName', headerName: 'Middle Name', width: 250 },
-            { field: 'LastName', headerName: 'Last Name', width: 250 },
-            { field: 'Email', headerName: 'Email', width: 250 },
-            { field: 'Phone', headerName: 'Phone', width: 250 },
-            { field: 'CreatedDate', headerName: 'Created On', width: 250 },
-            { field: 'CreatedBy', headerName: 'Created By', width: 250 }
+                { field: 'ID', headerName: 'ID', width: 250 },
+                { field: 'FirstName', headerName: 'FirstName', width: 250 },
+                { field: 'MiddleName', headerName: 'MiddleName', width: 250 },
+                { field: 'LastName', headerName: 'LastName', width: 250 },
+                { field: 'Email', headerName: 'Email', width: 250 },
+                { field: 'Phone', headerName: 'Phone', width: 250 },
+                { field: 'CVLink', headerName: 'CVLink', width: 250 },
+                { field: 'CreatedByID', headerName: 'CreatedByID', width: 250 },
+                { field: 'CreatedDate', headerName: 'CreatedDate', width: 250 },
+                { field: 'ModifiedByID', headerName: 'ModifiedByID', width: 250 },
+                { field: 'ModifiedDate', headerName: 'ModifiedDate', width: 250 },
+       
         ]        
     }
 
@@ -95,8 +102,6 @@ class CandidatesPage extends React.Component {
 
         for(let c in cs) {
 
-            let userCreated = this.state.users[cs[c].CreatedByID];
-
             let r = {
                 id: cs[c].ID,
                 ID: cs[c].ID,
@@ -105,8 +110,12 @@ class CandidatesPage extends React.Component {
                 LastName: cs[c].LastName,
                 Email: cs[c].Email,
                 Phone: cs[c].Phone,
+                CVLink: cs[c].CVLink,
+                CreatedByID: cs[c].CreatedByID,
                 CreatedDate: cs[c].CreatedDate,
-                CreatedBy: userCreated.FirstName + ' ' + userCreated.LastName
+                ModifiedByID: cs[c].ModifiedByID,
+                ModifiedDate: cs[c].ModifiedDate,
+
             };
 
             records.push(r);
