@@ -11,7 +11,7 @@
 <#@ parameter name="testValsDelete" type="System.Collections.Generic.IDictionary<string,object>" #>
 
 <#
-	var pks = modelHelper.GetPKColumns(table);
+	var pks = generator.GetPKColumns(table);
 	foreach(var c in table.Columns)
 	{
 		string val = string.Empty;

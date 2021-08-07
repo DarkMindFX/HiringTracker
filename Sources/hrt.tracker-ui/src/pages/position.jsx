@@ -10,6 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SkillsList from '../components/SkillsList';
 
+const PageHelper = require("../helpers/PageHelper");
 const PositionsDal = require('../dal/PositionsDal');
 const PositionSkillsDal = require('../dal/PositionSkillsDal');
 const SkillsDal = require('../dal/SkillsDal');
@@ -23,9 +24,12 @@ class PositionPage extends React.Component {
 
     _skills = null;
     _proficiences = null;
+    _pageHelper = null;
 
     constructor(props) {
         super(props);
+
+        this._pageHelper = new PageHelper(this.props);
 
         this.state = { 
             operation: this.props.match.params.operation,
@@ -94,8 +98,9 @@ class PositionPage extends React.Component {
                                         updatedState.error = null;
                                     } 
                                     else {
+                                        var error = JSON.parse(resPos.data.response);
                                         updatedState.showError = true;
-                                        updatedState.error = resPos.data.Message;
+                                        updatedState.error = error.Message; 
                                     }
 
                                     obj.setState(updatedState);
@@ -108,8 +113,9 @@ class PositionPage extends React.Component {
                                 obj.props.history.push("/login?ret=/positions");
                             }
                             else {
+                                var error = JSON.parse(resPos.data.response);
                                 updatedState.showError = true;
-                                updatedState.error = resPos.data.Message;                    
+                                updatedState.error = error.Message;                    
                             }
 
                             obj.setState(updatedState);
@@ -253,9 +259,9 @@ class PositionPage extends React.Component {
                                 .catch( (res) => { upsertCatch(res) } );
             }
             else {
-                updatedState.showSuccess = false;
+                var error = JSON.parse(result.data.response);
                 updatedState.showError = true;
-                updatedState.error = result.data.Message;  
+                updatedState.error = error.Message;   
                 
                 obj.setState(updatedState);
             }
@@ -266,16 +272,14 @@ class PositionPage extends React.Component {
         function upsertSkillsThen(result) {
             const updatedState = obj.state;
 
-            console.log("upsertSkillsThen", result);
-
             if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
             }
             else {
-                updatedState.showSuccess = false;
+                var error = JSON.parse(result.data.response);
                 updatedState.showError = true;
-                updatedState.error = result.data.Message;          
+                updatedState.error = error.Message;          
             }
 
             obj.setState(updatedState);
@@ -488,7 +492,7 @@ class PositionPage extends React.Component {
             let dalSkills = new SkillsDal();
             let resp = await dalSkills.getSkills();
 
-            if(resp.status == HTTP_OK)
+            if(resp.status == constants.HTTP_OK)
             {
                 this._skills = {};
 
@@ -498,7 +502,7 @@ class PositionPage extends React.Component {
                 }
 
             }
-            else if(resp.status == HTTP_Unauthorized)
+            else if(resp.status == constants.HTTP_Unauthorized)
             {
                 this._redirectToLogin();
             }
@@ -512,7 +516,7 @@ class PositionPage extends React.Component {
             let dalSkillProficiences = new SkillProficienciesDal();
             let resp = await dalSkillProficiences.getSkillProficiencies();
                 
-            if(resp.status == HTTP_OK)
+            if(resp.status == constants.HTTP_OK)
             {
                 this._proficiences = {};
 
@@ -521,7 +525,7 @@ class PositionPage extends React.Component {
                     this._proficiences[ resp.data[s].ID ] = resp.data[s];
                 }
             }
-            else if(resp.status == HTTP_Unauthorized)
+            else if(resp.status == constants.HTTP_Unauthorized)
             {
                 this._redirectToLogin();
             }
@@ -552,7 +556,7 @@ class PositionPage extends React.Component {
 
     _redirectToLogin()
     {
-        this.props.history.push(`/login?ret=/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))        
+        this._pageHelper.redirectToLogin(`/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
     }
 }
 

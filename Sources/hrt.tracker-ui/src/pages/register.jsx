@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import UserDetails from '../components/UserDetails'
 import constants from '../constants';
 
+const PageHelper = require("../helpers/PageHelper");
 const UsersDal = require('../dal/UsersDal')
 
 const { UserDto } = require('hrt.dto')

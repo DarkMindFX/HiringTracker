@@ -118,14 +118,6 @@ namespace T4DalGenerator
             return type;
         }
 
-        public IList<DataModel.DataColumn> GetPKColumns(DataModel.DataTable table)
-        {
-            List<DataModel.DataColumn> pks = new List<DataModel.DataColumn>();
-            pks.AddRange(table.Columns.Where(c => c.IsPK));
-
-            return pks;
-        }
-
         public string NewUUID()
         {
             return Guid.NewGuid().ToString().Replace("-", string.Empty).Replace("{", string.Empty).Replace("}", string.Empty);

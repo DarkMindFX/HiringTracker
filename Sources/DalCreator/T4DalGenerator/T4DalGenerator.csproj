@@ -53,10 +53,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Templates\JsDtoTemplate - Copy.cs">
-      <DependentUpon>JsDtoTemplate.tt</DependentUpon>
+    <Compile Update="Templates\JsDtoTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>JsDtoTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Templates\ServiceDalImplTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -68,10 +68,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SQLDalImplTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Templates\JsClientDalTemplate.cs">
+    <Compile Update="Templates\JsEntitiesListUI.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>JsClientDalTemplate.tt</DependentUpon>
+      <DependentUpon>JsEntitiesListUI.tt</DependentUpon>
     </Compile>
 	<Compile Update="Templates\IDalTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -170,11 +170,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Templates\JsClientDalTemplate.tt">
-      <LastGenOutput>JsClientDalTemplate.cs</LastGenOutput>
+      <LastGenOutput>JsEntitiesListUI.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\JsEntitiesListUI.tt">
+      <LastGenOutput>JsEntitiesListUI.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="Templates\JsDtoTemplate.tt">
-      <LastGenOutput>JsClientDalTemplate.cs</LastGenOutput>
+      <LastGenOutput>JsDtoTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="Templates\EntityControllerTemplate.tt">

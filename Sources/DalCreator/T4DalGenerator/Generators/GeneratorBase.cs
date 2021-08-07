@@ -131,6 +131,14 @@ namespace T4DalGenerator.Generators
             return table.Columns.Where(c => c.IsPK).ToList();
         }
 
+        public IList<DataModel.DataColumn> GetFKColumns(DataModel.DataTable table)
+        {
+            List<DataModel.DataColumn> fks = new List<DataModel.DataColumn>();
+            fks.AddRange(table.Columns.Where(c => !string.IsNullOrEmpty(c.FKRefColumn)));
+
+            return fks;
+        }
+
         protected string NewUUID()
         {
             return Guid.NewGuid().ToString().Replace("-", string.Empty).Replace("{", string.Empty).Replace("}", string.Empty);

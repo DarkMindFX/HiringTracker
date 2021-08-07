@@ -120,7 +120,7 @@ class Proposal extends React.Component
 
     onCancelClicked()
     {
-        this.state.onCompleted();
+        this.state.onCompleted(null);
     }
 
     componentDidMount() {

@@ -33,7 +33,7 @@ namespace T4DalGenerator.Templates.Tests
             
             #line 13 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\DeleteSetupTemplate.tt"
 
-	var pks = modelHelper.GetPKColumns(table);
+	var pks = generator.GetPKColumns(table);
 	foreach(var c in table.Columns)
 	{
 		string val = string.Empty;
