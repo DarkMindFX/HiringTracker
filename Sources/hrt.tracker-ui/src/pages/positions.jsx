@@ -76,7 +76,7 @@ class PositionsPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Candidates</h3>                
+                <h1>Positions</h1>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
                 <Button variant="contained" component={Link} color="primary" size="small" to="/position/new" >+ Position</Button>        
