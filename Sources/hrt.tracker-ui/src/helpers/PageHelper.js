@@ -11,7 +11,7 @@ class PageHelper
     redirectToLogin(retUrl)
     {
         this._props.history.push(`/login?ret=${retUrl}`);     
-    }
+    }    
 }
 
 module.exports = PageHelper;

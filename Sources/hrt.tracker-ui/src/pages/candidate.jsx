@@ -51,17 +51,19 @@ class CandidatePage extends React.Component {
             success: null
         }
 
-        this.onSkillAdded = this.onSkillAdded.bind(this);
-        this.onSkillChanged = this.onSkillChanged.bind(this);
-        this.onSkillDeleted = this.onSkillDeleted.bind(this);
+        
         this.onFirstNameChanged = this.onFirstNameChanged.bind(this);
         this.onMiddleNameChanged = this.onMiddleNameChanged.bind(this);
         this.onLastNameChanged = this.onLastNameChanged.bind(this);
         this.onEmailChanged = this.onEmailChanged.bind(this);
         this.onPhoneChanged = this.onPhoneChanged.bind(this);
         this.onCVLinkChanged = this.onCVLinkChanged.bind(this);
+        
         this.onProposeClicked = this.onProposeClicked.bind(this);
         this.onProposeCompleted = this.onProposeCompleted.bind(this);
+        this.onSkillAdded = this.onSkillAdded.bind(this);
+        this.onSkillChanged = this.onSkillChanged.bind(this);
+        this.onSkillDeleted = this.onSkillDeleted.bind(this);
     }
 
     componentDidMount(event) {
