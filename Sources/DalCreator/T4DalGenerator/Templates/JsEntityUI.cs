@@ -34,7 +34,8 @@ namespace T4DalGenerator.Templates
             #line 12 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
  
     var pks = generator.GetPKColumns(table); 
-    var fks = generator.GetFKColumns(table).Select( c =>  c.FKRefTable ).Distinct();
+    var fks = generator.GetFKColumns(table).Select( c => c.FKRefTable ).Distinct();
+    var fkCols = generator.GetFKColumns(table).Where( c => !string.IsNullOrEmpty(c.FKRefTable) ).Distinct();
     var entityPlural = modelHelper.Pluralize(table.Name);
 
             
@@ -56,21 +57,21 @@ import SkillsList from '../components/SkillsList';
 const PageHelper = require(""../helpers/PageHelper"");
 const ");
             
-            #line 31 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write("Dal = require(\'../dal/");
             
-            #line 31 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write("Dal\');\r\n");
             
-            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 33 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
  
 foreach(var fk in fks) 
 {
@@ -80,21 +81,21 @@ foreach(var fk in fks)
             #line hidden
             this.Write("const ");
             
-            #line 36 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 37 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write("Dal = require(\'../dal/");
             
-            #line 36 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 37 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write("Dal\');\r\n");
             
-            #line 37 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
 }
 
@@ -103,7 +104,7 @@ foreach(var fk in fks)
             #line hidden
             this.Write("const { ");
             
-            #line 40 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -111,7 +112,7 @@ foreach(var fk in fks)
             this.Write("Dto } = require(\'hrt.dto\')\r\n\r\nconst constants = require(\'../constants\');\r\nconst {" +
                     " v4: uuidv4 } = require(\'uuid\');\r\n\r\nclass ");
             
-            #line 45 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 46 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -141,31 +142,31 @@ foreach(var fk in fks)
 
 ");
             
-            #line 68 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-foreach(var c in table.Columns)
+foreach(var c in table.Columns.Where(c => !c.IsPK))
 {
 
             
             #line default
             #line hidden
-            this.Write("    this.on");
+            this.Write("        this.on");
             
-            #line 72 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("Changed = this.on");
             
-            #line 72 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("Changed.bind(this);\r\n");
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
 }
 
@@ -173,12 +174,6 @@ foreach(var c in table.Columns)
             #line default
             #line hidden
             this.Write(@"
-        this.onDepartmentChanged = this.onDepartmentChanged.bind(this);
-        this.onStatusChanged = this.onStatusChanged.bind(this);
-        this.onTitleChanged = this.onTitleChanged.bind(this);
-        this.onShortDescChanged = this.onShortDescChanged.bind(this);
-        this.onDescChanged = this.onDescChanged.bind(this);
-
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
@@ -186,45 +181,78 @@ foreach(var c in table.Columns)
 
         this._get");
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" = this._get");
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".bind(this);\r\n\r\n");
             
-            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
-
-foreach(var c in table.Columns)
+            #line 85 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+ 
+foreach(var fk in fks) 
 {
 
             
             #line default
             #line hidden
-            this.Write("    this._get");
+            this.Write("        this._get");
             
-            #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(c.Name)));
+            #line 89 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
-            this.Write("Changed = this._get");
+            this.Write(" = this._get");
+            
+            #line 89 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write(".bind(this);\r\n");
+            
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             
             #line 94 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(c.Name)));
+
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+
+            
+            #line default
+            #line hidden
+            this.Write("        this.on");
+            
+            #line 98 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Changed = this.on");
+            
+            #line 98 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("Changed.bind(this);\r\n");
             
-            #line 95 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
 }
 
@@ -235,7 +263,7 @@ foreach(var c in table.Columns)
                     "m(constants.SESSION_TOKEN_KEY);\r\n        console.log(\'Token: \', token);\r\n       " +
                     " if(token != null) {\r\n            let obj = this;\r\n");
             
-            #line 107 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 111 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
 var promisesDals = string.Empty;
 foreach(var fk in fks)
@@ -256,286 +284,890 @@ foreach(var fk in fks)
             #line hidden
             this.Write("            ");
             
-            #line 122 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            #line 126 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(promisesDals));
             
             #line default
             #line hidden
             this.Write("\r\n        }\r\n        else {\r\n            console.log(\'No token - need to login\')\r" +
-                    "\n            this._redirectToLogin();           \r\n        }\r\n    }\r\n\r\n    onStat" +
-                    "usChanged(event) {\r\n\r\n        let updatedState = this.state;        \r\n\r\n        " +
-                    "let newStatusId = parseInt(event.target.value);\r\n       \r\n        updatedState.p" +
-                    "osition.StatusID = newStatusId > 0 ? newStatusId : null;\r\n\r\n        this.setStat" +
-                    "e(updatedState);\r\n    }  \r\n    \r\n    onDepartmentChanged(event) {\r\n\r\n        let" +
-                    " updatedState = this.state;        \r\n\r\n        let newDepartmentId = parseInt(ev" +
-                    "ent.target.value);\r\n       \r\n        updatedState.position.DepartmentID = newDep" +
-                    "artmentId > 0 ? newDepartmentId : null;\r\n\r\n        this.setState(updatedState);\r" +
-                    "\n    } \r\n\r\n    onSkillChanged(updatedSkill) {\r\n\r\n        let updatedState = this" +
-                    ".state;\r\n\r\n        let skill = updatedState.position.Skills.find( s => { return " +
-                    "s.id == updatedSkill.id; } );\r\n\r\n        if(skill != null) {\r\n            skill." +
-                    "SkillID = updatedSkill.SkillID;\r\n            skill.SkillProficiencyID = updatedS" +
-                    "kill.SkillProficiencyID;\r\n            skill.IsMandatory = updatedSkill.IsMandato" +
-                    "ry;\r\n\r\n            this.setState(updatedState);\r\n        }  \r\n        \r\n        " +
-                    "console.log(\"onSkillChanged\", this.state.position.Skills);\r\n    }   \r\n\r\n    onSk" +
-                    "illAdded(newSkill) {\r\n        let updatedState = this.state;\r\n        let newSki" +
-                    "llRec = new PositionSkillDto();\r\n         \r\n        newSkillRec.id = newSkill.id" +
-                    ";\r\n        newSkillRec.PositionID = this.state.id;\r\n        newSkillRec.SkillID " +
-                    "= newSkill.SkillID;\r\n        newSkillRec.SkillProficiencyID = newSkill.SkillProf" +
-                    "iciencyID;\r\n        newSkillRec.IsMandatory = newSkill.IsMandatory;\r\n        \r\n " +
-                    "       updatedState.position.Skills.push(newSkillRec);\r\n\r\n        this.setState(" +
-                    "updatedState);\r\n\r\n    }\r\n\r\n    onSkillDeleted(id) {\r\n        let updatedState = " +
-                    "this.state;\r\n        let idx = updatedState.position.Skills.findIndex( s => { re" +
-                    "turn s.id == id; } );\r\n        if(idx >= 0) {\r\n            updatedState.position" +
-                    ".Skills.splice(idx, 1);\r\n            this.setState(updatedState);\r\n        }\r\n  " +
-                    "  }\r\n\r\n    onTitleChanged(event) {\r\n        const newTitle = event.target.value;" +
-                    "\r\n\r\n        let updatedState = this.state;\r\n        updatedState.position.Title " +
-                    "= newTitle;\r\n        this.setState(updatedState);\r\n    }\r\n\r\n    onShortDescChang" +
-                    "ed(event) {\r\n        const newShortDesc = event.target.value;\r\n\r\n        let upd" +
-                    "atedState = this.state;\r\n        updatedState.position.ShortDesc = newShortDesc;" +
-                    "\r\n        this.setState(updatedState);\r\n    }\r\n\r\n    onDescChanged(event) {\r\n   " +
-                    "     const newDesc = event.target.value;\r\n\r\n        let updatedState = this.stat" +
-                    "e;\r\n        updatedState.position.Description = newDesc;\r\n        this.setState(" +
-                    "updatedState);\r\n    }\r\n\r\n    onSaveClicked() {\r\n\r\n        console.log(\"Saving po" +
-                    "sition: \", this.state.position);\r\n        \r\n        const reqPosition = new Posi" +
-                    "tionDto();\r\n        reqPosition.ID = this.state.id;\r\n        reqPosition.Title =" +
-                    " this.state.position.Title;\r\n        reqPosition.ShortDesc = this.state.position" +
-                    ".ShortDesc;\r\n        reqPosition.Description = this.state.position.Description;\r" +
-                    "\n        reqPosition.StatusID = this.state.position.StatusID;\r\n\r\n        let req" +
-                    "PositionSkills = this.state.position.Skills.map( ps => { \r\n            var dto =" +
-                    " new PositionSkillDto();\r\n            dto.SkillID = ps.SkillID;\r\n            dto" +
-                    ".SkillProficiencyID = ps.SkillProficiencyID;\r\n            dto.IsMandatory = ps.I" +
-                    "sMandatory;\r\n            return dto;\r\n        });        \r\n\r\n        console.log" +
-                    "(\"Saving Position: \", reqPosition);   \r\n        console.log(\"Saving Skills: \", r" +
-                    "eqPositionSkills);         \r\n        \r\n        let dalPos = new PositionsDal();\r" +
-                    "\n\r\n        let obj = this;\r\n\r\n        function upsertPositionThen(result) {\r\n   " +
-                    "         const updatedState = obj.state;\r\n\r\n            if(result.status == cons" +
-                    "tants.HTTP_OK || result.status == constants.HTTP_Created) {\r\n                upd" +
-                    "atedState.showSuccess = true;\r\n                updatedState.showError = false;\r\n" +
-                    "                if(result.status == constants.HTTP_Created) {\r\n                 " +
-                    "   updatedState.id = result.data.ID;\r\n                    updatedState.success =" +
-                    " `Position was created. ID: ${updatedState.id}`;\r\n                }\r\n           " +
-                    "     else {\r\n                    updatedState.success = `Position was updated`; " +
-                    "               \r\n                }\r\n\r\n                obj.setState(updatedState)" +
-                    ";\r\n            \r\n                let dalPositionSkills = new PositionSkillsDal()" +
-                    ";\r\n                dalPositionSkills.setPositionSkills(obj.state.id ? obj.state." +
-                    "id : result.data.ID, reqPositionSkills)\r\n                                .then( " +
-                    "(res) => { upsertSkillsThen(res) } )\r\n                                .catch( (r" +
-                    "es) => { upsertCatch(res) } );\r\n            }\r\n            else {\r\n             " +
-                    "   var error = JSON.parse(result.data.response);\r\n                updatedState.s" +
-                    "howError = true;\r\n                updatedState.error = error.Message;   \r\n      " +
-                    "          \r\n                obj.setState(updatedState);\r\n            }\r\n\r\n      " +
-                    "      \r\n        }        \r\n\r\n        function upsertSkillsThen(result) {\r\n      " +
-                    "      const updatedState = obj.state;\r\n\r\n            if(result.status == constan" +
-                    "ts.HTTP_OK || result.status == constants.HTTP_Created) {\r\n                update" +
-                    "dState.showSuccess = true;\r\n                updatedState.showError = false;\r\n   " +
-                    "         }\r\n            else {\r\n                var error = JSON.parse(result.da" +
-                    "ta.response);\r\n                updatedState.showError = true;\r\n                u" +
-                    "pdatedState.error = error.Message;          \r\n            }\r\n\r\n            obj.s" +
-                    "etState(updatedState);\r\n        }\r\n\r\n        function upsertCatch(err) {\r\n      " +
-                    "      const updatedState = obj.state;\r\n            const errMsg = `Error: ${err}" +
-                    "`\r\n            updatedState.showSuccess = false;\r\n            updatedState.showE" +
-                    "rror = true;\r\n            updatedState.error = errMsg; \r\n            obj.setStat" +
-                    "e(updatedState);\r\n        }\r\n\r\n        if(this.state.id != null) {\r\n            " +
-                    "dalPos.updatePosition(reqPosition)\r\n                                    .then( (" +
-                    "res) => { upsertPositionThen(res); } )\r\n                                    .cat" +
-                    "ch( (err) => { upsertCatch(err); });\r\n        }\r\n        else {\r\n            dal" +
-                    "Pos.insertPosition(reqPosition)\r\n                                    .then( (res" +
-                    ") => { upsertPositionThen(res); } )\r\n                                    .catch(" +
-                    " (err) => { upsertCatch(err); });        \r\n        }\r\n        \r\n    }\r\n\r\n    onD" +
-                    "eleteClicked() {\r\n        const updatedState = this.state;\r\n        updatedState" +
-                    ".showDeleteConfirm = true;\r\n        this.setState(updatedState);\r\n    }\r\n\r\n    o" +
-                    "nDeleteCancel() {\r\n        const updatedState = this.state;\r\n        updatedStat" +
-                    "e.showDeleteConfirm = false;\r\n        this.setState(updatedState);\r\n    }\r\n\r\n   " +
-                    " onDeleteConfirm() {  \r\n        \r\n        let dalPos = new PositionsDal();\r\n    " +
-                    "    let obj = this;\r\n\r\n        dalPos.deletePosition(this.state.id).then( (res) " +
-                    "=> {\r\n            if(res.status == constants.HTTP_OK) {\r\n                obj.pro" +
-                    "ps.history.push(\"/positions\");                \r\n            }\r\n            else " +
-                    "{\r\n                const updatedState = obj.state;\r\n                updatedState" +
-                    ".showSuccess = false;\r\n                updatedState.showError = true;\r\n         " +
-                    "       updatedState.error = res.data.Message; \r\n                updatedState.sho" +
-                    "wDeleteConfirm = false;\r\n                obj.setState(updatedState);            " +
-                    "   \r\n            }\r\n        })\r\n    }\r\n\r\n    render() {\r\n\r\n        let skills = " +
-                    "this._getPositionSkillsAsList();\r\n\r\n        const styleError = {\r\n            di" +
-                    "splay: this.state.showError ? \"block\" : \"none\"\r\n        }\r\n\r\n        const style" +
-                    "Success = {\r\n            display: this.state.showSuccess ? \"block\" : \"none\"\r\n   " +
-                    "     }   \r\n        \r\n        const styleDeleteBtn = {\r\n            display: this" +
-                    ".state.id ? \"block\" : \"none\"\r\n        }\r\n\r\n        var lstDepartments = this._pr" +
-                    "epareOptionsList( this.state.departments ? Object.values(this.state.departments)" +
-                    " : null, true );\r\n        \r\n        var lstPositionStatuses = this._prepareOptio" +
-                    "nsList( this.state.positionstatuses ? Object.values(this.state.positionstatuses)" +
-                    " : null, false );\r\n        \r\n        return (\r\n            <div>\r\n              " +
-                    "   <table>\r\n                    <tbody>\r\n                        <tr>\r\n         " +
-                    "                   <td style={{width: 450}}></td>\r\n                            <" +
-                    "td>\r\n                                <Button variant=\"contained\" color=\"primary\"" +
-                    "\r\n                                        onClick={ () => this.onSaveClicked() }" +
-                    ">Save</Button>\r\n\r\n                                <Button variant=\"contained\" co" +
-                    "lor=\"secondary\"\r\n                                        style={styleDeleteBtn}\r" +
-                    "\n                                        onClick={ () => this.onDeleteClicked() " +
-                    "}>Delete</Button>\r\n\r\n                                <Button variant=\"contained\"" +
-                    " component={Link} to=\"/positions\">Cancel</Button>\r\n                            <" +
-                    "/td>\r\n                        </tr>\r\n                        <tr>\r\n             " +
-                    "               <td colSpan={2}>\r\n                                <Alert severity" +
-                    "=\"error\" style={styleError}>Error: {this.state.error}</Alert>\r\n                 " +
-                    "               <Alert severity=\"success\" style={styleSuccess}>Success! {this.sta" +
-                    "te.success}</Alert>                                \r\n                           " +
-                    " </td>\r\n                        </tr>                    \r\n                     " +
-                    "   <tr>                            \r\n                            <td colSpan={2}" +
-                    ">\r\n                                \r\n                                <TextField " +
-                    " id=\"title\" \r\n                                            fullWidth\r\n           " +
-                    "                                 type=\"text\" \r\n                                 " +
-                    "           variant=\"filled\" \r\n                                            label=" +
-                    "\"Position Title\" \r\n                                            value={this.state" +
-                    ".position.Title}\r\n                                            onChange={ (event)" +
-                    " => { this.onTitleChanged(event) } }\r\n                                          " +
-                    "  />\r\n                                \r\n                            </td>\r\n     " +
-                    "                   </tr>                    \r\n                        <tr>\r\n    " +
-                    "                        <td colSpan={2}>\r\n                                <TextF" +
-                    "ield  id=\"shortDesc\" \r\n                                            fullWidth\r\n  " +
-                    "                                          type=\"text\" \r\n                        " +
-                    "                    variant=\"filled\" \r\n                                         " +
-                    "   label=\"Short Description\" \r\n                                            value" +
-                    "={this.state.position.ShortDesc}\r\n                                            on" +
-                    "Change={ (event) => { this.onShortDescChanged(event) } }\r\n                      " +
-                    "                      /></td>\r\n                        </tr>\r\n                  " +
-                    "      <tr>\r\n                            <td colSpan={1}>\r\n                      " +
-                    "          <TextField      key=\"cbDepartment\" \r\n                                 " +
-                    "               fullWidth\r\n                                                select" +
-                    " \r\n                                                label=\"Department\" \r\n        " +
-                    "                                        value={ (this.state.position && this.sta" +
-                    "te.position.DepartmentID) ? this.state.position.DepartmentID : \'-1\' }\r\n         " +
-                    "                                       onChange={ (event) => this.onDepartmentCh" +
-                    "anged(event) }>\r\n                                        {\r\n                    " +
-                    "                        lstDepartments \r\n                                       " +
-                    " }\r\n                                </TextField>\r\n                            </" +
-                    "td>\r\n                        </tr>\r\n                        <tr>\r\n              " +
-                    "              <td colSpan={1}>\r\n                                <TextField      " +
-                    "key=\"cbStatus\" \r\n                                                fullWidth\r\n    " +
-                    "                                            select \r\n                           " +
-                    "                     label=\"Status\" \r\n                                          " +
-                    "      value={ (this.state.position && this.state.position.StatusID) ? this.state" +
-                    ".position.StatusID : Object.keys(this.state.positionstatuses)[0] }\r\n            " +
-                    "                                    onChange={ (event) => this.onStatusChanged(e" +
-                    "vent) }>\r\n                                        {\r\n                           " +
-                    "                 lstPositionStatuses\r\n                                        }\r" +
-                    "\n                                </TextField>\r\n                            </td>" +
-                    "\r\n                        </tr>\r\n                        <tr>\r\n                 " +
-                    "           <td colSpan={4}>Position Details</td>\r\n                        </tr>\r" +
-                    "\n                        <tr>\r\n                            <td colSpan={4}>\r\n   " +
-                    "                             <TextField  id=\"desc\" \r\n                           " +
-                    "                 type=\"text\" \r\n                                            varia" +
-                    "nt=\"filled\" \r\n                                            multiline \r\n          " +
-                    "                                  fullWidth\r\n                                   " +
-                    "         defaultValue={this.state.position.Description}\r\n                       " +
-                    "                     onChange={ (event) => { this.onDescChanged(event) } }\r\n    " +
-                    "                                        rows=\"10\"/>\r\n                           " +
-                    " </td>\r\n                        </tr>\r\n                        <tr>\r\n           " +
-                    "                 <td colSpan={4}>\r\n                                \r\n           " +
-                    "                     <SkillsList id=\"positionSkills\"\r\n                          " +
-                    "          skills={ skills }\r\n                                    canEdit={ this." +
-                    "state.canEdit }\r\n                                    showMustHave = { true }\r\n  " +
-                    "                                  dictSkills = { this.state.skills }\r\n          " +
-                    "                          dictProficiencies = { this.state.skillProficiences }\r\n" +
-                    "                                    onSkillAdded = { this.onSkillAdded }\r\n      " +
-                    "                              onSkillChanged = { this.onSkillChanged }\r\n        " +
-                    "                            onSkillDeleted = { this.onSkillDeleted }\r\n          " +
-                    "                      />\r\n                                \r\n                    " +
-                    "        </td>\r\n                        </tr>\r\n                    </tbody>\r\n    " +
-                    "            </table>\r\n\r\n                <Dialog open={this.state.showDeleteConfi" +
-                    "rm} onClose={() => { this.onDeleteCancel() }} aria-labelledby=\"form-dialog-title" +
-                    "\">\r\n                    <DialogTitle id=\"form-dialog-title\">Delete Position</Dia" +
-                    "logTitle>\r\n                    <DialogContent>\r\n                    <DialogConte" +
-                    "ntText>\r\n                        Are you sure you want to delete this position?\r" +
-                    "\n                    </DialogContentText>                    \r\n                 " +
-                    "   </DialogContent>\r\n                    <DialogActions>\r\n                    <B" +
-                    "utton onClick={() => { this.onDeleteCancel() }} color=\"primary\">\r\n              " +
-                    "          Cancel\r\n                    </Button>\r\n                    <Button onC" +
-                    "lick={() => { this.onDeleteConfirm() }} color=\"primary\">\r\n                      " +
-                    "  Delete\r\n                    </Button>\r\n                    </DialogActions>\r\n " +
-                    "               </Dialog>\r\n            </div>\r\n\r\n        );\r\n    }\r\n\r\n    _create" +
-                    "EmptyPositionObj() {\r\n        let pos = new PositionDto();\r\n        pos.Skills =" +
-                    " [];\r\n        pos.StatusID = 1;\r\n\r\n        return pos;\r\n    }\r\n\r\n    async _getP" +
-                    "osition()\r\n    {\r\n        let updatedState = this.state;\r\n                  \r\n  " +
-                    "      let dalPositions = new PositionsDal();\r\n        let response = await dalPo" +
-                    "sitions.getPosition(this.state.id);\r\n\r\n        if(response.status == constants.H" +
-                    "TTP_OK)\r\n        {\r\n            updatedState.position = response.data;          " +
-                    "      \r\n        }\r\n        else if(response.status == constants.HTTP_Unauthorize" +
-                    "d)\r\n        {\r\n            this._redirectToLogin();\r\n        }\r\n        else \r\n " +
-                    "       {\r\n            this._showError(updatedState, response);\r\n        }\r\n     " +
-                    "   \r\n        this.setState(updatedState);        \r\n    }\r\n\r\n    async _getPositi" +
-                    "onSkills()\r\n    {\r\n        let updatedState = this.state;\r\n\r\n        if(updatedS" +
-                    "tate.position)\r\n        {\r\n                    \r\n            let dalPositionSkil" +
-                    "ls = new PositionSkillsDal();\r\n            let response = await dalPositionSkill" +
-                    "s.getPositionSkillsByPosition(this.state.id);\r\n\r\n            if(response.status " +
-                    "== constants.HTTP_OK)\r\n            {\r\n                const skills = response.da" +
-                    "ta;                     \r\n                updatedState.position.Skills = skills." +
-                    "map(s => { s.id = uuidv4(); return s; });                \r\n            }\r\n      " +
-                    "      else if(response.status == constants.HTTP_Unauthorized)\r\n            {\r\n  " +
-                    "              this._redirectToLogin();\r\n            }\r\n            else \r\n      " +
-                    "      {\r\n                this._showError(updatedState, response);\r\n            }" +
-                    "\r\n        }        \r\n        this.setState(updatedState);        \r\n    }\r\n\r\n    " +
-                    "async _getDepartments()\r\n    {\r\n        let updatedState = this.state;\r\n        " +
-                    "if(updatedState.departments == null)\r\n        {            \r\n            let dal" +
-                    "Departments = new DepartmentsDal();\r\n            let response = await dalDepartm" +
-                    "ents.getDepartments();\r\n\r\n            if(response.status == constants.HTTP_OK)\r\n" +
-                    "            {\r\n                updatedState.departments = {};\r\n\r\n               " +
-                    " for(let s in response.data)\r\n                {\r\n                    updatedStat" +
-                    "e.departments[ response.data[s].ID ] = response.data[s];\r\n                }\r\n   " +
-                    "         }\r\n            else if(response.status == constants.HTTP_Unauthorized)\r" +
-                    "\n            {\r\n                this._redirectToLogin();\r\n            }\r\n       " +
-                    "     else \r\n            {\r\n                this._showError(updatedState, respons" +
-                    "e);\r\n            }\r\n        }\r\n        this.setState(updatedState);\r\n    }\r\n\r\n  " +
-                    "  async _getPositionStatuses()\r\n    {\r\n        let updatedState = this.state;\r\n " +
-                    "       if(updatedState.positionstatuses == null)\r\n        {            \r\n       " +
-                    "     let dalPositionStatuses = new PositionStatusesDal();\r\n            let respo" +
-                    "nse = await dalPositionStatuses.getPositionStatuses();\r\n\r\n            if(respons" +
-                    "e.status == constants.HTTP_OK)\r\n            {\r\n                updatedState.posi" +
-                    "tionstatuses = {};\r\n\r\n                for(let s in response.data)\r\n             " +
-                    "   {\r\n                    updatedState.positionstatuses[ response.data[s].ID ] =" +
-                    " response.data[s];\r\n                }\r\n            }\r\n            else if(respon" +
-                    "se.status == constants.HTTP_Unauthorized)\r\n            {\r\n                this._" +
-                    "redirectToLogin();\r\n            }\r\n            else \r\n            {\r\n           " +
-                    "     this._showError(updatedState, response);\r\n            }\r\n        }\r\n       " +
-                    " this.setState(updatedState);\r\n    }\r\n\r\n\r\n    async _getSkills()\r\n    {\r\n       " +
-                    " let updatedState = this.state;\r\n        if(updatedState.skills == null)\r\n      " +
-                    "  {            \r\n            let dalSkills = new SkillsDal();\r\n            let r" +
-                    "esponse = await dalSkills.getSkills();\r\n\r\n            if(response.status == cons" +
-                    "tants.HTTP_OK)\r\n            {\r\n                updatedState.skills = {};\r\n\r\n    " +
-                    "            for(let s in response.data)\r\n                {\r\n                    " +
-                    "updatedState.skills[ response.data[s].ID ] = response.data[s];\r\n                " +
-                    "}\r\n            }\r\n            else if(response.status == constants.HTTP_Unauthor" +
-                    "ized)\r\n            {\r\n                this._redirectToLogin();\r\n            }\r\n " +
-                    "           else \r\n            {\r\n                this._showError(updatedState, r" +
-                    "esponse);\r\n            }\r\n        }\r\n        this.setState(updatedState);\r\n    }" +
-                    "\r\n\r\n    async _getSkillProficiencies()\r\n    {\r\n        let updatedState = this.s" +
-                    "tate;\r\n        if(updatedState.skillProficiences == null)\r\n        {            " +
-                    "\r\n            let dalSkillProficiencies = new SkillProficienciesDal();\r\n        " +
-                    "    let response = await dalSkillProficiencies.getSkillProficiencies();\r\n\r\n     " +
-                    "       if(response.status == constants.HTTP_OK)\r\n            {\r\n                " +
-                    "updatedState.skillProficiences = {};\r\n\r\n                for(let s in response.da" +
-                    "ta)\r\n                {\r\n                    updatedState.skillProficiences[ resp" +
-                    "onse.data[s].ID ] = response.data[s];\r\n                }\r\n            }\r\n       " +
-                    "     else if(response.status == constants.HTTP_Unauthorized)\r\n            {\r\n   " +
-                    "             this._redirectToLogin();\r\n            }\r\n            else \r\n       " +
-                    "     {\r\n                this._showError(updatedState, response);\r\n            }\r" +
-                    "\n        }\r\n        this.setState(updatedState);\r\n    }\r\n\r\n    _getPositionSkill" +
-                    "sAsList() {\r\n        let skills = [];\r\n\r\n        if(this.state.position.Skills )" +
-                    " {    \r\n\r\n            let obj = this;\r\n            \r\n            this.state.posi" +
-                    "tion.Skills.forEach( s => {\r\n\r\n                let skill = {\r\n                  " +
-                    "  id: s.id,\r\n                    SkillID: s.SkillID, \r\n                    Skill" +
-                    "ProficiencyID: s.SkillProficiencyID, \r\n                    IsMandatory: s.IsMand" +
-                    "atory\r\n                };\r\n                skills.push(skill);\r\n            })\r\n" +
-                    "        }  \r\n      \r\n        return skills;\r\n    }\r\n\r\n    _showError(updatedStat" +
-                    "e, response) {\r\n        var error = JSON.parse(response.data.response);\r\n       " +
-                    " updatedState.showError = true;\r\n        updatedState.error = error.Message;\r\n  " +
-                    "  }\r\n\r\n    _redirectToLogin()\r\n    {\r\n        this._pageHelper.redirectToLogin(`" +
-                    "/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))" +
-                    ";        \r\n    }\r\n\r\n    _prepareOptionsList(objs, hasEmptyVal) \r\n    {\r\n        " +
-                    "var lst = [];\r\n        \r\n        if(hasEmptyVal) {\r\n            lst.push( <optio" +
-                    "n key=\'-1\' value=\'-1\'>[Empty]</option> );\r\n        }\r\n\r\n        if(objs) {\r\n    " +
-                    "        lst.push(\r\n                objs.map( (i) => (\r\n                    <opti" +
-                    "on key={i.ID} value={i.ID}>\r\n                        {i.Name}\r\n                 " +
-                    "   </option>\r\n                ))\r\n            )\r\n        }\r\n\r\n        return lst" +
-                    ";\r\n    }\r\n}\r\n\r\nexport default withRouter(PositionPage);");
+                    "\n            this._redirectToLogin();           \r\n        }\r\n    }\r\n\r\n");
+            
+            #line 134 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+
+            
+            #line default
+            #line hidden
+            this.Write("    on");
+            
+            #line 138 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Changed(event) {\r\n\r\n        let updatedState = this.state;\r\n        let newVal = " +
+                    "null;\r\n");
+            
+            #line 142 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    var columnType = modelHelper.GetColumnType(c);
+    if(columnType == typeof(Int32) || columnType == typeof(Int64))
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("        newVal = parseInt(event.target.value);\r\n");
+            
+            #line 148 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+    else if(columnType == typeof(float) || columnType == typeof(decimal))
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("        newVal = parseFloat(event.target.value);\r\n");
+            
+            #line 154 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+    else {
+
+            
+            #line default
+            #line hidden
+            this.Write("        newVal = event.target.value\r\n");
+            
+            #line 159 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write("        updatedState.");
+            
+            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = newVal;\r\n\r\n        this.setState(updatedState);\r\n    }\r\n\r\n");
+            
+            #line 167 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\n    onSaveClicked() {\r\n\r\n        console.log(\"Saving ");
+            
+            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(": \", this.state.");
+            
+            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        \r\n        const req");
+            
+            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto();\r\n        req");
+            
+            #line 177 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".ID = this.state.id;\r\n");
+            
+            #line 178 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+
+            
+            #line default
+            #line hidden
+            this.Write("        req");
+            
+            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = this.state.");
+            
+            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        console.log(\"Saving ");
+            
+            #line 187 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(": \", req");
+            
+            #line 187 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("); \r\n        \r\n        let dal");
+            
+            #line 189 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 189 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write("Dal();\r\n\r\n        let obj = this;\r\n\r\n        function upsert");
+            
+            #line 193 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(@"Then(response) {
+            const updatedState = obj.state;
+
+            if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+                if(response.status == constants.HTTP_Created) {
+                    updatedState.id = response.data.ID;
+                    updatedState.success = `");
+            
+            #line 201 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(@" was created. ID: ${updatedState.id}`;
+                }
+                else {
+                    updatedState.success = `Position was updated`;                
+                }
+
+                obj.setState(updatedState);
+            }
+            else {
+                obj._showError(updatedState, response); 
+                
+                obj.setState(updatedState);
+            }
+        }  
+
+        function upsertCatch(err) {
+            const updatedState = obj.state;
+            const errMsg = `Error: ${err}`
+            updatedState.showSuccess = false;
+            updatedState.showError = true;
+            updatedState.error = errMsg; 
+            obj.setState(updatedState);
+        }
+
+        if(this.state.id != null) {
+            dal");
+            
+            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(".update");
+            
+            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(req");
+            
+            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n                                    .then( (res) => { upsert");
+            
+            #line 227 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Then(res); } )\r\n                                    .catch( (err) => { upsertCatc" +
+                    "h(err); });\r\n        }\r\n        else {\r\n            dal");
+            
+            #line 231 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(".insert");
+            
+            #line 231 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(req");
+            
+            #line 231 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n                                    .then( (res) => { upsert");
+            
+            #line 232 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(@"Then(res); } )
+                                    .catch( (err) => { upsertCatch(err); });        
+        }
+        
+    }
+
+    onDeleteClicked() {
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = true;
+        this.setState(updatedState);
+    }
+
+    onDeleteCancel() {
+        const updatedState = this.state;
+        updatedState.showDeleteConfirm = false;
+        this.setState(updatedState);
+    }
+
+    onDeleteConfirm() {  
+        
+        let dal");
+            
+            #line 252 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 252 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write("Dal();\r\n        let obj = this;\r\n\r\n        dal");
+            
+            #line 255 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(".delete");
+            
+            #line 255 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(this.state.id).then( (response) => {\r\n            if(response.status == constant" +
+                    "s.HTTP_OK) {\r\n                obj.props.history.push(\"/");
+            
+            #line 257 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(@""");                
+            }
+            else {
+                const updatedState = obj.state;
+                updatedState.showDeleteConfirm = false;
+                obj._showError(updatedState, response);                
+                obj.setState(updatedState);               
+            }
+        })
+    }
+
+    render() {
+
+        const styleError = {
+            display: this.state.showError ? ""block"" : ""none""
+        }
+
+        const styleSuccess = {
+            display: this.state.showSuccess ? ""block"" : ""none""
+        }   
+        
+        const styleDeleteBtn = {
+            display: this.state.id ? ""block"" : ""none""
+        }
+
+");
+            
+            #line 282 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    foreach(var fk in fkCols)
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("        const lst");
+            
+            #line 286 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk.Name)));
+            
+            #line default
+            #line hidden
+            this.Write("Fields = [\"Name\"];\r\n        const lst");
+            
+            #line 287 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk.Name)));
+            
+            #line default
+            #line hidden
+            this.Write(" = this._prepareOptionsList( this.state.");
+            
+            #line 287 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk.FKRefTable).ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n                                                                    ? Object.v" +
+                    "alues(this.state.");
+            
+            #line 288 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk.FKRefTable).ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(") : null, \r\n                                                                    l" +
+                    "st");
+            
+            #line 289 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk.Name)));
+            
+            #line default
+            #line hidden
+            this.Write("Fields,\r\n                                                                    ");
+            
+            #line 290 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fk.IsNullable ? "true" : "false"));
+            
+            #line default
+            #line hidden
+            this.Write(" );\r\n");
+            
+            #line 291 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write(@"        return (
+            <div>
+                 <table>
+                    <tbody>
+                        <tr>
+                            <td style={{width: 450}}></td>
+                            <td>
+                                <Button variant=""contained"" color=""primary""
+                                        onClick={ () => this.onSaveClicked() }>Save</Button>
+
+                                <Button variant=""contained"" color=""secondary""
+                                        style={styleDeleteBtn}
+                                        onClick={ () => this.onDeleteClicked() }>Delete</Button>
+
+                                <Button variant=""contained"" component={Link} to=""/");
+            
+            #line 308 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(@""">Cancel</Button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <Alert severity=""error"" style={styleError}>Error: {this.state.error}</Alert>
+                                <Alert severity=""success"" style={styleSuccess}>Success! {this.state.success}</Alert>                                
+                            </td>
+                        </tr> 
+ ");
+            
+            #line 317 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+
+            
+            #line default
+            #line hidden
+            this.Write("   \r\n                        <tr>\r\n                            <td colSpan={2}>\r\n" +
+                    "");
+            
+            #line 323 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    if(string.IsNullOrEmpty(c.FKRefTable))
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("                                <TextField  id=\"");
+            
+            #line 327 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\" \r\n                                            fullWidth\r\n                      " +
+                    "                      type=\"text\" \r\n                                            " +
+                    "variant=\"filled\" \r\n                                            label=\"");
+            
+            #line 331 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\" \r\n                                            value={this.state.");
+            
+            #line 332 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 332 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n                                            onChange={ (event) => { this.on");
+            
+            #line 333 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Changed(event) } }\r\n                                            />\r\n");
+            
+            #line 335 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+    else
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("                                <TextField  key=\"cb");
+            
+            #line 340 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\" \r\n                                            fullWidth\r\n                      " +
+                    "                      select \r\n                                            label" +
+                    "=\"");
+            
+            #line 343 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\" \r\n                                            value={ (this.state.");
+            
+            #line 344 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(" && this.state.");
+            
+            #line 344 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 344 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(") ? \r\n                                                        this.state.");
+            
+            #line 345 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 345 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" : \'-1\' }\r\n                                                        onChange={ (ev" +
+                    "ent) => this.on");
+            
+            #line 346 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Changed(event) }>\r\n                                        {\r\n                   " +
+                    "                         lst");
+            
+            #line 348 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(c.Name)));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n                                        }\r\n                                </T" +
+                    "extField>\r\n\r\n");
+            
+            #line 352 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write("                                \r\n                            </td>\r\n            " +
+                    "            </tr> \r\n");
+            
+            #line 358 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write(@"                       
+
+                    </tbody>
+                </table>
+
+                <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby=""form-dialog-title"">
+                    <DialogTitle id=""form-dialog-title"">Delete ");
+            
+            #line 366 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("</DialogTitle>\r\n                    <DialogContent>\r\n                    <DialogC" +
+                    "ontentText>\r\n                        Are you sure you want to delete this ");
+            
+            #line 369 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(@"?
+                    </DialogContentText>                    
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={() => { this.onDeleteCancel() }} color=""primary"">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => { this.onDeleteConfirm() }} color=""primary"">
+                        Delete
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+
+        );
+    }
+
+    _createEmpty");
+            
+            #line 386 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Obj() {\r\n        let ");
+            
+            #line 387 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 387 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto();\r\n\r\n        return ");
+            
+            #line 389 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n\r\n    async _get");
+            
+            #line 392 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("()\r\n    {\r\n        let updatedState = this.state;\r\n                  \r\n        le" +
+                    "t dal");
+            
+            #line 396 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 396 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write("Dal();\r\n        let response = await dal");
+            
+            #line 397 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
+            
+            #line default
+            #line hidden
+            this.Write(".get");
+            
+            #line 397 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(this.state.id);\r\n\r\n        if(response.status == constants.HTTP_OK)\r\n        {\r\n" +
+                    "            updatedState.");
+            
+            #line 401 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(@" = response.data;                
+        }
+        else if(response.status == constants.HTTP_Unauthorized)
+        {
+            this._redirectToLogin();
+        }
+        else 
+        {
+            this._showError(updatedState, response);
+        }
+        
+        this.setState(updatedState);        
+    }
+
+");
+            
+            #line 415 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+ 
+    foreach(var fk in fks) 
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("    async _get");
+            
+            #line 419 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write("() {\r\n        let updatedState = this.state;\r\n        updatedState.");
+            
+            #line 421 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk).ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(" = {};\r\n        let dal");
+            
+            #line 422 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write(" = new ");
+            
+            #line 422 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write("Dal();\r\n        let response = await dal");
+            
+            #line 423 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write(".get");
+            
+            #line 423 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
+            
+            #line default
+            #line hidden
+            this.Write("();\r\n\r\n        if(response.status == constants.HTTP_OK)\r\n        {\r\n            f" +
+                    "or(let s in response.data)\r\n            {\r\n                updatedState.");
+            
+            #line 429 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk).ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(@"[response.data[s].ID] = response.data[s];             
+            }
+        }
+        else if(response.status == constants.HTTP_Unauthorized) {
+            this._redirectToLogin();            
+        }
+        else {
+            this._showError(updatedState, response);                        
+        }
+
+        this.setState(updatedState);
+    }
+
+");
+            
+            #line 442 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write(@"    
+
+
+
+    _showError(updatedState, response) {
+        var error = JSON.parse(response.data.response);
+        updatedState.showError = true;
+        updatedState.error = error.Message;
+    }
+
+    _redirectToLogin()
+    {
+        this._pageHelper.redirectToLogin(`/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
+    }
+
+    _prepareOptionsList(objs, fields, hasEmptyVal) 
+    {
+        var lst = [];
+        
+        if(hasEmptyVal) {
+            lst.push( <option key='-1' value='-1'>[Empty]</option> );
+        }
+
+        if(objs) {
+            
+            lst.push(
+                objs.map( (i) => {
+                    let optionText = """";
+                    for(let f in fields) {
+                        optionText += i[fields[f]] + (f + 1 < fields.length ? "" "" : """");
+                    }
+
+                    return(
+                        <option key={i.ID} value={i.ID}>
+                            { optionText }
+                        </option>
+                    )
+                })
+            )
+        }
+
+        return lst;
+    }
+}
+
+export default withRouter(PositionPage);");
             return this.GenerationEnvironment.ToString();
         }
         

@@ -11,7 +11,8 @@
 
 <# 
     var pks = generator.GetPKColumns(table); 
-    var fks = generator.GetFKColumns(table).Select( c =>  c.FKRefTable ).Distinct();
+    var fks = generator.GetFKColumns(table).Select( c => c.FKRefTable ).Distinct();
+    var fkCols = generator.GetFKColumns(table).Where( c => !string.IsNullOrEmpty(c.FKRefTable) ).Distinct();
     var entityPlural = modelHelper.Pluralize(table.Name);
 #>
 
@@ -66,19 +67,13 @@ class <#= table.Name #>Page extends React.Component {
         };
 
 <#
-foreach(var c in table.Columns)
+foreach(var c in table.Columns.Where(c => !c.IsPK))
 {
 #>
-    this.on<#= c.Name #>Changed = this.on<#= c.Name #>Changed.bind(this);
+        this.on<#= c.Name #>Changed = this.on<#= c.Name #>Changed.bind(this);
 <#
 }
 #>
-
-        this.onDepartmentChanged = this.onDepartmentChanged.bind(this);
-        this.onStatusChanged = this.onStatusChanged.bind(this);
-        this.onTitleChanged = this.onTitleChanged.bind(this);
-        this.onShortDescChanged = this.onShortDescChanged.bind(this);
-        this.onDescChanged = this.onDescChanged.bind(this);
 
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
@@ -87,11 +82,20 @@ foreach(var c in table.Columns)
 
         this._get<#= table.Name #> = this._get<#= table.Name #>.bind(this);
 
-<#
-foreach(var c in table.Columns)
+<# 
+foreach(var fk in fks) 
 {
 #>
-    this._get<#= modelHelper.Pluralize(c.Name) #>Changed = this._get<#= modelHelper.Pluralize(c.Name) #>Changed.bind(this);
+        this._get<#= modelHelper.Pluralize(fk) #> = this._get<#= modelHelper.Pluralize(fk) #>.bind(this);
+<#
+}
+#>
+
+<#
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+#>
+        this.on<#= c.Name #>Changed = this.on<#= c.Name #>Changed.bind(this);
 <#
 }
 #>
@@ -127,167 +131,87 @@ foreach(var fk in fks)
         }
     }
 
-    onStatusChanged(event) {
-
-        let updatedState = this.state;        
-
-        let newStatusId = parseInt(event.target.value);
-       
-        updatedState.position.StatusID = newStatusId > 0 ? newStatusId : null;
-
-        this.setState(updatedState);
-    }  
-    
-    onDepartmentChanged(event) {
-
-        let updatedState = this.state;        
-
-        let newDepartmentId = parseInt(event.target.value);
-       
-        updatedState.position.DepartmentID = newDepartmentId > 0 ? newDepartmentId : null;
-
-        this.setState(updatedState);
-    } 
-
-    onSkillChanged(updatedSkill) {
+<#
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+#>
+    on<#= c.Name #>Changed(event) {
 
         let updatedState = this.state;
-
-        let skill = updatedState.position.Skills.find( s => { return s.id == updatedSkill.id; } );
-
-        if(skill != null) {
-            skill.SkillID = updatedSkill.SkillID;
-            skill.SkillProficiencyID = updatedSkill.SkillProficiencyID;
-            skill.IsMandatory = updatedSkill.IsMandatory;
-
-            this.setState(updatedState);
-        }  
-        
-        console.log("onSkillChanged", this.state.position.Skills);
-    }   
-
-    onSkillAdded(newSkill) {
-        let updatedState = this.state;
-        let newSkillRec = new PositionSkillDto();
-         
-        newSkillRec.id = newSkill.id;
-        newSkillRec.PositionID = this.state.id;
-        newSkillRec.SkillID = newSkill.SkillID;
-        newSkillRec.SkillProficiencyID = newSkill.SkillProficiencyID;
-        newSkillRec.IsMandatory = newSkill.IsMandatory;
-        
-        updatedState.position.Skills.push(newSkillRec);
-
-        this.setState(updatedState);
-
+        let newVal = null;
+<#
+    var columnType = modelHelper.GetColumnType(c);
+    if(columnType == typeof(Int32) || columnType == typeof(Int64))
+    {
+#>
+        newVal = parseInt(event.target.value);
+<#
     }
-
-    onSkillDeleted(id) {
-        let updatedState = this.state;
-        let idx = updatedState.position.Skills.findIndex( s => { return s.id == id; } );
-        if(idx >= 0) {
-            updatedState.position.Skills.splice(idx, 1);
-            this.setState(updatedState);
-        }
+    else if(columnType == typeof(float) || columnType == typeof(decimal))
+    {
+#>
+        newVal = parseFloat(event.target.value);
+<#
     }
+    else {
+#>
+        newVal = event.target.value
+<#
+    }
+#>
+        updatedState.<#= table.Name.ToLower() #>.<#= c.Name #> = newVal;
 
-    onTitleChanged(event) {
-        const newTitle = event.target.value;
-
-        let updatedState = this.state;
-        updatedState.position.Title = newTitle;
         this.setState(updatedState);
     }
 
-    onShortDescChanged(event) {
-        const newShortDesc = event.target.value;
+<#
+}
+#>
 
-        let updatedState = this.state;
-        updatedState.position.ShortDesc = newShortDesc;
-        this.setState(updatedState);
-    }
-
-    onDescChanged(event) {
-        const newDesc = event.target.value;
-
-        let updatedState = this.state;
-        updatedState.position.Description = newDesc;
-        this.setState(updatedState);
-    }
 
     onSaveClicked() {
 
-        console.log("Saving position: ", this.state.position);
+        console.log("Saving <#= table.Name #>: ", this.state.<#= table.Name.ToLower() #>);
         
-        const reqPosition = new PositionDto();
-        reqPosition.ID = this.state.id;
-        reqPosition.Title = this.state.position.Title;
-        reqPosition.ShortDesc = this.state.position.ShortDesc;
-        reqPosition.Description = this.state.position.Description;
-        reqPosition.StatusID = this.state.position.StatusID;
+        const req<#= table.Name #> = new <#= table.Name #>Dto();
+        req<#= table.Name #>.ID = this.state.id;
+<#
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+#>
+        req<#= table.Name #>.<#= c.Name #> = this.state.<#= table.Name.ToLower() #>.<#= c.Name #>;
+<#
+}
+#>
 
-        let reqPositionSkills = this.state.position.Skills.map( ps => { 
-            var dto = new PositionSkillDto();
-            dto.SkillID = ps.SkillID;
-            dto.SkillProficiencyID = ps.SkillProficiencyID;
-            dto.IsMandatory = ps.IsMandatory;
-            return dto;
-        });        
-
-        console.log("Saving Position: ", reqPosition);   
-        console.log("Saving Skills: ", reqPositionSkills);         
+        console.log("Saving <#= table.Name #>: ", req<#= table.Name #>); 
         
-        let dalPos = new PositionsDal();
+        let dal<#= entityPlural #> = new <#= entityPlural #>Dal();
 
         let obj = this;
 
-        function upsertPositionThen(result) {
+        function upsert<#= table.Name #>Then(response) {
             const updatedState = obj.state;
 
-            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+            if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
-                if(result.status == constants.HTTP_Created) {
-                    updatedState.id = result.data.ID;
-                    updatedState.success = `Position was created. ID: ${updatedState.id}`;
+                if(response.status == constants.HTTP_Created) {
+                    updatedState.id = response.data.ID;
+                    updatedState.success = `<#= table.Name #> was created. ID: ${updatedState.id}`;
                 }
                 else {
                     updatedState.success = `Position was updated`;                
                 }
 
                 obj.setState(updatedState);
-            
-                let dalPositionSkills = new PositionSkillsDal();
-                dalPositionSkills.setPositionSkills(obj.state.id ? obj.state.id : result.data.ID, reqPositionSkills)
-                                .then( (res) => { upsertSkillsThen(res) } )
-                                .catch( (res) => { upsertCatch(res) } );
             }
             else {
-                var error = JSON.parse(result.data.response);
-                updatedState.showError = true;
-                updatedState.error = error.Message;   
+                obj._showError(updatedState, response); 
                 
                 obj.setState(updatedState);
             }
-
-            
-        }        
-
-        function upsertSkillsThen(result) {
-            const updatedState = obj.state;
-
-            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
-                updatedState.showSuccess = true;
-                updatedState.showError = false;
-            }
-            else {
-                var error = JSON.parse(result.data.response);
-                updatedState.showError = true;
-                updatedState.error = error.Message;          
-            }
-
-            obj.setState(updatedState);
-        }
+        }  
 
         function upsertCatch(err) {
             const updatedState = obj.state;
@@ -299,13 +223,13 @@ foreach(var fk in fks)
         }
 
         if(this.state.id != null) {
-            dalPos.updatePosition(reqPosition)
-                                    .then( (res) => { upsertPositionThen(res); } )
+            dal<#= entityPlural #>.update<#= table.Name #>(req<#= table.Name #>)
+                                    .then( (res) => { upsert<#= table.Name #>Then(res); } )
                                     .catch( (err) => { upsertCatch(err); });
         }
         else {
-            dalPos.insertPosition(reqPosition)
-                                    .then( (res) => { upsertPositionThen(res); } )
+            dal<#= entityPlural #>.insert<#= table.Name #>(req<#= table.Name #>)
+                                    .then( (res) => { upsert<#= table.Name #>Then(res); } )
                                     .catch( (err) => { upsertCatch(err); });        
         }
         
@@ -325,27 +249,23 @@ foreach(var fk in fks)
 
     onDeleteConfirm() {  
         
-        let dalPos = new PositionsDal();
+        let dal<#= entityPlural #> = new <#= entityPlural #>Dal();
         let obj = this;
 
-        dalPos.deletePosition(this.state.id).then( (res) => {
-            if(res.status == constants.HTTP_OK) {
-                obj.props.history.push("/positions");                
+        dal<#= entityPlural #>.delete<#= table.Name #>(this.state.id).then( (response) => {
+            if(response.status == constants.HTTP_OK) {
+                obj.props.history.push("/<#= entityPlural.ToLower() #>");                
             }
             else {
                 const updatedState = obj.state;
-                updatedState.showSuccess = false;
-                updatedState.showError = true;
-                updatedState.error = res.data.Message; 
                 updatedState.showDeleteConfirm = false;
+                obj._showError(updatedState, response);                
                 obj.setState(updatedState);               
             }
         })
     }
 
     render() {
-
-        let skills = this._getPositionSkillsAsList();
 
         const styleError = {
             display: this.state.showError ? "block" : "none"
@@ -359,10 +279,18 @@ foreach(var fk in fks)
             display: this.state.id ? "block" : "none"
         }
 
-        var lstDepartments = this._prepareOptionsList( this.state.departments ? Object.values(this.state.departments) : null, true );
-        
-        var lstPositionStatuses = this._prepareOptionsList( this.state.positionstatuses ? Object.values(this.state.positionstatuses) : null, false );
-        
+<#
+    foreach(var fk in fkCols)
+    {
+#>
+        const lst<#= modelHelper.Pluralize(fk.Name) #>Fields = ["Name"];
+        const lst<#= modelHelper.Pluralize(fk.Name) #> = this._prepareOptionsList( this.state.<#= modelHelper.Pluralize(fk.FKRefTable).ToLower() #> 
+                                                                    ? Object.values(this.state.<#= modelHelper.Pluralize(fk.FKRefTable).ToLower() #>) : null, 
+                                                                    lst<#= modelHelper.Pluralize(fk.Name) #>Fields,
+                                                                    <#= fk.IsNullable ? "true" : "false" #> );
+<#
+    }
+#>
         return (
             <div>
                  <table>
@@ -377,7 +305,7 @@ foreach(var fk in fks)
                                         style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
 
-                                <Button variant="contained" component={Link} to="/positions">Cancel</Button>
+                                <Button variant="contained" component={Link} to="/<#= entityPlural.ToLower() #>">Cancel</Button>
                             </td>
                         </tr>
                         <tr>
@@ -385,99 +313,60 @@ foreach(var fk in fks)
                                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                                 <Alert severity="success" style={styleSuccess}>Success! {this.state.success}</Alert>                                
                             </td>
-                        </tr>                    
-                        <tr>                            
+                        </tr> 
+ <#
+foreach(var c in table.Columns.Where(c => !c.IsPK))
+{
+#>   
+                        <tr>
                             <td colSpan={2}>
-                                
-                                <TextField  id="title" 
+<#
+    if(string.IsNullOrEmpty(c.FKRefTable))
+    {
+#>
+                                <TextField  id="<#= c.Name #>" 
                                             fullWidth
                                             type="text" 
                                             variant="filled" 
-                                            label="Position Title" 
-                                            value={this.state.position.Title}
-                                            onChange={ (event) => { this.onTitleChanged(event) } }
+                                            label="<#= c.Name #>" 
+                                            value={this.state.<#= table.Name.ToLower() #>.<#= c.Name #>}
+                                            onChange={ (event) => { this.on<#= c.Name #>Changed(event) } }
                                             />
-                                
-                            </td>
-                        </tr>                    
-                        <tr>
-                            <td colSpan={2}>
-                                <TextField  id="shortDesc" 
+<#
+    }
+    else
+    {
+#>
+                                <TextField  key="cb<#= c.Name #>" 
                                             fullWidth
-                                            type="text" 
-                                            variant="filled" 
-                                            label="Short Description" 
-                                            value={this.state.position.ShortDesc}
-                                            onChange={ (event) => { this.onShortDescChanged(event) } }
-                                            /></td>
-                        </tr>
-                        <tr>
-                            <td colSpan={1}>
-                                <TextField      key="cbDepartment" 
-                                                fullWidth
-                                                select 
-                                                label="Department" 
-                                                value={ (this.state.position && this.state.position.DepartmentID) ? this.state.position.DepartmentID : '-1' }
-                                                onChange={ (event) => this.onDepartmentChanged(event) }>
+                                            select 
+                                            label="<#= c.Name #>" 
+                                            value={ (this.state.<#= table.Name.ToLower() #> && this.state.<#= table.Name.ToLower() #>.<#= c.Name #>) ? 
+                                                        this.state.<#= table.Name.ToLower() #>.<#= c.Name #> : '-1' }
+                                                        onChange={ (event) => this.on<#= c.Name #>Changed(event) }>
                                         {
-                                            lstDepartments 
+                                            lst<#= modelHelper.Pluralize(c.Name) #> 
                                         }
                                 </TextField>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={1}>
-                                <TextField      key="cbStatus" 
-                                                fullWidth
-                                                select 
-                                                label="Status" 
-                                                value={ (this.state.position && this.state.position.StatusID) ? this.state.position.StatusID : Object.keys(this.state.positionstatuses)[0] }
-                                                onChange={ (event) => this.onStatusChanged(event) }>
-                                        {
-                                            lstPositionStatuses
-                                        }
-                                </TextField>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>Position Details</td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>
-                                <TextField  id="desc" 
-                                            type="text" 
-                                            variant="filled" 
-                                            multiline 
-                                            fullWidth
-                                            defaultValue={this.state.position.Description}
-                                            onChange={ (event) => { this.onDescChanged(event) } }
-                                            rows="10"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>
-                                
-                                <SkillsList id="positionSkills"
-                                    skills={ skills }
-                                    canEdit={ this.state.canEdit }
-                                    showMustHave = { true }
-                                    dictSkills = { this.state.skills }
-                                    dictProficiencies = { this.state.skillProficiences }
-                                    onSkillAdded = { this.onSkillAdded }
-                                    onSkillChanged = { this.onSkillChanged }
-                                    onSkillDeleted = { this.onSkillDeleted }
-                                />
+
+<#
+    }
+#>
                                 
                             </td>
-                        </tr>
+                        </tr> 
+<#
+}
+#>                       
+
                     </tbody>
                 </table>
 
                 <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Delete Position</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Delete <#= table.Name #></DialogTitle>
                     <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to delete this position?
+                        Are you sure you want to delete this <#= table.Name #>?
                     </DialogContentText>                    
                     </DialogContent>
                     <DialogActions>
@@ -494,24 +383,22 @@ foreach(var fk in fks)
         );
     }
 
-    _createEmptyPositionObj() {
-        let pos = new PositionDto();
-        pos.Skills = [];
-        pos.StatusID = 1;
+    _createEmpty<#= table.Name #>Obj() {
+        let <#= table.Name.ToLower() #> = new <#= table.Name #>Dto();
 
-        return pos;
+        return <#= table.Name.ToLower() #>;
     }
 
-    async _getPosition()
+    async _get<#= table.Name #>()
     {
         let updatedState = this.state;
                   
-        let dalPositions = new PositionsDal();
-        let response = await dalPositions.getPosition(this.state.id);
+        let dal<#= entityPlural #> = new <#= entityPlural #>Dal();
+        let response = await dal<#= entityPlural #>.get<#= table.Name #>(this.state.id);
 
         if(response.status == constants.HTTP_OK)
         {
-            updatedState.position = response.data;                
+            updatedState.<#= table.Name.ToLower() #> = response.data;                
         }
         else if(response.status == constants.HTTP_Unauthorized)
         {
@@ -525,171 +412,38 @@ foreach(var fk in fks)
         this.setState(updatedState);        
     }
 
-    async _getPositionSkills()
+<# 
+    foreach(var fk in fks) 
     {
+#>
+    async _get<#= modelHelper.Pluralize(fk) #>() {
         let updatedState = this.state;
+        updatedState.<#= modelHelper.Pluralize(fk).ToLower() #> = {};
+        let dal<#= modelHelper.Pluralize(fk) #> = new <#= modelHelper.Pluralize(fk) #>Dal();
+        let response = await dal<#= modelHelper.Pluralize(fk) #>.get<#= modelHelper.Pluralize(fk) #>();
 
-        if(updatedState.position)
+        if(response.status == constants.HTTP_OK)
         {
-                    
-            let dalPositionSkills = new PositionSkillsDal();
-            let response = await dalPositionSkills.getPositionSkillsByPosition(this.state.id);
-
-            if(response.status == constants.HTTP_OK)
+            for(let s in response.data)
             {
-                const skills = response.data;                     
-                updatedState.position.Skills = skills.map(s => { s.id = uuidv4(); return s; });                
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }        
-        this.setState(updatedState);        
-    }
-
-    async _getDepartments()
-    {
-        let updatedState = this.state;
-        if(updatedState.departments == null)
-        {            
-            let dalDepartments = new DepartmentsDal();
-            let response = await dalDepartments.getDepartments();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.departments = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.departments[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
+                updatedState.<#= modelHelper.Pluralize(fk).ToLower() #>[response.data[s].ID] = response.data[s];             
             }
         }
+        else if(response.status == constants.HTTP_Unauthorized) {
+            this._redirectToLogin();            
+        }
+        else {
+            this._showError(updatedState, response);                        
+        }
+
         this.setState(updatedState);
     }
 
-    async _getPositionStatuses()
-    {
-        let updatedState = this.state;
-        if(updatedState.positionstatuses == null)
-        {            
-            let dalPositionStatuses = new PositionStatusesDal();
-            let response = await dalPositionStatuses.getPositionStatuses();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.positionstatuses = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.positionstatuses[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }
-        this.setState(updatedState);
+<#
     }
+#>    
 
 
-    async _getSkills()
-    {
-        let updatedState = this.state;
-        if(updatedState.skills == null)
-        {            
-            let dalSkills = new SkillsDal();
-            let response = await dalSkills.getSkills();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.skills = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.skills[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }
-        this.setState(updatedState);
-    }
-
-    async _getSkillProficiencies()
-    {
-        let updatedState = this.state;
-        if(updatedState.skillProficiences == null)
-        {            
-            let dalSkillProficiencies = new SkillProficienciesDal();
-            let response = await dalSkillProficiencies.getSkillProficiencies();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.skillProficiences = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.skillProficiences[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }
-        this.setState(updatedState);
-    }
-
-    _getPositionSkillsAsList() {
-        let skills = [];
-
-        if(this.state.position.Skills ) {    
-
-            let obj = this;
-            
-            this.state.position.Skills.forEach( s => {
-
-                let skill = {
-                    id: s.id,
-                    SkillID: s.SkillID, 
-                    SkillProficiencyID: s.SkillProficiencyID, 
-                    IsMandatory: s.IsMandatory
-                };
-                skills.push(skill);
-            })
-        }  
-      
-        return skills;
-    }
 
     _showError(updatedState, response) {
         var error = JSON.parse(response.data.response);
@@ -702,7 +456,7 @@ foreach(var fk in fks)
         this._pageHelper.redirectToLogin(`/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
     }
 
-    _prepareOptionsList(objs, hasEmptyVal) 
+    _prepareOptionsList(objs, fields, hasEmptyVal) 
     {
         var lst = [];
         
@@ -711,12 +465,20 @@ foreach(var fk in fks)
         }
 
         if(objs) {
+            
             lst.push(
-                objs.map( (i) => (
-                    <option key={i.ID} value={i.ID}>
-                        {i.Name}
-                    </option>
-                ))
+                objs.map( (i) => {
+                    let optionText = "";
+                    for(let f in fields) {
+                        optionText += i[fields[f]] + (f + 1 < fields.length ? " " : "");
+                    }
+
+                    return(
+                        <option key={i.ID} value={i.ID}>
+                            { optionText }
+                        </option>
+                    )
+                })
             )
         }
 

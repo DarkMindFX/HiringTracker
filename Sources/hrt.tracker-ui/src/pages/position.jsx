@@ -1,3 +1,6 @@
+
+
+
 import React from 'react';
 import { Link, withRouter  } from 'react-router-dom'
 import { TextField } from '@material-ui/core';
@@ -14,6 +17,7 @@ const PageHelper = require("../helpers/PageHelper");
 const PositionsDal = require('../dal/PositionsDal');
 const DepartmentsDal = require('../dal/DepartmentsDal');
 const PositionStatusesDal = require('../dal/PositionStatusesDal');
+const UsersDal = require('../dal/UsersDal');
 const PositionSkillsDal = require('../dal/PositionSkillsDal');
 const SkillsDal = require('../dal/SkillsDal');
 const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
@@ -45,76 +49,111 @@ class PositionPage extends React.Component {
             success: null
         };
 
+        this.onDepartmentIDChanged = this.onDepartmentIDChanged.bind(this);
+        this.onTitleChanged = this.onTitleChanged.bind(this);
+        this.onShortDescChanged = this.onShortDescChanged.bind(this);
+        this.onDescriptionChanged = this.onDescriptionChanged.bind(this);
+        this.onStatusIDChanged = this.onStatusIDChanged.bind(this);
         this.onSkillAdded = this.onSkillAdded.bind(this);
         this.onSkillChanged = this.onSkillChanged.bind(this);
         this.onSkillDeleted = this.onSkillDeleted.bind(this);
-        this.onDepartmentChanged = this.onDepartmentChanged.bind(this);
-        this.onStatusChanged = this.onStatusChanged.bind(this);
-        this.onTitleChanged = this.onTitleChanged.bind(this);
-        this.onShortDescChanged = this.onShortDescChanged.bind(this);
-        this.onDescChanged = this.onDescChanged.bind(this);
+
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
 
+        this._getPosition = this._getPosition.bind(this);
+
         this._getDepartments = this._getDepartments.bind(this);
         this._getPositionStatuses = this._getPositionStatuses.bind(this);
-        this._getPosition = this._getPosition.bind(this);
+        this._getUsers = this._getUsers.bind(this);
         this._getPositionSkills = this._getPositionSkills.bind(this);
         this._getSkills = this._getSkills.bind(this);
         this._getSkillProficiencies = this._getSkillProficiencies.bind(this);
+
+        this.onDepartmentIDChanged = this.onDepartmentIDChanged.bind(this);
+        this.onTitleChanged = this.onTitleChanged.bind(this);
+        this.onShortDescChanged = this.onShortDescChanged.bind(this);
+        this.onDescriptionChanged = this.onDescriptionChanged.bind(this);
+        this.onStatusIDChanged = this.onStatusIDChanged.bind(this);
+        
     }
 
     componentDidMount() {
-
         const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+        console.log('Token: ', token);
         if(token != null) {
-
             let obj = this;
-
             obj._getDepartments().then( () => {
-                console.log("Departments", this.state.departments);
-                obj._getPositionStatuses().then( () => {
-                    if(obj.state.id) {   
-                        obj._getPosition().then( () => {
-                            obj._getSkills().then( () => {
-                                obj._getSkillProficiencies().then( () => {
-                                    obj._getPositionSkills().then( () => {} );
+			    obj._getPositionStatuses().then( () => {
+			        obj._getUsers().then( () => {
+			            if(obj.state.id) {   
+                            obj._getPosition().then( () => {
+                                obj._getSkills().then( () => {
+                                    obj._getSkillProficiencies().then( () => {
+                                        obj._getPositionSkills().then( () => {} );
+                                    })
                                 })
-                            })
-                        })                     
-                    }
-                })
-            })
+                            })                     
+                        }
+			});});});
         }
         else {
             console.log('No token - need to login')
-            this.props.history.push(`/login?ret=/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``))
+            this._redirectToLogin();           
         }
     }
 
-    onStatusChanged(event) {
+    onDepartmentIDChanged(event) {
 
-        let updatedState = this.state;        
-
-        let newStatusId = parseInt(event.target.value);
-       
-        updatedState.position.StatusID = newStatusId > 0 ? newStatusId : null;
-
-        this.setState(updatedState);
-    }  
-    
-    onDepartmentChanged(event) {
-
-        let updatedState = this.state;        
-
-        let newDepartmentId = parseInt(event.target.value);
-       
-        updatedState.position.DepartmentID = newDepartmentId > 0 ? newDepartmentId : null;
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = parseInt(event.target.value);
+        updatedState.position.DepartmentID = newVal;
 
         this.setState(updatedState);
-    } 
+    }
+
+    onTitleChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = event.target.value
+        updatedState.position.Title = newVal;
+
+        this.setState(updatedState);
+    }
+
+    onShortDescChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = event.target.value
+        updatedState.position.ShortDesc = newVal;
+
+        this.setState(updatedState);
+    }
+
+    onDescriptionChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = event.target.value
+        updatedState.position.Description = newVal;
+
+        this.setState(updatedState);
+    }
+
+    onStatusIDChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = parseInt(event.target.value);
+        updatedState.position.StatusID = newVal;
+
+        this.setState(updatedState);
+    }
 
     onSkillChanged(updatedSkill) {
 
@@ -158,64 +197,37 @@ class PositionPage extends React.Component {
         }
     }
 
-    onTitleChanged(event) {
-        const newTitle = event.target.value;
-
-        let updatedState = this.state;
-        updatedState.position.Title = newTitle;
-        this.setState(updatedState);
-    }
-
-    onShortDescChanged(event) {
-        const newShortDesc = event.target.value;
-
-        let updatedState = this.state;
-        updatedState.position.ShortDesc = newShortDesc;
-        this.setState(updatedState);
-    }
-
-    onDescChanged(event) {
-        const newDesc = event.target.value;
-
-        let updatedState = this.state;
-        updatedState.position.Description = newDesc;
-        this.setState(updatedState);
-    }
 
     onSaveClicked() {
 
-        console.log("Saving position: ", this.state.position);
+        console.log("Saving Position: ", this.state.position);
         
         const reqPosition = new PositionDto();
         reqPosition.ID = this.state.id;
+        reqPosition.DepartmentID = this.state.position.DepartmentID;
         reqPosition.Title = this.state.position.Title;
         reqPosition.ShortDesc = this.state.position.ShortDesc;
         reqPosition.Description = this.state.position.Description;
         reqPosition.StatusID = this.state.position.StatusID;
+        reqPosition.CreatedDate = this.state.position.CreatedDate;
+        reqPosition.CreatedByID = this.state.position.CreatedByID;
+        reqPosition.ModifiedDate = this.state.position.ModifiedDate;
+        reqPosition.ModifiedByID = this.state.position.ModifiedByID;
 
-        let reqPositionSkills = this.state.position.Skills.map( ps => { 
-            var dto = new PositionSkillDto();
-            dto.SkillID = ps.SkillID;
-            dto.SkillProficiencyID = ps.SkillProficiencyID;
-            dto.IsMandatory = ps.IsMandatory;
-            return dto;
-        });        
-
-        console.log("Saving Position: ", reqPosition);   
-        console.log("Saving Skills: ", reqPositionSkills);         
+        console.log("Saving Position: ", reqPosition); 
         
-        let dalPos = new PositionsDal();
+        let dalPositions = new PositionsDal();
 
         let obj = this;
 
-        function upsertPositionThen(result) {
+        function upsertPositionThen(response) {
             const updatedState = obj.state;
 
-            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+            if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
                 updatedState.showSuccess = true;
                 updatedState.showError = false;
-                if(result.status == constants.HTTP_Created) {
-                    updatedState.id = result.data.ID;
+                if(response.status == constants.HTTP_Created) {
+                    updatedState.id = response.data.ID;
                     updatedState.success = `Position was created. ID: ${updatedState.id}`;
                 }
                 else {
@@ -223,38 +235,13 @@ class PositionPage extends React.Component {
                 }
 
                 obj.setState(updatedState);
-            
-                let dalPositionSkills = new PositionSkillsDal();
-                dalPositionSkills.setPositionSkills(obj.state.id ? obj.state.id : result.data.ID, reqPositionSkills)
-                                .then( (res) => { upsertSkillsThen(res) } )
-                                .catch( (res) => { upsertCatch(res) } );
             }
             else {
-                var error = JSON.parse(result.data.response);
-                updatedState.showError = true;
-                updatedState.error = error.Message;   
+                obj._showError(updatedState, response); 
                 
                 obj.setState(updatedState);
             }
-
-            
-        }        
-
-        function upsertSkillsThen(result) {
-            const updatedState = obj.state;
-
-            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
-                updatedState.showSuccess = true;
-                updatedState.showError = false;
-            }
-            else {
-                var error = JSON.parse(result.data.response);
-                updatedState.showError = true;
-                updatedState.error = error.Message;          
-            }
-
-            obj.setState(updatedState);
-        }
+        }  
 
         function upsertCatch(err) {
             const updatedState = obj.state;
@@ -266,12 +253,12 @@ class PositionPage extends React.Component {
         }
 
         if(this.state.id != null) {
-            dalPos.updatePosition(reqPosition)
+            dalPositions.updatePosition(reqPosition)
                                     .then( (res) => { upsertPositionThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });
         }
         else {
-            dalPos.insertPosition(reqPosition)
+            dalPositions.insertPosition(reqPosition)
                                     .then( (res) => { upsertPositionThen(res); } )
                                     .catch( (err) => { upsertCatch(err); });        
         }
@@ -292,19 +279,17 @@ class PositionPage extends React.Component {
 
     onDeleteConfirm() {  
         
-        let dalPos = new PositionsDal();
+        let dalPositions = new PositionsDal();
         let obj = this;
 
-        dalPos.deletePosition(this.state.id).then( (res) => {
-            if(res.status == constants.HTTP_OK) {
+        dalPositions.deletePosition(this.state.id).then( (response) => {
+            if(response.status == constants.HTTP_OK) {
                 obj.props.history.push("/positions");                
             }
             else {
                 const updatedState = obj.state;
-                updatedState.showSuccess = false;
-                updatedState.showError = true;
-                updatedState.error = res.data.Message; 
                 updatedState.showDeleteConfirm = false;
+                obj._showError(updatedState, response);                
                 obj.setState(updatedState);               
             }
         })
@@ -326,9 +311,16 @@ class PositionPage extends React.Component {
             display: this.state.id ? "block" : "none"
         }
 
-        var lstDepartments = this._prepareOptionsList( this.state.departments ? Object.values(this.state.departments) : null, true );
-        
-        var lstPositionStatuses = this._prepareOptionsList( this.state.positionstatuses ? Object.values(this.state.positionstatuses) : null, false );
+        const lstDepartmentIDsFields = ["Name"];
+        const lstDepartmentIDs = this._prepareOptionsList( this.state.departments 
+                                                                    ? Object.values(this.state.departments) : null, 
+                                                                    lstDepartmentIDsFields,
+                                                                    true );
+        const lstStatusIDsFields = ["Name"];
+        const lstStatusIDs = this._prepareOptionsList( this.state.positionstatuses 
+                                                                    ? Object.values(this.state.positionstatuses) : null, 
+                                                                    lstStatusIDsFields,
+                                                                    false );
         
         return (
             <div>
@@ -352,75 +344,86 @@ class PositionPage extends React.Component {
                                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                                 <Alert severity="success" style={styleSuccess}>Success! {this.state.success}</Alert>                                
                             </td>
-                        </tr>                    
-                        <tr>                            
+                        </tr> 
+    
+                        <tr>
                             <td colSpan={2}>
+                                <TextField  key="cbDepartmentID" 
+                                            fullWidth
+                                            select 
+                                            label="DepartmentID" 
+                                            value={ (this.state.position && this.state.position.DepartmentID) ? 
+                                                        this.state.position.DepartmentID : '-1' }
+                                                        onChange={ (event) => this.onDepartmentIDChanged(event) }>
+                                        {
+                                            lstDepartmentIDs 
+                                        }
+                                </TextField>
+
                                 
-                                <TextField  id="title" 
+                            </td>
+                        </tr> 
+   
+                        <tr>
+                            <td colSpan={2}>
+                                <TextField  id="Title" 
                                             fullWidth
                                             type="text" 
                                             variant="filled" 
-                                            label="Position Title" 
+                                            label="Title" 
                                             value={this.state.position.Title}
                                             onChange={ (event) => { this.onTitleChanged(event) } }
                                             />
                                 
                             </td>
-                        </tr>                    
+                        </tr> 
+   
                         <tr>
                             <td colSpan={2}>
-                                <TextField  id="shortDesc" 
+                                <TextField  id="ShortDesc" 
                                             fullWidth
                                             type="text" 
                                             variant="filled" 
-                                            label="Short Description" 
+                                            label="ShortDesc" 
                                             value={this.state.position.ShortDesc}
                                             onChange={ (event) => { this.onShortDescChanged(event) } }
-                                            /></td>
-                        </tr>
-                        <tr>
-                            <td colSpan={1}>
-                                <TextField      key="cbDepartment" 
-                                                fullWidth
-                                                select 
-                                                label="Department" 
-                                                value={ (this.state.position && this.state.position.DepartmentID) ? this.state.position.DepartmentID : '-1' }
-                                                onChange={ (event) => this.onDepartmentChanged(event) }>
-                                        {
-                                            lstDepartments 
-                                        }
-                                </TextField>
+                                            />
+                                
                             </td>
-                        </tr>
+                        </tr> 
+   
                         <tr>
-                            <td colSpan={1}>
-                                <TextField      key="cbStatus" 
-                                                fullWidth
-                                                select 
-                                                label="Status" 
-                                                value={ (this.state.position && this.state.position.StatusID) ? this.state.position.StatusID : Object.keys(this.state.positionstatuses)[0] }
-                                                onChange={ (event) => this.onStatusChanged(event) }>
-                                        {
-                                            lstPositionStatuses
-                                        }
-                                </TextField>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>Position Details</td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>
-                                <TextField  id="desc" 
+                            <td colSpan={2}>
+                                <TextField  id="Description" 
+                                            fullWidth
                                             type="text" 
                                             variant="filled" 
-                                            multiline 
-                                            fullWidth
-                                            defaultValue={this.state.position.Description}
-                                            onChange={ (event) => { this.onDescChanged(event) } }
-                                            rows="10"/>
+                                            label="Description" 
+                                            value={this.state.position.Description}
+                                            onChange={ (event) => { this.onDescriptionChanged(event) } }
+                                            />
+                                
                             </td>
-                        </tr>
+                        </tr> 
+   
+                        <tr>
+                            <td colSpan={2}>
+                                <TextField  key="cbStatusID" 
+                                            fullWidth
+                                            select 
+                                            label="StatusID" 
+                                            value={ (this.state.position && this.state.position.StatusID) ? 
+                                                        this.state.position.StatusID : '-1' }
+                                                        onChange={ (event) => this.onStatusIDChanged(event) }>
+                                        {
+                                            lstStatusIDs 
+                                        }
+                                </TextField>
+
+                                
+                            </td>
+                        </tr> 
+
                         <tr>
                             <td colSpan={4}>
                                 
@@ -437,6 +440,7 @@ class PositionPage extends React.Component {
                                 
                             </td>
                         </tr>
+
                     </tbody>
                 </table>
 
@@ -444,7 +448,7 @@ class PositionPage extends React.Component {
                     <DialogTitle id="form-dialog-title">Delete Position</DialogTitle>
                     <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to delete this position?
+                        Are you sure you want to delete this Position?
                     </DialogContentText>                    
                     </DialogContent>
                     <DialogActions>
@@ -462,11 +466,9 @@ class PositionPage extends React.Component {
     }
 
     _createEmptyPositionObj() {
-        let pos = new PositionDto();
-        pos.Skills = [];
-        pos.StatusID = 1;
+        let position = new PositionDto();
 
-        return pos;
+        return position;
     }
 
     async _getPosition()
@@ -490,6 +492,75 @@ class PositionPage extends React.Component {
         }
         
         this.setState(updatedState);        
+    }
+
+    async _getDepartments() {
+        let updatedState = this.state;
+        updatedState.departments = {};
+        let dalDepartments = new DepartmentsDal();
+        let response = await dalDepartments.getDepartments();
+
+        if(response.status == constants.HTTP_OK)
+        {
+            for(let s in response.data)
+            {
+                updatedState.departments[response.data[s].ID] = response.data[s];             
+            }
+        }
+        else if(response.status == constants.HTTP_Unauthorized) {
+            this._redirectToLogin();            
+        }
+        else {
+            this._showError(updatedState, response);                        
+        }
+
+        this.setState(updatedState);
+    }
+
+    async _getPositionStatuses() {
+        let updatedState = this.state;
+        updatedState.positionstatuses = {};
+        let dalPositionStatuses = new PositionStatusesDal();
+        let response = await dalPositionStatuses.getPositionStatuses();
+
+        if(response.status == constants.HTTP_OK)
+        {
+            for(let s in response.data)
+            {
+                updatedState.positionstatuses[response.data[s].ID] = response.data[s];             
+            }
+        }
+        else if(response.status == constants.HTTP_Unauthorized) {
+            this._redirectToLogin();            
+        }
+        else {
+            this._showError(updatedState, response);                        
+        }
+
+        this.setState(updatedState);
+    }
+
+    async _getUsers() {
+        let updatedState = this.state;
+        updatedState.users = {};
+        let dalUsers = new UsersDal();
+        let response = await dalUsers.getUsers();
+
+        if(response.status == constants.HTTP_OK)
+        {
+            for(let s in response.data)
+            {
+                updatedState.users[response.data[s].ID] = response.data[s];             
+            }
+        }
+        else if(response.status == constants.HTTP_Unauthorized) {
+            this._redirectToLogin();            
+        }
+        else {
+            this._showError(updatedState, response);                        
+        }
+
+        this.setState(updatedState);
     }
 
     async _getPositionSkills()
@@ -518,65 +589,6 @@ class PositionPage extends React.Component {
         }        
         this.setState(updatedState);        
     }
-
-    async _getDepartments()
-    {
-        let updatedState = this.state;
-        if(updatedState.departments == null)
-        {            
-            let dalDepartments = new DepartmentsDal();
-            let response = await dalDepartments.getDepartments();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.departments = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.departments[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }
-        this.setState(updatedState);
-    }
-
-    async _getPositionStatuses()
-    {
-        let updatedState = this.state;
-        if(updatedState.positionstatuses == null)
-        {            
-            let dalPositionStatuses = new PositionStatusesDal();
-            let response = await dalPositionStatuses.getPositionStatuses();
-
-            if(response.status == constants.HTTP_OK)
-            {
-                updatedState.positionstatuses = {};
-
-                for(let s in response.data)
-                {
-                    updatedState.positionstatuses[ response.data[s].ID ] = response.data[s];
-                }
-            }
-            else if(response.status == constants.HTTP_Unauthorized)
-            {
-                this._redirectToLogin();
-            }
-            else 
-            {
-                this._showError(updatedState, response);
-            }
-        }
-        this.setState(updatedState);
-    }
-
 
     async _getSkills()
     {
@@ -658,6 +670,8 @@ class PositionPage extends React.Component {
         return skills;
     }
 
+
+
     _showError(updatedState, response) {
         var error = JSON.parse(response.data.response);
         updatedState.showError = true;
@@ -669,7 +683,7 @@ class PositionPage extends React.Component {
         this._pageHelper.redirectToLogin(`/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
     }
 
-    _prepareOptionsList(objs, hasEmptyVal) 
+    _prepareOptionsList(objs, fields, hasEmptyVal) 
     {
         var lst = [];
         
@@ -678,12 +692,20 @@ class PositionPage extends React.Component {
         }
 
         if(objs) {
+            
             lst.push(
-                objs.map( (i) => (
-                    <option key={i.ID} value={i.ID}>
-                        {i.Name}
-                    </option>
-                ))
+                objs.map( (i) => {
+                    let optionText = "";
+                    for(let f in fields) {
+                        optionText += i[fields[f]] + (f + 1 < fields.length ? " " : "");
+                    }
+
+                    return(
+                        <option key={i.ID} value={i.ID}>
+                            { optionText }
+                        </option>
+                    )
+                })
             )
         }
 
