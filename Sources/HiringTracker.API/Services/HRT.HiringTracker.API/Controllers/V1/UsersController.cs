@@ -188,7 +188,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
                 string pwdHash = PasswordHelper.GenerateHash(dtoLogin.Password, existingEntity.Salt);
                 if (pwdHash.Equals(existingEntity.PwdHash))
                 {
-                    var dtExpires = DateTime.UtcNow.AddSeconds(_appSettings.Value.SessionTimeout);
+                    var dtExpires = DateTime.Now.AddSeconds(_appSettings.Value.SessionTimeout);
                     var sToken = GenerateToken(existingEntity, dtExpires);
 
                     var dtoResponse = new DTO.LoginResponse()

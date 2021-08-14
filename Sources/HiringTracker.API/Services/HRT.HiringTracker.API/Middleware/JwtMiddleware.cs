@@ -38,6 +38,7 @@ namespace HRT.HiringTracker.API.MiddleWare
 
         private void setUserContext(HttpContext context, string token, IUserDal dalUser)
         {
+            Interfaces.Entities.User currentUser = null;
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -53,13 +54,16 @@ namespace HRT.HiringTracker.API.MiddleWare
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var expClaim = jwtToken.Claims.First(x => x.Type == "exp").Value;
 
-                context.Items["User"] = dalUser.Get(userId);
+                currentUser = dalUser.Get(userId);
             }
             catch
             {
-                context.Items["User"] = null;
+                currentUser = null;
             }
+
+            context.Items["User"] = currentUser;
         }
     }
 }

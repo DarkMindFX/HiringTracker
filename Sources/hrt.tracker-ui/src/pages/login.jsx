@@ -55,6 +55,7 @@ class LoginPage extends React.Component {
         const dal = new UsersDal();
         dal.login(this.state.login, this.state.password).then( (res) => {
 
+            console.log(res);
             let updatedState = this.state;
             if(res.status == constants.HTTP_OK) {
                 console.log('Login SUCCESS', res.data.Token)

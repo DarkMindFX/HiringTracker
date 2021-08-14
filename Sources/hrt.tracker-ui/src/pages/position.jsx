@@ -72,11 +72,6 @@ class PositionPage extends React.Component {
         this._getSkills = this._getSkills.bind(this);
         this._getSkillProficiencies = this._getSkillProficiencies.bind(this);
 
-        this.onDepartmentIDChanged = this.onDepartmentIDChanged.bind(this);
-        this.onTitleChanged = this.onTitleChanged.bind(this);
-        this.onShortDescChanged = this.onShortDescChanged.bind(this);
-        this.onDescriptionChanged = this.onDescriptionChanged.bind(this);
-        this.onStatusIDChanged = this.onStatusIDChanged.bind(this);
         
     }
 
@@ -232,9 +227,24 @@ class PositionPage extends React.Component {
                 }
                 else {
                     updatedState.success = `Position was updated`;                
-                }
+                }  
+
+                // saving skills
+                let reqPositionSkills = obj.state.position.Skills.map( ps => { 
+                    var dto = new PositionSkillDto();
+                    dto.SkillID = ps.SkillID;
+                    dto.SkillProficiencyID = ps.SkillProficiencyID;
+                    dto.IsMandatory = ps.IsMandatory;
+                    return dto;
+                });
+
+                let dalPositionSkills = new PositionSkillsDal();
+                dalPositionSkills.setPositionSkills(updatedState.id, reqPositionSkills)
+                                .then( (res) => { upsertSkillsThen(res) } )
+                                .catch( (res) => { upsertCatch(res) } );
 
                 obj.setState(updatedState);
+
             }
             else {
                 obj._showError(updatedState, response); 
@@ -242,6 +252,24 @@ class PositionPage extends React.Component {
                 obj.setState(updatedState);
             }
         }  
+
+        function upsertSkillsThen(result) {
+            const updatedState = obj.state;
+
+            console.log("upsertSkillsThen", result);
+
+            if(result.status == constants.HTTP_OK || result.status == constants.HTTP_Created) {
+                updatedState.showSuccess = true;
+                updatedState.showError = false;
+            }
+            else {
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = result.data.Message;          
+            }
+
+            obj.setState(updatedState);
+        }
 
         function upsertCatch(err) {
             const updatedState = obj.state;

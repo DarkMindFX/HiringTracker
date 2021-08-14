@@ -77,22 +77,14 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
 <#
 }
 #>
+        this._get<#= table.Name #> = this._get<#= table.Name #>.bind(this);
 
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
 
-        this._get<#= table.Name #> = this._get<#= table.Name #>.bind(this);
-
-<# 
-foreach(var fk in fks) 
-{
-#>
-        this._get<#= modelHelper.Pluralize(fk) #> = this._get<#= modelHelper.Pluralize(fk) #>.bind(this);
-<#
-}
-#>
+        
 
 <#
 foreach(var c in table.Columns.Where(c => !c.IsPK))

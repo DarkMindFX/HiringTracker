@@ -60,11 +60,6 @@ class DepartmentPage extends React.Component {
         this._getDepartments = this._getDepartments.bind(this);
         this._getUsers = this._getUsers.bind(this);
 
-        this.onNameChanged = this.onNameChanged.bind(this);
-        this.onUUIDChanged = this.onUUIDChanged.bind(this);
-        this.onParentIDChanged = this.onParentIDChanged.bind(this);
-        this.onManagerIDChanged = this.onManagerIDChanged.bind(this);
-
 
     }
 
