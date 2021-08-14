@@ -14,6 +14,8 @@ import React from 'react';
 import MainPage from './pages';
 import CandidatesPage from './pages/candidates';
 import CandidatePage from './pages/candidate';
+import DepartmentsPage from './pages/departments';
+import DepartmentPage from './pages/department';
 import PositionsPage from './pages/positions';
 import PositionPage from './pages/position';
 import RegisterPage from './pages/register';
@@ -34,6 +36,8 @@ class App extends React.Component {
        <Route exact path="/logout" component={LogoutPage} />
        <Route exact path="/candidates" component={CandidatesPage} />
        <Route exact path="/candidate/:operation/:id?" component={CandidatePage} />
+       <Route exact path="/departments" component={DepartmentsPage} />
+       <Route exact path="/department/:operation/:id?" component={DepartmentPage} />
       </Router>
     );
   }

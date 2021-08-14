@@ -33,9 +33,12 @@ const <#= entityPlural #>Dal = require('../dal/<#= entityPlural #>Dal');
 <# 
 foreach(var fk in fks) 
 {
+    if(!fk.Equals(table.Name)) {
 #>
+
 const <#= modelHelper.Pluralize(fk) #>Dal = require('../dal/<#= modelHelper.Pluralize(fk) #>Dal');
 <#
+    }
 }
 #>
 const { <#= table.Name #>Dto } = require('hrt.dto')
@@ -57,7 +60,7 @@ class <#= table.Name #>Page extends React.Component {
             id: this.props.match.params.id ? parseInt(this.props.match.params.id) : null,
             canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
                                                           this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
-            position: this._createEmptyPositionObj(),
+            <#= table.Name.ToLower() #>: this._createEmpty<#= table.Name #>Obj(),
 
             showDeleteConfirm: false,
             showError: false,
@@ -201,7 +204,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
                     updatedState.success = `<#= table.Name #> was created. ID: ${updatedState.id}`;
                 }
                 else {
-                    updatedState.success = `Position was updated`;                
+                    updatedState.success = `<#= table.Name #> was updated`;                
                 }
 
                 obj.setState(updatedState);
@@ -391,25 +394,27 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
 
     async _get<#= table.Name #>()
     {
-        let updatedState = this.state;
+        if(this.state.id) {
+            let updatedState = this.state;
                   
-        let dal<#= entityPlural #> = new <#= entityPlural #>Dal();
-        let response = await dal<#= entityPlural #>.get<#= table.Name #>(this.state.id);
+            let dal<#= entityPlural #> = new <#= entityPlural #>Dal();
+            let response = await dal<#= entityPlural #>.get<#= table.Name #>(this.state.id);
 
-        if(response.status == constants.HTTP_OK)
-        {
-            updatedState.<#= table.Name.ToLower() #> = response.data;                
-        }
-        else if(response.status == constants.HTTP_Unauthorized)
-        {
-            this._redirectToLogin();
-        }
-        else 
-        {
-            this._showError(updatedState, response);
-        }
+            if(response.status == constants.HTTP_OK)
+            {
+                updatedState.<#= table.Name.ToLower() #> = response.data;                
+            }
+            else if(response.status == constants.HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
+            }
+            else 
+            {
+                this._showError(updatedState, response);
+            }
         
-        this.setState(updatedState);        
+            this.setState(updatedState);    
+        }
     }
 
 <# 
@@ -453,7 +458,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
 
     _redirectToLogin()
     {
-        this._pageHelper.redirectToLogin(`/position/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
+        this._pageHelper.redirectToLogin(`/<#= table.Name.ToLower() #>/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
     }
 
     _prepareOptionsList(objs, fields, hasEmptyVal) 
@@ -486,4 +491,4 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
     }
 }
 
-export default withRouter(PositionPage);
+export default withRouter(<#= table.Name #>Page);

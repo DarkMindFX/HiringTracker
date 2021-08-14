@@ -10,13 +10,12 @@ import { Button } from '@material-ui/core';
 import constants from "../constants";
 
 const PageHelper = require("../helpers/PageHelper");
-const PositionsDal = require('../dal/PositionsDal');
 const DepartmentsDal = require('../dal/DepartmentsDal');
-const PositionStatusesDal = require('../dal/PositionStatusesDal');
+
 const UsersDal = require('../dal/UsersDal');
 
 
-class PositionsPage extends React.Component {
+class DepartmentsPage extends React.Component {
 
     _columns = null;
     _pageHelper = null;
@@ -27,16 +26,15 @@ class PositionsPage extends React.Component {
         this._pageHelper = new PageHelper(this.props);
 
         this.state = { 
-            positions: [],
+            departments: [],
             showError: false,
             error: null
         };
         this._initColumns();
        
         this._getDepartments = this._getDepartments.bind(this);
-        this._getPositionStatuses = this._getPositionStatuses.bind(this);
         this._getUsers = this._getUsers.bind(this);
-        this._getPositions = this._getPositions.bind(this);
+        this._getDepartments = this._getDepartments.bind(this);
         this._redirectToLogin = this._redirectToLogin.bind(this);
 
         this.onRowClick = this.onRowClick.bind(this);
@@ -45,7 +43,7 @@ class PositionsPage extends React.Component {
     onRowClick(event) {
         const row = event.row;
         if(row) {
-            this.props.history.push(`/position/edit/${row.id}`);
+            this.props.history.push(`/department/edit/${row.id}`);
         }
 
     }
@@ -55,11 +53,9 @@ class PositionsPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            			obj._getDepartments().then( () => {
-			obj._getPositionStatuses().then( () => {
-			obj._getUsers().then( () => {
-			obj._getPositions().then( () => {} );
-			});});});
+            			obj._getUsers().then( () => {
+			obj._getDepartments().then( () => {} );
+			});
         }
         else {
             console.log('No token - need to login')
@@ -76,10 +72,10 @@ class PositionsPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h1>Positions</h1>                
+                <h3>Candidates</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to="/position/new" >+ Position</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to="/department/new" >+ Department</Button>        
             </div>
         );
     }
@@ -87,15 +83,10 @@ class PositionsPage extends React.Component {
     _initColumns() {
         this._columns = [
                 { field: 'ID', headerName: 'ID', width: 250 },
-                { field: 'DepartmentID', headerName: 'DepartmentID', width: 250 },
-                { field: 'Title', headerName: 'Title', width: 250 },
-                { field: 'ShortDesc', headerName: 'ShortDesc', width: 250 },
-                { field: 'Description', headerName: 'Description', width: 250 },
-                { field: 'StatusID', headerName: 'StatusID', width: 250 },
-                { field: 'CreatedDate', headerName: 'CreatedDate', width: 250 },
-                { field: 'CreatedByID', headerName: 'CreatedByID', width: 250 },
-                { field: 'ModifiedDate', headerName: 'ModifiedDate', width: 250 },
-                { field: 'ModifiedByID', headerName: 'ModifiedByID', width: 250 },
+                { field: 'Name', headerName: 'Name', width: 250 },
+                { field: 'UUID', headerName: 'UUID', width: 250 },
+                { field: 'ParentID', headerName: 'ParentID', width: 250 },
+                { field: 'ManagerID', headerName: 'ManagerID', width: 250 },
        
         ]        
     }
@@ -103,22 +94,17 @@ class PositionsPage extends React.Component {
     _getRecords() {
         let records = [];
 
-        let cs = Object.values(this.state.positions);
+        let cs = Object.values(this.state.departments);
 
         for(let c in cs) {
 
             let r = {
                 id: cs[c].ID,
                 ID: cs[c].ID,
-                DepartmentID: cs[c].DepartmentID ? this.state.departments[ cs[c].DepartmentID ].Name : "",
-                Title: cs[c].Title,
-                ShortDesc: cs[c].ShortDesc,
-                Description: cs[c].Description,
-                StatusID: this.state.positionstatuses[ cs[c].StatusID ].Name,
-                CreatedDate: cs[c].CreatedDate,
-                CreatedByID: this.state.users[ cs[c].CreatedByID ].FirstName +  " " + this.state.users[ cs[c].CreatedByID ].LastName,
-                ModifiedDate: cs[c].ModifiedDate,
-                ModifiedByID: cs[c].ModifiedByID ? this.state.users[ cs[c].ModifiedByID ].FirstName +  " " + this.state.users[ cs[c].ModifiedByID ].LastName : "",
+                Name: cs[c].Name,
+                UUID: cs[c].UUID,
+                ParentID: cs[c].ParentID ? this.state.departments[ cs[c].ParentID ].Name : "",
+                ManagerID: cs[c].ManagerID ? this.state.users[ cs[c].ManagerID ].FirstName + " " + this.state.users[ cs[c].ManagerID ].LastName : "",
 
             };
 
@@ -139,28 +125,6 @@ class PositionsPage extends React.Component {
             for(let s in response.data)
             {
                 updatedState.departments[response.data[s].ID] = response.data[s];             
-            }
-        }
-        else if(response.status == constants.HTTP_Unauthorized) {
-            this._redirectToLogin();            
-        }
-        else {
-            this._showError(updatedState, response);                        
-        }
-
-        this.setState(updatedState);
-    }
-    async _getPositionStatuses() {
-        let updatedState = this.state;
-        updatedState.positionstatuses = {};
-        let dalPositionStatuses = new PositionStatusesDal();
-        let response = await dalPositionStatuses.getPositionStatuses();
-
-        if(response.status == constants.HTTP_OK)
-        {
-            for(let s in response.data)
-            {
-                updatedState.positionstatuses[response.data[s].ID] = response.data[s];             
             }
         }
         else if(response.status == constants.HTTP_Unauthorized) {
@@ -196,17 +160,17 @@ class PositionsPage extends React.Component {
     }
     
 
-    async _getPositions() {
+    async _getDepartments() {
         let updatedState = this.state;
-        updatedState.positions = {};
-        let dalPositions = new PositionsDal();
-        let response = await dalPositions.getPositions();
+        updatedState.departments = {};
+        let dalDepartments = new DepartmentsDal();
+        let response = await dalDepartments.getDepartments();
 
         if(response.status == constants.HTTP_OK)
         {
             for(let s in response.data)
             {
-                updatedState.positions[response.data[s].ID] = response.data[s];             
+                updatedState.departments[response.data[s].ID] = response.data[s];             
             }
         }
         else if(response.status == constants.HTTP_Unauthorized) {
@@ -227,8 +191,8 @@ class PositionsPage extends React.Component {
 
     _redirectToLogin()
     {        
-        this._pageHelper.redirectToLogin(`/positions`);
+        this._pageHelper.redirectToLogin(`/departments`);
     }
 }
 
-export default withRouter(PositionsPage);
+export default withRouter(DepartmentsPage);

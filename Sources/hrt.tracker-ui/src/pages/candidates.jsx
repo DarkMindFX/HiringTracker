@@ -111,9 +111,9 @@ class CandidatesPage extends React.Component {
                 Email: cs[c].Email,
                 Phone: cs[c].Phone,
                 CVLink: cs[c].CVLink,
-                CreatedByID: cs[c].CreatedByID,
+                CreatedByID: this.state.users[ cs[c].CreatedByID ].FirstName + " " + this.state.users[ cs[c].CreatedByID ].LastName,
                 CreatedDate: cs[c].CreatedDate,
-                ModifiedByID: cs[c].ModifiedByID,
+                ModifiedByID: cs[c].ModifiedByID ? this.state.users[ cs[c].ModifiedByID ].FirstName + " " + this.state.users[ cs[c].ModifiedByID ].LastName : "",
                 ModifiedDate: cs[c].ModifiedDate,
 
             };
