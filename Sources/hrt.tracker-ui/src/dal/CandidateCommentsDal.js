@@ -67,6 +67,20 @@ class CandidateCommentsDal extends DalBase {
         }
     }
 
+    async getCandidateCommentsByCandidateID(candidateId)
+    {
+        let inst = this.Instance;
+
+        try {
+            let res = await inst.get(`/candidatecomments/bycandidate/${candidateId}`);
+
+            return res;
+        }
+        catch(error) {
+            return error.response;
+        }
+    }
+
     async getCandidateComment(candidateid,commentid) {
         let inst = this.Instance;
 

@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import Candidate from '../components/Candidate';
+import CandidateComments from '../components/CandidateComments';
 
 const PageHelper = require("../helpers/PageHelper");
 const constants = require('../constants');
@@ -94,6 +95,7 @@ class CandidatePage extends React.Component {
                     <Tab label="Candidate Details" {...a11yProps(0)}  />
                     <Tab label="Proposals" {...a11yProps(1)}  />
                     <Tab label="Interviews" {...a11yProps(2)}  />
+                    <Tab label="Comments" {...a11yProps(3)}  />
                 </Tabs>
 
                 <TabPanel value={this.state.currentTab} index={0}>
@@ -108,16 +110,14 @@ class CandidatePage extends React.Component {
                 <TabPanel value={this.state.currentTab} index={2}>
                         List of interviews
                 </TabPanel>
-
-  
-                
-                 
+                <TabPanel value={this.state.currentTab} index={3}>
+                  <CandidateComments 
+                    id = {this.state.id}
+                  />
+                </TabPanel>
             </div>
-
         );
     }
-
-    
 
     _redirectToLogin()
     {

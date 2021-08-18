@@ -57,6 +57,31 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
         [Authorize]
+        [HttpGet("bycandidate/{candidateid}"), ActionName("GetCandidateCommentsByCandidateID")]
+        public IActionResult GetByCandidateID(System.Int64 candidateid)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+            IActionResult response = null;
+
+            var entities = _dalCandidateComment.GetByCandidateID(candidateid);
+
+            IList<DTO.CandidateComment> dtos = new List<DTO.CandidateComment>();
+
+            foreach (var p in entities)
+            {
+                var dto = CandidateCommentConvertor.Convert(p, this.Url);
+
+                dtos.Add(dto);
+            }
+
+            response = Ok(dtos);
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+
+        [Authorize]
         [HttpGet("{candidateid}/{commentid}"), ActionName("GetCandidateComment")]
         public IActionResult Get(System.Int64 candidateid, System.Int64 commentid)
         {

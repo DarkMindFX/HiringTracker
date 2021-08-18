@@ -40,6 +40,48 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         }
 
         [Fact]
+        public void CandidateComment_GetByCandidate_Success()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                long candidateId = 100002;
+
+                var respGetAll = client.GetAsync($"/api/v1/candidatecomments/bycandidate/{candidateId}");
+
+                Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
+
+                IList<CandidateComment> dtos = ExtractContentJson<List<CandidateComment>>(respGetAll.Result.Content);
+
+                Assert.NotEmpty(dtos);
+            }
+        }
+
+        [Fact]
+        public void CandidateComment_GetByCandidate_InvalidCandidateID()
+        {
+            using (var client = _factory.CreateClient())
+            {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
+                long candidateId = System.Int64.MaxValue - 1;
+
+                var respGetAll = client.GetAsync($"/api/v1/candidatecomments/bycandidate/{candidateId}");
+
+                Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
+
+                IList<CandidateComment> dtos = ExtractContentJson<List<CandidateComment>>(respGetAll.Result.Content);
+
+                Assert.Empty(dtos);
+            }
+        }
+
+        [Fact]
         public void CandidateComment_Get_Success()
         {
             HRT.Interfaces.Entities.CandidateComment testEntity = AddTestEntity();
