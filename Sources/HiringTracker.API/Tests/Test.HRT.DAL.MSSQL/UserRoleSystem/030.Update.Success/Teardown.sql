@@ -2,12 +2,12 @@
 
 -- original values --
 DECLARE @UserID BIGINT = 100004
-DECLARE @RoleID BIGINT = 9
+DECLARE @RoleID BIGINT = 1
  
 -- updated values --
 
 DECLARE @updUserID BIGINT = 100004
-DECLARE @updRoleID BIGINT = 9
+DECLARE @updRoleID BIGINT = 5
  
 
 DECLARE @Fail AS BIT = 0
