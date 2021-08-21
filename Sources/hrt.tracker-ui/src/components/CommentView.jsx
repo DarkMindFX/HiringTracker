@@ -36,7 +36,7 @@ class CommentView extends React.Component {
 
     onDeleteClicked() {
         if(this.state.onDelete) {
-            // TODO: call state.onDelete()
+            this.state.onDelete(this.state.id);
         }
     }
 
@@ -59,8 +59,6 @@ class CommentView extends React.Component {
             display: this.state.canEdit ? "block" : "none"
         }
 
-        console.log(this.state);
-
         return (
             <div>
                 <table><tbody>
@@ -79,8 +77,9 @@ class CommentView extends React.Component {
                     </tr>
                     <tr>
                         <td colSpan={3}>
-                            <textarea readOnly style={{width: '100%'}}>
-                                {this.state.text}
+                            <textarea readOnly style={{width: '100%'}}
+                                value={this.state.text}
+                                >                                
                             </textarea>
                         </td>
                     </tr>

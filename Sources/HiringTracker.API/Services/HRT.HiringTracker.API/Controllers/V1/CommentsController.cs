@@ -121,6 +121,8 @@ namespace HRT.HiringTracker.API.Controllers.V1
             IActionResult response = null;
 
             var entity = CommentConvertor.Convert(dto);
+            entity.CreatedDate = DateTime.UtcNow;
+            entity.CreatedByID = (long)base.CurrentUser.ID;
 
             Comment newEntity = _dalComment.Insert(entity);
 
@@ -145,6 +147,11 @@ namespace HRT.HiringTracker.API.Controllers.V1
             var existingEntity = _dalComment.Get(newEntity.ID);
             if (existingEntity != null)
             {
+                newEntity.CreatedByID = existingEntity.CreatedByID;
+                newEntity.CreatedDate = existingEntity.CreatedDate;
+                newEntity.ModifiedByID = (long)base.CurrentUser.ID; ;
+                newEntity.ModifiedDate = DateTime.UtcNow;
+
                 Comment entity = _dalComment.Update(newEntity);
 
                 response = Ok(CommentConvertor.Convert(entity, this.Url));

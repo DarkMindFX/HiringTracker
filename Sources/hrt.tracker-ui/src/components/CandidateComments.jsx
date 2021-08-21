@@ -6,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import constants from "../constants";
 import CommentView from "../components/CommentView";
+import { CandidateCommentDto, CommentDto } from "hrt.dto";
 
 const PageHelper = require("../helpers/PageHelper");
 const CandidateCommentsDal = require('../dal/CandidateCommentsDal');
@@ -28,6 +29,7 @@ class CandidateComments extends React.Component {
             id: props.id, // candidate id
             canAddComment: props.canAddComment ? props.canAddComment : true,
             candidatecomments: [],
+            commentText: "",
             showError: false,
             error: null
         };
@@ -36,19 +38,56 @@ class CandidateComments extends React.Component {
         this._getUsers = this._getUsers.bind(this);
         this._getCandidateComments = this._getCandidateComments.bind(this);
         this._redirectToLogin = this._redirectToLogin.bind(this);
+        this._cleanCommentText = this._cleanCommentText.bind(this);
 
         this.onEditCommentClick = this.onEditCommentClick.bind(this);
         this.onDeleteCommentClick = this.onDeleteCommentClick.bind(this);
-        this.onAddCommentClicked = this.onAddCommentClicked.bind(this);
+        this.onAddCommentClick = this.onAddCommentClick.bind(this);
+        this.onCommentTextChanged = this.onCommentTextChanged.bind(this);
+    }
+
+    onCommentTextChanged(event) {
+        let updatedState = this.state;
+
+        updatedState.commentText = event.target.value;
+
+        this.setState(updatedState);
     }
 
     onEditCommentClick(commentId, text) {
     }
 
     onDeleteCommentClick(commentId) {
+        let dalComments = new CommentsDal();
+        dalComments.deleteComment(commentId).then( (response) => {
+            if(response.status == constants.HTTP_OK) {
+                this._getCandidateComments().then( () => { } );
+            }
+        });        
     }
 
-    onAddCommentClicked() {        
+    onAddCommentClick() {   
+        let dalComments = new CommentsDal();
+        let comment = new CommentDto();
+        comment.Text = this.state.commentText;
+        let obj = this;
+        dalComments.insertComment(comment).then( (respInsert) => {
+            if(respInsert.status == constants.HTTP_Created) {
+
+                console.log("New comment: ", respInsert.data.ID);
+
+                let candidateComment = new CandidateCommentDto();
+                candidateComment.CandidateID = this.props.id;
+                candidateComment.CommentID = respInsert.data.ID;
+
+                let dalCandidateComments = new CandidateCommentsDal();
+                dalCandidateComments.insertCandidateComment( candidateComment ).then( (respAddCandComment) => {
+                    if(respAddCandComment.status == constants.HTTP_Created) {
+                        obj._getCandidateComments().then( () => { obj._cleanCommentText() } );
+                    }
+                })
+            }   
+        })          
     }
 
     componentDidMount() {
@@ -101,10 +140,12 @@ class CandidateComments extends React.Component {
                     lstCommentViews 
                 }
                 <div style={styleAddCommentBtn}>
-                    <textarea style={{width: "100%"}}>
+                    <textarea style={{width: "100%"}} 
+                                value={ this.state.commentText }
+                                onChange={ this.onCommentTextChanged }>                        
                     </textarea>
                     <Button variant="contained" color="primary"                                        
-                            onClick={ () => this.onAddCommentClicked() }>+ Comment</Button>  
+                            onClick={ () => this.onAddCommentClick() }>+ Comment</Button>  
                 </div>   
             </div>
         );
@@ -160,6 +201,12 @@ class CandidateComments extends React.Component {
             this._showError(updatedState, response);                        
         }
 
+        this.setState(updatedState);
+    }
+
+    async _cleanCommentText() {
+        let updatedState = this.state;
+        updatedState.commentText = "";
         this.setState(updatedState);
     }
     
