@@ -22,6 +22,9 @@ import RegisterPage from './pages/register';
 import LogingPage from './pages/login';
 import LogoutPage from './pages/logout';
 
+import UserPage from './pages/admin/user';
+import UsersPage from './pages/admin/users';
+
 class App extends React.Component {
 
   render() {
@@ -38,6 +41,10 @@ class App extends React.Component {
        <Route exact path="/candidate/:operation/:id?" component={CandidatePage} />
        <Route exact path="/departments" component={DepartmentsPage} />
        <Route exact path="/department/:operation/:id?" component={DepartmentPage} />
+
+       {/*Admin pages*/}
+       <Route exact path="/admin/users" component={UsersPage} />
+       <Route exact path="/admin/user/:operation/:id?" component={UserPage} />
       </Router>
     );
   }
