@@ -106,19 +106,50 @@ foreach(var fk in fks)
             
             #line default
             #line hidden
-            this.Write("Page extends React.Component {\r\n\r\n    _columns = null;\r\n    _pageHelper = null;\r\n" +
-                    "\r\n    constructor(props) {\r\n        super(props);\r\n\r\n        this._pageHelper = " +
-                    "new PageHelper(this.props);\r\n\r\n        this.state = { \r\n            ");
+            this.Write(@"Page extends React.Component {
+
+    _columns = null;
+    _pageHelper = null;
+
+    constructor(props) {
+        super(props);
+
+        this._pageHelper = new PageHelper(this.props);
+        let rooPath = ''; // set the page hierarchy here
+
+        this.state = { 
+            ");
             
-            #line 51 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
             
             #line default
             #line hidden
-            this.Write(": [],\r\n            showError: false,\r\n            error: null\r\n        };\r\n      " +
-                    "  this._initColumns();\r\n       \r\n");
+            this.Write(": [],\r\n            showError: false,\r\n            error: null,\r\n            urlTh" +
+                    "is: `${rooPath}/");
+            
+            #line 55 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("`,\r\n            urlNewEntity: `${rooPath}/");
+            
+            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("/new`,\r\n            urlEditEntity: `${rooPath}/");
             
             #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("/edit/`,\r\n        };\r\n        this._initColumns();\r\n       \r\n");
+            
+            #line 61 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
  
 foreach(var fk in fks) 
 {
@@ -128,21 +159,21 @@ foreach(var fk in fks)
             #line hidden
             this.Write("        this._get");
             
-            #line 61 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write(" = this._get");
             
-            #line 61 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write(".bind(this);\r\n");
             
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 66 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 }
 
@@ -151,14 +182,14 @@ foreach(var fk in fks)
             #line hidden
             this.Write("        this._get");
             
-            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write(" = this._get");
             
-            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
@@ -172,19 +203,19 @@ foreach(var fk in fks)
     onRowClick(event) {
         const row = event.row;
         if(row) {
-            this.props.history.push(`/");
+            this.props.history.push(this.state.urlEditEntity + row.id);
+        }
+
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem(constants.SESSION_TOKEN_KEY);
+        console.log('Token: ', token);
+        if(token != null) {
+            let obj = this;
+");
             
-            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
-            
-            #line default
-            #line hidden
-            this.Write("/edit/${row.id}`);\r\n        }\r\n\r\n    }\r\n\r\n    componentDidMount() {\r\n        cons" +
-                    "t token = localStorage.getItem(constants.SESSION_TOKEN_KEY);\r\n        console.lo" +
-                    "g(\'Token: \', token);\r\n        if(token != null) {\r\n            let obj = this;\r\n" +
-                    "");
-            
-            #line 84 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 var promisesDals = string.Empty;
 foreach(var fk in fks)
@@ -209,7 +240,7 @@ foreach(var fk in fks)
             #line hidden
             this.Write("            ");
             
-            #line 103 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 107 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(promisesDals));
             
             #line default
@@ -231,19 +262,19 @@ foreach(var fk in fks)
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Candidates</h3>                
-                <Alert severity=""error"" style={styleError}>Error: {this.state.error}</Alert>
-                <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant=""contained"" component={Link} color=""primary"" size=""small"" to=""/");
+                <h3>");
             
-            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
+            #line 124 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
-            this.Write("/new\" >+ ");
+            this.Write(@"</h3>                
+                <Alert severity=""error"" style={styleError}>Error: {this.state.error}</Alert>
+                <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
+                <Button variant=""contained"" component={Link} color=""primary"" size=""small"" to={this.state.urlNewEntity} >+ ");
             
-            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 127 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -251,7 +282,7 @@ foreach(var fk in fks)
             this.Write("</Button>        \r\n            </div>\r\n        );\r\n    }\r\n\r\n    _initColumns() {\r" +
                     "\n        this._columns = [\r\n");
             
-            #line 130 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 134 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 foreach(var c in table.Columns)
 {
@@ -261,21 +292,21 @@ foreach(var c in table.Columns)
             #line hidden
             this.Write("                { field: \'");
             
-            #line 134 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 138 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\', headerName: \'");
             
-            #line 134 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 138 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\', width: 250 },\r\n");
             
-            #line 135 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 139 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 }
 
@@ -285,7 +316,7 @@ foreach(var c in table.Columns)
             this.Write("       \r\n        ]        \r\n    }\r\n\r\n    _getRecords() {\r\n        let records = [" +
                     "];\r\n\r\n        let cs = Object.values(this.state.");
             
-            #line 144 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 148 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
             
             #line default
@@ -293,7 +324,7 @@ foreach(var c in table.Columns)
             this.Write(");\r\n\r\n        for(let c in cs) {\r\n\r\n            let r = {\r\n                id: cs" +
                     "[c].ID,\r\n");
             
-            #line 150 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 154 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 foreach(var c in table.Columns)
 {
@@ -305,21 +336,21 @@ foreach(var c in table.Columns)
             #line hidden
             this.Write("                ");
             
-            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 160 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(": cs[c].");
             
-            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 160 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 157 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 161 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
     }
     else 
@@ -330,35 +361,35 @@ foreach(var c in table.Columns)
             #line hidden
             this.Write("                ");
             
-            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(": cs[c].");
             
-            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" ? this.state.");
             
-            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(c.FKRefTable).ToLower()));
             
             #line default
             #line hidden
             this.Write("[ cs[c].");
             
-            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" ].Name : \"\",\r\n");
             
-            #line 163 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 167 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
     }
 }
@@ -369,7 +400,7 @@ foreach(var c in table.Columns)
             this.Write("\r\n            };\r\n\r\n            records.push(r);\r\n        }\r\n\r\n        return rec" +
                     "ords;\r\n    }\r\n\r\n");
             
-            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 180 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
  
 foreach(var fk in fks) 
 {
@@ -379,42 +410,42 @@ foreach(var fk in fks)
             #line hidden
             this.Write("    async _get");
             
-            #line 180 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 184 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write("() {\r\n        let updatedState = this.state;\r\n        updatedState.");
             
-            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 186 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk).ToLower()));
             
             #line default
             #line hidden
             this.Write(" = {};\r\n        let dal");
             
-            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 187 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write(" = new ");
             
-            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 187 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write("Dal();\r\n        let response = await dal");
             
-            #line 184 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 188 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
             #line hidden
             this.Write(".get");
             
-            #line 184 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 188 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
             
             #line default
@@ -422,7 +453,7 @@ foreach(var fk in fks)
             this.Write("();\r\n\r\n        if(response.status == constants.HTTP_OK)\r\n        {\r\n            f" +
                     "or(let s in response.data)\r\n            {\r\n                updatedState.");
             
-            #line 190 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 194 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk).ToLower()));
             
             #line default
@@ -441,7 +472,7 @@ foreach(var fk in fks)
     }
 ");
             
-            #line 202 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 206 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
 
 }
 
@@ -450,42 +481,42 @@ foreach(var fk in fks)
             #line hidden
             this.Write("    \r\n\r\n    async _get");
             
-            #line 206 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write("() {\r\n        let updatedState = this.state;\r\n        updatedState.");
             
-            #line 208 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 212 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
             
             #line default
             #line hidden
             this.Write(" = {};\r\n        let dal");
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 213 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write(" = new ");
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 213 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write("Dal();\r\n        let response = await dal");
             
-            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 214 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
             #line hidden
             this.Write(".get");
             
-            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 214 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default
@@ -493,7 +524,7 @@ foreach(var fk in fks)
             this.Write("();\r\n\r\n        if(response.status == constants.HTTP_OK)\r\n        {\r\n            f" +
                     "or(let s in response.data)\r\n            {\r\n                updatedState.");
             
-            #line 216 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
             
             #line default
@@ -519,16 +550,13 @@ foreach(var fk in fks)
 
     _redirectToLogin()
     {        
-        this._pageHelper.redirectToLogin(`/");
+        this._pageHelper.redirectToLogin(this.state.urlThis);  
+    }
+}
+
+export default withRouter(");
             
-            #line 237 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
-            
-            #line default
-            #line hidden
-            this.Write("`);\r\n    }\r\n}\r\n\r\nexport default withRouter(");
-            
-            #line 241 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
+            #line 245 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
             
             #line default

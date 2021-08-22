@@ -29,18 +29,24 @@ class UserPage extends React.Component {
 
         this._pageHelper = new PageHelper(this.props);
 
+        let paramOperation = this.props.match.params.operation;
+        let paramId = this.props.match.params.id;
+        let rooPath = '/admin';
+
         this.state = { 
-            operation: this.props.match.params.operation,
-            id: this.props.match.params.id ? parseInt(this.props.match.params.id) : null,
-            canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
-                                                          this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
-            user: this._createEmptyUserObj(),
+            operation:  paramOperation,
+            id:         paramId ? parseInt(paramId) : null,
+            canEdit:    paramOperation ? ( paramOperation.toLowerCase() == 'new' || 
+                                        paramOperation.toLowerCase() == 'edit' ? true : false) : false,
+            user:       this._createEmptyUserObj(),
 
             showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
-            success: null
+            success: null,
+            urlEntities: `${rooPath}/users`,
+            urlThis: `${rooPath}/user/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
         this.onLoginChanged = this.onLoginChanged.bind(this);
@@ -56,6 +62,7 @@ class UserPage extends React.Component {
 
         this._getUser = this._getUser.bind(this);
         this._validateForm = this._validateForm.bind(this);
+        this._showError = this._showError.bind(this);
 
 
         this.onLoginChanged = this.onLoginChanged.bind(this);
@@ -234,7 +241,7 @@ class UserPage extends React.Component {
 
         dalUsers.deleteUser(this.state.id).then( (response) => {
             if(response.status == constants.HTTP_OK) {
-                obj.props.history.push("/users");                
+                obj.props.history.push(this.urlEntities);                
             }
             else {
                 const updatedState = obj.state;
@@ -264,7 +271,9 @@ class UserPage extends React.Component {
                  <table>
                     <tbody>
                         <tr>
-                            <td style={{width: 450}}></td>
+                            <td style={{width: 450}}>
+                                <h2>User: {this.state.user.FirstName + ' ' + this.state.user.LastName}</h2>
+                            </td>
                             <td>
                                 <Button variant="contained" color="primary"
                                         onClick={ () => this.onSaveClicked() }>Save</Button>
@@ -273,7 +282,7 @@ class UserPage extends React.Component {
                                         style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
 
-                                <Button variant="contained" component={Link} to="/admin/users">Cancel</Button>
+                                <Button variant="contained" component={Link} to={this.state.urlEntities}>Cancel</Button>
                             </td>
                         </tr>
                         <tr>
@@ -445,7 +454,7 @@ class UserPage extends React.Component {
             updatedState.showError = true;
             updatedState.error = "Check your 'New Password' and 'Confirm Password' - values are not equal";            
         }
-        if(!this.state.user.NewPassword && this.state.id) {
+        if(!this.state.user.NewPassword && !this.state.id) {
             isValid = false;
             updatedState.showError = true;
             updatedState.error = "Password is required for new user";
@@ -468,7 +477,7 @@ class UserPage extends React.Component {
 
     _redirectToLogin()
     {
-        this._pageHelper.redirectToLogin(`/admin/user/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
+        this._pageHelper.redirectToLogin(this.state.urlThis);        
     }
 
     _prepareOptionsList(objs, fields, hasEmptyVal) 

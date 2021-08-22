@@ -10,10 +10,10 @@ import { Button } from '@material-ui/core';
 import constants from "../../constants";
 
 const PageHelper = require("../../helpers/PageHelper");
-const RolesDal = require('../../dal/RolesDal');
+const ProposalStepsDal = require('../../dal/ProposalStepsDal');
 
 
-class RolesPage extends React.Component {
+class ProposalStepsPage extends React.Component {
 
     _columns = null;
     _pageHelper = null;
@@ -25,16 +25,16 @@ class RolesPage extends React.Component {
         let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
-            roles: [],
+            proposalsteps: [],
             showError: false,
             error: null,
-            urlThis: `${rooPath}/roles`,
-            urlNewEntity: `${rooPath}/role/new`,
-            urlEditEntity: `${rooPath}/role/edit/`,
+            urlThis: `${rooPath}/proposalsteps`,
+            urlNewEntity: `${rooPath}/proposalstep/new`,
+            urlEditEntity: `${rooPath}/proposalstep/edit/`,
         };
         this._initColumns();
        
-        this._getRoles = this._getRoles.bind(this);
+        this._getProposalSteps = this._getProposalSteps.bind(this);
         this._redirectToLogin = this._redirectToLogin.bind(this);
 
         this.onRowClick = this.onRowClick.bind(this);
@@ -53,7 +53,7 @@ class RolesPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            			obj._getRoles().then( () => {} );
+            			obj._getProposalSteps().then( () => {} );
 			
         }
         else {
@@ -71,10 +71,10 @@ class RolesPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Roles</h3>                
+                <h3>ProposalSteps</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ Role</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ ProposalStep</Button>        
             </div>
         );
     }
@@ -83,6 +83,8 @@ class RolesPage extends React.Component {
         this._columns = [
                 { field: 'ID', headerName: 'ID', width: 250 },
                 { field: 'Name', headerName: 'Name', width: 250 },
+                { field: 'ReqDueDate', headerName: 'ReqDueDate', width: 250 },
+                { field: 'RequiresRespInDays', headerName: 'RequiresRespInDays', width: 250 },
        
         ]        
     }
@@ -90,7 +92,7 @@ class RolesPage extends React.Component {
     _getRecords() {
         let records = [];
 
-        let cs = Object.values(this.state.roles);
+        let cs = Object.values(this.state.proposalsteps);
 
         for(let c in cs) {
 
@@ -98,6 +100,8 @@ class RolesPage extends React.Component {
                 id: cs[c].ID,
                 ID: cs[c].ID,
                 Name: cs[c].Name,
+                ReqDueDate: cs[c].ReqDueDate,
+                RequiresRespInDays: cs[c].RequiresRespInDays,
 
             };
 
@@ -109,17 +113,17 @@ class RolesPage extends React.Component {
 
     
 
-    async _getRoles() {
+    async _getProposalSteps() {
         let updatedState = this.state;
-        updatedState.roles = {};
-        let dalRoles = new RolesDal();
-        let response = await dalRoles.getRoles();
+        updatedState.proposalsteps = {};
+        let dalProposalSteps = new ProposalStepsDal();
+        let response = await dalProposalSteps.getProposalSteps();
 
         if(response.status == constants.HTTP_OK)
         {
             for(let s in response.data)
             {
-                updatedState.roles[response.data[s].ID] = response.data[s];             
+                updatedState.proposalsteps[response.data[s].ID] = response.data[s];             
             }
         }
         else if(response.status == constants.HTTP_Unauthorized) {
@@ -144,4 +148,4 @@ class RolesPage extends React.Component {
     }
 }
 
-export default withRouter(RolesPage);
+export default withRouter(ProposalStepsPage);

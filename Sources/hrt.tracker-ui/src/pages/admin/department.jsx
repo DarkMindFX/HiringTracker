@@ -11,15 +11,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import SkillsList from '../components/SkillsList';
 
-const PageHelper = require("../helpers/PageHelper");
-const DepartmentsDal = require('../dal/DepartmentsDal');
+const PageHelper = require("../../helpers/PageHelper");
+const DepartmentsDal = require('../../dal/DepartmentsDal');
 
-const UsersDal = require('../dal/UsersDal');
+const UsersDal = require('../../dal/UsersDal');
 const { DepartmentDto } = require('hrt.dto')
 
-const constants = require('../constants');
+const constants = require('../../constants');
 const { v4: uuidv4 } = require('uuid');
 
 class DepartmentPage extends React.Component {
@@ -30,35 +29,43 @@ class DepartmentPage extends React.Component {
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
+        let paramOperation = this.props.match.params.operation;
+        let paramId = this.props.match.params.id;
+        let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
-            operation: this.props.match.params.operation,
-            id: this.props.match.params.id ? parseInt(this.props.match.params.id) : null,
-            canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
-                                                          this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
+            operation:  paramOperation,
+            id:         paramId ? parseInt(paramId) : null,
+            canEdit:    paramOperation ? ( paramOperation.toLowerCase() == 'new' || 
+                                        paramOperation.toLowerCase() == 'edit' ? true : false) : false,
             department: this._createEmptyDepartmentObj(),
 
             showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
-            success: null
+            success: null,
+            urlEntities: `${rooPath}/departments`,
+            urlThis: `${rooPath}/department/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
         this.onNameChanged = this.onNameChanged.bind(this);
         this.onUUIDChanged = this.onUUIDChanged.bind(this);
         this.onParentIDChanged = this.onParentIDChanged.bind(this);
         this.onManagerIDChanged = this.onManagerIDChanged.bind(this);
+        this._getDepartment = this._getDepartment.bind(this);
+        this._validateForm = this._validateForm.bind(this);
+        this._showError = this._showError.bind(this);
 
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
 
-        this._getDepartment = this._getDepartment.bind(this);
-
-        this._getDepartments = this._getDepartments.bind(this);
-        this._getUsers = this._getUsers.bind(this);
+        this.onNameChanged = this.onNameChanged.bind(this);
+        this.onUUIDChanged = this.onUUIDChanged.bind(this);
+        this.onParentIDChanged = this.onParentIDChanged.bind(this);
+        this.onManagerIDChanged = this.onManagerIDChanged.bind(this);
 
 
     }
@@ -125,60 +132,63 @@ class DepartmentPage extends React.Component {
 
         console.log("Saving Department: ", this.state.department);
         
-        const reqDepartment = new DepartmentDto();
-        reqDepartment.ID = this.state.id;
-        reqDepartment.Name = this.state.department.Name;
-        reqDepartment.UUID = this.state.department.UUID;
-        reqDepartment.ParentID = this.state.department.ParentID;
-        reqDepartment.ManagerID = this.state.department.ManagerID;
+        if(this._validateForm()) {
+            const reqDepartment = new DepartmentDto();
+            reqDepartment.ID = this.state.id;
+            reqDepartment.Name = this.state.department.Name;
+            reqDepartment.UUID = this.state.department.UUID;
+            reqDepartment.ParentID = this.state.department.ParentID;
+            reqDepartment.ManagerID = this.state.department.ManagerID;
 
-        console.log("Saving Department: ", reqDepartment); 
+            console.log("Saving Department: ", reqDepartment); 
         
-        let dalDepartments = new DepartmentsDal();
+            let dalDepartments = new DepartmentsDal();
 
-        let obj = this;
+            let obj = this;
 
-        function upsertDepartmentThen(response) {
-            const updatedState = obj.state;
+            function upsertDepartmentThen(response) {
+                const updatedState = obj.state;
 
-            if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
-                updatedState.showSuccess = true;
-                updatedState.showError = false;
-                if(response.status == constants.HTTP_Created) {
-                    updatedState.id = response.data.ID;
-                    updatedState.success = `Department was created. ID: ${updatedState.id}`;
+                if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
+                    updatedState.showSuccess = true;
+                    updatedState.showError = false;
+                    if(response.status == constants.HTTP_Created) {
+                        updatedState.id = response.data.ID;
+                        updatedState.success = `Department was created. ID: ${updatedState.id}`;
+                    }
+                    else {
+                        updatedState.success = `Department was updated`;                
+                    }
+
+                    obj.setState(updatedState);
                 }
                 else {
-                    updatedState.success = `Department was updated`;                
+                    obj._showError(updatedState, response); 
+                
+                    obj.setState(updatedState);
                 }
+            }  
 
+            function upsertCatch(err) {
+                const updatedState = obj.state;
+                const errMsg = `Error: ${err}`
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = errMsg; 
                 obj.setState(updatedState);
+            }
+
+            if(this.state.id != null) {
+                dalDepartments.updateDepartment(reqDepartment)
+                                        .then( (res) => { upsertDepartmentThen(res); } )
+                                        .catch( (err) => { upsertCatch(err); });
             }
             else {
-                obj._showError(updatedState, response); 
-                
-                obj.setState(updatedState);
+                dalDepartments.insertDepartment(reqDepartment)
+                                        .then( (res) => { upsertDepartmentThen(res); } )
+                                        .catch( (err) => { upsertCatch(err); });        
             }
-        }  
 
-        function upsertCatch(err) {
-            const updatedState = obj.state;
-            const errMsg = `Error: ${err}`
-            updatedState.showSuccess = false;
-            updatedState.showError = true;
-            updatedState.error = errMsg; 
-            obj.setState(updatedState);
-        }
-
-        if(this.state.id != null) {
-            dalDepartments.updateDepartment(reqDepartment)
-                                    .then( (res) => { upsertDepartmentThen(res); } )
-                                    .catch( (err) => { upsertCatch(err); });
-        }
-        else {
-            dalDepartments.insertDepartment(reqDepartment)
-                                    .then( (res) => { upsertDepartmentThen(res); } )
-                                    .catch( (err) => { upsertCatch(err); });        
         }
         
     }
@@ -202,7 +212,7 @@ class DepartmentPage extends React.Component {
 
         dalDepartments.deleteDepartment(this.state.id).then( (response) => {
             if(response.status == constants.HTTP_OK) {
-                obj.props.history.push("/departments");                
+                obj.props.history.push(this.state.urlEntities);                
             }
             else {
                 const updatedState = obj.state;
@@ -242,7 +252,9 @@ class DepartmentPage extends React.Component {
                  <table>
                     <tbody>
                         <tr>
-                            <td style={{width: 450}}></td>
+                            <td style={{width: 450}}>
+                                <h2>Department: { this.state.department.Name }</h2>
+                            </td>
                             <td>
                                 <Button variant="contained" color="primary"
                                         onClick={ () => this.onSaveClicked() }>Save</Button>
@@ -251,7 +263,7 @@ class DepartmentPage extends React.Component {
                                         style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
 
-                                <Button variant="contained" component={Link} to="/departments">Cancel</Button>
+                                <Button variant="contained" component={Link} to={this.state.urlEntities}>Cancel</Button>
                             </td>
                         </tr>
                         <tr>
@@ -358,25 +370,27 @@ class DepartmentPage extends React.Component {
 
     async _getDepartment()
     {
-        let updatedState = this.state;
+        if(this.state.id) {
+            let updatedState = this.state;
                   
-        let dalDepartments = new DepartmentsDal();
-        let response = await dalDepartments.getDepartment(this.state.id);
+            let dalDepartments = new DepartmentsDal();
+            let response = await dalDepartments.getDepartment(this.state.id);
 
-        if(response.status == constants.HTTP_OK)
-        {
-            updatedState.department = response.data;                
-        }
-        else if(response.status == constants.HTTP_Unauthorized)
-        {
-            this._redirectToLogin();
-        }
-        else 
-        {
-            this._showError(updatedState, response);
-        }
+            if(response.status == constants.HTTP_OK)
+            {
+                updatedState.department = response.data;                
+            }
+            else if(response.status == constants.HTTP_Unauthorized)
+            {
+                this._redirectToLogin();
+            }
+            else 
+            {
+                this._showError(updatedState, response);
+            }
         
-        this.setState(updatedState);        
+            this.setState(updatedState);    
+        }
     }
 
     async _getDepartments() {
@@ -427,7 +441,20 @@ class DepartmentPage extends React.Component {
 
     
 
+    _validateForm() {
+        let updatedState = this.state;
+        let isValid = true;
+        
+        // TODO: add validation here if needed
 
+        if(isValid) {
+            updatedState.showError = false;
+        }
+        
+        this.setState(updatedState);
+        
+        return isValid;
+    }
 
     _showError(updatedState, response) {
         var error = JSON.parse(response.data.response);
@@ -437,7 +464,7 @@ class DepartmentPage extends React.Component {
 
     _redirectToLogin()
     {
-        this._pageHelper.redirectToLogin(`/department/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
+        this._pageHelper.redirectToLogin(this.state.urlThis);          
     }
 
     _prepareOptionsList(objs, fields, hasEmptyVal) 

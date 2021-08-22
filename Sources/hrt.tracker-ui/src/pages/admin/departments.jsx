@@ -7,12 +7,12 @@ import { Link, withRouter } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
-import constants from "../constants";
+import constants from "../../constants";
 
-const PageHelper = require("../helpers/PageHelper");
-const DepartmentsDal = require('../dal/DepartmentsDal');
+const PageHelper = require("../../helpers/PageHelper");
+const DepartmentsDal = require('../../dal/DepartmentsDal');
 
-const UsersDal = require('../dal/UsersDal');
+const UsersDal = require('../../dal/UsersDal');
 
 
 class DepartmentsPage extends React.Component {
@@ -24,11 +24,15 @@ class DepartmentsPage extends React.Component {
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
+        let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
             departments: [],
             showError: false,
-            error: null
+            error: null,
+            urlThis: `${rooPath}/departments`,
+            urlNewEntity: `${rooPath}/department/new`,
+            urlEditEntity: `${rooPath}/department/edit/`,
         };
         this._initColumns();
        
@@ -43,7 +47,7 @@ class DepartmentsPage extends React.Component {
     onRowClick(event) {
         const row = event.row;
         if(row) {
-            this.props.history.push(`/department/edit/${row.id}`);
+            this.props.history.push(this.state.urlEditEntity + row.id);
         }
 
     }
@@ -72,10 +76,10 @@ class DepartmentsPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Candidates</h3>                
+                <h3>Departments</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to="/department/new" >+ Department</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ Department</Button>        
             </div>
         );
     }
@@ -85,8 +89,8 @@ class DepartmentsPage extends React.Component {
                 { field: 'ID', headerName: 'ID', width: 250 },
                 { field: 'Name', headerName: 'Name', width: 250 },
                 { field: 'UUID', headerName: 'UUID', width: 250 },
-                { field: 'ParentID', headerName: 'ParentID', width: 250 },
-                { field: 'ManagerID', headerName: 'ManagerID', width: 250 },
+                { field: 'ParentID', headerName: 'Parent', width: 250 },
+                { field: 'ManagerID', headerName: 'Manager', width: 250 },
        
         ]        
     }
@@ -104,7 +108,7 @@ class DepartmentsPage extends React.Component {
                 Name: cs[c].Name,
                 UUID: cs[c].UUID,
                 ParentID: cs[c].ParentID ? this.state.departments[ cs[c].ParentID ].Name : "",
-                ManagerID: cs[c].ManagerID ? this.state.users[ cs[c].ManagerID ].FirstName + " " + this.state.users[ cs[c].ManagerID ].LastName : "",
+                ManagerID: cs[c].ManagerID ? this.state.users[ cs[c].ManagerID ].FirstName + ' ' + this.state.users[ cs[c].ManagerID ].LastName : "",
 
             };
 
@@ -191,7 +195,7 @@ class DepartmentsPage extends React.Component {
 
     _redirectToLogin()
     {        
-        this._pageHelper.redirectToLogin(`/departments`);
+        this._pageHelper.redirectToLogin(this.state.urlThis);  
     }
 }
 

@@ -7,10 +7,10 @@ import { Link, withRouter } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
-import constants from "../constants";
+import constants from "../../constants";
 
-const PageHelper = require("../helpers/PageHelper");
-const SkillsDal = require('../dal/SkillsDal');
+const PageHelper = require("../../helpers/PageHelper");
+const SkillsDal = require('../../dal/SkillsDal');
 
 
 class SkillsPage extends React.Component {
@@ -22,11 +22,15 @@ class SkillsPage extends React.Component {
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
+        let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
             skills: [],
             showError: false,
-            error: null
+            error: null,
+            urlThis: `${rooPath}/skills`,
+            urlNewEntity: `${rooPath}/skill/new`,
+            urlEditEntity: `${rooPath}/skill/edit/`,
         };
         this._initColumns();
        
@@ -39,7 +43,7 @@ class SkillsPage extends React.Component {
     onRowClick(event) {
         const row = event.row;
         if(row) {
-            this.props.history.push(`/skill/edit/${row.id}`);
+            this.props.history.push(this.state.urlEditEntity + row.id);
         }
 
     }
@@ -67,10 +71,10 @@ class SkillsPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Candidates</h3>                
+                <h3>Skills</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to="/skill/new" >+ Skill</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ Skill</Button>        
             </div>
         );
     }
@@ -136,7 +140,7 @@ class SkillsPage extends React.Component {
 
     _redirectToLogin()
     {        
-        this._pageHelper.redirectToLogin(`/skills`);
+        this._pageHelper.redirectToLogin(this.state.urlThis);  
     }
 }
 

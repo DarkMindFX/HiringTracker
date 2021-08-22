@@ -13,13 +13,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const PageHelper = require("../../helpers/PageHelper");
-const SkillsDal = require('../../dal/SkillsDal');
-const { SkillDto } = require('hrt.dto')
+const ProposalStepsDal = require('../../dal/ProposalStepsDal');
+const { ProposalStepDto } = require('hrt.dto')
 
 const constants = require('../../constants');
 const { v4: uuidv4 } = require('uuid');
 
-class SkillPage extends React.Component {
+class ProposalStepPage extends React.Component {
 
     _pageHelper = null;
 
@@ -36,19 +36,21 @@ class SkillPage extends React.Component {
             id:         paramId ? parseInt(paramId) : null,
             canEdit:    paramOperation ? ( paramOperation.toLowerCase() == 'new' || 
                                         paramOperation.toLowerCase() == 'edit' ? true : false) : false,
-            skill: this._createEmptySkillObj(),
+            proposalstep: this._createEmptyProposalStepObj(),
 
             showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
             success: null,
-            urlEntities: `${rooPath}/skills`,
-            urlThis: `${rooPath}/skill/${paramOperation}` + (paramId ? `/${paramId}` : ``)
+            urlEntities: `${rooPath}/proposalsteps`,
+            urlThis: `${rooPath}/proposalstep/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
         this.onNameChanged = this.onNameChanged.bind(this);
-        this._getSkill = this._getSkill.bind(this);
+        this.onReqDueDateChanged = this.onReqDueDateChanged.bind(this);
+        this.onRequiresRespInDaysChanged = this.onRequiresRespInDaysChanged.bind(this);
+        this._getProposalStep = this._getProposalStep.bind(this);
         this._validateForm = this._validateForm.bind(this);
         this._showError = this._showError.bind(this);
 
@@ -58,6 +60,8 @@ class SkillPage extends React.Component {
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
 
         this.onNameChanged = this.onNameChanged.bind(this);
+        this.onReqDueDateChanged = this.onReqDueDateChanged.bind(this);
+        this.onRequiresRespInDaysChanged = this.onRequiresRespInDaysChanged.bind(this);
 
 
     }
@@ -67,7 +71,7 @@ class SkillPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            			obj._getSkill().then( () => {} );
+            			obj._getProposalStep().then( () => {} );
 			
         }
         else {
@@ -81,7 +85,27 @@ class SkillPage extends React.Component {
         let updatedState = this.state;
         let newVal = null;
         newVal = event.target.value
-        updatedState.skill.Name = newVal;
+        updatedState.proposalstep.Name = newVal;
+
+        this.setState(updatedState);
+    }
+
+    onReqDueDateChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = event.target.value
+        updatedState.proposalstep.ReqDueDate = newVal;
+
+        this.setState(updatedState);
+    }
+
+    onRequiresRespInDaysChanged(event) {
+
+        let updatedState = this.state;
+        let newVal = null;
+        newVal = parseInt(event.target.value);
+        updatedState.proposalstep.RequiresRespInDays = newVal;
 
         this.setState(updatedState);
     }
@@ -90,20 +114,22 @@ class SkillPage extends React.Component {
 
     onSaveClicked() {
 
-        console.log("Saving Skill: ", this.state.skill);
+        console.log("Saving ProposalStep: ", this.state.proposalstep);
         
         if(this._validateForm()) {
-            const reqSkill = new SkillDto();
-            reqSkill.ID = this.state.id;
-            reqSkill.Name = this.state.skill.Name;
+            const reqProposalStep = new ProposalStepDto();
+            reqProposalStep.ID = this.state.id;
+            reqProposalStep.Name = this.state.proposalstep.Name;
+            reqProposalStep.ReqDueDate = this.state.proposalstep.ReqDueDate;
+            reqProposalStep.RequiresRespInDays = this.state.proposalstep.RequiresRespInDays;
 
-            console.log("Saving Skill: ", reqSkill); 
+            console.log("Saving ProposalStep: ", reqProposalStep); 
         
-            let dalSkills = new SkillsDal();
+            let dalProposalSteps = new ProposalStepsDal();
 
             let obj = this;
 
-            function upsertSkillThen(response) {
+            function upsertProposalStepThen(response) {
                 const updatedState = obj.state;
 
                 if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
@@ -111,10 +137,10 @@ class SkillPage extends React.Component {
                     updatedState.showError = false;
                     if(response.status == constants.HTTP_Created) {
                         updatedState.id = response.data.ID;
-                        updatedState.success = `Skill was created. ID: ${updatedState.id}`;
+                        updatedState.success = `ProposalStep was created. ID: ${updatedState.id}`;
                     }
                     else {
-                        updatedState.success = `Skill was updated`;                
+                        updatedState.success = `ProposalStep was updated`;                
                     }
 
                     obj.setState(updatedState);
@@ -136,13 +162,13 @@ class SkillPage extends React.Component {
             }
 
             if(this.state.id != null) {
-                dalSkills.updateSkill(reqSkill)
-                                        .then( (res) => { upsertSkillThen(res); } )
+                dalProposalSteps.updateProposalStep(reqProposalStep)
+                                        .then( (res) => { upsertProposalStepThen(res); } )
                                         .catch( (err) => { upsertCatch(err); });
             }
             else {
-                dalSkills.insertSkill(reqSkill)
-                                        .then( (res) => { upsertSkillThen(res); } )
+                dalProposalSteps.insertProposalStep(reqProposalStep)
+                                        .then( (res) => { upsertProposalStepThen(res); } )
                                         .catch( (err) => { upsertCatch(err); });        
             }
 
@@ -164,10 +190,10 @@ class SkillPage extends React.Component {
 
     onDeleteConfirm() {  
         
-        let dalSkills = new SkillsDal();
+        let dalProposalSteps = new ProposalStepsDal();
         let obj = this;
 
-        dalSkills.deleteSkill(this.state.id).then( (response) => {
+        dalProposalSteps.deleteProposalStep(this.state.id).then( (response) => {
             if(response.status == constants.HTTP_OK) {
                 obj.props.history.push(this.state.urlEntities);                
             }
@@ -200,7 +226,7 @@ class SkillPage extends React.Component {
                     <tbody>
                         <tr>
                             <td style={{width: 450}}>
-                                <h2>Skill: { this.state.skill.toString() }</h2>
+                                <h2>ProposalStep: { this.state.proposalstep.toString() }</h2>
                             </td>
                             <td>
                                 <Button variant="contained" color="primary"
@@ -227,8 +253,36 @@ class SkillPage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Name" 
-                                            value={this.state.skill.Name}
+                                            value={this.state.proposalstep.Name}
                                             onChange={ (event) => { this.onNameChanged(event) } }
+                                            />
+                                
+                            </td>
+                        </tr> 
+   
+                        <tr>
+                            <td colSpan={2}>
+                                <TextField  id="ReqDueDate" 
+                                            fullWidth
+                                            type="text" 
+                                            variant="filled" 
+                                            label="ReqDueDate" 
+                                            value={this.state.proposalstep.ReqDueDate}
+                                            onChange={ (event) => { this.onReqDueDateChanged(event) } }
+                                            />
+                                
+                            </td>
+                        </tr> 
+   
+                        <tr>
+                            <td colSpan={2}>
+                                <TextField  id="RequiresRespInDays" 
+                                            fullWidth
+                                            type="text" 
+                                            variant="filled" 
+                                            label="RequiresRespInDays" 
+                                            value={this.state.proposalstep.RequiresRespInDays}
+                                            onChange={ (event) => { this.onRequiresRespInDaysChanged(event) } }
                                             />
                                 
                             </td>
@@ -239,10 +293,10 @@ class SkillPage extends React.Component {
                 </table>
 
                 <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Delete Skill</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Delete ProposalStep</DialogTitle>
                     <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to delete this Skill?
+                        Are you sure you want to delete this ProposalStep?
                     </DialogContentText>                    
                     </DialogContent>
                     <DialogActions>
@@ -259,23 +313,23 @@ class SkillPage extends React.Component {
         );
     }
 
-    _createEmptySkillObj() {
-        let skill = new SkillDto();
+    _createEmptyProposalStepObj() {
+        let proposalstep = new ProposalStepDto();
 
-        return skill;
+        return proposalstep;
     }
 
-    async _getSkill()
+    async _getProposalStep()
     {
         if(this.state.id) {
             let updatedState = this.state;
                   
-            let dalSkills = new SkillsDal();
-            let response = await dalSkills.getSkill(this.state.id);
+            let dalProposalSteps = new ProposalStepsDal();
+            let response = await dalProposalSteps.getProposalStep(this.state.id);
 
             if(response.status == constants.HTTP_OK)
             {
-                updatedState.skill = response.data;                
+                updatedState.proposalstep = response.data;                
             }
             else if(response.status == constants.HTTP_Unauthorized)
             {
@@ -348,4 +402,4 @@ class SkillPage extends React.Component {
     }
 }
 
-export default withRouter(SkillPage);
+export default withRouter(ProposalStepPage);

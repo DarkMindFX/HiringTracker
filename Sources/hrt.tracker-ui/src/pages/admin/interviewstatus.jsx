@@ -13,13 +13,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const PageHelper = require("../../helpers/PageHelper");
-const SkillsDal = require('../../dal/SkillsDal');
-const { SkillDto } = require('hrt.dto')
+const InterviewStatusesDal = require('../../dal/InterviewStatusesDal');
+const { InterviewStatusDto } = require('hrt.dto')
 
 const constants = require('../../constants');
 const { v4: uuidv4 } = require('uuid');
 
-class SkillPage extends React.Component {
+class InterviewStatusPage extends React.Component {
 
     _pageHelper = null;
 
@@ -36,19 +36,19 @@ class SkillPage extends React.Component {
             id:         paramId ? parseInt(paramId) : null,
             canEdit:    paramOperation ? ( paramOperation.toLowerCase() == 'new' || 
                                         paramOperation.toLowerCase() == 'edit' ? true : false) : false,
-            skill: this._createEmptySkillObj(),
+            interviewstatus: this._createEmptyInterviewStatusObj(),
 
             showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
             success: null,
-            urlEntities: `${rooPath}/skills`,
-            urlThis: `${rooPath}/skill/${paramOperation}` + (paramId ? `/${paramId}` : ``)
+            urlEntities: `${rooPath}/interviewstatuses`,
+            urlThis: `${rooPath}/interviewstatus/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
         this.onNameChanged = this.onNameChanged.bind(this);
-        this._getSkill = this._getSkill.bind(this);
+        this._getInterviewStatus = this._getInterviewStatus.bind(this);
         this._validateForm = this._validateForm.bind(this);
         this._showError = this._showError.bind(this);
 
@@ -67,7 +67,7 @@ class SkillPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            			obj._getSkill().then( () => {} );
+            			obj._getInterviewStatus().then( () => {} );
 			
         }
         else {
@@ -81,7 +81,7 @@ class SkillPage extends React.Component {
         let updatedState = this.state;
         let newVal = null;
         newVal = event.target.value
-        updatedState.skill.Name = newVal;
+        updatedState.interviewstatus.Name = newVal;
 
         this.setState(updatedState);
     }
@@ -90,20 +90,20 @@ class SkillPage extends React.Component {
 
     onSaveClicked() {
 
-        console.log("Saving Skill: ", this.state.skill);
+        console.log("Saving InterviewStatus: ", this.state.interviewstatus);
         
         if(this._validateForm()) {
-            const reqSkill = new SkillDto();
-            reqSkill.ID = this.state.id;
-            reqSkill.Name = this.state.skill.Name;
+            const reqInterviewStatus = new InterviewStatusDto();
+            reqInterviewStatus.ID = this.state.id;
+            reqInterviewStatus.Name = this.state.interviewstatus.Name;
 
-            console.log("Saving Skill: ", reqSkill); 
+            console.log("Saving InterviewStatus: ", reqInterviewStatus); 
         
-            let dalSkills = new SkillsDal();
+            let dalInterviewStatuses = new InterviewStatusesDal();
 
             let obj = this;
 
-            function upsertSkillThen(response) {
+            function upsertInterviewStatusThen(response) {
                 const updatedState = obj.state;
 
                 if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
@@ -111,10 +111,10 @@ class SkillPage extends React.Component {
                     updatedState.showError = false;
                     if(response.status == constants.HTTP_Created) {
                         updatedState.id = response.data.ID;
-                        updatedState.success = `Skill was created. ID: ${updatedState.id}`;
+                        updatedState.success = `InterviewStatus was created. ID: ${updatedState.id}`;
                     }
                     else {
-                        updatedState.success = `Skill was updated`;                
+                        updatedState.success = `InterviewStatus was updated`;                
                     }
 
                     obj.setState(updatedState);
@@ -136,13 +136,13 @@ class SkillPage extends React.Component {
             }
 
             if(this.state.id != null) {
-                dalSkills.updateSkill(reqSkill)
-                                        .then( (res) => { upsertSkillThen(res); } )
+                dalInterviewStatuses.updateInterviewStatus(reqInterviewStatus)
+                                        .then( (res) => { upsertInterviewStatusThen(res); } )
                                         .catch( (err) => { upsertCatch(err); });
             }
             else {
-                dalSkills.insertSkill(reqSkill)
-                                        .then( (res) => { upsertSkillThen(res); } )
+                dalInterviewStatuses.insertInterviewStatus(reqInterviewStatus)
+                                        .then( (res) => { upsertInterviewStatusThen(res); } )
                                         .catch( (err) => { upsertCatch(err); });        
             }
 
@@ -164,10 +164,10 @@ class SkillPage extends React.Component {
 
     onDeleteConfirm() {  
         
-        let dalSkills = new SkillsDal();
+        let dalInterviewStatuses = new InterviewStatusesDal();
         let obj = this;
 
-        dalSkills.deleteSkill(this.state.id).then( (response) => {
+        dalInterviewStatuses.deleteInterviewStatus(this.state.id).then( (response) => {
             if(response.status == constants.HTTP_OK) {
                 obj.props.history.push(this.state.urlEntities);                
             }
@@ -200,7 +200,7 @@ class SkillPage extends React.Component {
                     <tbody>
                         <tr>
                             <td style={{width: 450}}>
-                                <h2>Skill: { this.state.skill.toString() }</h2>
+                                <h2>InterviewStatus: { this.state.interviewstatus.Name }</h2>
                             </td>
                             <td>
                                 <Button variant="contained" color="primary"
@@ -227,7 +227,7 @@ class SkillPage extends React.Component {
                                             type="text" 
                                             variant="filled" 
                                             label="Name" 
-                                            value={this.state.skill.Name}
+                                            value={this.state.interviewstatus.Name}
                                             onChange={ (event) => { this.onNameChanged(event) } }
                                             />
                                 
@@ -239,10 +239,10 @@ class SkillPage extends React.Component {
                 </table>
 
                 <Dialog open={this.state.showDeleteConfirm} onClose={() => { this.onDeleteCancel() }} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Delete Skill</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Delete InterviewStatus</DialogTitle>
                     <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to delete this Skill?
+                        Are you sure you want to delete this InterviewStatus?
                     </DialogContentText>                    
                     </DialogContent>
                     <DialogActions>
@@ -259,23 +259,23 @@ class SkillPage extends React.Component {
         );
     }
 
-    _createEmptySkillObj() {
-        let skill = new SkillDto();
+    _createEmptyInterviewStatusObj() {
+        let interviewstatus = new InterviewStatusDto();
 
-        return skill;
+        return interviewstatus;
     }
 
-    async _getSkill()
+    async _getInterviewStatus()
     {
         if(this.state.id) {
             let updatedState = this.state;
                   
-            let dalSkills = new SkillsDal();
-            let response = await dalSkills.getSkill(this.state.id);
+            let dalInterviewStatuses = new InterviewStatusesDal();
+            let response = await dalInterviewStatuses.getInterviewStatus(this.state.id);
 
             if(response.status == constants.HTTP_OK)
             {
-                updatedState.skill = response.data;                
+                updatedState.interviewstatus = response.data;                
             }
             else if(response.status == constants.HTTP_Unauthorized)
             {
@@ -348,4 +348,4 @@ class SkillPage extends React.Component {
     }
 }
 
-export default withRouter(SkillPage);
+export default withRouter(InterviewStatusPage);

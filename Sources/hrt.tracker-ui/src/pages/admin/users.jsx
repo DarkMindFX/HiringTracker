@@ -23,10 +23,15 @@ class UsersPage extends React.Component {
 
         this._pageHelper = new PageHelper(this.props);
 
+        let rooPath = '/admin';
+
         this.state = { 
             users: [],
             showError: false,
-            error: null
+            error: null,
+            urlThis: `${rooPath}/users`,
+            urlNewEntity: `${rooPath}/user/new`,
+            urlEditEntity: `${rooPath}/user/edit/`,
         };
         this._initColumns();
        
@@ -39,7 +44,7 @@ class UsersPage extends React.Component {
     onRowClick(event) {
         const row = event.row;
         if(row) {
-            this.props.history.push(`/admin/user/edit/${row.id}`);
+            this.props.history.push(this.state.urlEditEntity + row.id);
         }
 
     }
@@ -67,10 +72,10 @@ class UsersPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Candidates</h3>                
+                <h3>Users</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to="/admin/user/new" >+ User</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity}>+ User</Button>       
             </div>
         );
     }
@@ -143,7 +148,7 @@ class UsersPage extends React.Component {
 
     _redirectToLogin()
     {        
-        this._pageHelper.redirectToLogin(`/admin/users`);
+        this._pageHelper.redirectToLogin(this.state.urlThis)
     }
 }
 

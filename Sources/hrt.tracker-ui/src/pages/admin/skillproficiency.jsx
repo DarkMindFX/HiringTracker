@@ -11,13 +11,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import SkillsList from '../components/SkillsList';
 
-const PageHelper = require("../helpers/PageHelper");
-const SkillProficienciesDal = require('../dal/SkillProficienciesDal');
+const PageHelper = require("../../helpers/PageHelper");
+const SkillProficienciesDal = require('../../dal/SkillProficienciesDal');
 const { SkillProficiencyDto } = require('hrt.dto')
 
-const constants = require('../constants');
+const constants = require('../../constants');
 const { v4: uuidv4 } = require('uuid');
 
 class SkillProficiencyPage extends React.Component {
@@ -28,30 +27,35 @@ class SkillProficiencyPage extends React.Component {
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
+        let paramOperation = this.props.match.params.operation;
+        let paramId = this.props.match.params.id;
+        let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
-            operation: this.props.match.params.operation,
-            id: this.props.match.params.id ? parseInt(this.props.match.params.id) : null,
-            canEdit: this.props.match.params.operation ? (this.props.match.params.operation.toLowerCase() == 'new' || 
-                                                          this.props.match.params.operation.toLowerCase() == 'edit' ? true : false) : false,
+            operation:  paramOperation,
+            id:         paramId ? parseInt(paramId) : null,
+            canEdit:    paramOperation ? ( paramOperation.toLowerCase() == 'new' || 
+                                        paramOperation.toLowerCase() == 'edit' ? true : false) : false,
             skillproficiency: this._createEmptySkillProficiencyObj(),
 
             showDeleteConfirm: false,
             showError: false,
             showSuccess: false,
             error: null,
-            success: null
+            success: null,
+            urlEntities: `${rooPath}/skillproficiencies`,
+            urlThis: `${rooPath}/skillproficiency/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
         this.onNameChanged = this.onNameChanged.bind(this);
+        this._getSkillProficiency = this._getSkillProficiency.bind(this);
+        this._validateForm = this._validateForm.bind(this);
+        this._showError = this._showError.bind(this);
 
         this.onSaveClicked = this.onSaveClicked.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onDeleteCancel = this.onDeleteCancel.bind(this);
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
-
-        this._getSkillProficiency = this._getSkillProficiency.bind(this);
-
 
         this.onNameChanged = this.onNameChanged.bind(this);
 
@@ -88,57 +92,60 @@ class SkillProficiencyPage extends React.Component {
 
         console.log("Saving SkillProficiency: ", this.state.skillproficiency);
         
-        const reqSkillProficiency = new SkillProficiencyDto();
-        reqSkillProficiency.ID = this.state.id;
-        reqSkillProficiency.Name = this.state.skillproficiency.Name;
+        if(this._validateForm()) {
+            const reqSkillProficiency = new SkillProficiencyDto();
+            reqSkillProficiency.ID = this.state.id;
+            reqSkillProficiency.Name = this.state.skillproficiency.Name;
 
-        console.log("Saving SkillProficiency: ", reqSkillProficiency); 
+            console.log("Saving SkillProficiency: ", reqSkillProficiency); 
         
-        let dalSkillProficiencies = new SkillProficienciesDal();
+            let dalSkillProficiencies = new SkillProficienciesDal();
 
-        let obj = this;
+            let obj = this;
 
-        function upsertSkillProficiencyThen(response) {
-            const updatedState = obj.state;
+            function upsertSkillProficiencyThen(response) {
+                const updatedState = obj.state;
 
-            if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
-                updatedState.showSuccess = true;
-                updatedState.showError = false;
-                if(response.status == constants.HTTP_Created) {
-                    updatedState.id = response.data.ID;
-                    updatedState.success = `SkillProficiency was created. ID: ${updatedState.id}`;
+                if(response.status == constants.HTTP_OK || response.status == constants.HTTP_Created) {
+                    updatedState.showSuccess = true;
+                    updatedState.showError = false;
+                    if(response.status == constants.HTTP_Created) {
+                        updatedState.id = response.data.ID;
+                        updatedState.success = `SkillProficiency was created. ID: ${updatedState.id}`;
+                    }
+                    else {
+                        updatedState.success = `SkillProficiency was updated`;                
+                    }
+
+                    obj.setState(updatedState);
                 }
                 else {
-                    updatedState.success = `SkillProficiency was updated`;                
+                    obj._showError(updatedState, response); 
+                
+                    obj.setState(updatedState);
                 }
+            }  
 
+            function upsertCatch(err) {
+                const updatedState = obj.state;
+                const errMsg = `Error: ${err}`
+                updatedState.showSuccess = false;
+                updatedState.showError = true;
+                updatedState.error = errMsg; 
                 obj.setState(updatedState);
+            }
+
+            if(this.state.id != null) {
+                dalSkillProficiencies.updateSkillProficiency(reqSkillProficiency)
+                                        .then( (res) => { upsertSkillProficiencyThen(res); } )
+                                        .catch( (err) => { upsertCatch(err); });
             }
             else {
-                obj._showError(updatedState, response); 
-                
-                obj.setState(updatedState);
+                dalSkillProficiencies.insertSkillProficiency(reqSkillProficiency)
+                                        .then( (res) => { upsertSkillProficiencyThen(res); } )
+                                        .catch( (err) => { upsertCatch(err); });        
             }
-        }  
 
-        function upsertCatch(err) {
-            const updatedState = obj.state;
-            const errMsg = `Error: ${err}`
-            updatedState.showSuccess = false;
-            updatedState.showError = true;
-            updatedState.error = errMsg; 
-            obj.setState(updatedState);
-        }
-
-        if(this.state.id != null) {
-            dalSkillProficiencies.updateSkillProficiency(reqSkillProficiency)
-                                    .then( (res) => { upsertSkillProficiencyThen(res); } )
-                                    .catch( (err) => { upsertCatch(err); });
-        }
-        else {
-            dalSkillProficiencies.insertSkillProficiency(reqSkillProficiency)
-                                    .then( (res) => { upsertSkillProficiencyThen(res); } )
-                                    .catch( (err) => { upsertCatch(err); });        
         }
         
     }
@@ -162,7 +169,7 @@ class SkillProficiencyPage extends React.Component {
 
         dalSkillProficiencies.deleteSkillProficiency(this.state.id).then( (response) => {
             if(response.status == constants.HTTP_OK) {
-                obj.props.history.push("/skillproficiencies");                
+                obj.props.history.push(this.state.urlEntities);                
             }
             else {
                 const updatedState = obj.state;
@@ -192,7 +199,9 @@ class SkillProficiencyPage extends React.Component {
                  <table>
                     <tbody>
                         <tr>
-                            <td style={{width: 450}}></td>
+                            <td style={{width: 450}}>
+                                <h2>SkillProficiency: { this.state.skillproficiency.toString() }</h2>
+                            </td>
                             <td>
                                 <Button variant="contained" color="primary"
                                         onClick={ () => this.onSaveClicked() }>Save</Button>
@@ -201,7 +210,7 @@ class SkillProficiencyPage extends React.Component {
                                         style={styleDeleteBtn}
                                         onClick={ () => this.onDeleteClicked() }>Delete</Button>
 
-                                <Button variant="contained" component={Link} to="/skillproficiencies">Cancel</Button>
+                                <Button variant="contained" component={Link} to={this.state.urlEntities}>Cancel</Button>
                             </td>
                         </tr>
                         <tr>
@@ -283,7 +292,20 @@ class SkillProficiencyPage extends React.Component {
 
     
 
+    _validateForm() {
+        let updatedState = this.state;
+        let isValid = true;
+        
+        // TODO: add validation here if needed
 
+        if(isValid) {
+            updatedState.showError = false;
+        }
+        
+        this.setState(updatedState);
+        
+        return isValid;
+    }
 
     _showError(updatedState, response) {
         var error = JSON.parse(response.data.response);
@@ -293,7 +315,7 @@ class SkillProficiencyPage extends React.Component {
 
     _redirectToLogin()
     {
-        this._pageHelper.redirectToLogin(`/skillproficiency/${this.state.operation}` + (this.state.id ? `/${this.state.id}` : ``));        
+        this._pageHelper.redirectToLogin(this.state.urlThis);          
     }
 
     _prepareOptionsList(objs, fields, hasEmptyVal) 

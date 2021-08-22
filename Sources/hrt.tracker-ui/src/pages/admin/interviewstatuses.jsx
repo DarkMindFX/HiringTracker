@@ -10,10 +10,10 @@ import { Button } from '@material-ui/core';
 import constants from "../../constants";
 
 const PageHelper = require("../../helpers/PageHelper");
-const RolesDal = require('../../dal/RolesDal');
+const InterviewStatusesDal = require('../../dal/InterviewStatusesDal');
 
 
-class RolesPage extends React.Component {
+class InterviewStatusesPage extends React.Component {
 
     _columns = null;
     _pageHelper = null;
@@ -25,16 +25,16 @@ class RolesPage extends React.Component {
         let rooPath = '/admin'; // set the page hierarchy here
 
         this.state = { 
-            roles: [],
+            interviewstatuses: [],
             showError: false,
             error: null,
-            urlThis: `${rooPath}/roles`,
-            urlNewEntity: `${rooPath}/role/new`,
-            urlEditEntity: `${rooPath}/role/edit/`,
+            urlThis: `${rooPath}/interviewstatuses`,
+            urlNewEntity: `${rooPath}/interviewstatus/new`,
+            urlEditEntity: `${rooPath}/interviewstatus/edit/`,
         };
         this._initColumns();
        
-        this._getRoles = this._getRoles.bind(this);
+        this._getInterviewStatuses = this._getInterviewStatuses.bind(this);
         this._redirectToLogin = this._redirectToLogin.bind(this);
 
         this.onRowClick = this.onRowClick.bind(this);
@@ -53,7 +53,7 @@ class RolesPage extends React.Component {
         console.log('Token: ', token);
         if(token != null) {
             let obj = this;
-            			obj._getRoles().then( () => {} );
+            			obj._getInterviewStatuses().then( () => {} );
 			
         }
         else {
@@ -71,10 +71,10 @@ class RolesPage extends React.Component {
 
         return (
             <div style={{ height: 500, width: '100%' }}>
-                <h3>Roles</h3>                
+                <h3>InterviewStatuses</h3>                
                 <Alert severity="error" style={styleError}>Error: {this.state.error}</Alert>
                 <DataGrid columns={this._columns} rows={records}  onRowClick={ this.onRowClick }/>
-                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ Role</Button>        
+                <Button variant="contained" component={Link} color="primary" size="small" to={this.state.urlNewEntity} >+ InterviewStatus</Button>        
             </div>
         );
     }
@@ -90,7 +90,7 @@ class RolesPage extends React.Component {
     _getRecords() {
         let records = [];
 
-        let cs = Object.values(this.state.roles);
+        let cs = Object.values(this.state.interviewstatuses);
 
         for(let c in cs) {
 
@@ -109,17 +109,17 @@ class RolesPage extends React.Component {
 
     
 
-    async _getRoles() {
+    async _getInterviewStatuses() {
         let updatedState = this.state;
-        updatedState.roles = {};
-        let dalRoles = new RolesDal();
-        let response = await dalRoles.getRoles();
+        updatedState.interviewstatuses = {};
+        let dalInterviewStatuses = new InterviewStatusesDal();
+        let response = await dalInterviewStatuses.getInterviewStatuses();
 
         if(response.status == constants.HTTP_OK)
         {
             for(let s in response.data)
             {
-                updatedState.roles[response.data[s].ID] = response.data[s];             
+                updatedState.interviewstatuses[response.data[s].ID] = response.data[s];             
             }
         }
         else if(response.status == constants.HTTP_Unauthorized) {
@@ -144,4 +144,4 @@ class RolesPage extends React.Component {
     }
 }
 
-export default withRouter(RolesPage);
+export default withRouter(InterviewStatusesPage);
