@@ -29,7 +29,7 @@ namespace HRT.DAL.MSSQL
             InitDbConnection(initParams.Parameters["ConnectionString"]);
         }
 
-        public InterviewType Get(System.Int64 ID)
+        public InterviewType Get(System.Int64? ID)
         {
             InterviewType result = default(InterviewType);
 
@@ -55,7 +55,7 @@ namespace HRT.DAL.MSSQL
             return result;
         }
 
-        public bool Delete(System.Int64 ID)
+        public bool Delete(System.Int64? ID)
         {
             bool result = false;
 
@@ -110,7 +110,7 @@ namespace HRT.DAL.MSSQL
         {
             var entity = new InterviewType();
 
-                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64)row["ID"] : default(System.Int64);
+                    entity.ID = !DBNull.Value.Equals(row["ID"]) ? (System.Int64?)row["ID"] : default(System.Int64?);
                     entity.Name = !DBNull.Value.Equals(row["Name"]) ? (System.String)row["Name"] : default(System.String);
         
             return entity;

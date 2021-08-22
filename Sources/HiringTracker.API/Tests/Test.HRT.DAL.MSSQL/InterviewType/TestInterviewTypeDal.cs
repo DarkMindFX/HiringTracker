@@ -44,22 +44,21 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+            var paramID = (System.Int64?)objIds[0];
             InterviewType entity = dal.Get(paramID);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.ID);
-            
-                          Assert.AreEqual(326774, entity.ID);
-                            Assert.AreEqual("Name bd963d0cf52f49099b589a34cdf0d41a", entity.Name);
-                      }
+            Assert.IsNotNull(entity.ID);
+
+            Assert.AreEqual("Name f8c02026282145969171312adcf1d3fc", entity.Name);
+        }
 
         [Test]
         public void InterviewType_GetDetails_InvalidId()
         {
-                var paramID = Int64.MaxValue - 1;
+            var paramID = Int64.MaxValue - 1;
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             InterviewType entity = dal.Get(paramID);
@@ -74,7 +73,7 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+            var paramID = (System.Int64?)objIds[0];
             bool removed = dal.Delete(paramID);
 
             TeardownCase(conn, caseName);
@@ -86,8 +85,8 @@ namespace Test.HRT.DAL.MSSQL
         public void InterviewType_Delete_InvalidId()
         {
             var dal = PrepareInterviewTypeDal("DALInitParams");
-                var paramID = Int64.MaxValue - 1;
-   
+            var paramID = Int64.MaxValue - 1;
+
             bool removed = dal.Delete(paramID);
             Assert.IsFalse(removed);
 
@@ -102,19 +101,17 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             var entity = new InterviewType();
-                          entity.ID = 326774;
-                            entity.Name = "Name 37f02d6fc0294f759e2f161db54c55c0";
-                          
+            entity.Name = "Name 5adff8174c8745ec88e76dccca199b24";
+
             entity = dal.Insert(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.ID);
-            
-                          Assert.AreEqual(326774, entity.ID);
-                            Assert.AreEqual("Name 37f02d6fc0294f759e2f161db54c55c0", entity.Name);
-              
+            Assert.IsNotNull(entity.ID);
+
+            Assert.AreEqual("Name 5adff8174c8745ec88e76dccca199b24", entity.Name);
+
         }
 
         [TestCase("InterviewType\\030.Update.Success")]
@@ -124,21 +121,20 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             IList<object> objIds = SetupCase(conn, caseName);
-                var paramID = (System.Int64)objIds[0];
+            var paramID = (System.Int64?)objIds[0];
             InterviewType entity = dal.Get(paramID);
 
-                          entity.Name = "Name bc22105fdb624279811c0e58bd8d6b09";
-              
+            entity.Name = "Name 70adcd2b072346d5a6e997c347f7c1c2";
+
             entity = dal.Update(entity);
 
             TeardownCase(conn, caseName);
 
             Assert.IsNotNull(entity);
-                        Assert.IsNotNull(entity.ID);
-            
-                          Assert.AreEqual(326774, entity.ID);
-                            Assert.AreEqual("Name bc22105fdb624279811c0e58bd8d6b09", entity.Name);
-              
+            Assert.IsNotNull(entity.ID);
+
+            Assert.AreEqual("Name 70adcd2b072346d5a6e997c347f7c1c2", entity.Name);
+
         }
 
         [Test]
@@ -147,9 +143,8 @@ namespace Test.HRT.DAL.MSSQL
             var dal = PrepareInterviewTypeDal("DALInitParams");
 
             var entity = new InterviewType();
-                          entity.ID = 326774;
-                            entity.Name = "Name bc22105fdb624279811c0e58bd8d6b09";
-              
+            entity.Name = "Name 70adcd2b072346d5a6e997c347f7c1c2";
+
             try
             {
                 entity = dal.Update(entity);

@@ -8,9 +8,9 @@ using System.Net;
 using HRT.HiringTracker.API.Filters;
 using HRT.Interfaces.Entities;
 using HRT.Utils.Convertors;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace HRT.HiringTracker.API.Controllers.V1
@@ -31,7 +31,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             _logger = logger;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -56,9 +56,9 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}"), ActionName("GetInterviewType")]
-        public IActionResult Get(System.Int64 id)
+        public IActionResult Get(System.Int64? id)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
@@ -80,9 +80,9 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}"), ActionName("DeleteInterviewType")]
-        public IActionResult Delete(System.Int64 id)
+        public IActionResult Delete(System.Int64? id)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
 
@@ -112,7 +112,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
             return response;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost, ActionName("InsertInterviewType")]
         public IActionResult Insert(DTO.InterviewType dto)
         {
@@ -124,7 +124,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
 
             InterviewType newEntity = _dalInterviewType.Insert(entity);
 
-            response = StatusCode((int)HttpStatusCode.Created, InterviewTypeConvertor.Convert(newEntity, this.Url));
+            response =StatusCode((int)HttpStatusCode.Created, InterviewTypeConvertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 
@@ -132,7 +132,7 @@ namespace HRT.HiringTracker.API.Controllers.V1
         }
 
 
-        [Authorize]
+        //[Authorize]
         [HttpPut, ActionName("UpdateInterviewType")]
         public IActionResult Update(DTO.InterviewType dto)
         {

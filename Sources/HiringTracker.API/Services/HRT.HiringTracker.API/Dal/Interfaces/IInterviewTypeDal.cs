@@ -9,9 +9,9 @@ namespace HRT.HiringTracker.API.Dal
 {
     public interface IInterviewTypeDal : IDalBase<InterviewType>
     {
-        InterviewType Get(System.Int64 ID);
+        InterviewType Get(System.Int64? ID);
 
-        bool Delete(System.Int64 ID);
+        bool Delete(System.Int64? ID);
 
         }
 }

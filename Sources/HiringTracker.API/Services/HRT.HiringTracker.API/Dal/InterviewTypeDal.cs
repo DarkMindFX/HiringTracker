@@ -15,12 +15,12 @@ namespace HRT.HiringTracker.API.Dal
         {
         }
 
-        public InterviewType Get(System.Int64 ID)
+        public InterviewType Get(System.Int64? ID)
         {
             return _dalImpl.Get(            ID);
         }
 
-        public bool Delete(System.Int64 ID)
+        public bool Delete(System.Int64? ID)
         {
             return _dalImpl.Delete(            ID);
         }

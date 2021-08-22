@@ -169,7 +169,7 @@ foreach(var fk in fks)
             
             #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 
             
@@ -225,7 +225,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
             
             #line 93 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 
             
@@ -289,7 +289,7 @@ foreach(var fk in fks)
             
             #line 133 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 
             
@@ -406,7 +406,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
             
             #line 178 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-    foreach(var c in table.Columns.Where(c => !c.IsPK))
+    foreach(var c in table.Columns.Where(c => !c.IsIdentity))
     {
 
             
@@ -765,7 +765,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
             
             #line 321 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
 
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 
             

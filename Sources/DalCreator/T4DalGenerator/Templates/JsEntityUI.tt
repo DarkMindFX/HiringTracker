@@ -74,7 +74,7 @@ class <#= table.Name #>Page extends React.Component {
         };
 
 <#
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 #>
         this.on<#= c.Name #>Changed = this.on<#= c.Name #>Changed.bind(this);
@@ -91,7 +91,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
         this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
 
 <#
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 #>
         this.on<#= c.Name #>Changed = this.on<#= c.Name #>Changed.bind(this);
@@ -131,7 +131,7 @@ foreach(var fk in fks)
     }
 
 <#
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 #>
     on<#= c.Name #>Changed(event) {
@@ -176,7 +176,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
             const req<#= table.Name #> = new <#= table.Name #>Dto();
             req<#= table.Name #>.ID = this.state.id;
 <#
-    foreach(var c in table.Columns.Where(c => !c.IsPK))
+    foreach(var c in table.Columns.Where(c => !c.IsIdentity))
     {
 #>
             req<#= table.Name #>.<#= c.Name #> = this.state.<#= table.Name.ToLower() #>.<#= c.Name #>;
@@ -319,7 +319,7 @@ foreach(var c in table.Columns.Where(c => !c.IsPK))
                             </td>
                         </tr> 
  <#
-foreach(var c in table.Columns.Where(c => !c.IsPK))
+foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
 #>   
                         <tr>
