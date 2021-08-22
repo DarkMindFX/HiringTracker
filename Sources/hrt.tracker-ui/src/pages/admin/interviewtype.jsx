@@ -200,7 +200,7 @@ class InterviewTypePage extends React.Component {
                     <tbody>
                         <tr>
                             <td style={{width: 450}}>
-                                <h2>InterviewType: { this.state.interviewtype.Name }</h2>
+                                <h2>InterviewType: { this.state.interviewtype.toString() }</h2>
                             </td>
                             <td>
                                 <Button variant="contained" color="primary"
