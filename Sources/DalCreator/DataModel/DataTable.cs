@@ -16,5 +16,10 @@ namespace DataModel
         {
             return $"[{Name}]";
         }
+
+        public bool HasColumn(string name)
+        {
+            return this.Columns.FirstOrDefault(c => c.Name.Equals(name)) != null;
+        }
     }
 }

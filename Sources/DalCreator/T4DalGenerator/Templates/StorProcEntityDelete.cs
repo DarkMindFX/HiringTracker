@@ -128,16 +128,53 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("\t) )\r\n\tBEGIN\r\n\t\tDELETE \r\n\t\tFROM \r\n\t\t\t[dbo].[");
+            this.Write("\t) )\r\n\tBEGIN\r\n\t");
             
-            #line 55 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 53 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+
+		if(!table.HasColumn("IsDeleted"))
+		{
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t\tDELETE \r\n\t\tFROM \r\n\t\t\t[dbo].[");
+            
+            #line 59 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write("] \r\n\t\tWHERE \r\n\t\t\t");
+            this.Write("] \r\n\t");
             
-            #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 60 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+
+		}
+		else
+		{
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t\tUPDATE [dbo].[");
+            
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("]\r\n\t\tSET IsDeleted = 1\r\n\t");
+            
+            #line 67 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+
+		}
+	
+            
+            #line default
+            #line hidden
+            this.Write("\t\tWHERE \r\n\t\t\t");
+            
+            #line 71 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
 
 				for(int i = 0; i < pks.Count; ++i)
 				{
@@ -148,28 +185,28 @@ namespace T4DalGenerator.Templates
             #line hidden
             this.Write("\t\t\t[");
             
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("] = @");
             
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i + 1 < pks.Count ? "AND" : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t");
             
-            #line 63 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
+            #line 77 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\StorProcEntityDelete.tt"
 
 				}//for
 			

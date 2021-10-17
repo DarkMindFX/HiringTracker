@@ -29,7 +29,7 @@ namespace T4DalGenerator.Templates.Tests
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\nusing HRT.DAL.MSSQL;\r\nusing HRT.Interfaces;\r\nusing HRT.Interfaces.Entities;\r\nus" +
+            this.Write("\r\nusing PPT.DAL.MSSQL;\r\nusing PPT.Interfaces;\r\nusing PPT.Interfaces.Entities;\r\nus" +
                     "ing Microsoft.Extensions.Configuration;\r\nusing NUnit.Framework;\r\nusing System;\r\n" +
                     "using System.Collections.Generic;\r\nusing System.Data.SqlClient;\r\n\r\n");
             
@@ -40,7 +40,7 @@ namespace T4DalGenerator.Templates.Tests
             
             #line default
             #line hidden
-            this.Write("\r\nnamespace Test.HRT.DAL.MSSQL\r\n{\r\n    public class Test");
+            this.Write("\r\nnamespace Test.PPT.DAL.MSSQL\r\n{\r\n    public class Test");
             
             #line 29 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\TestDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));

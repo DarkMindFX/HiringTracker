@@ -12,8 +12,8 @@
 <#@ parameter name="testValsUpdateAfter" type="System.Collections.Generic.IDictionary<string,object>" #>
 
 
-using HRT.DTO;
-using HRT.Utils.Convertors;
+using PPT.DTO;
+using PPT.Utils.Convertors;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
@@ -24,11 +24,11 @@ using Xunit;
 		var pks = generator.GetPKColumns(table);
 #>
 
-namespace Test.E2E.HiringTracker.API.Controllers.V1
+namespace Test.E2E.PhotoPrint.API.Controllers.V1
 {
-    public class Test<#= modelHelper.Pluralize(table.Name) #>Controller : E2ETestBase, IClassFixture<WebApplicationFactory<HRT.HiringTracker.API.Startup>>
+    public class Test<#= modelHelper.Pluralize(table.Name) #>Controller : E2ETestBase, IClassFixture<WebApplicationFactory<PPT.PhotoPrint.API.Startup>>
     {
-        public Test<#= modelHelper.Pluralize(table.Name) #>Controller(WebApplicationFactory<HRT.HiringTracker.API.Startup> factory) : base(factory)
+        public Test<#= modelHelper.Pluralize(table.Name) #>Controller(WebApplicationFactory<PPT.PhotoPrint.API.Startup> factory) : base(factory)
         {
             _testParams = GetTestParams("<#= modelHelper.Pluralize(table.Name) #>ControllerTestSettings");
         }
@@ -51,7 +51,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         [Fact]
         public void <#= table.Name #>_Get_Success()
         {
-            HRT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
+            PPT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
             using (var client = _factory.CreateClient())
             {
                 try
@@ -161,8 +161,8 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                HRT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
-                HRT.Interfaces.Entities.<#= table.Name #> respEntity = null;
+                PPT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
+                PPT.Interfaces.Entities.<#= table.Name #> respEntity = null;
                 try
                 {
                     var reqDto = <#= table.Name #>Convertor.Convert(testEntity, null);
@@ -205,7 +205,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                HRT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
+                PPT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
                 try
                 {
             <#
@@ -281,7 +281,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
-                HRT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
+                PPT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
                 try
                 {
               <#
@@ -341,7 +341,7 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
 
         #region Support methods
 
-        protected bool RemoveTestEntity(HRT.Interfaces.Entities.<#= table.Name #> entity)
+        protected bool RemoveTestEntity(PPT.Interfaces.Entities.<#= table.Name #> entity)
         {
             if (entity != null)
             {
@@ -363,9 +363,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             }
         }
 
-        protected HRT.Interfaces.Entities.<#= table.Name #> CreateTestEntity()
+        protected PPT.Interfaces.Entities.<#= table.Name #> CreateTestEntity()
         {
-            var entity = new HRT.Interfaces.Entities.<#= table.Name #>();
+            var entity = new PPT.Interfaces.Entities.<#= table.Name #>();
             <#
                 foreach(var c in table.Columns)
                 {
@@ -403,9 +403,9 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             return entity;
         }
 
-        protected HRT.Interfaces.Entities.<#= table.Name #> AddTestEntity()
+        protected PPT.Interfaces.Entities.<#= table.Name #> AddTestEntity()
         {
-            HRT.Interfaces.Entities.<#= table.Name #> result = null;
+            PPT.Interfaces.Entities.<#= table.Name #> result = null;
 
             var entity = CreateTestEntity();
 
@@ -415,11 +415,11 @@ namespace Test.E2E.HiringTracker.API.Controllers.V1
             return result;
         }
 
-        private HRT.Interfaces.I<#= table.Name #>Dal CreateDal()
+        private PPT.Interfaces.I<#= table.Name #>Dal CreateDal()
         {
             var initParams = GetTestParams("DALInitParams");
 
-            HRT.Interfaces.I<#= table.Name #>Dal dal = new HRT.DAL.MSSQL.<#= table.Name #>Dal();
+            PPT.Interfaces.I<#= table.Name #>Dal dal = new PPT.DAL.MSSQL.<#= table.Name #>Dal();
             var dalInitParams = dal.CreateInitParams();
             dalInitParams.Parameters["ConnectionString"] = (string)initParams.Settings["ConnectionString"];
             dal.Init(dalInitParams);

@@ -35,9 +35,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using HRT.HiringTracker.API.Filters;
-using HRT.Interfaces.Entities;
-using HRT.Utils.Convertors;
+using PPT.PhotoPrint.API.Filters;
+using PPT.Interfaces.Entities;
+using PPT.Utils.Convertors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -49,8 +49,8 @@ using Microsoft.AspNetCore.Authorization;
             
             #line default
             #line hidden
-            this.Write("\r\nnamespace HRT.HiringTracker.API.Controllers.V1\r\n{\r\n    [Route(\"api/v1/[controll" +
-                    "er]\")]\r\n    [ApiController]\r\n    [UnhandledExceptionFilter]\r\n    public class ");
+            this.Write("\r\nnamespace PPT.PhotoPrint.API.Controllers.V1\r\n{\r\n    [Route(\"api/v1/[controller]" +
+                    "\")]\r\n    [ApiController]\r\n    [UnhandledExceptionFilter]\r\n    public class ");
             
             #line 30 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));

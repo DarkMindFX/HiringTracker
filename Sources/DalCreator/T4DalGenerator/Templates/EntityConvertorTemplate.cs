@@ -29,7 +29,7 @@ namespace T4DalGenerator.Templates
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\n\r\n\r\n\r\nusing Microsoft.AspNetCore.Mvc;\r\nusing System;\r\n\r\nnamespace HRT.Utils.Con" +
+            this.Write("\r\n\r\n\r\n\r\nusing Microsoft.AspNetCore.Mvc;\r\nusing System;\r\n\r\nnamespace PPT.Utils.Con" +
                     "vertors\r\n{\r\n    public class ");
             
             #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityConvertorTemplate.tt"

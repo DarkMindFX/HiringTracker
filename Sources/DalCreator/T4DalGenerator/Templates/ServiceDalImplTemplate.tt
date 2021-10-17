@@ -8,12 +8,12 @@
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
 <#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
 
-using HRT.Interfaces.Entities;
+using PPT.Interfaces.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 
-namespace HRT.HiringTracker.API.Dal
+namespace PPT.PhotoPrint.API.Dal
 {
     [Export(typeof(I<#= table.Name #>Dal))]
     public class <#= table.Name #>Dal : DalBaseImpl<<#= table.Name #>, Interfaces.I<#= table.Name #>Dal>, I<#= table.Name #>Dal

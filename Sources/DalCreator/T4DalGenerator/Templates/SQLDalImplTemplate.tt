@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
-using HRT.Common;
-using HRT.DAL.MSSQL;
-using HRT.Interfaces;
-using HRT.Interfaces.Entities;
+using PPT.Common;
+using PPT.DAL.MSSQL;
+using PPT.Interfaces;
+using PPT.Interfaces.Entities;
 
-namespace HRT.DAL.MSSQL 
+namespace PPT.DAL.MSSQL 
 {
     class <#= table.Name #>DalInitParams : InitParamsImpl
     {

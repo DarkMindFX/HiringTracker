@@ -13,16 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using HRT.HiringTracker.API.Filters;
-using HRT.Interfaces.Entities;
-using HRT.Utils.Convertors;
+using PPT.PhotoPrint.API.Filters;
+using PPT.Interfaces.Entities;
+using PPT.Utils.Convertors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 
 <# var pks = generator.GetPKColumns(table); #>
 
-namespace HRT.HiringTracker.API.Controllers.V1
+namespace PPT.PhotoPrint.API.Controllers.V1
 {
     [Route("api/v1/[controller]")]
     [ApiController]

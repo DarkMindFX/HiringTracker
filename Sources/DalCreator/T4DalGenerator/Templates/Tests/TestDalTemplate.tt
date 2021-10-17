@@ -11,9 +11,9 @@
 <#@ parameter name="testValsInsert" type="System.Collections.Generic.IDictionary<string,object>" #>
 <#@ parameter name="testValsUpdateAfter" type="System.Collections.Generic.IDictionary<string,object>" #>
 
-using HRT.DAL.MSSQL;
-using HRT.Interfaces;
-using HRT.Interfaces.Entities;
+using PPT.DAL.MSSQL;
+using PPT.Interfaces;
+using PPT.Interfaces.Entities;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
@@ -24,7 +24,7 @@ using System.Data.SqlClient;
 		var pks = generator.GetPKColumns(table);
 #>
 
-namespace Test.HRT.DAL.MSSQL
+namespace Test.PPT.DAL.MSSQL
 {
     public class Test<#= table.Name #>Dal : TestBase
     {

@@ -50,9 +50,23 @@ BEGIN
 			#>
 	) )
 	BEGIN
+	<#
+		if(!table.HasColumn("IsDeleted"))
+		{
+	#>
 		DELETE 
 		FROM 
 			[dbo].[<#= table.Name #>] 
+	<#
+		}
+		else
+		{
+	#>
+		UPDATE [dbo].[<#= table.Name #>]
+		SET IsDeleted = 1
+	<#
+		}
+	#>
 		WHERE 
 			<#
 				for(int i = 0; i < pks.Count; ++i)

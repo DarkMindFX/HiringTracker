@@ -10,7 +10,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace HRT.DTO
+namespace PPT.DTO
 {
     public class <#= table.Name #> : HateosDto
     {

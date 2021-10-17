@@ -29,9 +29,9 @@ namespace T4DalGenerator.Templates
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\nusing HRT.Interfaces.Entities;\r\nusing System;\r\nusing System.Collections.Generic" +
-                    ";\r\nusing System.Text;\r\n\r\nnamespace HRT.HiringTracker.API.Dal\r\n{\r\n    public inte" +
-                    "rface I");
+            this.Write("\r\nusing PPT.Interfaces.Entities;\r\nusing System;\r\nusing System.Collections.Generic" +
+                    ";\r\nusing System.Text;\r\n\r\nnamespace PPT.PhotoPrint.API.Dal\r\n{\r\n    public interfa" +
+                    "ce I");
             
             #line 18 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\IServiceDalTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));

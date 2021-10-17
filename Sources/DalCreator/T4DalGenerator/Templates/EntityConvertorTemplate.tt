@@ -14,7 +14,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace HRT.Utils.Convertors
+namespace PPT.Utils.Convertors
 {
     public class <#= table.Name #>Convertor
     {

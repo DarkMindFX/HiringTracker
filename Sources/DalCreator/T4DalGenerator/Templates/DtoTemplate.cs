@@ -18,9 +18,9 @@ namespace T4DalGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+    #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class EntityTemplate : EntityTemplateBase
+    public partial class DtoTemplate : DtoTemplateBase
     {
 #line hidden
         /// <summary>
@@ -29,18 +29,17 @@ namespace T4DalGenerator.Templates
         public virtual string TransformText()
         {
             this.Write("\r\n");
-            this.Write("\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing Sys" +
-                    "tem.Text;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace HRT.Interfaces.Entities\r\n{" +
-                    "\r\n    public class ");
+            this.Write("\r\nusing System.Text.Json.Serialization;\r\n\r\nnamespace PPT.DTO\r\n{\r\n    public class" +
+                    " ");
             
-            #line 19 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 15 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write(" \r\n    {\r\n\t\t");
+            this.Write(" : HateosDto\r\n    {\r\n\t\t");
             
-            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 17 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
  
 			foreach(var c in table.Columns) 
 			{
@@ -48,23 +47,30 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("\t\tpublic ");
+            this.Write("\t\t[JsonPropertyName(\"");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 21 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\")]\r\n\t\tpublic ");
+            
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.DbTypeToType(c)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 25 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n\r\n\t\t");
             
-            #line 27 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+            #line 24 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
 
 			}
 		
@@ -75,7 +81,7 @@ namespace T4DalGenerator.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityTemplate.tt"
+        #line 1 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\DtoTemplate.tt"
 
 private global::DataModel.DataTable _tableField;
 
@@ -184,7 +190,7 @@ if ((generatorValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class EntityTemplateBase
+    public class DtoTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
