@@ -33,11 +33,13 @@ namespace T4DalGenerator
             Generate<ServiceDalsImplGenerator>(tables, settings, timestamp);
             Generate<ConvertorsGenerator>(tables, settings, timestamp);
             Generate<EntityControllerGenerator>(tables, settings, timestamp);
+            GenerateSingle<StartupGenerator>(tables, settings, timestamp);
             Generate<ControllerTestGenerator>(tables, settings, timestamp);
             Generate<JsDtosGenerator>(tables, settings, timestamp);
             Generate<JsClientDalGenerator>(tables, settings, timestamp);
             Generate<JsEntitiesListsUIGenerator>(tables, settings, timestamp);
             Generate<JsEntityUIGenerator>(tables, settings, timestamp);
+            
         }
 
         private static IList<string> Generate<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator
@@ -57,6 +59,24 @@ namespace T4DalGenerator
                 var files = generator.Generate();
                 result.AddRange(files);
             }
+
+            return result;
+        }
+
+        private static IList<string> GenerateSingle<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator
+        {
+            List<string> result = new List<string>();
+            var genParams = new Generators.GeneratorParams()
+            {
+                Settings = settings,
+                Timestamp = timestamp,
+                Tables = tables
+            };
+
+            var generator = (TGenerator)Activator.CreateInstance(typeof(TGenerator), new object[] { genParams });
+
+            var files = generator.Generate();
+            result.AddRange(files);
 
             return result;
         }

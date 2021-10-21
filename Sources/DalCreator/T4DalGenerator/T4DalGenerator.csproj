@@ -71,6 +71,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ServiceDalImplTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="Templates\StartupTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StartupTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\SQLDalImplTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -166,6 +171,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>UpdateTeardownTemplate.tt</DependentUpon>
 	</Compile>
+	<Compile Update="Templates\Tests\TestControllerTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>TestControllerTemplate.tt</DependentUpon>
+	</Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -203,6 +213,10 @@
     <None Update="Templates\ServiceDalImplTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ServiceDalImplTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\StartupTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StartupTemplate.cs</LastGenOutput>
     </None>
     <None Update="Templates\SQLDalImplTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -265,7 +279,7 @@
 	  <LastGenOutput>InsertTeardownTemplate.cs</LastGenOutput>
 	</None>
 	<None Update="Templates\Tests\TestControllerTemplate.tt">
-	  <LastGenOutput>TestDalTemplate.cs</LastGenOutput>
+	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	</None>
 	<None Update="Templates\Tests\TestDalTemplate.tt">

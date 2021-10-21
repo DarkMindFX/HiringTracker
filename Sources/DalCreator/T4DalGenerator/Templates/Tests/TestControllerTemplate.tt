@@ -11,15 +11,15 @@
 <#@ parameter name="testValsInsert" type="System.Collections.Generic.IDictionary<string,object>" #>
 <#@ parameter name="testValsUpdateAfter" type="System.Collections.Generic.IDictionary<string,object>" #>
 
-
 using PPT.DTO;
 using PPT.Utils.Convertors;
+using PhotoPrint.Test.E2E.API;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Net;
-using Xunit;
-
+using Xunit; 
 <#
 		var pks = generator.GetPKColumns(table);
 #>
@@ -30,7 +30,7 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
     {
         public Test<#= modelHelper.Pluralize(table.Name) #>Controller(WebApplicationFactory<PPT.PhotoPrint.API.Startup> factory) : base(factory)
         {
-            _testParams = GetTestParams("<#= modelHelper.Pluralize(table.Name) #>ControllerTestSettings");
+            _testParams = GetTestParams("GenericControllerTestSettings");
         }
 
         [Fact]
@@ -38,6 +38,10 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 var respGetAll = client.GetAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>");
 
                 Assert.Equal(HttpStatusCode.OK, respGetAll.Result.StatusCode);
@@ -54,6 +58,9 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
             PPT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
                 try
                 {
 <#
@@ -70,7 +77,7 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
 
                     Assert.Equal(HttpStatusCode.OK, respGet.Result.StatusCode);
 
-                    Position dto = ExtractContentJson<Position>(respGet.Result.Content);
+                    <#= table.Name #> dto = ExtractContentJson<<#= table.Name #>>(respGet.Result.Content);
 
                     Assert.NotNull(dto);
                     Assert.NotNull(dto.Links);
@@ -87,6 +94,9 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
 <#
             keys = string.Empty;
             for(int i = 0; i < pks.Count; ++i)
@@ -110,6 +120,9 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
             var testEntity = AddTestEntity();
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
                 try
                 {
 <#
@@ -139,6 +152,9 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
 <#
             keys = string.Empty;
             for(int i = 0; i < pks.Count; ++i)
@@ -161,6 +177,10 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 PPT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
                 PPT.Interfaces.Entities.<#= table.Name #> respEntity = null;
                 try
@@ -171,7 +191,7 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
 
                     var respInsert = client.PostAsync($"/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/", content);
 
-                    Assert.Equal(HttpStatusCode.OK, respInsert.Result.StatusCode);
+                    Assert.Equal(HttpStatusCode.Created, respInsert.Result.StatusCode);
 
                     <#= table.Name #> respDto = ExtractContentJson<<#= table.Name #>>(respInsert.Result.Content);
 
@@ -205,6 +225,10 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 PPT.Interfaces.Entities.<#= table.Name #> testEntity = AddTestEntity();
                 try
                 {
@@ -281,6 +305,10 @@ namespace Test.E2E.PhotoPrint.API.Controllers.V1
         {
             using (var client = _factory.CreateClient())
             {
+                var respLogin = Login((string)_testParams.Settings["test_user_login"], (string)_testParams.Settings["test_user_pwd"]);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", respLogin.Token);
+
                 PPT.Interfaces.Entities.<#= table.Name #> testEntity = CreateTestEntity();
                 try
                 {

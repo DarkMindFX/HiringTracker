@@ -8,6 +8,7 @@ namespace T4DalGenerator.Generators
 {
     public class GeneratorParams
     {
+        public IList<DataModel.DataTable> Tables { get; set; }
         public DataModel.DataTable Table { get; set; }
 
         public DalCreatorSettings Settings { get; set; }
