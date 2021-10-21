@@ -173,7 +173,18 @@ namespace PPT.PhotoPrint.API.Controllers.V1
 
             <#= table.Name #> newEntity = _dal<#= table.Name #>.Insert(entity);
 
-            response =StatusCode((int)HttpStatusCode.Created, <#= table.Name #>Convertor.Convert(newEntity, this.Url));
+            <#
+                if(table.HasColumn("CreatedDate") || table.HasColumn("CreatedByID"))
+                {
+            #>
+            base.SetCreatedModifiedProperties(entity, 
+                                    <#= table.HasColumn("CreatedDate") ? "\"CreatedDate\"" : "null" #>, 
+                                    <#= table.HasColumn("CreatedByID") ? "\"CreatedByID\"" : "null" #>); 
+            <#
+                }
+            #>
+
+            response = StatusCode((int)HttpStatusCode.Created, <#= table.Name #>Convertor.Convert(newEntity, this.Url));
 
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
 
@@ -195,9 +206,38 @@ namespace PPT.PhotoPrint.API.Controllers.V1
             for(int i = 0; i < pks.Count; ++i)
             {
             var pk = pks[i];
-        #>newEntity.<#= pk.Name #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);
+        #>newEntity.<#= pk.Name #><#= i+1 < pks.Count ? ", " : string.Empty #><# } #>);           
+
             if (existingEntity != null)
             {
+            <#
+                if(table.HasColumn("CreatedDate"))
+                {
+            #>
+            newEntity.CreatedDate = existingEntity.CreatedDate; 
+            <#
+                }
+            #>
+            <#
+                if(table.HasColumn("CreatedByID"))
+                {
+            #>
+            newEntity.CreatedByID = existingEntity.CreatedByID; 
+            <#
+                }
+            #>
+            <#
+                if(table.HasColumn("ModifiedDate") || table.HasColumn("ModifiedByID"))
+                {
+                    
+            #>
+
+            base.SetCreatedModifiedProperties(newEntity, 
+                                    <#= table.HasColumn("ModifiedDate") ? "\"ModifiedDate\"" : "null" #>, 
+                                    <#= table.HasColumn("ModifiedByID") ? "\"ModifiedByID\"" : "null" #>); 
+            <#
+                }
+            #>
                 <#= table.Name #> entity = _dal<#= table.Name #>.Update(newEntity);
 
                 response = Ok(<#= table.Name #>Convertor.Convert(entity, this.Url));
