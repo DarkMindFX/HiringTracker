@@ -45,77 +45,79 @@ using Microsoft.AspNetCore.Authorization;
 ");
             
             #line 23 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
- var pks = generator.GetPKColumns(table); 
+ 
+    var pks = generator.GetPKColumns(table); 
+
             
             #line default
             #line hidden
             this.Write("\r\nnamespace PPT.PhotoPrint.API.Controllers.V1\r\n{\r\n    [Route(\"api/v1/[controller]" +
                     "\")]\r\n    [ApiController]\r\n    [UnhandledExceptionFilter]\r\n    public class ");
             
-            #line 30 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
             
             #line default
             #line hidden
             this.Write("Controller : BaseController\r\n    {\r\n        private readonly Dal.I");
             
-            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 34 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Dal _dal");
             
-            #line 32 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 34 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(";\r\n        private readonly ILogger<");
             
-            #line 33 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 35 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
             
             #line default
             #line hidden
             this.Write("Controller> _logger;\r\n\r\n\r\n        public ");
             
-            #line 36 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
             
             #line default
             #line hidden
             this.Write("Controller( Dal.I");
             
-            #line 36 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Dal dal");
             
-            #line 36 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n                                    ILogger<");
             
-            #line 37 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name)));
             
             #line default
             #line hidden
             this.Write("Controller> logger)\r\n        {\r\n            _dal");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" = dal");
             
-            #line 39 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 41 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -133,21 +135,21 @@ using Microsoft.AspNetCore.Authorization;
 
             var entities = _dal");
             
-            #line 50 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".GetAll();\r\n\r\n            IList<DTO.");
             
-            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 54 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("> dtos = new List<DTO.");
             
-            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 54 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -155,7 +157,7 @@ using Microsoft.AspNetCore.Authorization;
             this.Write(">();\r\n\r\n            foreach (var p in entities)\r\n            {\r\n                v" +
                     "ar dto = ");
             
-            #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 58 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -175,7 +177,7 @@ using Microsoft.AspNetCore.Authorization;
         //[Authorize]
         [HttpGet(""");
             
-            #line 69 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 71 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
         for(int i = 0; i < pks.Count; ++i)
         {
@@ -186,34 +188,34 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("{");
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("}");
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "/" : string.Empty));
             
             #line default
             #line hidden
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\"), ActionName(\"Get");
             
-            #line 73 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 75 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        public IActionResult Get(");
             
-            #line 74 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 76 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -223,26 +225,26 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 78 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 80 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(pk)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 78 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 80 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 78 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 80 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 78 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 80 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -251,14 +253,14 @@ using Microsoft.AspNetCore.Authorization;
                     "rentMethod()} Started\");\r\n\r\n            IActionResult response = null;\r\n\r\n      " +
                     "      var entity = _dal");
             
-            #line 84 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 86 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Get(");
             
-            #line 84 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 86 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -268,26 +270,26 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 90 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write(");\r\n            if (entity != null)\r\n            {\r\n                var dto = ");
             
-            #line 91 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 93 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -296,14 +298,14 @@ using Microsoft.AspNetCore.Authorization;
                     "      }\r\n            else\r\n            {\r\n                response = StatusCode(" +
                     "(int)HttpStatusCode.NotFound, $\"");
             
-            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 98 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" was not found [ids:{");
             
-            #line 96 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 98 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -313,28 +315,142 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 100 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 100 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "}, {" : "}"));
             
             #line default
             #line hidden
             
-            #line 100 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 102 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("]\");\r\n            }\r\n\r\n            _logger.LogTrace($\"{System.Reflection.MethodIn" +
                     "fo.GetCurrentMethod()} Ended\");\r\n\r\n            return response;\r\n        }\r\n\r\n  " +
-                    "      //[Authorize]\r\n        [HttpDelete(\"");
+                    "      ");
             
-            #line 109 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 110 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+
+        foreach(var c in table.Columns)
+        {
+            if(!string.IsNullOrEmpty(c.FKRefTable))
+            {
+        
+            
+            #line default
+            #line hidden
+            this.Write("        //[Authorize]\r\n        [HttpGet(\"/by");
+            
+            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("/:");
+            
+            #line 117 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("\")]\r\n        public IActionResult GetBy");
+            
+            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(");
+            
+            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(c)));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n        {\r\n            _logger.LogTrace($\"{System.Reflection.MethodInfo.GetCur" +
+                    "rentMethod()} Started\");\r\n            IActionResult response = null;\r\n\r\n        " +
+                    "    var entities = _dal");
+            
+            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".GetBy");
+            
+            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(");
+            
+            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\r\n            IList<DTO.");
+            
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write("> dtos = new List<DTO.");
+            
+            #line 125 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(">();\r\n\r\n            foreach (var p in entities)\r\n            {\r\n                v" +
+                    "ar dto = ");
+            
+            #line 129 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(@"Convertor.Convert(p, this.Url);
+
+                dtos.Add(dto);
+            }
+
+            response = Ok(dtos);
+
+            _logger.LogTrace($""{System.Reflection.MethodInfo.GetCurrentMethod()} Ended"");
+
+            return response;
+        }
+        ");
+            
+            #line 140 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+
+            }
+                
+        }
+        
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        //[Authorize]\r\n        [HttpDelete(\"");
+            
+            #line 147 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
         for(int i = 0; i < pks.Count; ++i)
         {
@@ -345,34 +461,34 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("{");
             
-            #line 113 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 151 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("}");
             
-            #line 113 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 151 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "/" : string.Empty));
             
             #line default
             #line hidden
             
-            #line 113 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 151 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\"), ActionName(\"Delete");
             
-            #line 113 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 151 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        public IActionResult Delete(");
             
-            #line 114 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 152 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -382,26 +498,26 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.DbTypeToType(pk)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 118 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -410,14 +526,14 @@ using Microsoft.AspNetCore.Authorization;
                     "rentMethod()} Started\");\r\n\r\n            IActionResult response = null;\r\n\r\n      " +
                     "      var existingEntity = _dal");
             
-            #line 124 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Get(");
             
-            #line 124 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 162 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -427,19 +543,19 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 128 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 128 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 128 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -447,14 +563,14 @@ using Microsoft.AspNetCore.Authorization;
             this.Write(");\r\n\r\n            if (existingEntity != null)\r\n            {\r\n                boo" +
                     "l removed = _dal");
             
-            #line 132 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 170 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Delete(");
             
-            #line 132 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 170 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -464,19 +580,19 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 136 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 136 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 136 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -486,14 +602,14 @@ using Microsoft.AspNetCore.Authorization;
                     "          response = StatusCode((int)HttpStatusCode.InternalServerError, $\"Faile" +
                     "d to delete ");
             
-            #line 143 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 181 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" [ids:{");
             
-            #line 143 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 181 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -503,19 +619,19 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 147 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 185 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 147 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 185 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "}, {" : "}"));
             
             #line default
             #line hidden
             
-            #line 147 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 185 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -523,14 +639,14 @@ using Microsoft.AspNetCore.Authorization;
             this.Write("]\");\r\n                }\r\n            }\r\n            else\r\n            {\r\n        " +
                     "        response = NotFound($\"");
             
-            #line 152 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 190 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" not found [ids:{");
             
-            #line 152 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 190 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -540,19 +656,19 @@ using Microsoft.AspNetCore.Authorization;
             #line default
             #line hidden
             
-            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 194 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             
-            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 194 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "}, {" : "}"));
             
             #line default
             #line hidden
             
-            #line 156 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 194 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -561,14 +677,14 @@ using Microsoft.AspNetCore.Authorization;
                     "fo.GetCurrentMethod()} Ended\");\r\n\r\n            return response;\r\n        }\r\n\r\n  " +
                     "      //[Authorize]\r\n        [HttpPost, ActionName(\"Insert");
             
-            #line 165 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 203 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        public IActionResult Insert(DTO.");
             
-            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 204 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -577,28 +693,28 @@ using Microsoft.AspNetCore.Authorization;
                     "tCurrentMethod()} Started\");\r\n\r\n            IActionResult response = null;\r\n\r\n  " +
                     "          var entity = ");
             
-            #line 172 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Convertor.Convert(dto);\r\n\r\n            ");
             
-            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 212 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" newEntity = _dal");
             
-            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 212 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Insert(entity);\r\n\r\n            ");
             
-            #line 176 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 214 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 if(table.HasColumn("CreatedDate") || table.HasColumn("CreatedByID"))
                 {
@@ -609,21 +725,21 @@ using Microsoft.AspNetCore.Authorization;
             this.Write("            base.SetCreatedModifiedProperties(entity, \r\n                         " +
                     "           ");
             
-            #line 181 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 219 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("CreatedDate") ? "\"CreatedDate\"" : "null"));
             
             #line default
             #line hidden
             this.Write(", \r\n                                    ");
             
-            #line 182 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("CreatedByID") ? "\"CreatedByID\"" : "null"));
             
             #line default
             #line hidden
             this.Write("); \r\n            ");
             
-            #line 183 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 221 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 }
             
@@ -632,7 +748,7 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("\r\n            response = StatusCode((int)HttpStatusCode.Created, ");
             
-            #line 187 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 225 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -642,14 +758,14 @@ using Microsoft.AspNetCore.Authorization;
                     "nse;\r\n        }\r\n\r\n\r\n        //[Authorize]\r\n        [HttpPut, ActionName(\"Update" +
                     "");
             
-            #line 196 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 234 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        public IActionResult Update(DTO.");
             
-            #line 197 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 235 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -658,21 +774,21 @@ using Microsoft.AspNetCore.Authorization;
                     "tCurrentMethod()} Started\");\r\n\r\n            IActionResult response = null;\r\n\r\n  " +
                     "          var newEntity = ");
             
-            #line 203 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 241 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("Convertor.Convert(dto);\r\n\r\n            var existingEntity = _dal");
             
-            #line 205 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 243 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Get(");
             
-            #line 205 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 243 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -683,19 +799,19 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("newEntity.");
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name));
             
             #line default
             #line hidden
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? ", " : string.Empty));
             
             #line default
             #line hidden
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default
@@ -703,7 +819,7 @@ using Microsoft.AspNetCore.Authorization;
             this.Write(");           \r\n\r\n            if (existingEntity != null)\r\n            {\r\n        " +
                     "    ");
             
-            #line 213 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 251 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 if(table.HasColumn("CreatedDate"))
                 {
@@ -713,7 +829,7 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("            newEntity.CreatedDate = existingEntity.CreatedDate; \r\n            ");
             
-            #line 218 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 256 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 }
             
@@ -722,7 +838,7 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("            ");
             
-            #line 221 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 259 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 if(table.HasColumn("CreatedByID"))
                 {
@@ -732,7 +848,7 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("            newEntity.CreatedByID = existingEntity.CreatedByID; \r\n            ");
             
-            #line 226 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 264 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 }
             
@@ -741,7 +857,7 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("            ");
             
-            #line 229 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 267 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 if(table.HasColumn("ModifiedDate") || table.HasColumn("ModifiedByID"))
                 {
@@ -753,21 +869,21 @@ using Microsoft.AspNetCore.Authorization;
             this.Write("\r\n            base.SetCreatedModifiedProperties(newEntity, \r\n                    " +
                     "                ");
             
-            #line 236 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 274 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("ModifiedDate") ? "\"ModifiedDate\"" : "null"));
             
             #line default
             #line hidden
             this.Write(", \r\n                                    ");
             
-            #line 237 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 275 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("ModifiedByID") ? "\"ModifiedByID\"" : "null"));
             
             #line default
             #line hidden
             this.Write("); \r\n            ");
             
-            #line 238 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 276 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 }
             
@@ -776,21 +892,21 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("                ");
             
-            #line 241 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 279 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" entity = _dal");
             
-            #line 241 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 279 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(".Update(newEntity);\r\n\r\n                response = Ok(");
             
-            #line 243 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 281 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -798,14 +914,14 @@ using Microsoft.AspNetCore.Authorization;
             this.Write("Convertor.Convert(entity, this.Url));\r\n            }\r\n            else\r\n         " +
                     "   {\r\n                response = NotFound($\"");
             
-            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 285 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" not found [ids:{");
             
-            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 285 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
             for(int i = 0; i < pks.Count; ++i)
             {
@@ -816,19 +932,19 @@ using Microsoft.AspNetCore.Authorization;
             #line hidden
             this.Write("newEntity.");
             
-            #line 251 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 289 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name));
             
             #line default
             #line hidden
             
-            #line 251 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 289 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i+1 < pks.Count ? "}, {" : "}"));
             
             #line default
             #line hidden
             
-            #line 251 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 289 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
  } 
             
             #line default

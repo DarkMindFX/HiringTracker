@@ -138,7 +138,11 @@ namespace T4DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write(@"        }
+            this.Write(@"
+            /** Connection Tester for health endpoint **/
+            var dalConnTest = InitDal<IConnectionTestDal>(serviceCfg);
+            services.AddSingleton<IConnectionTestDal>(dalConnTest);
+        }
 
         private TDal InitDal<TDal>(ServiceConfig serviceCfg) where TDal : IInitializable
         {

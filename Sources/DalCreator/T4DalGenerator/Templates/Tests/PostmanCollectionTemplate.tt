@@ -1,0 +1,281 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ parameter name="tables" type="System.Collections.Generic.IList<DataModel.DataTable>" #>
+<#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
+<#@ parameter name="generator" type="T4DalGenerator.Generators.GeneratorBase"#>
+<#@ parameter name="testValsGet" type="System.Collections.Generic.IDictionary<string,object>" #>
+<#@ parameter name="testValsInsert" type="System.Collections.Generic.IDictionary<string,object>" #>
+<#@ parameter name="testValsUpdateAfter" type="System.Collections.Generic.IDictionary<string,object>" #>
+
+{
+	"info": {
+		"_postman_id": "BC1C4F03-F7A1-4A11-8F35-EDB40AD47891",
+		"name": "PhotoPrint.API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		
+	<#
+		foreach(var table in tables)
+		{
+
+			var pks = generator.GetPKColumns(table);
+			var idParamsList = string.Empty;
+			foreach(var pk in pks)
+			{
+				idParamsList += ":" + pk.Name.ToLower() + (pk != pks.Last() ? "/" : string.Empty);
+			}
+		
+	#>
+	{
+			"name": "<#= table.Name #>",
+			"item": [
+				{
+					"name": "<#= table.Name #> - Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_login\": \"TestUser02\",\r\n    \"_fname\": \"Test 2 API First\",\r\n    \"_lname\": \"Test 2 API Last\",\r\n    \"_email\": \"testapiuser2@email.com\",\r\n    \"_pwd\": \"SomePassword2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "<#= table.Name #> - Get All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "<#= table.Name #> - Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"_userId\": 33010025,\r\n        \"_login\": \"[Test OPRFGHUB] Inserted User_U\",\r\n        \"_fname\": \"[Test OPRFGHUB] Test First_U\",\r\n        \"_lname\": \"[Test OPRFGHUB] Test Last_U\",\r\n        \"_email\": \"user2testdupinsert@email.com_U\",\r\n        \"_desc\": \"Desc_U\",\r\n        \"_pwd\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "<#= table.Name #> - Get By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= idParamsList #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>"
+						<#
+							if(pks.Count > 0)
+							{
+						#>
+							,
+						<#
+								foreach(var pk in pks)
+								{
+						#>
+								
+								":<#= pk.Name.ToLower() #>"<#= pk != pks.Last() ? "," : string.Empty #>
+						<#
+								}
+							}
+						#>
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "<#= table.Name #> - Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/<#= idParamsList #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>"
+						<#
+							if(pks.Count > 0)
+							{
+						#>
+							,
+						<#
+								foreach(var pk in pks)
+								{
+						#>
+								
+								":<#= pk.Name.ToLower() #>"<#= pk != pks.Last() ? "," : string.Empty #>
+						<#
+								}
+							}
+						#>
+							]
+						}
+					},
+					"response": []
+				}
+		<#
+        foreach(var c in table.Columns)
+        {
+            if(!string.IsNullOrEmpty(c.FKRefTable))
+            {
+        #>
+			,
+			{
+					"name": "<#= table.Name #> - Get By <#= c.Name #>",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDAwMDY3IiwibmJmIjoxNjIyMzEwMDQ1LCJleHAiOjE2MjIzMTM2NDUsImlhdCI6MTYyMjMxMDA0NX0.2tvSqOpEYqOZ7VX0eVoUuaH3xY57-zKQil69oRWoabU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/<#= modelHelper.Pluralize(table.Name).ToLower() #>/by<#= c.Name.ToLower() #>/:<#= c.Name.ToLower() #>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"<#= modelHelper.Pluralize(table.Name).ToLower() #>",
+								":<#= c.Name.ToLower() #>"
+						
+							]
+						}
+					},
+					"response": []
+				}
+		<#	
+			}
+		}
+		#>
+			]
+		}<#= table.Name != tables.Last().Name ? ",": string.Empty #>
+	<#
+		}
+	#>
+	]
+		
+}

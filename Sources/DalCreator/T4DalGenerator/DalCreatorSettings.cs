@@ -8,6 +8,7 @@ namespace T4DalGenerator
 {
     public class DalCreatorSettings
     {
+        public string ProjectName { get; set; }
         public string ConnectionString { get; set; }
 
         public string OutputRoot { get; set; }

@@ -31,6 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Templates\DtoTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\EntityControllerTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -56,10 +61,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Templates\DtoTemplate.cs">
+    <Compile Update="Templates\JsDtoTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DtoTemplate.tt</DependentUpon>
+      <DependentUpon>JsDtoTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\JsEntitiesListUI.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JsEntitiesListUI.tt</DependentUpon>
     </Compile>
     <Compile Update="Templates\JsEntityUI.cs">
       <DesignTime>True</DesignTime>
@@ -81,10 +91,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SQLDalImplTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Templates\JsEntitiesListUI.cs">
+    <Compile Update="Templates\JsClientDalTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>JsEntitiesListUI.tt</DependentUpon>
+      <DependentUpon>JsClientDalTemplate.tt</DependentUpon>
     </Compile>
 	<Compile Update="Templates\IDalTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -146,6 +156,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>InsertTeardownTemplate.tt</DependentUpon>
 	</Compile>
+	<Compile Update="Templates\Tests\PostmanCollectionTemplate.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>PostmanCollectionTemplate.tt</DependentUpon>
+	</Compile>
 	<Compile Update="Templates\Tests\TestDalTemplate.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -183,7 +198,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Templates\JsClientDalTemplate.tt">
-      <LastGenOutput>JsEntitiesListUI.cs</LastGenOutput>
+      <LastGenOutput>JsClientDalTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="Templates\JsEntitiesListUI.tt">
@@ -191,7 +206,7 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="Templates\JsDtoTemplate.tt">
-      <LastGenOutput>DtoTemplate.cs</LastGenOutput>
+      <LastGenOutput>JsDtoTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
     <None Update="Templates\EntityControllerTemplate.tt">
@@ -277,6 +292,10 @@
 	<None Update="Templates\Tests\InsertTeardownTemplate.tt">
 	  <Generator>TextTemplatingFilePreprocessor</Generator>
 	  <LastGenOutput>InsertTeardownTemplate.cs</LastGenOutput>
+	</None>
+	<None Update="Templates\Tests\PostmanCollectionTemplate.tt">
+	  <Generator>TextTemplatingFilePreprocessor</Generator>
+	  <LastGenOutput>PostmanCollectionTemplate.cs</LastGenOutput>
 	</None>
 	<None Update="Templates\Tests\TestControllerTemplate.tt">
 	  <LastGenOutput>TestControllerTemplate.cs</LastGenOutput>

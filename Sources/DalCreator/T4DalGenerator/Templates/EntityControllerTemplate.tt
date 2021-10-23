@@ -20,7 +20,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 
-<# var pks = generator.GetPKColumns(table); #>
+<# 
+    var pks = generator.GetPKColumns(table); 
+#>
 
 namespace PPT.PhotoPrint.API.Controllers.V1
 {
@@ -104,6 +106,42 @@ namespace PPT.PhotoPrint.API.Controllers.V1
 
             return response;
         }
+
+        <#
+        foreach(var c in table.Columns)
+        {
+            if(!string.IsNullOrEmpty(c.FKRefTable))
+            {
+        #>
+        //[Authorize]
+        [HttpGet("/by<#= c.Name.ToLower() #>/:<#= c.Name.ToLower() #>")]
+        public IActionResult GetBy<#= c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name.ToLower() #>)
+        {
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");
+            IActionResult response = null;
+
+            var entities = _dal<#= table.Name #>.GetBy<#= c.Name #>(<#=c.Name.ToLower() #>);
+
+            IList<DTO.<#= table.Name #>> dtos = new List<DTO.<#= table.Name #>>();
+
+            foreach (var p in entities)
+            {
+                var dto = <#= table.Name #>Convertor.Convert(p, this.Url);
+
+                dtos.Add(dto);
+            }
+
+            response = Ok(dtos);
+
+            _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Ended");
+
+            return response;
+        }
+        <#
+            }
+                
+        }
+        #>
 
         //[Authorize]
         [HttpDelete("<#

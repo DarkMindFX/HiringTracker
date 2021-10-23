@@ -39,7 +39,8 @@ namespace T4DalGenerator
             Generate<JsClientDalGenerator>(tables, settings, timestamp);
             Generate<JsEntitiesListsUIGenerator>(tables, settings, timestamp);
             Generate<JsEntityUIGenerator>(tables, settings, timestamp);
-            
+            GenerateSingle<PostmanCollectionGenerator>(tables, settings, timestamp);
+
         }
 
         private static IList<string> Generate<TGenerator>(IList<DataModel.DataTable> tables, DalCreatorSettings settings, DateTime timestamp) where TGenerator : IGenerator
