@@ -260,6 +260,7 @@
 								"api",
 								"v1",
 								"<#= modelHelper.Pluralize(table.Name).ToLower() #>",
+								"by<#= c.Name.ToLower() #>",
 								":<#= c.Name.ToLower() #>"
 						
 							]

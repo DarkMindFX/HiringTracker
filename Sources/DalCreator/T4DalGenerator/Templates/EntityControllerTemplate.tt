@@ -112,9 +112,8 @@ namespace PPT.PhotoPrint.API.Controllers.V1
         {
             if(!string.IsNullOrEmpty(c.FKRefTable))
             {
-        #>
-        //[Authorize]
-        [HttpGet("/by<#= c.Name.ToLower() #>/:<#= c.Name.ToLower() #>")]
+        #>//[Authorize]
+        [HttpGet("by<#= c.Name.ToLower() #>/{<#= c.Name.ToLower() #>}")]
         public IActionResult GetBy<#= c.Name #>(<#= generator.DbTypeToType(c) #> <#=c.Name.ToLower() #>)
         {
             _logger.LogTrace($"{System.Reflection.MethodInfo.GetCurrentMethod()} Started");

@@ -430,16 +430,23 @@ namespace T4DalGenerator.Templates.Tests
             
             #line default
             #line hidden
-            this.Write("\",\r\n\t\t\t\t\t\t\t\t\":");
+            this.Write("\",\r\n\t\t\t\t\t\t\t\t\"by");
             
             #line 263 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
             #line hidden
+            this.Write("\",\r\n\t\t\t\t\t\t\t\t\":");
+            
+            #line 264 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
+            
+            #line default
+            #line hidden
             this.Write("\"\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t");
             
-            #line 270 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 271 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 	
 			}
 		}
@@ -449,14 +456,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t]\r\n\t\t}");
             
-            #line 275 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 276 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name != tables.Last().Name ? ",": string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t");
             
-            #line 276 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 277 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 		}
 	
