@@ -12,6 +12,7 @@ namespace T4DalGenerator.Templates.Tests
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
+    using System.Web.Script.Serialization;
     using System;
     
     /// <summary>
@@ -33,7 +34,7 @@ namespace T4DalGenerator.Templates.Tests
                     "e\": \"PhotoPrint.API\",\r\n\t\t\"schema\": \"https://schema.getpostman.com/json/collectio" +
                     "n/v2.1.0/collection.json\"\r\n\t},\r\n\t\"item\": [\r\n\t\t\r\n\t");
             
-            #line 22 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 23 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 		foreach(var table in tables)
 		{
@@ -44,42 +45,64 @@ namespace T4DalGenerator.Templates.Tests
 			{
 				idParamsList += ":" + pk.Name.ToLower() + (pk != pks.Last() ? "/" : string.Empty);
 			}
+
+			var dtoJson = "{\\r\\n";
+			foreach(var c in table.Columns)
+			{
+				dtoJson += "  \\\"" + c.Name + "\\\": ";
+				Type columnType = generator.GetColumnType(c);
+				if(columnType == typeof(DateTime))
+                {
+					dtoJson += $"\\\"2021-10-01 21:35:00\\\"";
+                }
+                else if(columnType == typeof(string))
+                {
+					dtoJson += $"\\\"{c.Name} {Guid.NewGuid().ToString()}\\\"";
+                }
+                else if(columnType == typeof(bool))
+                {
+					dtoJson += "false";
+                }
+				else
+				{
+					dtoJson += "9999999";
+				}
+				dtoJson += c != table.Columns.Last() ? ",\\r\\n" : string.Empty;
+                
+			}
+			dtoJson += "\\r\\n}";
 		
 	
             
             #line default
             #line hidden
-            this.Write("\t{\r\n\t\t\t\"name\": \"");
+            this.Write("\t\r\n\t{\r\n\t\t\t\"name\": \"");
             
-            #line 35 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 62 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write("\",\r\n\t\t\t\"item\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"");
             
-            #line 38 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 65 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
-            this.Write(@" - Add"",
-					""request"": {
-						""method"": ""POST"",
-						""header"": [],
-						""body"": {
-							""mode"": ""raw"",
-							""raw"": ""{\r\n    \""_login\"": \""TestUser02\"",\r\n    \""_fname\"": \""Test 2 API First\"",\r\n    \""_lname\"": \""Test 2 API Last\"",\r\n    \""_email\"": \""testapiuser2@email.com\"",\r\n    \""_pwd\"": \""SomePassword2\""\r\n}"",
-							""options"": {
-								""raw"": {
-									""language"": ""json""
-								}
-							}
-						},
-						""url"": {
-							""raw"": ""http://localhost:8082/api/v1/");
+            this.Write(" - Add\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t" +
+                    "\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"raw\",\r\n\t\t\t\t\t\t\t\"raw\": \"");
             
-            #line 52 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 71 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(dtoJson));
+            
+            #line default
+            #line hidden
+            this.Write("\",\r\n\t\t\t\t\t\t\t\"options\": {\r\n\t\t\t\t\t\t\t\t\"raw\": {\r\n\t\t\t\t\t\t\t\t\t\"language\": \"json\"\r\n\t\t\t\t\t\t\t\t}" +
+                    "\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8082/api/v" +
+                    "1/");
+            
+            #line 79 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -88,7 +111,7 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 61 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 88 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -96,7 +119,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"" +
                     "");
             
-            #line 68 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 95 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -118,7 +141,7 @@ namespace T4DalGenerator.Templates.Tests
 						""url"": {
 							""raw"": ""http://localhost:8082/api/v1/");
             
-            #line 83 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 110 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -127,7 +150,7 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 92 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 119 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -135,7 +158,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"" +
                     "");
             
-            #line 99 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 126 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -156,17 +179,18 @@ namespace T4DalGenerator.Templates.Tests
 						""header"": [],
 						""body"": {
 							""mode"": ""raw"",
-							""raw"": ""{\r\n   \""_userId\"": 33010025,\r\n        \""_login\"": \""[Test OPRFGHUB] Inserted User_U\"",\r\n        \""_fname\"": \""[Test OPRFGHUB] Test First_U\"",\r\n        \""_lname\"": \""[Test OPRFGHUB] Test Last_U\"",\r\n        \""_email\"": \""user2testdupinsert@email.com_U\"",\r\n        \""_desc\"": \""Desc_U\"",\r\n        \""_pwd\"": null\r\n}"",
-							""options"": {
-								""raw"": {
-									""language"": ""json""
-								}
-							}
-						},
-						""url"": {
-							""raw"": ""http://localhost:8082/api/v1/");
+							""raw"": """);
             
-            #line 123 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 142 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(dtoJson));
+            
+            #line default
+            #line hidden
+            this.Write("\",\r\n\t\t\t\t\t\t\t\"options\": {\r\n\t\t\t\t\t\t\t\t\"raw\": {\r\n\t\t\t\t\t\t\t\t\t\"language\": \"json\"\r\n\t\t\t\t\t\t\t\t}" +
+                    "\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8082/api/v" +
+                    "1/");
+            
+            #line 150 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -175,7 +199,7 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 132 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 159 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
@@ -183,7 +207,7 @@ namespace T4DalGenerator.Templates.Tests
             this.Write("\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"" +
                     "");
             
-            #line 139 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 166 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -205,14 +229,14 @@ namespace T4DalGenerator.Templates.Tests
 						""url"": {
 							""raw"": ""http://localhost:8082/api/v1/");
             
-            #line 154 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 181 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("/");
             
-            #line 154 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 181 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(idParamsList));
             
             #line default
@@ -221,14 +245,14 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 163 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 190 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\"\r\n\t\t\t\t\t\t");
             
-            #line 164 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 191 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 							if(pks.Count > 0)
 							{
@@ -238,7 +262,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t,\r\n\t\t\t\t\t\t");
             
-            #line 169 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 196 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 								foreach(var pk in pks)
 								{
@@ -248,21 +272,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\":");
             
-            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 201 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("\"");
             
-            #line 174 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 201 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk != pks.Last() ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t\t\t");
             
-            #line 175 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 202 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 								}
 							}
@@ -272,7 +296,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"");
             
-            #line 185 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 212 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
@@ -294,14 +318,14 @@ namespace T4DalGenerator.Templates.Tests
 						""url"": {
 							""raw"": ""http://localhost:8082/api/v1/");
             
-            #line 200 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 227 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("/");
             
-            #line 200 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 227 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(idParamsList));
             
             #line default
@@ -310,14 +334,14 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 209 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 236 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\"\r\n\t\t\t\t\t\t");
             
-            #line 210 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 237 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 							if(pks.Count > 0)
 							{
@@ -327,7 +351,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t,\r\n\t\t\t\t\t\t");
             
-            #line 215 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 242 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 								foreach(var pk in pks)
 								{
@@ -337,21 +361,21 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\":");
             
-            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("\"");
             
-            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 247 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pk != pks.Last() ? "," : string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t\t\t");
             
-            #line 221 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 248 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 								}
 							}
@@ -361,7 +385,7 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t");
             
-            #line 230 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 257 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
         foreach(var c in table.Columns)
         {
@@ -373,14 +397,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t,\r\n\t\t\t{\r\n\t\t\t\t\t\"name\": \"");
             
-            #line 238 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
             
             #line default
             #line hidden
             this.Write(" - Get By ");
             
-            #line 238 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 265 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
             
             #line default
@@ -402,21 +426,21 @@ namespace T4DalGenerator.Templates.Tests
 						""url"": {
 							""raw"": ""http://localhost:8082/api/v1/");
             
-            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 280 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("/by");
             
-            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 280 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("/:");
             
-            #line 253 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 280 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
@@ -425,28 +449,28 @@ namespace T4DalGenerator.Templates.Tests
                     "\n\t\t\t\t\t\t\t\"port\": \"8082\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"api\",\r\n\t\t\t\t\t\t\t\t\"v1\",\r\n\t\t\t\t\t\t" +
                     "\t\t\"");
             
-            #line 262 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 289 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(table.Name).ToLower()));
             
             #line default
             #line hidden
             this.Write("\",\r\n\t\t\t\t\t\t\t\t\"by");
             
-            #line 263 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 290 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("\",\r\n\t\t\t\t\t\t\t\t\":");
             
-            #line 264 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 291 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(c.Name.ToLower()));
             
             #line default
             #line hidden
             this.Write("\"\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t");
             
-            #line 271 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 298 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 	
 			}
 		}
@@ -456,14 +480,14 @@ namespace T4DalGenerator.Templates.Tests
             #line hidden
             this.Write("\t\t\t]\r\n\t\t}");
             
-            #line 276 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 303 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name != tables.Last().Name ? ",": string.Empty));
             
             #line default
             #line hidden
             this.Write("\r\n\t");
             
-            #line 277 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
+            #line 304 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\Tests\PostmanCollectionTemplate.tt"
 
 		}
 	

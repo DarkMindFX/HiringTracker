@@ -3,6 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Web.Script.Serialization" #>
 
 <#@ parameter name="tables" type="System.Collections.Generic.IList<DataModel.DataTable>" #>
 <#@ parameter name="modelHelper" type="T4DalGenerator.ModelHelper" #>
@@ -29,8 +30,34 @@
 			{
 				idParamsList += ":" + pk.Name.ToLower() + (pk != pks.Last() ? "/" : string.Empty);
 			}
+
+			var dtoJson = "{\\r\\n";
+			foreach(var c in table.Columns)
+			{
+				dtoJson += "  \\\"" + c.Name + "\\\": ";
+				Type columnType = generator.GetColumnType(c);
+				if(columnType == typeof(DateTime))
+                {
+					dtoJson += $"\\\"2021-10-01 21:35:00\\\"";
+                }
+                else if(columnType == typeof(string))
+                {
+					dtoJson += $"\\\"{c.Name} {Guid.NewGuid().ToString()}\\\"";
+                }
+                else if(columnType == typeof(bool))
+                {
+					dtoJson += "false";
+                }
+				else
+				{
+					dtoJson += "9999999";
+				}
+				dtoJson += c != table.Columns.Last() ? ",\\r\\n" : string.Empty;
+                
+			}
+			dtoJson += "\\r\\n}";
 		
-	#>
+	#>	
 	{
 			"name": "<#= table.Name #>",
 			"item": [
@@ -41,7 +68,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_login\": \"TestUser02\",\r\n    \"_fname\": \"Test 2 API First\",\r\n    \"_lname\": \"Test 2 API Last\",\r\n    \"_email\": \"testapiuser2@email.com\",\r\n    \"_pwd\": \"SomePassword2\"\r\n}",
+							"raw": "<#= dtoJson #>",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -112,7 +139,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"_userId\": 33010025,\r\n        \"_login\": \"[Test OPRFGHUB] Inserted User_U\",\r\n        \"_fname\": \"[Test OPRFGHUB] Test First_U\",\r\n        \"_lname\": \"[Test OPRFGHUB] Test Last_U\",\r\n        \"_email\": \"user2testdupinsert@email.com_U\",\r\n        \"_desc\": \"Desc_U\",\r\n        \"_pwd\": null\r\n}",
+							"raw": "<#= dtoJson #>",
 							"options": {
 								"raw": {
 									"language": "json"
