@@ -206,9 +206,7 @@ namespace PPT.PhotoPrint.API.Controllers.V1
 
             IActionResult response = null;
 
-            var entity = <#= table.Name #>Convertor.Convert(dto);
-
-            <#= table.Name #> newEntity = _dal<#= table.Name #>.Insert(entity);
+            var entity = <#= table.Name #>Convertor.Convert(dto);           
 
             <#
                 if(table.HasColumn("CreatedDate") || table.HasColumn("CreatedByID"))
@@ -220,6 +218,8 @@ namespace PPT.PhotoPrint.API.Controllers.V1
             <#
                 }
             #>
+
+            <#= table.Name #> newEntity = _dal<#= table.Name #>.Insert(entity);
 
             response = StatusCode((int)HttpStatusCode.Created, <#= table.Name #>Convertor.Convert(newEntity, this.Url));
 

@@ -39,6 +39,7 @@ namespace T4DalGenerator
             Generate<JsClientDalGenerator>(tables, settings, timestamp);
             Generate<JsEntitiesListsUIGenerator>(tables, settings, timestamp);
             Generate<JsEntityUIGenerator>(tables, settings, timestamp);
+            GenerateSingle<JsDtosIndexGenerator>(tables, settings, timestamp);
             GenerateSingle<PostmanCollectionGenerator>(tables, settings, timestamp);
 
         }

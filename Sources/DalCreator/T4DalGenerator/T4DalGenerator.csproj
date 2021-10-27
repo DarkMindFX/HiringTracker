@@ -65,6 +65,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="Templates\JsDtoIndexTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JsDtoIndexTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\JsDtoTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -204,6 +209,10 @@
     <None Update="Templates\JsClientDalTemplate.tt">
       <LastGenOutput>JsClientDalTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\JsDtoIndexTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsDtoIndexTemplate.cs</LastGenOutput>
     </None>
     <None Update="Templates\JsEntitiesListUI.tt">
       <LastGenOutput>JsEntitiesListUI.cs</LastGenOutput>

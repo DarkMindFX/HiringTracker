@@ -40,7 +40,7 @@ const <#= modelHelper.Pluralize(fk) #>Dal = require('../dal/<#= modelHelper.Plur
     }
 }
 #>
-const { <#= table.Name #>Dto } = require('hrt.dto')
+const { <#= table.Name #>Dto } = require('ppt.photoprint.dto')
 
 const constants = require('../constants');
 const { v4: uuidv4 } = require('uuid');

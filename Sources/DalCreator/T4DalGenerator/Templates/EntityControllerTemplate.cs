@@ -698,23 +698,9 @@ using Microsoft.AspNetCore.Authorization;
             
             #line default
             #line hidden
-            this.Write("Convertor.Convert(dto);\r\n\r\n            ");
+            this.Write("Convertor.Convert(dto);           \r\n\r\n            ");
             
             #line 211 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" newEntity = _dal");
-            
-            #line 211 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
-            
-            #line default
-            #line hidden
-            this.Write(".Insert(entity);\r\n\r\n            ");
-            
-            #line 213 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 if(table.HasColumn("CreatedDate") || table.HasColumn("CreatedByID"))
                 {
@@ -725,28 +711,43 @@ using Microsoft.AspNetCore.Authorization;
             this.Write("            base.SetCreatedModifiedProperties(entity, \r\n                         " +
                     "           ");
             
-            #line 218 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 216 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("CreatedDate") ? "\"CreatedDate\"" : "null"));
             
             #line default
             #line hidden
             this.Write(", \r\n                                    ");
             
-            #line 219 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 217 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.HasColumn("CreatedByID") ? "\"CreatedByID\"" : "null"));
             
             #line default
             #line hidden
             this.Write("); \r\n            ");
             
-            #line 220 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            #line 218 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
 
                 }
             
             
             #line default
             #line hidden
-            this.Write("\r\n            response = StatusCode((int)HttpStatusCode.Created, ");
+            this.Write("\r\n            ");
+            
+            #line 222 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" newEntity = _dal");
+            
+            #line 222 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".Insert(entity);\r\n\r\n            response = StatusCode((int)HttpStatusCode.Created" +
+                    ", ");
             
             #line 224 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\EntityControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));

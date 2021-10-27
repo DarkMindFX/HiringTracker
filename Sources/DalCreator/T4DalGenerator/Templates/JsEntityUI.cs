@@ -110,8 +110,8 @@ foreach(var fk in fks)
             
             #line default
             #line hidden
-            this.Write("Dto } = require(\'hrt.dto\')\r\n\r\nconst constants = require(\'../constants\');\r\nconst {" +
-                    " v4: uuidv4 } = require(\'uuid\');\r\n\r\nclass ");
+            this.Write("Dto } = require(\'ppt.photoprint.dto\')\r\n\r\nconst constants = require(\'../constants\'" +
+                    ");\r\nconst { v4: uuidv4 } = require(\'uuid\');\r\n\r\nclass ");
             
             #line 48 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntityUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name));
