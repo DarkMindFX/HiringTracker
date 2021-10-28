@@ -26,24 +26,27 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
 
-const PageHelper = require("../helpers/PageHelper");
-const <#= entityPlural #>Dal = require('../dal/<#= entityPlural #>Dal');
+const constants = require('../../constants');
+const { v4: uuidv4 } = require('uuid');
+const PageHelper = require("../../helpers/PageHelper");
+const <#= entityPlural #>Dal = require('../../dal/<#= entityPlural #>Dal');
 <# 
 foreach(var fk in fks) 
 {
     if(!fk.Equals(table.Name)) {
 #>
 
-const <#= modelHelper.Pluralize(fk) #>Dal = require('../dal/<#= modelHelper.Pluralize(fk) #>Dal');
+const <#= modelHelper.Pluralize(fk) #>Dal = require('../../dal/<#= modelHelper.Pluralize(fk) #>Dal');
 <#
     }
 }
 #>
 const { <#= table.Name #>Dto } = require('ppt.photoprint.dto')
 
-const constants = require('../constants');
-const { v4: uuidv4 } = require('uuid');
 
 class <#= table.Name #>Page extends React.Component {
 
@@ -55,7 +58,7 @@ class <#= table.Name #>Page extends React.Component {
         this._pageHelper = new PageHelper(this.props);
         let paramOperation = this.props.match.params.operation;
         let paramId = this.props.match.params.id;
-        let rooPath = ''; // set the page hierarchy here
+        let rooPath = '/admin/'; // set the page hierarchy here
 
         this.state = { 
             operation:  paramOperation,
@@ -69,8 +72,8 @@ class <#= table.Name #>Page extends React.Component {
             showSuccess: false,
             error: null,
             success: null,
-            urlEntities: `${rooPath}/<#= entityPlural.ToLower() #>`,
-            urlThis: `${rooPath}/<#= table.Name.ToLower() #>/${paramOperation}` + (paramId ? `/${paramId}` : ``)
+            urlEntities: `${rooPath}<#= entityPlural.ToLower() #>`,
+            urlThis: `${rooPath}<#= table.Name.ToLower() #>/${paramOperation}` + (paramId ? `/${paramId}` : ``)
         };
 
 <#
@@ -152,6 +155,12 @@ foreach(var c in table.Columns.Where(c => !c.IsIdentity))
         newVal = parseFloat(event.target.value);
 <#
     }
+    else if(columnType == typeof(bool))
+    {
+#>
+        newVal = event.target.checked;
+<#
+    }
     else {
 #>
         newVal = event.target.value
@@ -164,7 +173,7 @@ foreach(var c in table.Columns.Where(c => !c.IsIdentity))
     }
 
 <#
-}
+} // foreach
 #>
 
 
@@ -321,11 +330,27 @@ foreach(var c in table.Columns.Where(c => !c.IsIdentity))
  <#
 foreach(var c in table.Columns.Where(c => !c.IsIdentity))
 {
+    var columnType = modelHelper.GetColumnType(c);
 #>   
                         <tr>
                             <td colSpan={2}>
 <#
-    if(string.IsNullOrEmpty(c.FKRefTable))
+
+    if(columnType == typeof(bool))
+    {
+#>
+                                <FormControlLabel
+                                    key="lbl<#= c.Name #>"                        
+                                    control = {
+                                        <Checkbox   checked={ this.state.<#= table.Name.ToLower() #>.<#= c.Name #> } 
+                                                    onChange={(event) => this.on<#= c.Name #>Changed(event)} 
+                                                    name="<#= c.Name #>" />
+                                        }
+                                    label="<#= c.Name #>"
+                                />
+<#
+    }
+    else if(string.IsNullOrEmpty(c.FKRefTable))
     {
 #>
                                 <TextField  id="<#= c.Name #>" 
@@ -336,6 +361,7 @@ foreach(var c in table.Columns.Where(c => !c.IsIdentity))
                                             value={this.state.<#= table.Name.ToLower() #>.<#= c.Name #>}
                                             onChange={ (event) => { this.on<#= c.Name #>Changed(event) } }
                                             />
+
 <#
     }
     else

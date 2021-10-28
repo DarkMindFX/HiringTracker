@@ -20,17 +20,17 @@ import { Link, withRouter } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
-import constants from "../constants";
+import constants from "../../constants";
 
-const PageHelper = require("../helpers/PageHelper");
-const <#= entityPlural #>Dal = require('../dal/<#= entityPlural #>Dal');
+const PageHelper = require("../../helpers/PageHelper");
+const <#= entityPlural #>Dal = require('../../dal/<#= entityPlural #>Dal');
 <# 
 foreach(var fk in fks) 
 {
     if(!fk.Equals(table.Name)) {
 #>
 
-const <#= modelHelper.Pluralize(fk) #>Dal = require('../dal/<#= modelHelper.Pluralize(fk) #>Dal');
+const <#= modelHelper.Pluralize(fk) #>Dal = require('../../dal/<#= modelHelper.Pluralize(fk) #>Dal');
 <#
     }
 }
@@ -46,15 +46,15 @@ class <#= entityPlural #>Page extends React.Component {
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
-        let rooPath = ''; // set the page hierarchy here
+        let rooPath = '/admin/'; // set the page hierarchy here
 
         this.state = { 
             <#= entityPlural.ToLower() #>: [],
             showError: false,
             error: null,
-            urlThis: `${rooPath}/<#= entityPlural.ToLower() #>`,
-            urlNewEntity: `${rooPath}/<#= table.Name.ToLower() #>/new`,
-            urlEditEntity: `${rooPath}/<#= table.Name.ToLower() #>/edit/`,
+            urlThis: `${rooPath}<#= entityPlural.ToLower() #>`,
+            urlNewEntity: `${rooPath}<#= table.Name.ToLower() #>/new`,
+            urlEditEntity: `${rooPath}<#= table.Name.ToLower() #>/edit/`,
         };
         this._initColumns();
        

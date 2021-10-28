@@ -47,9 +47,9 @@ import { Link, withRouter } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
 import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
-import constants from ""../constants"";
+import constants from ""../../constants"";
 
-const PageHelper = require(""../helpers/PageHelper"");
+const PageHelper = require(""../../helpers/PageHelper"");
 const ");
             
             #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
@@ -57,7 +57,7 @@ const ");
             
             #line default
             #line hidden
-            this.Write("Dal = require(\'../dal/");
+            this.Write("Dal = require(\'../../dal/");
             
             #line 26 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural));
@@ -82,7 +82,7 @@ foreach(var fk in fks)
             
             #line default
             #line hidden
-            this.Write("Dal = require(\'../dal/");
+            this.Write("Dal = require(\'../../dal/");
             
             #line 33 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(modelHelper.Pluralize(fk)));
@@ -115,7 +115,7 @@ foreach(var fk in fks)
         super(props);
 
         this._pageHelper = new PageHelper(this.props);
-        let rooPath = ''; // set the page hierarchy here
+        let rooPath = '/admin/'; // set the page hierarchy here
 
         this.state = { 
             ");
@@ -126,21 +126,21 @@ foreach(var fk in fks)
             #line default
             #line hidden
             this.Write(": [],\r\n            showError: false,\r\n            error: null,\r\n            urlTh" +
-                    "is: `${rooPath}/");
+                    "is: `${rooPath}");
             
             #line 55 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityPlural.ToLower()));
             
             #line default
             #line hidden
-            this.Write("`,\r\n            urlNewEntity: `${rooPath}/");
+            this.Write("`,\r\n            urlNewEntity: `${rooPath}");
             
             #line 56 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
             
             #line default
             #line hidden
-            this.Write("/new`,\r\n            urlEditEntity: `${rooPath}/");
+            this.Write("/new`,\r\n            urlEditEntity: `${rooPath}");
             
             #line 57 "D:\Projects\Test Projects\HiringTracker\Sources\DalCreator\T4DalGenerator\Templates\JsEntitiesListUI.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table.Name.ToLower()));
