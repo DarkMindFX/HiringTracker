@@ -65,6 +65,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IServiceDalTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="Templates\JsAppTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JsAppTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Templates\JsDtoIndexTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -205,6 +210,10 @@
   <ItemGroup>
     <None Update="appsettings.PhotoPrint.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\JsAppTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsAppTemplate.cs</LastGenOutput>
     </None>
     <None Update="Templates\JsClientDalTemplate.tt">
       <LastGenOutput>JsClientDalTemplate.cs</LastGenOutput>

@@ -41,6 +41,7 @@ namespace T4DalGenerator
             Generate<JsEntityUIGenerator>(tables, settings, timestamp);
             GenerateSingle<JsDtosIndexGenerator>(tables, settings, timestamp);
             GenerateSingle<PostmanCollectionGenerator>(tables, settings, timestamp);
+            GenerateSingle<JsAppGenerator>(tables, settings, timestamp);
 
         }
 
